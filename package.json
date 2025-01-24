@@ -1,7 +1,6 @@
 {
 	"name": "uploader",
 	"private": true,
-	"type": "module",
 	"scripts": {
 		"build": "nuxt build",
 		"dev": "nuxt dev",
@@ -10,12 +9,18 @@
 		"postinstall": "nuxt prepare",
 		"check-updates": "npx npm-check-updates --interactive --format group"
 	},
-	"engines": {
-		"node": "22.13.0"
-	},
 	"dependencies": {
+		"@nuxt/eslint": "0.7.5",
+		"eslint": "9.18.0",
 		"nuxt": "3.15.2",
 		"vue": "3.5.13",
 		"vue-router": "4.5.0"
+	},
+	"devDependencies": {
+		"typescript": "5.7.3",
+		"vue-tsc": "2.2.0"
+	},
+	"engines": {
+		"node": "22.13.0"
 	}
 }
