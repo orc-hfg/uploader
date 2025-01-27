@@ -1,11 +1,47 @@
 # Uploader
 
+## Entwicklung mit dem madek-api-nuxt-layer (lokales Linking)
+Damit Änderungen am Nuxt-Layer lokal entwickelt und getestet werden können, ohne jedes Mal eine neue Version zu veröffentlichen, empfiehlt sich das Vorgehen über `npm link` (https://docs.npmjs.com/cli/v9/commands/npm-link):
+
+### 1.	Zum Layer-Projekt wechseln
+In den Ordner des Nuxt-Layers wechseln (z. B. madek-api-nuxt-layer) und das Package global per Symlink verlinken:
+
+```
+cd /pfad/zu/madek-api-nuxt-layer
+npm link
+```
+
+### 2.	Link im Hauptprojekt aktivieren
+In das Hauptprojekt wechseln (z.B. Ordner dieses Repositories):
+
+```
+cd /pfad/zum/hauptprojekt
+npm link @orc-hfg/madek-api-nuxt-layer
+```
+
+Jetzt wird der lokal verlinkte Nuxt-Layer (aus Schritt 1) anstelle der in der package.json angegebenen (veröffentlichten) Version verwendet.
+
+### 3. Lokale Entwicklung
+Jetzt kann wie gewohnt am Layer-Projekt gearbeitet werden. Werden Dateien geändert, wird das Hauptprojekt beim nächsten Start/Neubau mit den aktualisierten Layer-Dateien versorgt.
+Damit die Änderungen im Hauptprojekt wirksam werden, muss ggf. der Dev-Server neu gestartet bzw. auf HMR (Hot Module Replacement) gewartet werden.
+
+**Hinweis:** Im Hauptprojekt stehen zwei Skripte in der `package.json` bereit, damit die Link/Unlink-Befehle nicht manuell eingegeben werden müssen:
+- Link aktivieren: `npm run madek-api-nuxt-layer:link`
+Das führt intern `npm link @orc-hfg/madek-api-nuxt-layer` aus.
+
+- Link auflösen: `npm run madek-api-nuxt-layer:unlink`
+Dabei werden der Symlink entfernt und anschließend automatisch wieder die reguläre (publizierte) Paketversion installiert.
+
+
 ## Dependency Updates
 
 ### 1. Node-Version aktualisieren (auf aktuelle LTS-Version)
 
-Die aktuelle Node-LTS-Version herausfinden (https://github.com/nodejs/Release?tab=readme-ov-file#release-schedule) und in den folgenden Dateien entsprechend anpassen:
+Die aktuelle Node-LTS-Version herausfinden:
+- `nvm ls-remote --lts | tail -n 1` ausführen
+- falls der Node Version Manager (`nvm`) nicht verfügbar ist, hier nachschauen: https://github.com/nodejs/Release?tab=readme-ov-file#release-schedule
 
+Folgende Dateien entsprechend anpassen:
 - `.nvmrc`
 - `package.json` im Abschnitt "engines"
 - `nvm use && npm install` ausführen, damit die definierte Node-Version (`.nvmrc`) in der aktuellen Shell aktiviert wird und die Abhängigkeiten für diese installiert werden (`package-lock.json`)
