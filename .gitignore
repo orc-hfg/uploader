@@ -1,3 +1,6 @@
+# Keep sensitive information private (e.g. GitHub Personal Access Token)
+.npmrc
+
 # Nuxt dev/build outputs
 .output
 .data

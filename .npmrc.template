@@ -1,0 +1,4 @@
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+@orc-hfg:registry=https://npm.pkg.github.com
+always-auth=true
+save-exact=true

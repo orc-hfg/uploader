@@ -7,6 +7,7 @@
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare",
+		"setup-npmrc": "node ./scripts/setup-npmrc.mjs",
 		"check-updates": "npx npm-check-updates --interactive --format group",
 		"madek-api-nuxt-layer:link": "npm link @orc-hfg/madek-api-nuxt-layer",
 		"madek-api-nuxt-layer:unlink": "npm unlink @orc-hfg/madek-api-nuxt-layer --no-save && npm install"
@@ -14,12 +15,13 @@
 	"dependencies": {
 		"@nuxt/eslint": "0.7.5",
 		"@orc-hfg/madek-api-nuxt-layer": "1.0.3-alpha",
-		"eslint": "9.18.0",
-		"nuxt": "3.15.2",
+		"eslint": "9.19.0",
+		"nuxt": "3.15.3",
 		"vue": "3.5.13",
 		"vue-router": "4.5.0"
 	},
 	"devDependencies": {
+		"dotenv": "16.4.7",
 		"typescript": "5.7.3",
 		"vue-tsc": "2.2.0"
 	},

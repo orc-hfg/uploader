@@ -1,5 +1,27 @@
 # Uploader
 
+## Projekt installieren und Konfiguration des GitHub Personal Access Tokens
+
+Für den Zugriff auf die @orc-hfg GitHub Packages wird ein GitHub Personal Access Token benötigt:
+
+### 1. GitHub Personal Access Token erstellen
+
+- GitHub Settings → Developer settings → Personal access tokens → Tokens (classic) öffnen
+- einen neuen Token mit der Berechtigung `read:packages` erstellen
+- den Token kopieren
+
+### 2. Token lokal einrichten
+
+- eine neue `.env` Datei im Projekt-Root (an `.env.example` orientieren) erstellen
+- Den generierten GitHub Token einfügen:
+  ```
+  GITHUB_TOKEN=Token_einfügen
+  ```
+- `npm run setup-npmrc` ausführen, um die `.npmrc` Datei zu erstellen
+- anschließend `npm install` ausführen, um die Packages zu installieren
+
+**Hinweis:** Die Dateien `.env` und `.npmrc` sind in `.gitignore` aufgeführt und werden nicht im Repository gespeichert, um den Token privat zu halten.
+
 ## Entwicklung mit dem madek-api-nuxt-layer (lokales Linking)
 Damit Änderungen am Nuxt-Layer lokal entwickelt und getestet werden können, ohne jedes Mal eine neue Version zu veröffentlichen, empfiehlt sich das Vorgehen über `npm link` (https://docs.npmjs.com/cli/v9/commands/npm-link):
 
