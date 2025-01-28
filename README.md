@@ -54,7 +54,6 @@ Das führt intern `npm link @orc-hfg/madek-api-nuxt-layer` aus.
 - Link auflösen: `npm run madek-api-nuxt-layer:unlink`
 Dabei werden der Symlink entfernt und anschließend automatisch wieder die reguläre (publizierte) Paketversion installiert.
 
-
 ## Dependency Updates
 
 ### 1. Node-Version aktualisieren (auf aktuelle LTS-Version)
