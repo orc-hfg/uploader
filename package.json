@@ -13,7 +13,7 @@
 		"madek-api-nuxt-layer:unlink": "npm unlink @orc-hfg/madek-api-nuxt-layer --no-save && npm install"
 	},
 	"dependencies": {
-		"@nuxt/eslint": "0.7.6",
+		"@nuxt/eslint": "1.0.0",
 		"@orc-hfg/madek-api-nuxt-layer": "1.0.3-alpha",
 		"eslint": "9.19.0",
 		"nuxt": "3.15.4",
