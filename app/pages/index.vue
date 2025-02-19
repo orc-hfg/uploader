@@ -1,10 +1,9 @@
 <template>
 	<div>
-		{{ data.data.first_name }}
+		{{ authInfo.first_name }}
 	</div>
 </template>
 
 <script setup>
-const { data, pending, error } = useFetch('/api/auth-info');
-console.log(data);
+const { data: authInfo, pending, error } = useFetch('/api/auth-info');
 </script>
