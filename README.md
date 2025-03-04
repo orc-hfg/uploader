@@ -59,6 +59,11 @@ Dabei werden der Symlink entfernt und anschließend automatisch wieder die regul
 ### 1. Node-Version aktualisieren (auf aktuelle LTS-Version)
 
 Die aktuelle Node-LTS-Version herausfinden:
+
+Per Skript:
+- `npm run check:node-version`
+
+Manuell:
 - `nvm ls-remote --lts | tail -n 1` ausführen
 - falls der Node Version Manager (`nvm`) nicht verfügbar ist, hier nachschauen: https://github.com/nodejs/Release?tab=readme-ov-file#release-schedule
 
@@ -69,6 +74,7 @@ Folgende Dateien entsprechend anpassen:
 
 ### 2. Externe Abhängigkeiten aktualisieren
 
-`npm run check-updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
+- `npm run upgrade`ausführen, um Nuxt zu updaten.
+- `npm run check-updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
 
 ### 3. Aufgaben für das nächste Dependency Update bearbeiten und ggf. neue erstellen

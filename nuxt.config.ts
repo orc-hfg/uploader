@@ -9,5 +9,8 @@ export default defineNuxtConfig({
 	typescript: {
 		typeCheck: true,
 	},
+	runtimeConfig: {
+		isMainApp: true,
+	},
 	extends: ['@orc-hfg/madek-api-nuxt-layer'],
 });
