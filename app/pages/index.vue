@@ -8,6 +8,12 @@
 			User Repository (id):<br />
 			{{ data?.id }}
 		</p>
+		Placeholder User Repository:<br />
+		<ul>
+			<li v-for="user in placeholderData" :key="user.id">
+				{{ user.name }}
+			</li>
+		</ul>
 	</div>
 </template>
 
@@ -15,6 +21,9 @@
 const userStore = useUserStore();
 await callOnce(userStore.fetchData);
 
-const userRepository = useUserRepository();
+const userRepository = getUserRepository();
 const { data } = await useAsyncData(() => userRepository.getAuthInfo());
+
+const placeholderUserRepository = getPlaceholderUserRepository();
+const { data: placeholderData } = await useAsyncData(() => placeholderUserRepository.getUsers());
 </script>
