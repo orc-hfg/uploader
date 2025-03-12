@@ -7,7 +7,12 @@
 			</li>
 		</ul>
 	</div>
-	<small>{{ runtimeConfig.public.version }}</small>
+	<p>
+		<small>Madek API Nuxt Layer Version:<br />{{ runtimeConfig.public.version }}</small>
+	</p>
+	<p>
+		<small>Madek API Base URL:<br />{{ runtimeConfig.public.madekApi.baseUrl }}</small>
+	</p>
 </template>
 
 <script setup lang="ts">
