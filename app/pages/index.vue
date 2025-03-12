@@ -1,29 +1,20 @@
 <template>
 	<div>
-		<p>
-			User Store Getter (displayName):<br />
-			{{ userStore.displayName }}
-		</p>
-		<p>
-			User Repository (id):<br />
-			{{ data?.id }}
-		</p>
-		Placeholder User Repository:<br />
+		<p>User Sets:</p>
 		<ul>
-			<li v-for="user in placeholderData" :key="user.id">
-				{{ user.name }}
+			<li v-for="set in userSetsStore.sets" :key="set.id">
+				{{ set.id }}
 			</li>
 		</ul>
 	</div>
+	<small>{{ runtimeConfig.public.version }}</small>
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
-await callOnce(userStore.fetchData);
+const runtimeConfig = useRuntimeConfig();
 
-const userRepository = getUserRepository();
-const { data } = await useAsyncData(() => userRepository.getAuthInfo());
+const userSetsStore = useUserSetsStore();
 
-const placeholderUserRepository = getPlaceholderUserRepository();
-const { data: placeholderData } = await useAsyncData(() => placeholderUserRepository.getUsers());
+// Refresh user sets on navigation
+await callOnce(() => userSetsStore.fetchData(), { mode: "navigation" });
 </script>
