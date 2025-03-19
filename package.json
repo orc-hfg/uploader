@@ -11,24 +11,25 @@
 		"setup-npmrc": "node ./scripts/setup-npmrc.mjs",
 		"check:node-version": "node ./scripts/check-node-version.mjs",
 		"check-updates": "npx npm-check-updates --interactive --format group",
-		"upgrade-nuxt": "npx nuxi upgrade",
+		"upgrade": "nuxi upgrade",
 		"madek-api-nuxt-layer:link": "npm link @orc-hfg/madek-api-nuxt-layer",
 		"madek-api-nuxt-layer:unlink": "npm unlink @orc-hfg/madek-api-nuxt-layer --no-save && npm install"
 	},
 	"dependencies": {
-		"@nuxt/eslint": "1.0.0",
-		"@orc-hfg/madek-api-nuxt-layer": "1.0.3-alpha",
-		"eslint": "9.19.0",
-		"nuxt": "3.15.4",
+		"@nuxt/eslint": "1.2.0",
+		"@orc-hfg/madek-api-nuxt-layer": "1.0.4",
+		"@pinia/nuxt": "0.10.1",
+		"eslint": "9.22.0",
+		"nuxt": "3.16.0",
 		"vue": "3.5.13",
 		"vue-router": "4.5.0"
 	},
 	"devDependencies": {
 		"dotenv": "16.4.7",
-		"typescript": "5.7.3",
-		"vue-tsc": "2.2.0"
+		"typescript": "5.8.2",
+		"vue-tsc": "2.2.8"
 	},
 	"engines": {
-		"node": "22.13.0"
+		"node": "22.14.0"
 	}
 }
