@@ -10,7 +10,7 @@
 		"postinstall": "nuxt prepare",
 		"setup-npmrc": "node ./scripts/setup-npmrc.mjs",
 		"check:node-version": "node ./scripts/check-node-version.mjs",
-		"check-updates": "npx npm-check-updates --interactive --format group",
+		"check:updates": "npx npm-check-updates --interactive --format group",
 		"upgrade": "nuxi upgrade",
 		"madek-api-nuxt-layer:link": "npm link @orc-hfg/madek-api-nuxt-layer",
 		"madek-api-nuxt-layer:unlink": "npm unlink @orc-hfg/madek-api-nuxt-layer --no-save && npm install"
@@ -18,8 +18,10 @@
 	"dependencies": {
 		"@nuxt/eslint": "1.2.0",
 		"@orc-hfg/madek-api-nuxt-layer": "1.0.4",
-		"eslint": "9.22.0",
-		"nuxt": "3.16.0",
+		"@pinia/nuxt": "0.10.1",
+		"eslint": "9.23.0",
+		"nuxt": "3.16.1",
+		"pinia": "3.0.1",
 		"vue": "3.5.13",
 		"vue-router": "4.5.0"
 	},
