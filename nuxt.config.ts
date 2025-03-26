@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: "2025-01-24",
 	devtools: { enabled: true },
-	modules: ["@nuxt/eslint", "@pinia/nuxt"],
+	modules: ["@nuxt/eslint"],
 	typescript: {
 		typeCheck: true,
 	},

@@ -1,3 +1,14 @@
+<script setup lang="ts">
+const userStore = useUserStore();
+await callOnce(() => userStore.fetchData(), { mode: "navigation" }); // executed once on every page visit
+
+const userRepository = getUserRepository();
+const { data: user } = await useAsyncData(() => userRepository.getAuthInfo());
+
+const placeholderUserRepository = getPlaceholderUserRepository();
+const { data: placeholderData } = await useAsyncData(() => placeholderUserRepository.getUsers());
+</script>
+
 <template>
 	<div>
 		<p>
@@ -16,14 +27,3 @@
 		</ul>
 	</div>
 </template>
-
-<script setup lang="ts">
-const userStore = useUserStore();
-await callOnce(() => userStore.fetchData(), { mode: 'navigation' }); // executed once on every page visit
-
-const userRepository = getUserRepository();
-const { data: user } = await useAsyncData(() => userRepository.getAuthInfo());
-
-const placeholderUserRepository = getPlaceholderUserRepository();
-const { data: placeholderData } = await useAsyncData(() => placeholderUserRepository.getUsers());
-</script>
