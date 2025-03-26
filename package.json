@@ -18,7 +18,6 @@
 	"dependencies": {
 		"@nuxt/eslint": "1.2.0",
 		"@orc-hfg/madek-api-nuxt-layer": "1.0.4",
-		"@pinia/nuxt": "0.10.1",
 		"eslint": "9.22.0",
 		"nuxt": "3.16.0",
 		"vue": "3.5.13",
