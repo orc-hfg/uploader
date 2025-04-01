@@ -4,7 +4,7 @@ const runtimeConfig = useRuntimeConfig();
 const userSetsStore = useUserSetsStore();
 
 // Refresh user sets on navigation
-await callOnce(() => userSetsStore.fetchData(), { mode: "navigation" });
+await callOnce(() => userSetsStore.refreshData(), { mode: "navigation" });
 </script>
 
 <template>

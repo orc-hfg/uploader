@@ -1,12 +1,10 @@
 <script setup lang="ts">
 const userStore = useUserStore();
-await callOnce(() => userStore.fetchData(), { mode: "navigation" }); // executed once on every page visit
+await callOnce(() => userStore.refreshData(), { mode: "navigation" }); // executed once on every page visit
 
-const userRepository = getUserRepository();
-const { data: user } = await useAsyncData(() => userRepository.getAuthInfo());
+const { data: user } = await useAsyncData(() => getUserRepository().getAuthInfo());
 
-const placeholderUserRepository = getPlaceholderUserRepository();
-const { data: placeholderData } = await useAsyncData(() => placeholderUserRepository.getUsers());
+const { data: placeholderData } = await useAsyncData(() => getPlaceholderUserRepository().getUsers());
 </script>
 
 <template>
