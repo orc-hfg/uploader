@@ -17,7 +17,7 @@ const { data: placeholderData } = await useAsyncData(() => getPlaceholderUserRep
 			User Repository (id):<br />
 			{{ user?.id }}
 		</p>
-		Example: Placeholder User Repository:<br />
+		Placeholder User Repository (to demonstrate usage of different API):<br />
 		<ul>
 			<li v-for="user in placeholderData" :key="user.id">
 				{{ user.name }}
