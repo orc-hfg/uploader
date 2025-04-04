@@ -22,4 +22,7 @@ await callOnce(() => userSetsStore.refreshData(), { mode: "navigation" });
 	<p>
 		<small>Madek API Base URL:<br />{{ runtimeConfig.public.madekApi.baseUrl }}</small>
 	</p>
+	<NuxtLink to="/example">Example</NuxtLink>
+	<NuxtLink to="/example2">Example2</NuxtLink>
+	<NuxtLink to="/example3">Example3</NuxtLink>
 </template>

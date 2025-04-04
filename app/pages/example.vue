@@ -23,5 +23,8 @@ const { data: placeholderData } = await useAsyncData(() => getPlaceholderUserRep
 				{{ user.name }}
 			</li>
 		</ul>
+		<NuxtLink to="/">Home</NuxtLink>
+		<NuxtLink to="/example2">Example2</NuxtLink>
+		<NuxtLink to="/example3">Example3</NuxtLink>
 	</div>
 </template>
