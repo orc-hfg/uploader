@@ -25,15 +25,15 @@ Für den Zugriff auf die @orc-hfg GitHub Packages wird ein GitHub Personal Acces
 ## Entwicklung mit dem madek-api-nuxt-layer (lokales Linking)
 Damit Änderungen am Nuxt-Layer lokal entwickelt und getestet werden können, ohne jedes Mal eine neue Version zu veröffentlichen, empfiehlt sich das Vorgehen über `npm link` (https://docs.npmjs.com/cli/v9/commands/npm-link):
 
-### 1.	Zum Layer-Projekt wechseln
-In den Ordner des Nuxt-Layers wechseln (z. B. madek-api-nuxt-layer) und das Package global per Symlink verlinken:
+### 1. Zum Layer-Projekt wechseln
+In den Ordner des Nuxt-Layers wechseln (z.B. madek-api-nuxt-layer) und das Package global per Symlink verlinken:
 
 ```
 cd /pfad/zu/madek-api-nuxt-layer
 npm link
 ```
 
-### 2.	Link im Hauptprojekt aktivieren
+### 2. Link im Hauptprojekt aktivieren
 In das Hauptprojekt wechseln (z.B. Ordner dieses Repositories):
 
 ```

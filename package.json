@@ -6,6 +6,8 @@
 		"dev": "nuxt dev",
 		"staging": "nuxi dev --envName staging --dotenv .env.staging",
 		"generate": "nuxt generate",
+		"deploy:dev": "sh ./deployment/uploader-do-dist-dev.sh",
+		"deploy:staging": "sh ./deployment/uploader-do-dist-staging.sh",
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare",
 		"setup-npmrc": "node ./scripts/setup-npmrc.mjs",
