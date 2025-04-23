@@ -7,7 +7,7 @@
 		"url": "https://github.com/orc-hfg/uploader.git"
 	},
 	"engines": {
-		"node": "22.14.0"
+		"node": "22.15.0"
 	},
 	"scripts": {
 		"build": "nuxt build",
@@ -35,7 +35,7 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"@orc-hfg/madek-api-nuxt-layer": "1.1.0",
+		"@orc-hfg/madek-api-nuxt-layer": "1.1.1",
 		"nuxt": "3.16.2",
 		"vue": "3.5.13",
 		"vue-router": "4.5.0"
