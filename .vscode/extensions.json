@@ -1,0 +1,13 @@
+{
+	"recommendations": [
+		"antfu.goto-alias",
+		"antfu.iconify",
+		"dbaeumer.vscode-eslint",
+		"EditorConfig.EditorConfig",
+		"heybourn.headwind",
+		"lokalise.i18n-ally",
+		"usernamehw.errorlens",
+		"vue.volar",
+		"nuxtr.nuxtr-vscode"
+	]
+}

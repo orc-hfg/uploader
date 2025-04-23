@@ -1,0 +1,19 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": [
+		"app/app.vue",
+		"app/pages/**/*.vue"
+	],
+	"project": [
+		"app/**"
+	],
+	"ignoreDependencies": [
+		"@nuxt/devtools",
+		"@nuxt/eslint",
+		"@orc-hfg/madek-api-nuxt-layer",
+		"vitest-environment-nuxt",
+		"vue",
+		"vue-tsc",
+		"vue-router"
+	]
+}
