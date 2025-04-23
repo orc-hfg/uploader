@@ -74,7 +74,7 @@ Folgende Dateien entsprechend anpassen:
 
 ### 2. Externe Abhängigkeiten aktualisieren
 
-- `npm run upgrade`ausführen, um Nuxt zu updaten.
+- `npm run upgrade` ausführen, um Nuxt zu updaten.
 - `npm run check-updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
 
 ### 3. Aufgaben für das nächste Dependency Update bearbeiten und ggf. neue erstellen
