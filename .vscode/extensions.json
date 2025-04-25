@@ -2,12 +2,16 @@
 	"recommendations": [
 		"antfu.goto-alias",
 		"antfu.iconify",
+		"bradlc.vscode-tailwindcss",
 		"dbaeumer.vscode-eslint",
 		"EditorConfig.EditorConfig",
 		"heybourn.headwind",
 		"lokalise.i18n-ally",
+		"nuxtr.nuxtr-vscode",
 		"usernamehw.errorlens",
-		"vue.volar",
-		"nuxtr.nuxtr-vscode"
+		"vue.volar"
+	],
+	"unwantedRecommendations": [
+		"octref.vetur"
 	]
 }
