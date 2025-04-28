@@ -2,7 +2,8 @@
 	"$schema": "https://unpkg.com/knip@5/schema.json",
 	"entry": [
 		"app/app.vue",
-		"app/pages/**/*.vue"
+		"app/pages/**/*.vue",
+		"app/theme/theme.ts"
 	],
 	"project": [
 		"app/**"
@@ -11,6 +12,9 @@
 		"@nuxt/devtools",
 		"@nuxt/eslint",
 		"@orc-hfg/madek-api-nuxt-layer",
+		"@primevue/nuxt-module",
+		"@primevue/forms",
+		"primevue",
 		"vitest-environment-nuxt",
 		"vue",
 		"vue-tsc",

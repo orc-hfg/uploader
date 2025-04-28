@@ -78,3 +78,4 @@ Folgende Dateien entsprechend anpassen:
 - `npm run check-updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
 
 ### 3. Aufgaben für das nächste Dependency Update bearbeiten und ggf. neue erstellen
+- ggf. kann Dependency `@primevue/forms` wieder entfernt werden, wenn dieses Problem gelöst ist: https://github.com/primefaces/primevue/issues/7434

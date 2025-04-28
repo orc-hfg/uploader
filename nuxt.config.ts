@@ -5,7 +5,13 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: '2025-01-24',
 	devtools: { enabled: true },
-	modules: ['@nuxt/eslint', '@nuxt/test-utils/module'],
+	typescript: {
+		typeCheck: true,
+	},
+	modules: ['@primevue/nuxt-module', '@nuxt/eslint', '@nuxt/test-utils/module'],
+	primevue: {
+		importTheme: { from: '@/theme/theme.ts' },
+	},
 	eslint: {
 		config: {
 
@@ -15,9 +21,6 @@ export default defineNuxtConfig({
 			 */
 			standalone: false,
 		},
-	},
-	typescript: {
-		typeCheck: true,
 	},
 	runtimeConfig: {
 		isMainApp: true,

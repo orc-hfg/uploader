@@ -44,6 +44,7 @@
 			<small>Madek API Base URL:<br>{{ runtimeConfig.public.madekApi.baseUrl }}</small>
 		</p>
 		<div>
+			<Button label="Test Button" />
 			<NuxtLink to="/example">
 				Example
 			</NuxtLink>
