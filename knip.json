@@ -11,6 +11,7 @@
 	"ignoreDependencies": [
 		"@nuxt/devtools",
 		"@nuxt/eslint",
+		"@nuxtjs/google-fonts",
 		"@orc-hfg/madek-api-nuxt-layer",
 		"@primevue/nuxt-module",
 		"@primevue/forms",

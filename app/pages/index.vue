@@ -41,7 +41,10 @@
 			<small>Madek API Nuxt Layer Version:<br>{{ runtimeConfig.public.version }}</small>
 		</p>
 		<p>
-			<small>Madek API Base URL:<br>{{ runtimeConfig.public.madekApi.baseUrl }}</small>
+			<small>App Base URL:<br>{{ runtimeConfig.app.baseURL || 'not defined' }}</small>
+		</p>
+		<p>
+			<small>Madek API Base URL:<br>{{ runtimeConfig.public.madekApi.baseURL }}</small>
 		</p>
 		<div>
 			<Button label="Test Button" />

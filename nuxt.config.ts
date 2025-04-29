@@ -8,9 +8,22 @@ export default defineNuxtConfig({
 	typescript: {
 		typeCheck: true,
 	},
-	modules: ['@primevue/nuxt-module', '@nuxt/eslint', '@nuxt/test-utils/module'],
+	css: ['~/assets/css/main.css'],
+	modules: [
+		'@nuxtjs/google-fonts',
+		'@primevue/nuxt-module',
+		'@nuxt/eslint',
+		'@nuxt/test-utils/module',
+	],
+	googleFonts: {
+		display: 'swap',
+		families: {
+			// eslint-disable-next-line ts/no-magic-numbers
+			'Instrument+Sans': [400],
+		},
+	},
 	primevue: {
-		importTheme: { from: '@/theme/theme.ts' },
+		importTheme: { from: '~/theme/theme.ts' },
 	},
 	eslint: {
 		config: {
