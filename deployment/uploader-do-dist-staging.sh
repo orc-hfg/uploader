@@ -17,8 +17,6 @@ if [ -z "${MADEK_SSH_USER}" ]; then
   exit 1
 fi
 
-## define settings
-export NUXT_APP_BASE_URL=/uploader/;
 ## build
 nuxi build
 ## sync build output to server
