@@ -192,6 +192,7 @@ export default withNuxt(
 				'perfectionist/sort-enums': 'error',
 				'perfectionist/sort-sets': 'error',
 				'perfectionist/sort-maps': 'error',
+				'sonarjs/todo-tag': 'warn',
 			},
 		},
 		{

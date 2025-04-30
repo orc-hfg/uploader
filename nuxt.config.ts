@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 		},
 	},
 	primevue: {
-		importTheme: { from: '~/theme/theme.ts' },
+		importTheme: { from: '~/theme/primevue.ts' },
 	},
 	eslint: {
 		config: {
@@ -33,6 +33,15 @@ export default defineNuxtConfig({
 			 * own config presets (@antfu/eslint-config)
 			 */
 			standalone: false,
+		},
+	},
+	app: {
+		head: {
+			title: 'Uploader',
+			htmlAttrs: {
+				lang: 'de',
+			},
+			link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 		},
 	},
 	runtimeConfig: {
