@@ -17,5 +17,8 @@
 		<NuxtLink to="/example2">
 			Example 2
 		</NuxtLink>
+		<NuxtLink to="/example4">
+			Example 4
+		</NuxtLink>
 	</div>
 </template>
