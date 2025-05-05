@@ -17,8 +17,8 @@ if [ -z "${MADEK_SSH_USER}" ]; then
   exit 1
 fi
 
-## build
-nuxi build
+## clean install and build
+npm ci && nuxi build
 ## sync build output to server
 rsync -avz .output ${MADEK_SSH_USER}@dev.madek.hfg-karlsruhe.de:/srv/dev/uploader/
 ## restart service on the server
