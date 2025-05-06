@@ -16,6 +16,7 @@
 		"@primevue/nuxt-module",
 		"@primevue/forms",
 		"primevue",
+		"tailwindcss",
 		"vitest-environment-nuxt",
 		"vue",
 		"vue-tsc",

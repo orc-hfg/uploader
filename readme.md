@@ -79,3 +79,4 @@ Folgende Dateien entsprechend anpassen:
 
 ### 3. Aufgaben für das nächste Dependency Update bearbeiten und ggf. neue erstellen
 - ggf. kann Dependency `@primevue/forms` wieder entfernt werden, wenn dieses Problem gelöst ist: https://github.com/primefaces/primevue/issues/7434
+- wird inzwischen Tailwind CSS 4 durch `eslint-plugin-tailwindcss` unterstützt? https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/384

@@ -1,3 +1,5 @@
+import tailwindcss from '@tailwindcss/vite';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	future: {
@@ -9,6 +11,9 @@ export default defineNuxtConfig({
 		typeCheck: true,
 	},
 	css: ['~/assets/css/main.css'],
+	vite: {
+		plugins: [tailwindcss()],
+	},
 	modules: [
 		'@nuxtjs/google-fonts',
 		'@primevue/nuxt-module',
