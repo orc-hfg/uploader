@@ -23,7 +23,12 @@ export default {
 	preset,
 	options: {
 		prefix: 'p',
+		// If necessary, align Tailwind CSS settings with PrimeVue: https://primevue.org/tailwind/#darkmode
 		darkModeSelector: false,
-		cssLayer: false,
+		// See: https://primevue.org/tailwind/#override
+		cssLayer: {
+			name: 'primevue',
+			order: 'theme, base, primevue',
+		},
 	},
 };
