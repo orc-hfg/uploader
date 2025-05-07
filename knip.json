@@ -3,7 +3,7 @@
 	"entry": [
 		"app/app.vue",
 		"app/pages/**/*.vue",
-		"app/theme/primevue.ts"
+		"app/theme/*.ts"
 	],
 	"project": [
 		"app/**"
