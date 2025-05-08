@@ -5,7 +5,7 @@ export default defineVitestConfig({
 		environment: 'nuxt',
 
 		/*
-		 * you can optionally set Nuxt-specific environment options
+		 * You can optionally set Nuxt-specific environment options:
 		 * environmentOptions: {
 		 *   nuxt: {
 		 *     rootDir: fileURLToPath(new URL('./playground', import.meta.url)),

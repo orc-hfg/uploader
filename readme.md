@@ -61,7 +61,7 @@ Dabei werden der Symlink entfernt und anschließend automatisch wieder die regul
 Die aktuelle Node-LTS-Version herausfinden:
 
 Per Skript:
-- `npm run check:node-version`
+- `npm run check:node`
 
 Manuell:
 - `nvm ls-remote --lts | tail -n 1` ausführen
