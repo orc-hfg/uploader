@@ -10,7 +10,7 @@ export default defineNuxtConfig({
 	typescript: {
 		typeCheck: true,
 	},
-	css: ['~/assets/css/main.css'],
+	css: ['@/assets/css/main.css'],
 	vite: {
 		plugins: [tailwindcss()],
 	},
@@ -28,7 +28,7 @@ export default defineNuxtConfig({
 		},
 	},
 	primevue: {
-		importTheme: { from: '~/theme/primevue.ts' },
+		importTheme: { from: '@/theme/primevue.ts' },
 	},
 	eslint: {
 		config: {

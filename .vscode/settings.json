@@ -1,4 +1,4 @@
-// See: https://github.com/antfu/eslint-config?tab=readme-ov-file#ide-support-auto-fix-on-save
+// See https://github.com/antfu/eslint-config?tab=readme-ov-file#ide-support-auto-fix-on-save for some recommended settings
 {
 	// Tailwind CSS
 	"files.associations": {
