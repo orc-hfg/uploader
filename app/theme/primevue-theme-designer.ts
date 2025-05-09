@@ -1,3 +1,8 @@
+/*
+ * This file documents the complete Aura theme for collaboration with the designers.
+ * All changes made by the designers must be manually transferred to the actual theme (app/theme/primevue.ts).
+ */
+
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
