@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 	future: {
 		compatibilityVersion: 4,
 	},
-	compatibilityDate: '2025-01-24',
+	compatibilityDate: '2025-05-09',
 	devtools: { enabled: true },
 	typescript: {
 		typeCheck: true,
