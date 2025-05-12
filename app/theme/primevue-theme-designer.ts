@@ -341,7 +341,7 @@ const preset = definePreset(Aura, {
 				paddingX: '0.875rem',
 				paddingY: '0.625rem',
 			},
-			borderRadius: '{border.radius.md}',
+			borderRadius: '{border.radius.none}',
 			focusRing: {
 				width: '0',
 				style: 'none',
@@ -367,7 +367,7 @@ const preset = definePreset(Aura, {
 			},
 		},
 		content: {
-			borderRadius: '{border.radius.md}',
+			borderRadius: '{border.radius.none}',
 		},
 		mask: {
 			transitionDuration: '0.15s',
@@ -392,16 +392,16 @@ const preset = definePreset(Aura, {
 		},
 		overlay: {
 			select: {
-				borderRadius: '{border.radius.md}',
+				borderRadius: '{border.radius.none}',
 				shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
 			},
 			popover: {
-				borderRadius: '{border.radius.md}',
+				borderRadius: '{border.radius.none}',
 				padding: '0.75rem',
 				shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
 			},
 			modal: {
-				borderRadius: '{border.radius.xl}',
+				borderRadius: '{border.radius.none}',
 				padding: '1.25rem',
 				shadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
 			},
@@ -463,8 +463,8 @@ const preset = definePreset(Aura, {
 					shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.05)',
 				},
 				text: {
-					color: '{surface.700}',
-					hoverColor: '{surface.800}',
+					color: '{surface.800}',
+					hoverColor: '{surface.900}',
 					mutedColor: '{surface.500}',
 					hoverMutedColor: '{surface.600}',
 				},
@@ -477,8 +477,8 @@ const preset = definePreset(Aura, {
 				},
 				overlay: {
 					select: {
-						background: '{surface.0}',
-						borderColor: '{surface.200}',
+						background: '{surface.50}',
+						borderColor: '{surface.50}',
 						color: '{text.color}',
 					},
 					popover: {
@@ -519,9 +519,9 @@ const preset = definePreset(Aura, {
 						focusColor: '{text.hover.color}',
 						activeColor: '{text.hover.color}',
 						icon: {
-							color: '{surface.400}',
-							focusColor: '{surface.500}',
-							activeColor: '{surface.500}',
+							color: '{text.color}',
+							focusColor: '{text.color}',
+							activeColor: '{text.color}',
 						},
 					},
 					submenuLabel: {
@@ -585,7 +585,7 @@ const preset = definePreset(Aura, {
 					floatLabelActiveColor: '{surface.400}',
 					floatLabelInvalidColor: '{form.field.invalid.placeholder.color}',
 					iconColor: '{surface.400}',
-					shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.05)',
+					shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.00)',
 				},
 				text: {
 					color: '{surface.0}',
@@ -1085,17 +1085,17 @@ const preset = definePreset(Aura, {
 							},
 						},
 						warn: {
-							background: '{orange.500}',
-							hoverBackground: '{orange.600}',
-							activeBackground: '{orange.700}',
-							borderColor: '{orange.500}',
-							hoverBorderColor: '{orange.600}',
-							activeBorderColor: '{orange.700}',
+							background: '{emerald.500}',
+							hoverBackground: '{emerald.600}',
+							activeBackground: '{emerald.600}',
+							borderColor: '{emerald.500}',
+							hoverBorderColor: '{emerald.600}',
+							activeBorderColor: '{emerald.700}',
 							color: '#ffffff',
 							hoverColor: '#ffffff',
 							activeColor: '#ffffff',
 							focusRing: {
-								color: '{orange.500}',
+								color: '{emerald.500}',
 								shadow: 'none',
 							},
 						},
@@ -1210,7 +1210,7 @@ const preset = definePreset(Aura, {
 						secondary: {
 							hoverBackground: '{surface.50}',
 							activeBackground: '{surface.100}',
-							color: '{surface.500}',
+							color: '{surface.900}',
 						},
 						success: {
 							hoverBackground: '{green.50}',
@@ -3555,7 +3555,7 @@ const preset = definePreset(Aura, {
 			},
 			dropdown: {
 				width: '2.5rem',
-				color: '{form.field.icon.color}',
+				color: '{surface.950}',
 			},
 			overlay: {
 				background: '{overlay.select.background}',
@@ -4885,11 +4885,11 @@ const preset = definePreset(Aura, {
 						borderColor: '{surface.100}',
 						color: '{surface.500}',
 						hoverColor: '{surface.700}',
-						checkedColor: '{surface.900}',
-						checkedBorderColor: '{surface.100}',
+						checkedColor: '{surface.0}',
+						checkedBorderColor: '{primary.500}',
 					},
 					content: {
-						checkedBackground: '{surface.0}',
+						checkedBackground: '{primary.500}',
 					},
 					icon: {
 						color: '{surface.500}',
