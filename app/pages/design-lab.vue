@@ -1,18 +1,94 @@
 <script setup lang="ts">
-	interface City {
-		name: string;
-		code: string;
+	import { zodResolver } from '@primevue/forms/resolvers/zod';
+	import { z } from 'zod';
+
+	const loading = ref(false);
+
+	function load() {
+		loading.value = true;
+		setTimeout(() => {
+			loading.value = false;
+		}, 2000);
 	}
 
-	const cities = ref<City[]>([
-		{ name: 'Berlin', code: 'BER' },
-		{ name: 'München', code: 'MUC' },
-		{ name: 'Hamburg', code: 'HAM' },
-		{ name: 'Frankfurt', code: 'FRA' },
-		{ name: 'Köln', code: 'CGN' },
+	const initialValuesCheckbox = ref({
+		ingredient: [],
+	});
+	const resolverCheckbox = ref(zodResolver(
+		z.object({
+			ingredient: z.array(z.string()).min(1, { message: 'At least one ingredient must be selected.' }),
+		}),
+	));
+
+	const initialValuesBasic = ref({
+		username: '',
+		email: '',
+	});
+
+	const resolverBasic = ref(zodResolver(
+		z.object({
+			username: z.string().min(1, { message: 'Username is required.' }),
+			email: z.string().min(1, { message: 'Email is required.' }).email({ message: 'Invalid email address.' }),
+		}),
+	));
+
+	const initialValueRadioButtons = ref({
+		ingredient: '',
+	});
+
+	const resolverRadioButtons = ref(zodResolver(
+		z.object({
+			ingredient: z.string().min(1, { message: 'Ingredient is required.' }),
+		}),
+	));
+
+	const initialValuesMultiSelect = ref({
+		city: [],
+	});
+
+	const resolverMultiSelect = ref(zodResolver(
+		z.object({
+			city: z
+				.array(
+					z.object({
+						name: z.string().min(1, 'City is required.'),
+					}),
+				)
+				.min(1, 'City is required.'),
+		}),
+	));
+
+	const resolverSelect = ref(zodResolver(
+		z.object({
+			city: z.object({
+				name: z.union([
+					z.string().min(1, { message: 'City is required.' }),
+					z.object({ name: z.string().min(1, { message: 'City is required.' }) }),
+				]),
+				code: z.string().optional(),
+			}),
+		}),
+	));
+
+	const initialValuesSelect = ref({
+		city: { name: '', code: '' },
+	});
+
+	const optionsMultiSelect = ref([
+		{ name: 'New York', code: 'NY' },
+		{ name: 'Rome', code: 'RM' },
+		{ name: 'London', code: 'LDN' },
+		{ name: 'Istanbul', code: 'IST' },
+		{ name: 'Paris', code: 'PRS' },
 	]);
 
-	const selectedCities = ref<City[]>();
+	const optionsSelect = ref([
+		{ name: 'New York', code: 'NY' },
+		{ name: 'Rome', code: 'RM' },
+		{ name: 'London', code: 'LDN' },
+		{ name: 'Istanbul', code: 'IST' },
+		{ name: 'Paris', code: 'PRS' },
+	]);
 </script>
 
 <template>
@@ -22,96 +98,332 @@
 		</h1>
 
 		<h2 class="section-heading">
-			Button Variants
+			Button Variants / Link: <a href="https://primevue.org/button/">PrimeVue Button</a>
 		</h2>
 
 		<!-- Button Variants -->
-		<div class="grid grid-cols-1 gap-4 mb-12">
-			<!-- Primary Button -->
+		<div class="flex flex-col gap-4">
+			<!-- Basic -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Primary
+					Basic / Link: <a href="https://primevue.org/button/#basic">Basic</a>
 				</h3>
-				<Button label="Primary Button" />
+				<Button label="Basic Button" />
 			</div>
 
-			<!-- Contrast Rounded -->
+			<!-- Icons -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Contrast Rounded
+					Icons / Link: <a href="https://primevue.org/button/#icons">Icons</a>
 				</h3>
-				<Button label="Contrast Rounded" severity="contrast" rounded />
+				<Button label="Profile" icon="pi pi-user" />
 			</div>
 
-			<!-- Secondary Outlined Rounded -->
+			<!-- Loading -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Secondary Outlined Rounded
+					Loading / Link: <a href="https://primevue.org/button/#loading">Loading</a>
 				</h3>
-				<Button label="Secondary Outlined Rounded" severity="secondary" outlined rounded />
+				<Button type="button" label="Search" icon="pi pi-search" :loading="loading" @click="load" />
 			</div>
 
-			<!-- Secondary Text -->
+			<!-- Disabled -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Secondary Text
+					Disabled / Link: <a href="https://primevue.org/button/#disabled">Disabled</a>
 				</h3>
-				<Button label="Secondary Text" severity="secondary" text />
+				<div class="card flex flex-wrap gap-4">
+					<Button label="Submit" disabled />
+				</div>
 			</div>
 
-			<!-- Plain Outlined Rounded -->
+			<!-- Severity -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Plain Outlined Rounded
+					Severity / Link: <a href="https://primevue.org/button/#severity">Severity</a>
 				</h3>
-				<Button label="Plain Outlined Rounded" severity="plain" outlined rounded />
+				<div class="card flex flex-wrap gap-4">
+					<Button label="Primary" />
+					<Button label="Secondary" severity="secondary" />
+					<Button label="Success" severity="success" />
+					<Button label="Info" severity="info" />
+					<Button label="Warn" severity="warn" />
+					<Button label="Help" severity="help" />
+					<Button label="Danger" severity="danger" />
+					<Button label="Contrast" severity="contrast" />
+				</div>
+			</div>
+
+			<!-- Rounded -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Rounded / Link: <a href="https://primevue.org/button/#rounded">Rounded</a>
+				</h3>
+				<div class="card flex flex-wrap gap-4">
+					<Button label="Primary" rounded />
+					<Button label="Secondary" severity="secondary" rounded />
+					<Button label="Success" severity="success" rounded />
+					<Button label="Info" severity="info" rounded />
+					<Button label="Warn" severity="warn" rounded />
+					<Button label="Help" severity="help" rounded />
+					<Button label="Danger" severity="danger" rounded />
+					<Button label="Contrast" severity="contrast" rounded />
+				</div>
+			</div>
+
+			<!-- Text -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Text / Link: <a href="https://primevue.org/button/#text">Text</a>
+				</h3>
+				<div class="card flex flex-wrap gap-4">
+					<Button label="Primary" variant="text" />
+					<Button label="Secondary" severity="secondary" variant="text" />
+					<Button label="Success" severity="success" variant="text" />
+					<Button label="Info" severity="info" variant="text" />
+					<Button label="Warn" severity="warn" variant="text" />
+					<Button label="Help" severity="help" variant="text" />
+					<Button label="Danger" severity="danger" variant="text" />
+					<Button label="Contrast" severity="contrast" variant="text" />
+				</div>
+			</div>
+
+			<!-- Outlined -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Outlined / Link: <a href="https://primevue.org/button/#outlined">Outlined</a>
+				</h3>
+				<div class="card flex flex-wrap gap-4">
+					<Button label="Primary" variant="outlined" />
+					<Button label="Secondary" severity="secondary" variant="outlined" />
+					<Button label="Success" severity="success" variant="outlined" />
+					<Button label="Info" severity="info" variant="outlined" />
+					<Button label="Warn" severity="warn" variant="outlined" />
+					<Button label="Help" severity="help" variant="outlined" />
+					<Button label="Danger" severity="danger" variant="outlined" />
+					<Button label="Contrast" severity="contrast" variant="outlined" />
+				</div>
+			</div>
+
+			<!-- Outlined Rounded -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Outlined Rounded
+				</h3>
+				<div class="card flex flex-wrap gap-4">
+					<Button label="Primary" variant="outlined" rounded />
+					<Button label="Secondary" severity="secondary" variant="outlined" rounded />
+					<Button label="Success" severity="success" variant="outlined" rounded />
+					<Button label="Info" severity="info" variant="outlined" rounded />
+					<Button label="Warn" severity="warn" variant="outlined" rounded />
+					<Button label="Danger" severity="danger" variant="outlined" rounded />
+					<Button label="Contrast" severity="contrast" variant="outlined" rounded />
+				</div>
+			</div>
+
+			<!-- Icon only (text) -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Icon only / Link: <a href="https://primevue.org/button/#icononly">Icon only</a>
+				</h3>
+				<div class="card flex flex-wrap gap-4">
+					<Button icon="pi pi-arrow-left" variant="text" rounded aria-label="Back" />
+					<Button icon="pi pi-ellipsis-v" severity="secondary" variant="text" rounded aria-label="More" />
+					<Button icon="pi pi-search" severity="success" variant="text" rounded aria-label="Search" />
+					<Button icon="pi pi-user" severity="info" variant="text" rounded aria-label="User" />
+					<Button icon="pi pi-bell" severity="warn" variant="text" rounded aria-label="Notification" />
+					<Button icon="pi pi-heart" severity="help" variant="text" rounded aria-label="Favorite" />
+					<Button icon="pi pi-times" severity="danger" variant="text" rounded aria-label="Cancel" />
+					<Button icon="pi pi-star" severity="contrast" variant="text" rounded aria-label="Star" />
+				</div>
 			</div>
 		</div>
 
-		<!-- Input Variants -->
-		<h2 class="section-heading mt-12">
-			Input Variants
+		<h2 class="section-heading">
+			Forms
 		</h2>
 
-		<div class="grid grid-cols-1 gap-4">
-			<!-- Standard Input -->
+		<!-- Forms -->
+		<div class="flex flex-col gap-4">
+			<!-- Example form -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Standard Input
+					Example form
 				</h3>
-				<InputText placeholder="Standard input" />
+				<div class="flex">
+					<Form v-slot="$form" :resolver="resolverBasic" :initial-values="initialValuesBasic" class="flex flex-col gap-4">
+						<div class="flex flex-col gap-1">
+							<FloatLabel variant="in">
+								<InputText id="in_label" name="username" type="text" variant="filled" />
+								<label for="in_label">Username</label>
+							</FloatLabel>
+							<Message v-if="$form.username?.invalid" severity="error" size="small" variant="simple">
+								{{ $form.username.error?.message }}
+							</Message>
+						</div>
+						<div class="flex flex-col gap-1">
+							<FloatLabel variant="in">
+								<InputText id="email" name="email" type="text" variant="filled" />
+								<label for="email">Email</label>
+							</FloatLabel>
+							<Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">
+								{{ $form.email.error?.message }}
+							</Message>
+						</div>
+						<Button type="submit" severity="secondary" label="Submit" />
+					</Form>
+				</div>
 			</div>
 
-			<!-- Disabled Input -->
+			<!-- Checkbox -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Disabled Input
+					Checkbox / Link: <a href="https://primevue.org/checkbox/">PrimeVue Checkbox</a>
 				</h3>
-				<InputText placeholder="Disabled input" disabled />
+
+				<div class="flex">
+					<Form v-slot="$form" :resolver="resolverCheckbox" :initial-values="initialValuesCheckbox" class="flex justify-center flex-col gap-4">
+						<div class="flex flex-col gap-2">
+							<CheckboxGroup name="ingredient" class="flex flex-wrap gap-4">
+								<div class="flex items-center gap-2">
+									<Checkbox input-id="cheese" value="Cheese" />
+									<label for="cheese"> Cheese </label>
+								</div>
+								<div class="flex items-center gap-2">
+									<Checkbox input-id="mushroom" value="Mushroom" />
+									<label for="mushroom"> Mushroom </label>
+								</div>
+								<div class="flex items-center gap-2">
+									<Checkbox input-id="pepper" value="Pepper" />
+									<label for="pepper"> Pepper </label>
+								</div>
+								<div class="flex items-center gap-2">
+									<Checkbox input-id="onion" value="Onion" />
+									<label for="onion"> Onion </label>
+								</div>
+							</CheckboxGroup>
+							<Message v-if="$form.ingredient?.invalid" severity="error" size="small" variant="simple">
+								{{ $form.ingredient.error?.message }}
+							</Message>
+						</div>
+						<Button type="submit" severity="secondary" label="Submit" />
+					</Form>
+				</div>
 			</div>
 
-			<!-- Input with Icon -->
+			<!-- IconField -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Input with Icon
+					IconField / Link: <a href="https://primevue.org/iconfield/">PrimeVue IconField</a>
 				</h3>
-				<InputText placeholder="Search with icon" class="pl-8 relative" />
-				<i class="pi pi-search absolute -translate-y-[34px] left-7" />
+
+				<FloatLabel variant="in">
+					<IconField>
+						<InputIcon class="pi pi-search" />
+						<InputText id="in_label" autocomplete="off" variant="filled" />
+					</IconField>
+					<label for="in_label">In Label</label>
+				</FloatLabel>
 			</div>
 
-			<!-- Multi Select -->
+			<!-- InputText -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Multi Select
+					InputText / Link: <a href="https://primevue.org/inputtext/">PrimeVue InputText</a>
 				</h3>
-				<MultiSelect
-					v-model="selectedCities"
-					:options="cities"
-					option-label="name"
-					placeholder="Select Cities"
-					display="chip"
-					class="w-full md:w-80"
-				/>
+
+				<FloatLabel variant="in">
+					<InputText id="in_label" variant="filled" />
+					<label for="in_label">In Label</label>
+				</FloatLabel>
+			</div>
+
+			<!-- MultiSelect -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					MultiSelect / Link: <a href="https://primevue.org/multiselect/">PrimeVue MultiSelect</a>
+				</h3>
+
+				<div class="flex">
+					<Form v-slot="$form" :resolver="resolverMultiSelect" :initial-values="initialValuesMultiSelect" class="flex justify-center flex-col gap-4">
+						<div class="flex flex-col gap-1">
+							<MultiSelect name="city" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="w-full md:w-80" />
+							<Message v-if="$form.city?.invalid" severity="error" size="small" variant="simple">
+								{{ $form.city.error?.message }}
+							</Message>
+						</div>
+						<Button type="submit" severity="secondary" label="Submit" />
+					</Form>
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					RadioButton / Link: <a href="https://primevue.org/radiobutton/">PrimeVue RadioButton</a>
+				</h3>
+
+				<div class="flex">
+					<Form v-slot="$form" :resolver="resolverRadioButtons" :initial-values="initialValueRadioButtons" class="flex flex-col gap-4">
+						<div class="flex flex-col gap-2">
+							<RadioButtonGroup name="ingredient" class="flex flex-wrap gap-4">
+								<div class="flex items-center gap-2">
+									<RadioButton input-id="cheese" value="Cheese" variant="filled" />
+									<label for="cheese">Cheese</label>
+								</div>
+								<div class="flex items-center gap-2">
+									<RadioButton input-id="mushroom" value="Mushroom" variant="filled" />
+									<label for="mushroom">Mushroom</label>
+								</div>
+								<div class="flex items-center gap-2">
+									<RadioButton input-id="pepper" value="Pepper" variant="filled" />
+									<label for="pepper">Pepper</label>
+								</div>
+								<div class="flex items-center gap-2">
+									<RadioButton input-id="onion" value="Onion" variant="filled" />
+									<label for="onion">Onion</label>
+								</div>
+							</RadioButtonGroup>
+							<Message v-if="$form.ingredient?.invalid" severity="error" size="small" variant="simple">
+								{{ $form.ingredient.error?.message }}
+							</Message>
+						</div>
+						<Button type="submit" severity="secondary" label="Submit" />
+					</Form>
+				</div>
+			</div>
+
+			<!-- Select -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Select / Link: <a href="https://primevue.org/select/">PrimeVue Select</a>
+				</h3>
+
+				<div class="flex">
+					<Form v-slot="$form" :resolver="resolverSelect" :initial-values="initialValuesSelect" class="flex flex-col gap-4 w-full md:w-56">
+						<div class="flex flex-col gap-1">
+							<!-- eslint-disable-next-line vue-a11y/form-control-has-label -->
+							<Select name="city.name" :options="optionsSelect" option-label="name" placeholder="Select a City" fluid />
+							<Message v-if="($form.city as any)?.name?.invalid" severity="error" size="small" variant="simple">
+								{{ ($form.city as any).name.error?.message }}
+							</Message>
+						</div>
+						<Button type="submit" severity="secondary" label="Submit" />
+					</Form>
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Textarea / Link: <a href="https://primevue.org/textarea/">PrimeVue Textarea</a>
+				</h3>
+
+				<div class="flex">
+					<FloatLabel variant="in">
+						<!-- eslint-disable-next-line vue/no-static-inline-styles -->
+						<Textarea id="over_label" rows="5" cols="30" style="resize: none" />
+						<label for="in_label">In Label</label>
+					</FloatLabel>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -129,6 +441,6 @@
 	}
 
 	.section-heading {
-		@apply text-2xl font-bold mb-4;
+		@apply text-2xl font-bold mt-12 mb-4;
 	}
 </style>

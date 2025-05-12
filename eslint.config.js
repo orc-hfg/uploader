@@ -279,12 +279,6 @@ export default withNuxt(
 						maxProps: 5,
 					},
 				],
-				'vue/max-template-depth': [
-					'error',
-					{
-						maxDepth: 4,
-					},
-				],
 				'vue/new-line-between-multi-line-property': [
 					'error',
 					{
@@ -342,6 +336,13 @@ export default withNuxt(
 				'vue/slot-name-casing': 'error',
 				'vue/v-for-delimiter-style': 'error',
 				'vue/v-on-handler-style': 'error',
+				'vue-a11y/label-has-for': [
+					'error',
+					{
+						controlComponents: ['InputText'],
+						required: 'id',
+					},
+				],
 			},
 		},
 		{

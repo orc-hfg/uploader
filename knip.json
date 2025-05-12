@@ -15,12 +15,14 @@
 		"@orc-hfg/madek-api-nuxt-layer",
 		"@primevue/nuxt-module",
 		"@primevue/forms",
+		"primeicons",
 		"primevue",
 		"tailwindcss",
 		"tailwindcss-primeui",
 		"vitest-environment-nuxt",
 		"vue",
 		"vue-tsc",
-		"vue-router"
+		"vue-router",
+		"zod"
 	]
 }
