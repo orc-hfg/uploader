@@ -585,7 +585,7 @@ const preset = definePreset(Aura, {
 					floatLabelActiveColor: '{surface.400}',
 					floatLabelInvalidColor: '{form.field.invalid.placeholder.color}',
 					iconColor: '{surface.400}',
-					shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.00)',
+					shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.05)',
 				},
 				text: {
 					color: '{surface.0}',
