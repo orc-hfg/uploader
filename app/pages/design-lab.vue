@@ -3,42 +3,7 @@
 	import { useConfirm } from 'primevue/useconfirm';
 	import { z } from 'zod';
 
-	const confirm = useConfirm();
-
-	function confirm1() {
-		confirm.require({
-			message: 'Are you sure you want to proceed?',
-			header: 'Confirmation',
-			icon: 'pi pi-exclamation-triangle',
-			rejectProps: {
-				label: 'Cancel',
-				severity: 'secondary',
-				outlined: true,
-			},
-			acceptProps: {
-				label: 'Save',
-			},
-		});
-	}
-
-	function confirm2() {
-		confirm.require({
-			message: 'Do you want to delete this record?',
-			header: 'Danger Zone',
-			icon: 'pi pi-info-circle',
-			rejectLabel: 'Cancel',
-			rejectProps: {
-				label: 'Cancel',
-				severity: 'secondary',
-				outlined: true,
-			},
-			acceptProps: {
-				label: 'Delete',
-				severity: 'danger',
-			},
-		});
-	}
-
+	// Button Loading
 	const loading = ref(false);
 
 	function load() {
@@ -48,6 +13,11 @@
 		}, 2000);
 	}
 
+	// SelectButton
+	const value = ref('Off');
+	const options = ref(['On', 'Off']);
+
+	// Checkbox
 	const initialValuesCheckbox = ref({
 		ingredient: [],
 	});
@@ -57,6 +27,7 @@
 		}),
 	));
 
+	// Example Form
 	const initialValuesBasic = ref({
 		username: '',
 		email: '',
@@ -69,6 +40,7 @@
 		}),
 	));
 
+	// RadioButtons
 	const initialValueRadioButtons = ref({
 		ingredient: '',
 	});
@@ -79,6 +51,7 @@
 		}),
 	));
 
+	// Select / MultiSelect
 	const initialValuesMultiSelect = ref({
 		city: [],
 	});
@@ -127,6 +100,7 @@
 		{ name: 'Paris', code: 'PRS' },
 	]);
 
+	// DataTable
 	const products = ref([{
 		id: '1000',
 		code: 'f230fh0g3',
@@ -161,6 +135,91 @@
 		inventoryStatus: 'INSTOCK',
 		rating: 5,
 	}]);
+
+	// Menu
+	const menu = useTemplateRef('menu');
+	const items = ref([
+		{
+			label: 'Profil',
+			items: [
+				{
+					label: 'Felix Plachtzik',
+					icon: 'pi pi-user',
+				},
+			],
+		},
+		{
+			separator: true,
+		},
+		{
+			label: 'Sprache & Links',
+			items: [
+				{
+					label: 'Sprache',
+					icon: 'pi pi-language',
+				},
+				{
+					label: 'zu Madek',
+					icon: 'pi pi-external-link',
+				},
+			],
+		},
+		{
+			separator: true,
+		},
+		{
+			label: 'Aktionen',
+			items: [
+				{
+					label: 'Logout',
+					icon: 'pi pi-sign-out',
+				},
+			],
+		},
+	]);
+
+	function toggle(event: MouseEvent) {
+		if (menu.value) {
+			menu.value.toggle(event);
+		}
+	}
+
+	// ConfirmDialog
+	const confirm = useConfirm();
+
+	function confirm1() {
+		confirm.require({
+			message: 'Are you sure you want to proceed?',
+			header: 'Confirmation',
+			icon: 'pi pi-exclamation-triangle',
+			rejectProps: {
+				label: 'Cancel',
+				severity: 'secondary',
+				outlined: true,
+			},
+			acceptProps: {
+				label: 'Save',
+			},
+		});
+	}
+
+	function confirm2() {
+		confirm.require({
+			message: 'Do you want to delete this record?',
+			header: 'Danger Zone',
+			icon: 'pi pi-info-circle',
+			rejectLabel: 'Cancel',
+			rejectProps: {
+				label: 'Cancel',
+				severity: 'secondary',
+				outlined: true,
+			},
+			acceptProps: {
+				label: 'Delete',
+				severity: 'danger',
+			},
+		});
+	}
 </script>
 
 <template>
@@ -204,7 +263,7 @@
 				<h3 class="variant-heading">
 					Button Disabled / Link: <a href="https://primevue.org/button/#disabled">Disabled</a>
 				</h3>
-				<div class="card flex flex-wrap gap-4">
+				<div class="flex flex-wrap gap-4">
 					<Button label="Submit" disabled />
 				</div>
 			</div>
@@ -214,7 +273,7 @@
 				<h3 class="variant-heading">
 					Button Severity / Link: <a href="https://primevue.org/button/#severity">Severity</a>
 				</h3>
-				<div class="card flex flex-wrap gap-4">
+				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" />
 					<Button label="Secondary" severity="secondary" />
 					<Button label="Success" severity="success" />
@@ -231,7 +290,7 @@
 				<h3 class="variant-heading">
 					Button Rounded / Link: <a href="https://primevue.org/button/#rounded">Rounded</a>
 				</h3>
-				<div class="card flex flex-wrap gap-4">
+				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" rounded />
 					<Button label="Secondary" severity="secondary" rounded />
 					<Button label="Success" severity="success" rounded />
@@ -248,7 +307,7 @@
 				<h3 class="variant-heading">
 					Button Text / Link: <a href="https://primevue.org/button/#text">Text</a>
 				</h3>
-				<div class="card flex flex-wrap gap-4">
+				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" variant="text" />
 					<Button label="Secondary" severity="secondary" variant="text" />
 					<Button label="Success" severity="success" variant="text" />
@@ -265,7 +324,7 @@
 				<h3 class="variant-heading">
 					Button Outlined / Link: <a href="https://primevue.org/button/#outlined">Outlined</a>
 				</h3>
-				<div class="card flex flex-wrap gap-4">
+				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" variant="outlined" />
 					<Button label="Secondary" severity="secondary" variant="outlined" />
 					<Button label="Success" severity="success" variant="outlined" />
@@ -282,7 +341,7 @@
 				<h3 class="variant-heading">
 					Button Outlined Rounded
 				</h3>
-				<div class="card flex flex-wrap gap-4">
+				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" variant="outlined" rounded />
 					<Button label="Secondary" severity="secondary" variant="outlined" rounded />
 					<Button label="Success" severity="success" variant="outlined" rounded />
@@ -298,7 +357,7 @@
 				<h3 class="variant-heading">
 					Button Icon Only / Link: <a href="https://primevue.org/button/#icononly">Icon only</a>
 				</h3>
-				<div class="card flex flex-wrap gap-4">
+				<div class="flex flex-wrap gap-4">
 					<Button icon="pi pi-arrow-left" variant="text" rounded aria-label="Back" />
 					<Button icon="pi pi-ellipsis-v" severity="secondary" variant="text" rounded aria-label="More" />
 					<Button icon="pi pi-search" severity="success" variant="text" rounded aria-label="Search" />
@@ -343,9 +402,28 @@
 					ConfirmDialog Basic / Link: <a href="https://primevue.org/confirmdialog/#basic">Basic</a>
 				</h3>
 				<ConfirmDialog />
-				<div class="card flex flex-wrap gap-2 justify-center">
+				<div class="flex flex-wrap gap-2">
 					<Button label="Save" @click="confirm1" />
 					<Button label="Delete (secondary, outlined, rounded)" severity="secondary" variant="outlined" rounded @click="confirm2" />
+				</div>
+			</div>
+		</div>
+
+		<h2 class="section-heading">
+			Menu
+		</h2>
+
+		<!-- Menu -->
+		<div class="flex flex-col gap-4">
+			<!-- Popup -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Menu Popup / Link: <a href="https://primevue.org/menu/#popup">Popup</a>
+				</h3>
+				<Menu popup />
+				<div class="flex">
+					<Button type="button" icon="pi pi-ellipsis-v" severity="secondary" variant="text" rounded aria-label="Menu" aria-haspopup="true" aria-controls="overlay_menu" @click="toggle" />
+					<Menu id="overlay_menu" ref="menu" class="mt-2" :model="items" popup />
 				</div>
 			</div>
 		</div>
@@ -542,6 +620,17 @@
 				</div>
 			</div>
 
+			<!-- SelectButton -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					SelectButton / Link: <a href="https://primevue.org/selectbutton/">PrimeVue SelectButton</a>
+				</h3>
+
+				<div class="flex">
+					<SelectButton v-model="value" :options="options" />
+				</div>
+			</div>
+
 			<div class="variant-group">
 				<h3 class="variant-heading">
 					Textarea / Link: <a href="https://primevue.org/textarea/">PrimeVue Textarea</a>
@@ -581,21 +670,17 @@
 			Misc
 		</h2>
 
-		<!-- Tag -->
+		<!-- Chip -->
 		<div class="flex flex-col gap-4">
-			<!-- Severity -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Tag Severity / Link: <a href="https://primevue.org/tag/#severity">Tag Severity</a>
+					Chip Basic / Link: <a href="https://primevue.org/chip/#basic">Chip Basic</a>
 				</h3>
 				<div class="flex flex-wrap gap-2">
-					<Tag value="Primary" />
-					<Tag severity="secondary" value="Secondary" />
-					<Tag severity="success" value="Success" />
-					<Tag severity="info" value="Info" />
-					<Tag severity="warn" value="Warn" />
-					<Tag severity="danger" value="Danger" />
-					<Tag severity="contrast" value="Contrast" />
+					<Chip label="Action" />
+					<Chip label="Comedy" />
+					<Chip label="Mystery" />
+					<Chip label="Thriller" removable />
 				</div>
 			</div>
 		</div>
