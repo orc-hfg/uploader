@@ -1,6 +1,43 @@
 <script setup lang="ts">
 	import { zodResolver } from '@primevue/forms/resolvers/zod';
+	import { useConfirm } from 'primevue/useconfirm';
 	import { z } from 'zod';
+
+	const confirm = useConfirm();
+
+	function confirm1() {
+		confirm.require({
+			message: 'Are you sure you want to proceed?',
+			header: 'Confirmation',
+			icon: 'pi pi-exclamation-triangle',
+			rejectProps: {
+				label: 'Cancel',
+				severity: 'secondary',
+				outlined: true,
+			},
+			acceptProps: {
+				label: 'Save',
+			},
+		});
+	}
+
+	function confirm2() {
+		confirm.require({
+			message: 'Do you want to delete this record?',
+			header: 'Danger Zone',
+			icon: 'pi pi-info-circle',
+			rejectLabel: 'Cancel',
+			rejectProps: {
+				label: 'Cancel',
+				severity: 'secondary',
+				outlined: true,
+			},
+			acceptProps: {
+				label: 'Delete',
+				severity: 'danger',
+			},
+		});
+	}
 
 	const loading = ref(false);
 
@@ -133,15 +170,15 @@
 		</h1>
 
 		<h2 class="section-heading">
-			Button Variants / Link: <a href="https://primevue.org/button/">PrimeVue Button</a>
+			Button
 		</h2>
 
-		<!-- Button Variants -->
+		<!-- Button -->
 		<div class="flex flex-col gap-4">
 			<!-- Basic -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Basic / Link: <a href="https://primevue.org/button/#basic">Basic</a>
+					Button Basic / Link: <a href="https://primevue.org/button/#basic">Basic</a>
 				</h3>
 				<Button label="Basic Button" />
 			</div>
@@ -149,7 +186,7 @@
 			<!-- Icons -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Icons / Link: <a href="https://primevue.org/button/#icons">Icons</a>
+					Button Icons / Link: <a href="https://primevue.org/button/#icons">Icons</a>
 				</h3>
 				<Button label="Profile" icon="pi pi-user" />
 			</div>
@@ -157,7 +194,7 @@
 			<!-- Loading -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Loading / Link: <a href="https://primevue.org/button/#loading">Loading</a>
+					Button Loading / Link: <a href="https://primevue.org/button/#loading">Loading</a>
 				</h3>
 				<Button type="button" label="Search" icon="pi pi-search" :loading="loading" @click="load" />
 			</div>
@@ -165,7 +202,7 @@
 			<!-- Disabled -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Disabled / Link: <a href="https://primevue.org/button/#disabled">Disabled</a>
+					Button Disabled / Link: <a href="https://primevue.org/button/#disabled">Disabled</a>
 				</h3>
 				<div class="card flex flex-wrap gap-4">
 					<Button label="Submit" disabled />
@@ -175,7 +212,7 @@
 			<!-- Severity -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Severity / Link: <a href="https://primevue.org/button/#severity">Severity</a>
+					Button Severity / Link: <a href="https://primevue.org/button/#severity">Severity</a>
 				</h3>
 				<div class="card flex flex-wrap gap-4">
 					<Button label="Primary" />
@@ -192,7 +229,7 @@
 			<!-- Rounded -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Rounded / Link: <a href="https://primevue.org/button/#rounded">Rounded</a>
+					Button Rounded / Link: <a href="https://primevue.org/button/#rounded">Rounded</a>
 				</h3>
 				<div class="card flex flex-wrap gap-4">
 					<Button label="Primary" rounded />
@@ -209,7 +246,7 @@
 			<!-- Text -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Text / Link: <a href="https://primevue.org/button/#text">Text</a>
+					Button Text / Link: <a href="https://primevue.org/button/#text">Text</a>
 				</h3>
 				<div class="card flex flex-wrap gap-4">
 					<Button label="Primary" variant="text" />
@@ -226,7 +263,7 @@
 			<!-- Outlined -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Outlined / Link: <a href="https://primevue.org/button/#outlined">Outlined</a>
+					Button Outlined / Link: <a href="https://primevue.org/button/#outlined">Outlined</a>
 				</h3>
 				<div class="card flex flex-wrap gap-4">
 					<Button label="Primary" variant="outlined" />
@@ -243,7 +280,7 @@
 			<!-- Outlined Rounded -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Outlined Rounded
+					Button Outlined Rounded
 				</h3>
 				<div class="card flex flex-wrap gap-4">
 					<Button label="Primary" variant="outlined" rounded />
@@ -259,7 +296,7 @@
 			<!-- Icon only (text) -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Icon only / Link: <a href="https://primevue.org/button/#icononly">Icon only</a>
+					Button Icon Only / Link: <a href="https://primevue.org/button/#icononly">Icon only</a>
 				</h3>
 				<div class="card flex flex-wrap gap-4">
 					<Button icon="pi pi-arrow-left" variant="text" rounded aria-label="Back" />
@@ -275,7 +312,7 @@
 		</div>
 
 		<h2 class="section-heading">
-			DataTable / Link: <a href="https://primevue.org/datatable/">PrimeVue DataTable</a>
+			Data
 		</h2>
 
 		<!-- DataTable -->
@@ -283,7 +320,7 @@
 			<!-- Basic -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Basic / Link: <a href="https://primevue.org/datatable/#basic">Basic</a>
+					DataTable Basic / Link: <a href="https://primevue.org/datatable/#basic">Basic</a>
 				</h3>
 				<DataTable :value="products" table-style="min-width: 50rem">
 					<Column field="code" header="Code" />
@@ -291,6 +328,25 @@
 					<Column field="category" header="Category" />
 					<Column field="quantity" header="Quantity" />
 				</DataTable>
+			</div>
+		</div>
+
+		<h2 class="section-heading">
+			Overlay
+		</h2>
+
+		<!-- ConfirmDialog -->
+		<div class="flex flex-col gap-4">
+			<!-- Basic -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					ConfirmDialog Basic / Link: <a href="https://primevue.org/confirmdialog/#basic">Basic</a>
+				</h3>
+				<ConfirmDialog />
+				<div class="card flex flex-wrap gap-2 justify-center">
+					<Button label="Save" @click="confirm1" />
+					<Button label="Delete (secondary, outlined, rounded)" severity="secondary" variant="outlined" rounded @click="confirm2" />
+				</div>
 			</div>
 		</div>
 
@@ -517,6 +573,29 @@
 
 				<div class="flex">
 					<ToggleSwitch />
+				</div>
+			</div>
+		</div>
+
+		<h2 class="section-heading">
+			Misc
+		</h2>
+
+		<!-- Tag -->
+		<div class="flex flex-col gap-4">
+			<!-- Severity -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Tag Severity / Link: <a href="https://primevue.org/tag/#severity">Tag Severity</a>
+				</h3>
+				<div class="flex flex-wrap gap-2">
+					<Tag value="Primary" />
+					<Tag severity="secondary" value="Secondary" />
+					<Tag severity="success" value="Success" />
+					<Tag severity="info" value="Info" />
+					<Tag severity="warn" value="Warn" />
+					<Tag severity="danger" value="Danger" />
+					<Tag severity="contrast" value="Contrast" />
 				</div>
 			</div>
 		</div>
