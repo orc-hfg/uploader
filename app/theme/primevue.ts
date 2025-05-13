@@ -44,6 +44,23 @@ const preset = definePreset(Aura, {
 		},
 	},
 	semantic: {
+		formField: {
+			borderRadius: '{border.radius.none}',
+		},
+		content: {
+			borderRadius: '{border.radius.none}',
+		},
+		overlay: {
+			select: {
+				borderRadius: '{border.radius.none}',
+			},
+			popover: {
+				borderRadius: '{border.radius.none}',
+			},
+			modal: {
+				borderRadius: '{border.radius.none}',
+			},
+		},
 		colorScheme: {
 			light: {
 				primary: {
@@ -57,19 +74,56 @@ const preset = definePreset(Aura, {
 					color: '{surface.800}',
 					floatLabelFocusColor: '{surface.500}',
 				},
+				text: {
+					color: '{surface.800}',
+					hoverColor: '{surface.900}',
+				},
+				overlay: {
+					select: {
+						background: '{surface.50}',
+						borderColor: '{surface.50}',
+					},
+				},
+				navigation: {
+					item: {
+						icon: {
+							color: '{text.color}',
+							focusColor: '{text.color}',
+							activeColor: '{text.color}',
+						},
+					},
+				},
 			},
 		},
 		components: {
 			button: {
 				colorScheme: {
 					light: {
-						contrast: {
-							background: '{surface.900}',
-							hoverBackground: '{surface.950}',
-							activeBackground: '{surface.950}',
-							activeBorderColor: '{surface.950}',
+						root: {
+							warn: {
+								background: '{emerald.500}',
+								hoverBackground: '{emerald.600}',
+								activeBackground: '{emerald.600}',
+								borderColor: '{emerald.500}',
+								hoverBorderColor: '{emerald.600}',
+								activeBorderColor: '{emerald.700}',
+								focusRing: {
+									color: '{emerald.500}',
+								},
+							},
+							contrast: {
+								background: '{surface.900}',
+								hoverBackground: '{surface.950}',
+								activeBackground: '{surface.950}',
+								activeBorderColor: '{surface.950}',
+							},
 						},
 						outlined: {
+							secondary: {
+								color: '{surface.900}',
+							},
+						},
+						text: {
 							secondary: {
 								color: '{surface.900}',
 							},
@@ -77,9 +131,27 @@ const preset = definePreset(Aura, {
 					},
 				},
 			},
+			multiselect: {
+				dropdown: {
+					color: '{surface.950}',
+				},
+			},
 			radiobutton: {
 				root: {
 					borderColor: '{surface.300}',
+				},
+			},
+			togglebutton: {
+				colorScheme: {
+					light: {
+						root: {
+							checkedColor: '{surface.0}',
+							checkedBorderColor: '{primary.500}',
+						},
+						content: {
+							checkedBackground: '{primary.500}',
+						},
+					},
 				},
 			},
 		},
