@@ -89,10 +89,45 @@
 		{ name: 'Istanbul', code: 'IST' },
 		{ name: 'Paris', code: 'PRS' },
 	]);
+
+	const products = ref([{
+		id: '1000',
+		code: 'f230fh0g3',
+		name: 'Bamboo Watch',
+		description: 'Product Description',
+		image: 'bamboo-watch.jpg',
+		price: 65,
+		category: 'Accessories',
+		quantity: 24,
+		inventoryStatus: 'INSTOCK',
+		rating: 5,
+	},	{
+		id: '1001',
+		code: 'f230fh0g3',
+		name: 'Bamboo Watch 2',
+		description: 'Product Description',
+		image: 'bamboo-watch.jpg',
+		price: 65,
+		category: 'Accessories',
+		quantity: 24,
+		inventoryStatus: 'INSTOCK',
+		rating: 5,
+	}, {
+		id: '1002',
+		code: 'f230fh0g3',
+		name: 'Bamboo Watch 3',
+		description: 'Product Description',
+		image: 'bamboo-watch.jpg',
+		price: 65,
+		category: 'Accessories',
+		quantity: 24,
+		inventoryStatus: 'INSTOCK',
+		rating: 5,
+	}]);
 </script>
 
 <template>
-	<div class="pt-8 pb-32 px-4 max-w-3xl mx-auto">
+	<div class="pt-8 pb-32 px-4 max-w-4xl mx-auto">
 		<h1 class="text-3xl font-bold mb-8">
 			Design Lab
 		</h1>
@@ -240,6 +275,26 @@
 		</div>
 
 		<h2 class="section-heading">
+			DataTable / Link: <a href="https://primevue.org/datatable/">PrimeVue DataTable</a>
+		</h2>
+
+		<!-- DataTable -->
+		<div class="flex flex-col gap-4">
+			<!-- Basic -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Basic / Link: <a href="https://primevue.org/datatable/#basic">Basic</a>
+				</h3>
+				<DataTable :value="products" table-style="min-width: 50rem">
+					<Column field="code" header="Code" />
+					<Column field="name" header="Name" />
+					<Column field="category" header="Category" />
+					<Column field="quantity" header="Quantity" />
+				</DataTable>
+			</div>
+		</div>
+
+		<h2 class="section-heading">
 			Forms
 		</h2>
 
@@ -357,6 +412,25 @@
 				</div>
 			</div>
 
+			<!-- MultiSelect (Chip) -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					MultiSelect (Chip) / Link: <a href="https://primevue.org/multiselect/#chips">PrimeVue MultiSelect (Chip)</a>
+				</h3>
+
+				<div class="flex">
+					<Form v-slot="$form" :resolver="resolverMultiSelect" :initial-values="initialValuesMultiSelect" class="flex justify-center flex-col gap-4">
+						<div class="flex flex-col gap-1">
+							<MultiSelect name="city" display="chip" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="w-full md:w-80" />
+							<Message v-if="$form.city?.invalid" severity="error" size="small" variant="simple">
+								{{ $form.city.error?.message }}
+							</Message>
+						</div>
+						<Button type="submit" severity="secondary" label="Submit" />
+					</Form>
+				</div>
+			</div>
+
 			<div class="variant-group">
 				<h3 class="variant-heading">
 					RadioButton / Link: <a href="https://primevue.org/radiobutton/">PrimeVue RadioButton</a>
@@ -423,6 +497,26 @@
 						<Textarea id="over_label" rows="5" cols="30" style="resize: none" />
 						<label for="in_label">In Label</label>
 					</FloatLabel>
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					ToggleButton / Link: <a href="https://primevue.org/togglebutton/">PrimeVue ToggleButton</a>
+				</h3>
+
+				<div class="flex">
+					<ToggleButton on-label="On" off-label="Off" />
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					ToggleSwitch / Link: <a href="https://primevue.org/toggleswitch/">PrimeVue ToggleSwitch</a>
+				</h3>
+
+				<div class="flex">
+					<ToggleSwitch />
 				</div>
 			</div>
 		</div>
