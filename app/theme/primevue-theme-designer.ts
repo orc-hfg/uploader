@@ -791,6 +791,7 @@ const preset = definePreset(Aura, {
 				},
 			},
 			chip: {
+				// TODO: Wolltest du bewusst den Border der Chips in der Autocomplete-Komponente entfernen?
 				borderRadius: '{border.radius.none}',
 			},
 			emptyMessage: {
@@ -1004,6 +1005,7 @@ const preset = definePreset(Aura, {
 					iconOnlyWidth: '2rem',
 				},
 				lg: {
+					// TODO: Wert ggf. besser in Zeile 340 ändern?
 					fontSize: '1.25rem',
 					paddingX: '{form.field.lg.padding.x}',
 					paddingY: '{form.field.lg.padding.y}',
@@ -1634,6 +1636,7 @@ const preset = definePreset(Aura, {
 				checkedHoverBackground: '{primary.hover.color}',
 				disabledBackground: '{form.field.disabled.background}',
 				filledBackground: '{form.field.filled.background}',
+				// TODO: Wolltest du bewusst den Border vom Standard-Border der FormFields entkoppeln?
 				borderColor: '{surface.300}',
 				hoverBorderColor: '{form.field.hover.border.color}',
 				focusBorderColor: '{form.field.border.color}',
