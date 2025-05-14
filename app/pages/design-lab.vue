@@ -581,6 +581,11 @@
 				<h3 class="variant-heading">
 					Card / -> <a href="https://primevue.org/card/#advanced">Advanced</a>
 				</h3>
+				<p class="mb-8 text-primary-600">
+					Um den Button auf dem Content zu platzieren kann nicht der Footer-Slot der Card-Komponente (wie hier im Beispiel) verwendet werden.
+					Wir müssen dafür alles im Content-Slot platzieren. Zudem passt auch das Standard-Padding nicht für unseren Einsatzweck, denn damit geht das Bild nicht bis zum Rand.
+					Vielleicht brauchen wir hier wirklich eine individuelle Komponente, weil die Anpassungen zu umfangreich wären.
+				</p>
 				<Card>
 					<template #content>
 						<img
