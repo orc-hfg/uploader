@@ -45,6 +45,10 @@ const preset = definePreset(Aura, {
 	},
 	semantic: {
 		formField: {
+			lg: {
+				paddingX: '0.6rem',
+				paddingY: '0.3rem',
+			},
 			borderRadius: '{border.radius.none}',
 		},
 		content: {
@@ -56,15 +60,23 @@ const preset = definePreset(Aura, {
 			},
 			popover: {
 				borderRadius: '{border.radius.none}',
+				shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.0)',
 			},
 			modal: {
 				borderRadius: '{border.radius.none}',
+				shadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.0)',
 			},
 		},
 		colorScheme: {
 			light: {
 				primary: {
 					activeColor: '{primary.600}',
+				},
+				highlight: {
+					background: '{primary.500}',
+					focusBackground: '{primary.600}',
+					color: '{primary.contrast}',
+					focusColor: '{primary.50}',
 				},
 				formField: {
 					background: '{surface.50}',
@@ -73,15 +85,25 @@ const preset = definePreset(Aura, {
 					focusBorderColor: '{surface.300}',
 					color: '{surface.800}',
 					floatLabelFocusColor: '{surface.500}',
+					shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.00)',
 				},
 				text: {
-					color: '{surface.800}',
-					hoverColor: '{surface.900}',
+					color: '{surface.900}',
+					hoverColor: '{surface.950}',
+				},
+				content: {
+					borderColor: '{surface.400}',
 				},
 				overlay: {
 					select: {
-						background: '{surface.50}',
-						borderColor: '{surface.50}',
+						background: '{surface.0}',
+						borderColor: '{surface.0}',
+					},
+					popover: {
+						borderColor: '{surface.400}',
+					},
+					modal: {
+						borderColor: '{surface.400}',
 					},
 				},
 				navigation: {
@@ -96,19 +118,56 @@ const preset = definePreset(Aura, {
 			},
 		},
 		components: {
+			autocomplete: {
+				chip: {
+					borderRadius: '{border.radius.none}',
+				},
+			},
+			badge: {
+				root: {
+					fontWeight: '500',
+				},
+				colorScheme: {
+					light: {
+						secondary: {
+							background: '{surface.50}',
+							color: '{surface.900}',
+						},
+						warn: {
+							background: '{primary.color}',
+						},
+					},
+				},
+			},
 			button: {
+				root: {
+					lg: {
+						fontSize: '1.25rem',
+					},
+				},
 				colorScheme: {
 					light: {
 						root: {
+							secondary: {
+								background: '{surface.50}',
+								hoverBackground: '{surface.100}',
+								activeBackground: '{surface.200}',
+								borderColor: '{surface.500}',
+								hoverBorderColor: '{surface.100}',
+								activeBorderColor: '{surface.200}',
+								color: '{surface.900}',
+								hoverColor: '{surface.950}',
+								activeColor: '{surface.9500}',
+							},
 							warn: {
-								background: '{emerald.500}',
-								hoverBackground: '{emerald.600}',
-								activeBackground: '{emerald.600}',
-								borderColor: '{emerald.500}',
-								hoverBorderColor: '{emerald.600}',
-								activeBorderColor: '{emerald.700}',
+								background: '{primary.color}',
+								hoverBackground: '{primary.hover.color}',
+								activeBackground: '{primary.active.color}',
+								borderColor: '{primary.color}',
+								hoverBorderColor: '{primary.hover.color}',
+								activeBorderColor: '{primary.active.color}',
 								focusRing: {
-									color: '{emerald.500}',
+									color: '{primary.color}',
 								},
 							},
 							contrast: {
@@ -119,14 +178,45 @@ const preset = definePreset(Aura, {
 							},
 						},
 						outlined: {
+							primary: {
+								borderColor: '{primary.500}',
+							},
 							secondary: {
+								hoverBackground: '{surface.100}',
+								activeBackground: '{surface.200}',
+								borderColor: '{surface.400}',
 								color: '{surface.900}',
 							},
 						},
 						text: {
 							secondary: {
+								hoverBackground: '{surface.100}',
+								activeBackground: '{surface.200}',
 								color: '{surface.900}',
 							},
+						},
+					},
+				},
+			},
+			checkbox: {
+				root: {
+					borderColor: '{surface.300}',
+				},
+			},
+			chip: {
+				root: {
+					borderRadius: '2rem',
+				},
+				colorScheme: {
+					light: {
+						root: {
+							color: '{surface.900}',
+						},
+						icon: {
+							color: '{surface.900}',
+						},
+						removeIcon: {
+							color: '{surface.900}',
 						},
 					},
 				},
@@ -142,6 +232,9 @@ const preset = definePreset(Aura, {
 				},
 			},
 			togglebutton: {
+				content: {
+					checkedShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.00), 0px 1px 2px 0px rgba(0, 0, 0, 0.00)',
+				},
 				colorScheme: {
 					light: {
 						root: {
