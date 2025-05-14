@@ -544,7 +544,7 @@
 		<div class="flex flex-col gap-4">
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Accordion / -> <a href="https://primevue.org/accordion/#basic">Basic</a>
+					Accordion Basic/ -> <a href="https://primevue.org/accordion/#basic">Basic</a>
 				</h3>
 				<Accordion value="0">
 					<AccordionPanel value="0">
@@ -579,7 +579,7 @@
 
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Card / -> <a href="https://primevue.org/card/#advanced">Advanced</a>
+					Card Advanced / -> <a href="https://primevue.org/card/#advanced">Advanced</a>
 				</h3>
 				<p class="mb-8 text-primary-600">
 					Um den Button auf dem Content zu platzieren kann nicht der Footer-Slot der Card-Komponente (wie hier im Beispiel) verwendet werden.
@@ -603,7 +603,7 @@
 
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					ScrollPanel / -> <a href="https://primevue.org/scrollpanel/#basic">Basic</a>
+					ScrollPanel Basic / -> <a href="https://primevue.org/scrollpanel/#basic">Basic</a>
 				</h3>
 				<!-- eslint-disable-next-line vue/no-static-inline-styles -->
 				<ScrollPanel style="width: 100%; height: 200px">
@@ -736,7 +736,7 @@
 			<!-- Checkbox -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Checkbox / -> <a href="https://primevue.org/checkbox/">Checkbox</a>
+					Checkbox Group / -> <a href="https://primevue.org/checkbox/#group">Group</a>
 				</h3>
 
 				<div class="flex">
@@ -772,7 +772,7 @@
 			<!-- DatePicker -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					DatePicker / -> <a href="https://primevue.org/datepicker/">DatePicker</a>
+					DatePicker Basic / -> <a href="https://primevue.org/datepicker/#basic">Basic</a>
 				</h3>
 
 				<div class="flex">
@@ -783,7 +783,7 @@
 			<!-- IconField -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					IconField / -> <a href="https://primevue.org/iconfield/">IconField</a>
+					IconField FloatLabel / -> <a href="https://primevue.org/iconfield/#floatlabel">FloatLabel</a>
 				</h3>
 
 				<FloatLabel variant="in">
@@ -798,7 +798,7 @@
 			<!-- InputText -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					InputText / -> <a href="https://primevue.org/inputtext/">InputText</a>
+					InputText FloatLabel / -> <a href="https://primevue.org/inputtext/#floatlabel">FloatLabel</a>
 				</h3>
 
 				<FloatLabel variant="in">
@@ -810,7 +810,7 @@
 			<!-- MultiSelect -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					MultiSelect / -> <a href="https://primevue.org/multiselect/">MultiSelect</a>
+					MultiSelect Forms / -> <a href="https://primevue.org/multiselect/#forms">Forms</a>
 				</h3>
 
 				<div class="flex">
@@ -826,29 +826,21 @@
 				</div>
 			</div>
 
-			<!-- MultiSelect (Chip) -->
+			<!-- MultiSelect Chips -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					MultiSelect (Chip) / -> <a href="https://primevue.org/multiselect/#chips">MultiSelect (Chip)</a>
+					MultiSelect Chips / -> <a href="https://primevue.org/multiselect/#chips">Chips</a>
 				</h3>
 
 				<div class="flex">
-					<Form v-slot="$form" :resolver="resolverMultiSelect" :initial-values="initialValuesMultiSelect" class="flex justify-center flex-col gap-4">
-						<div class="flex flex-col gap-1">
-							<MultiSelect name="city" display="chip" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="w-full md:w-80" />
-							<Message v-if="$form.city?.invalid" severity="error" size="small" variant="simple">
-								{{ $form.city.error?.message }}
-							</Message>
-						</div>
-						<Button type="submit" severity="secondary" label="Submit" />
-					</Form>
+					<MultiSelect name="city" display="chip" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="w-full md:w-80" />
 				</div>
 			</div>
 
 			<!-- Password -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Password / -> <a href="https://primevue.org/password/">Password</a>
+					Password FloatLabel / -> <a href="https://primevue.org/password/#floatlabel">FloatLabel</a>
 				</h3>
 
 				<div class="flex">
@@ -861,7 +853,7 @@
 
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					RadioButton / -> <a href="https://primevue.org/radiobutton/">RadioButton</a>
+					RadioButton Forms / -> <a href="https://primevue.org/radiobutton/#forms">Forms</a>
 				</h3>
 
 				<div class="flex">
@@ -897,7 +889,7 @@
 			<!-- Select -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Select / -> <a href="https://primevue.org/select/">Select</a>
+					Select Forms / -> <a href="https://primevue.org/select/#forms">Forms</a>
 				</h3>
 
 				<div class="flex">
@@ -917,7 +909,7 @@
 			<!-- SelectButton -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					SelectButton / -> <a href="https://primevue.org/selectbutton/">SelectButton</a>
+					SelectButton Basic / -> <a href="https://primevue.org/selectbutton/#basic">Basic</a>
 				</h3>
 
 				<div class="flex">
@@ -927,7 +919,7 @@
 
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Textarea / -> <a href="https://primevue.org/textarea/">Textarea</a>
+					Textarea FloatLabel / -> <a href="https://primevue.org/textarea/#floatlabel">FloatLabel</a>
 				</h3>
 
 				<div class="flex">
