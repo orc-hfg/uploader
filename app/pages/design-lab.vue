@@ -229,7 +229,7 @@
 		</h1>
 
 		<h2 class="section-heading">
-			Button
+			Button (normal size)
 		</h2>
 
 		<!-- Button -->
@@ -237,7 +237,7 @@
 			<!-- Basic -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Basic / Link: <a href="https://primevue.org/button/#basic">Basic</a>
+					Button Basic / -> <a href="https://primevue.org/button/#basic">Basic</a>
 				</h3>
 				<Button label="Basic Button" />
 			</div>
@@ -245,7 +245,7 @@
 			<!-- Icons -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Icons / Link: <a href="https://primevue.org/button/#icons">Icons</a>
+					Button Icons / -> <a href="https://primevue.org/button/#icons">Icons</a>
 				</h3>
 				<Button label="Profile" icon="pi pi-user" />
 			</div>
@@ -253,15 +253,15 @@
 			<!-- Loading -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Loading / Link: <a href="https://primevue.org/button/#loading">Loading</a>
+					Button Loading / -> <a href="https://primevue.org/button/#loading">Loading</a>
 				</h3>
-				<Button type="button" label="Search" icon="pi pi-search" :loading="loading" @click="load" />
+				<Button label="Search" icon="pi pi-search" :loading="loading" @click="load" />
 			</div>
 
 			<!-- Disabled -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Disabled / Link: <a href="https://primevue.org/button/#disabled">Disabled</a>
+					Button Disabled / -> <a href="https://primevue.org/button/#disabled">Disabled</a>
 				</h3>
 				<div class="flex flex-wrap gap-4">
 					<Button label="Submit" disabled />
@@ -271,7 +271,7 @@
 			<!-- Severity -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Severity / Link: <a href="https://primevue.org/button/#severity">Severity</a>
+					Button Severity / -> <a href="https://primevue.org/button/#severity">Severity</a>
 				</h3>
 				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" />
@@ -288,7 +288,7 @@
 			<!-- Rounded -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Rounded / Link: <a href="https://primevue.org/button/#rounded">Rounded</a>
+					Button Rounded / -> <a href="https://primevue.org/button/#rounded">Rounded</a>
 				</h3>
 				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" rounded />
@@ -305,7 +305,7 @@
 			<!-- Text -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Text / Link: <a href="https://primevue.org/button/#text">Text</a>
+					Button Text / -> <a href="https://primevue.org/button/#text">Text</a>
 				</h3>
 				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" variant="text" />
@@ -322,7 +322,7 @@
 			<!-- Outlined -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Outlined / Link: <a href="https://primevue.org/button/#outlined">Outlined</a>
+					Button Outlined / -> <a href="https://primevue.org/button/#outlined">Outlined</a>
 				</h3>
 				<div class="flex flex-wrap gap-4">
 					<Button label="Primary" variant="outlined" />
@@ -355,7 +355,7 @@
 			<!-- Icon only (text) -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Button Icon Only / Link: <a href="https://primevue.org/button/#icononly">Icon only</a>
+					Button Icon Only / -> <a href="https://primevue.org/button/#icononly">Icon only</a>
 				</h3>
 				<div class="flex flex-wrap gap-4">
 					<Button icon="pi pi-arrow-left" variant="text" rounded aria-label="Back" />
@@ -371,6 +371,148 @@
 		</div>
 
 		<h2 class="section-heading">
+			Button (large size)
+		</h2>
+
+		<!-- Button -->
+		<div class="flex flex-col gap-4">
+			<!-- Basic -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Basic / -> <a href="https://primevue.org/button/#basic">Basic</a>
+				</h3>
+				<Button label="Basic Button" size="large" />
+			</div>
+
+			<!-- Icons -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Icons / -> <a href="https://primevue.org/button/#icons">Icons</a>
+				</h3>
+				<Button label="Profile" icon="pi pi-user" size="large" />
+			</div>
+
+			<!-- Loading -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Loading / -> <a href="https://primevue.org/button/#loading">Loading</a>
+				</h3>
+				<Button label="Search" icon="pi pi-search" size="large" :loading="loading" @click="load" />
+			</div>
+
+			<!-- Disabled -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Disabled / -> <a href="https://primevue.org/button/#disabled">Disabled</a>
+				</h3>
+				<div class="flex flex-wrap gap-4">
+					<Button label="Submit" disabled size="large" />
+				</div>
+			</div>
+
+			<!-- Severity -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Severity / -> <a href="https://primevue.org/button/#severity">Severity</a>
+				</h3>
+				<div class="flex flex-wrap gap-4">
+					<Button label="Primary" size="large" />
+					<Button label="Secondary" severity="secondary" size="large" />
+					<Button label="Success" severity="success" size="large" />
+					<Button label="Info" severity="info" size="large" />
+					<Button label="Warn" severity="warn" size="large" />
+					<Button label="Help" severity="help" size="large" />
+					<Button label="Danger" severity="danger" size="large" />
+					<Button label="Contrast" severity="contrast" size="large" />
+				</div>
+			</div>
+
+			<!-- Rounded -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Rounded / -> <a href="https://primevue.org/button/#rounded">Rounded</a>
+				</h3>
+				<div class="flex flex-wrap gap-4">
+					<Button label="Primary" rounded size="large" />
+					<Button label="Secondary" severity="secondary" rounded size="large" />
+					<Button label="Success" severity="success" rounded size="large" />
+					<Button label="Info" severity="info" rounded size="large" />
+					<Button label="Warn" severity="warn" rounded size="large" />
+					<Button label="Help" severity="help" rounded size="large" />
+					<Button label="Danger" severity="danger" rounded size="large" />
+					<Button label="Contrast" severity="contrast" rounded size="large" />
+				</div>
+			</div>
+
+			<!-- Text -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Text / -> <a href="https://primevue.org/button/#text">Text</a>
+				</h3>
+				<div class="flex flex-wrap gap-4">
+					<Button label="Primary" variant="text" size="large" />
+					<Button label="Secondary" severity="secondary" variant="text" size="large" />
+					<Button label="Success" severity="success" variant="text" size="large" />
+					<Button label="Info" severity="info" variant="text" size="large" />
+					<Button label="Warn" severity="warn" variant="text" size="large" />
+					<Button label="Help" severity="help" variant="text" size="large" />
+					<Button label="Danger" severity="danger" variant="text" size="large" />
+					<Button label="Contrast" severity="contrast" variant="text" size="large" />
+				</div>
+			</div>
+
+			<!-- Outlined -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Outlined / -> <a href="https://primevue.org/button/#outlined">Outlined</a>
+				</h3>
+				<div class="flex flex-wrap gap-4">
+					<Button label="Primary" variant="outlined" size="large" />
+					<Button label="Secondary" severity="secondary" variant="outlined" size="large" />
+					<Button label="Success" severity="success" variant="outlined" size="large" />
+					<Button label="Info" severity="info" variant="outlined" size="large" />
+					<Button label="Warn" severity="warn" variant="outlined" size="large" />
+					<Button label="Help" severity="help" variant="outlined" size="large" />
+					<Button label="Danger" severity="danger" variant="outlined" size="large" />
+					<Button label="Contrast" severity="contrast" variant="outlined" size="large" />
+				</div>
+			</div>
+
+			<!-- Outlined Rounded -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Outlined Rounded
+				</h3>
+				<div class="flex flex-wrap gap-4">
+					<Button label="Primary" variant="outlined" rounded size="large" />
+					<Button label="Secondary" severity="secondary" variant="outlined" rounded size="large" />
+					<Button label="Success" severity="success" variant="outlined" rounded size="large" />
+					<Button label="Info" severity="info" variant="outlined" rounded size="large" />
+					<Button label="Warn" severity="warn" variant="outlined" rounded size="large" />
+					<Button label="Danger" severity="danger" variant="outlined" rounded size="large" />
+					<Button label="Contrast" severity="contrast" variant="outlined" rounded size="large" />
+				</div>
+			</div>
+
+			<!-- Icon only (text) -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Button Icon Only / -> <a href="https://primevue.org/button/#icononly">Icon only</a>
+				</h3>
+				<div class="flex flex-wrap gap-4">
+					<Button icon="pi pi-arrow-left" variant="text" rounded size="large" aria-label="Back" />
+					<Button icon="pi pi-ellipsis-v" severity="secondary" variant="text" rounded size="large" aria-label="More" />
+					<Button icon="pi pi-search" severity="success" variant="text" rounded size="large" aria-label="Search" />
+					<Button icon="pi pi-user" severity="info" variant="text" rounded size="large" aria-label="User" />
+					<Button icon="pi pi-bell" severity="warn" variant="text" rounded size="large" aria-label="Notification" />
+					<Button icon="pi pi-heart" severity="help" variant="text" rounded size="large" aria-label="Favorite" />
+					<Button icon="pi pi-times" severity="danger" variant="text" rounded size="large" aria-label="Cancel" />
+					<Button icon="pi pi-star" severity="contrast" variant="text" rounded size="large" aria-label="Star" />
+				</div>
+			</div>
+		</div>
+
+		<h2 class="section-heading">
 			Data
 		</h2>
 
@@ -379,7 +521,7 @@
 			<!-- Basic -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					DataTable Basic / Link: <a href="https://primevue.org/datatable/#basic">Basic</a>
+					DataTable Basic / -> <a href="https://primevue.org/datatable/#basic">Basic</a>
 				</h3>
 				<DataTable :value="products" table-style="min-width: 50rem">
 					<Column field="code" header="Code" />
@@ -387,6 +529,92 @@
 					<Column field="category" header="Category" />
 					<Column field="quantity" header="Quantity" />
 				</DataTable>
+			</div>
+		</div>
+
+		<h2 class="section-heading">
+			Panel
+		</h2>
+
+		<!-- Panel -->
+		<div class="flex flex-col gap-4">
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Accordion / -> <a href="https://primevue.org/accordion/#basic">Basic</a>
+				</h3>
+				<Accordion value="0">
+					<AccordionPanel value="0">
+						<AccordionHeader>Header I</AccordionHeader>
+						<AccordionContent>
+							<p class="m-0">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							</p>
+						</AccordionContent>
+					</AccordionPanel>
+					<AccordionPanel value="1">
+						<AccordionHeader>Header II</AccordionHeader>
+						<AccordionContent>
+							<p class="m-0">
+								Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+								ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+							</p>
+						</AccordionContent>
+					</AccordionPanel>
+					<AccordionPanel value="2">
+						<AccordionHeader>Header III</AccordionHeader>
+						<AccordionContent>
+							<p class="m-0">
+								At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+								qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+							</p>
+						</AccordionContent>
+					</AccordionPanel>
+				</Accordion>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Card / -> <a href="https://primevue.org/card/#advanced">Advanced</a>
+				</h3>
+				<Card>
+					<template #content>
+						<img
+							alt="user header"
+							src="https://primefaces.org/cdn/primevue/images/usercard.png"
+						>
+					</template>
+					<template #footer>
+						<div class="flex mt-1 justify-end">
+							<Button label="Öffnen" icon="pi pi-arrow-right" />
+						</div>
+					</template>
+				</Card>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					ScrollPanel / -> <a href="https://primevue.org/scrollpanel/#basic">Basic</a>
+				</h3>
+				<!-- eslint-disable-next-line vue/no-static-inline-styles -->
+				<ScrollPanel style="width: 100%; height: 200px">
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
+					<p>
+						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+						voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+					</p>
+					<p>
+						At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui
+						officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+					</p>
+					<p class="m-0">
+						Quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non
+						recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat
+					</p>
+				</ScrollPanel>
 			</div>
 		</div>
 
@@ -399,7 +627,7 @@
 			<!-- Basic -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					ConfirmDialog Basic / Link: <a href="https://primevue.org/confirmdialog/#basic">Basic</a>
+					ConfirmDialog Basic / -> <a href="https://primevue.org/confirmdialog/#basic">Basic</a>
 				</h3>
 				<ConfirmDialog />
 				<div class="flex flex-wrap gap-2">
@@ -418,11 +646,11 @@
 			<!-- Popup -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Menu Popup / Link: <a href="https://primevue.org/menu/#popup">Popup</a>
+					Menu Popup / -> <a href="https://primevue.org/menu/#popup">Popup</a>
 				</h3>
 				<Menu popup />
 				<div class="flex">
-					<Button type="button" icon="pi pi-ellipsis-v" severity="secondary" variant="text" rounded aria-label="Menu" aria-haspopup="true" aria-controls="overlay_menu" @click="toggle" />
+					<Button icon="pi pi-ellipsis-v" severity="secondary" variant="text" rounded aria-label="Menu" aria-haspopup="true" aria-controls="overlay_menu" @click="toggle" />
 					<Menu id="overlay_menu" ref="menu" class="mt-2" :model="items" popup />
 				</div>
 			</div>
@@ -443,18 +671,24 @@
 					<Form v-slot="$form" :resolver="resolverBasic" :initial-values="initialValuesBasic" class="flex flex-col gap-4">
 						<div class="flex flex-col gap-1">
 							<FloatLabel variant="in">
-								<InputText id="in_label" name="username" type="text" variant="filled" />
-								<label for="in_label">Username</label>
+								<label for="username">Username</label>
+								<InputText id="username" name="username" type="text" variant="filled" />
 							</FloatLabel>
+							<Message size="small" severity="secondary" variant="simple">
+								Enter your username
+							</Message>
 							<Message v-if="$form.username?.invalid" severity="error" size="small" variant="simple">
 								{{ $form.username.error?.message }}
 							</Message>
 						</div>
 						<div class="flex flex-col gap-1">
 							<FloatLabel variant="in">
-								<InputText id="email" name="email" type="text" variant="filled" />
 								<label for="email">Email</label>
+								<InputText id="email" name="email" type="text" variant="filled" />
 							</FloatLabel>
+							<Message size="small" severity="secondary" variant="simple">
+								Enter your email
+							</Message>
 							<Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">
 								{{ $form.email.error?.message }}
 							</Message>
@@ -467,7 +701,7 @@
 			<!-- Checkbox -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Checkbox / Link: <a href="https://primevue.org/checkbox/">PrimeVue Checkbox</a>
+					Checkbox / -> <a href="https://primevue.org/checkbox/">Checkbox</a>
 				</h3>
 
 				<div class="flex">
@@ -500,10 +734,21 @@
 				</div>
 			</div>
 
+			<!-- DatePicker -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					DatePicker / -> <a href="https://primevue.org/datepicker/">DatePicker</a>
+				</h3>
+
+				<div class="flex">
+					<DatePicker />
+				</div>
+			</div>
+
 			<!-- IconField -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					IconField / Link: <a href="https://primevue.org/iconfield/">PrimeVue IconField</a>
+					IconField / -> <a href="https://primevue.org/iconfield/">IconField</a>
 				</h3>
 
 				<FloatLabel variant="in">
@@ -518,7 +763,7 @@
 			<!-- InputText -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					InputText / Link: <a href="https://primevue.org/inputtext/">PrimeVue InputText</a>
+					InputText / -> <a href="https://primevue.org/inputtext/">InputText</a>
 				</h3>
 
 				<FloatLabel variant="in">
@@ -530,7 +775,7 @@
 			<!-- MultiSelect -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					MultiSelect / Link: <a href="https://primevue.org/multiselect/">PrimeVue MultiSelect</a>
+					MultiSelect / -> <a href="https://primevue.org/multiselect/">MultiSelect</a>
 				</h3>
 
 				<div class="flex">
@@ -549,7 +794,7 @@
 			<!-- MultiSelect (Chip) -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					MultiSelect (Chip) / Link: <a href="https://primevue.org/multiselect/#chips">PrimeVue MultiSelect (Chip)</a>
+					MultiSelect (Chip) / -> <a href="https://primevue.org/multiselect/#chips">MultiSelect (Chip)</a>
 				</h3>
 
 				<div class="flex">
@@ -565,9 +810,23 @@
 				</div>
 			</div>
 
+			<!-- Password -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					RadioButton / Link: <a href="https://primevue.org/radiobutton/">PrimeVue RadioButton</a>
+					Password / -> <a href="https://primevue.org/password/">Password</a>
+				</h3>
+
+				<div class="flex">
+					<FloatLabel variant="in">
+						<Password input-id="password" variant="filled" :feedback="false" />
+						<label for="password">Password</label>
+					</FloatLabel>
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					RadioButton / -> <a href="https://primevue.org/radiobutton/">RadioButton</a>
 				</h3>
 
 				<div class="flex">
@@ -603,7 +862,7 @@
 			<!-- Select -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Select / Link: <a href="https://primevue.org/select/">PrimeVue Select</a>
+					Select / -> <a href="https://primevue.org/select/">Select</a>
 				</h3>
 
 				<div class="flex">
@@ -623,7 +882,7 @@
 			<!-- SelectButton -->
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					SelectButton / Link: <a href="https://primevue.org/selectbutton/">PrimeVue SelectButton</a>
+					SelectButton / -> <a href="https://primevue.org/selectbutton/">SelectButton</a>
 				</h3>
 
 				<div class="flex">
@@ -633,7 +892,7 @@
 
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Textarea / Link: <a href="https://primevue.org/textarea/">PrimeVue Textarea</a>
+					Textarea / -> <a href="https://primevue.org/textarea/">Textarea</a>
 				</h3>
 
 				<div class="flex">
@@ -644,37 +903,45 @@
 					</FloatLabel>
 				</div>
 			</div>
-
-			<div class="variant-group">
-				<h3 class="variant-heading">
-					ToggleButton / Link: <a href="https://primevue.org/togglebutton/">PrimeVue ToggleButton</a>
-				</h3>
-
-				<div class="flex">
-					<ToggleButton on-label="On" off-label="Off" />
-				</div>
-			</div>
-
-			<div class="variant-group">
-				<h3 class="variant-heading">
-					ToggleSwitch / Link: <a href="https://primevue.org/toggleswitch/">PrimeVue ToggleSwitch</a>
-				</h3>
-
-				<div class="flex">
-					<ToggleSwitch />
-				</div>
-			</div>
 		</div>
 
 		<h2 class="section-heading">
 			Misc
 		</h2>
 
-		<!-- Chip -->
+		<!-- Badge -->
 		<div class="flex flex-col gap-4">
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Chip Basic / Link: <a href="https://primevue.org/chip/#basic">Chip Basic</a>
+					Badge Severity / -> <a href="https://primevue.org/badge/#severity">Severity</a>
+				</h3>
+				<div class="flex flex-wrap gap-2">
+					<Badge value="2" />
+					<Badge value="6" severity="secondary" />
+					<Badge value="8" severity="success" />
+					<Badge value="4" severity="info" />
+					<Badge value="9" severity="warn" />
+					<Badge value="3" severity="danger" />
+					<Badge value="5" severity="contrast" />
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Badge Size / -> <a href="https://primevue.org/badge/#size">Size</a>
+				</h3>
+				<div class="flex flex-wrap gap-2">
+					<Badge value="8" size="xlarge" severity="success" />
+					<Badge value="6" size="large" severity="warn" />
+					<Badge value="4" severity="info" />
+					<Badge value="2" size="small" />
+				</div>
+			</div>
+
+			<!-- Chip -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Chip Basic / -> <a href="https://primevue.org/chip/#basic">Basic</a>
 				</h3>
 				<div class="flex flex-wrap gap-2">
 					<Chip label="Action" />
