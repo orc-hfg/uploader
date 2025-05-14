@@ -14,8 +14,11 @@
 	}
 
 	// SelectButton
-	const value = ref('Off');
-	const options = ref(['On', 'Off']);
+	const selectButtonValue = ref('Off');
+	const selectButtonOptions = ref(['On', 'Off']);
+
+	const selectButtonLanguageValue = ref('DE');
+	const selectButtonLanguageOptions = ref(['DE', 'EN']);
 
 	// Checkbox
 	const initialValuesCheckbox = ref({
@@ -157,6 +160,7 @@
 				{
 					label: 'Sprache',
 					icon: 'pi pi-language',
+					isLanguageItem: true,
 				},
 				{
 					label: 'zu Madek',
@@ -654,6 +658,32 @@
 					<Menu id="overlay_menu" ref="menu" class="mt-2" :model="items" popup />
 				</div>
 			</div>
+
+			<a class="variant-group">
+				<h3 class="variant-heading">
+					Menu Template / -> <a href="https://primevue.org/menu/#template">Template</a>
+				</h3>
+				<p class="mb-8 text-primary-600">Das Menu Item für die Sprache ist problematisch, da in der Menu-Komponente der Hover auf dem Item immer das gesamte Item kennzeichnet.</p>
+				<Menu :model="items" class="w-full md:w-80">
+					<template #item="{ item, props }">
+						<template v-if="item.isLanguageItem">
+							<div class="flex items-center justify-between">
+								<div class="flex items-center p-3 gap-2">
+									<span :class="item.icon" />
+									<span>{{ item.label }}</span>
+								</div>
+								<SelectButton v-model="selectButtonLanguageValue" :options="selectButtonLanguageOptions" />
+							</div>
+						</template>
+						<template v-else>
+							<a class="flex items-center" v-bind="props.action">
+								<span :class="item.icon" />
+								<span>{{ item.label }}</span>
+							</a>
+						</template>
+					</template>
+				</Menu>
+			</a>
 		</div>
 
 		<h2 class="section-heading">
@@ -886,7 +916,7 @@
 				</h3>
 
 				<div class="flex">
-					<SelectButton v-model="value" :options="options" />
+					<SelectButton v-model="selectButtonValue" :options="selectButtonOptions" />
 				</div>
 			</div>
 
@@ -909,11 +939,62 @@
 			Misc
 		</h2>
 
-		<!-- Badge -->
 		<div class="flex flex-col gap-4">
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Badge Severity / -> <a href="https://primevue.org/badge/#severity">Severity</a>
+					Avatar Label / -> <a href="https://primevue.org/avatar/#label">Label</a>
+				</h3>
+				<div class="flex flex-wrap gap-2 items-center">
+					<Avatar label="P" class="mr-2" size="xlarge" shape="circle" />
+					<Avatar label="P" class="mr-2" size="large" shape="circle" />
+					<Avatar label="P" class="mr-2" shape="circle" />
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Avatar Icon / -> <a href="https://primevue.org/avatar/#icon">Icon</a>
+				</h3>
+				<div class="flex flex-wrap gap-2 items-center">
+					<Avatar icon="pi pi-user" class="mr-2" size="xlarge" shape="circle" />
+					<Avatar icon="pi pi-user" class="mr-2" size="large" shape="circle" />
+					<Avatar icon="pi pi-user" class="mr-2" shape="circle" />
+				</div>
+			</div>
+
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Avatar Image / -> <a href="https://primevue.org/avatar/#image">Image</a>
+				</h3>
+				<div class="flex flex-wrap gap-6 items-center">
+					<OverlayBadge value="4">
+						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
+					</OverlayBadge>
+					<OverlayBadge value="4" severity="secondary">
+						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
+					</OverlayBadge>
+					<OverlayBadge value="4" severity="success">
+						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
+					</OverlayBadge>
+					<OverlayBadge value="4" severity="info">
+						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
+					</OverlayBadge>
+					<OverlayBadge value="4" severity="warn">
+						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
+					</OverlayBadge>
+					<OverlayBadge value="4" severity="danger">
+						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
+					</OverlayBadge>
+					<OverlayBadge value="4" severity="contrast">
+						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
+					</OverlayBadge>
+				</div>
+			</div>
+
+			<!-- Badge -->
+			<div class="variant-group">
+				<h3 class="variant-heading">
+					Badge Size / -> <a href="https://primevue.org/badge/#size">Size</a>
 				</h3>
 				<div class="flex flex-wrap gap-2">
 					<Badge value="2" />
@@ -962,7 +1043,7 @@
 	}
 
 	.variant-heading {
-		@apply text-lg font-semibold mb-2;
+		@apply text-lg font-semibold mb-4;
 	}
 
 	.section-heading {
