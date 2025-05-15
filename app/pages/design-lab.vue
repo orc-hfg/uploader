@@ -140,7 +140,6 @@
 	}]);
 
 	// Menu
-	const menu = useTemplateRef('menu');
 	const items = ref([
 		{
 			label: 'Profil',
@@ -181,12 +180,6 @@
 			],
 		},
 	]);
-
-	function toggle(event: MouseEvent) {
-		if (menu.value) {
-			menu.value.toggle(event);
-		}
-	}
 
 	// ConfirmDialog
 	const confirm = useConfirm();
@@ -653,22 +646,23 @@
 		<!-- Menu -->
 		<div class="flex flex-col gap-4">
 			<!-- Popup -->
+
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Menu Popup / -> <a href="https://primevue.org/menu/#popup">Popup</a>
+					Menu Basic / -> <a href="https://primevue.org/menu/#basic">Basic</a>
 				</h3>
-				<Menu popup />
 				<div class="flex">
-					<Button icon="pi pi-ellipsis-v" severity="secondary" variant="text" rounded aria-label="Menu" aria-haspopup="true" aria-controls="overlay_menu" @click="toggle" />
-					<Menu id="overlay_menu" ref="menu" class="mt-2" :model="items" popup />
+					<Menu :model="items" class="w-full md:w-80" />
 				</div>
 			</div>
 
-			<a class="variant-group">
+			<div class="variant-group">
 				<h3 class="variant-heading">
 					Menu Template / -> <a href="https://primevue.org/menu/#template">Template</a>
 				</h3>
-				<p class="mb-8 text-primary-600">Das Menu Item für die Sprache ist problematisch, da in der Menu-Komponente der Hover auf dem Item immer das gesamte Item kennzeichnet.</p>
+				<p class="mb-8 text-primary-600">
+					Das Menu Item für die Sprache ist problematisch, da in der Menu-Komponente der Hover auf dem Item immer das gesamte Item kennzeichnet.
+				</p>
 				<Menu :model="items" class="w-full md:w-80">
 					<template #item="{ item, props }">
 						<template v-if="item.isLanguageItem">
@@ -688,7 +682,7 @@
 						</template>
 					</template>
 				</Menu>
-			</a>
+			</div>
 		</div>
 
 		<h2 class="section-heading">
@@ -744,20 +738,20 @@
 						<div class="flex flex-col gap-2">
 							<CheckboxGroup name="ingredient" class="flex flex-wrap gap-4">
 								<div class="flex items-center gap-2">
-									<Checkbox input-id="cheese" value="Cheese" />
-									<label for="cheese"> Cheese </label>
+									<Checkbox input-id="cheesecake" value="Cheese" />
+									<label for="cheesecake"> Cheesecake </label>
 								</div>
 								<div class="flex items-center gap-2">
 									<Checkbox input-id="mushroom" value="Mushroom" />
 									<label for="mushroom"> Mushroom </label>
 								</div>
 								<div class="flex items-center gap-2">
-									<Checkbox input-id="pepper" value="Pepper" />
-									<label for="pepper"> Pepper </label>
+									<Checkbox input-id="apple" value="Apple" />
+									<label for="apple"> Apple </label>
 								</div>
 								<div class="flex items-center gap-2">
-									<Checkbox input-id="onion" value="Onion" />
-									<label for="onion"> Onion </label>
+									<Checkbox input-id="banana" value="Banana" />
+									<label for="banana"> Banana </label>
 								</div>
 							</CheckboxGroup>
 							<Message v-if="$form.ingredient?.invalid" severity="error" size="small" variant="simple">
@@ -789,9 +783,9 @@
 				<FloatLabel variant="in">
 					<IconField>
 						<InputIcon class="pi pi-search" />
-						<InputText id="in_label" autocomplete="off" variant="filled" />
+						<InputText id="in_label_iconfield" autocomplete="off" variant="filled" />
 					</IconField>
-					<label for="in_label">In Label</label>
+					<label for="in_label_iconfield">In Label</label>
 				</FloatLabel>
 			</div>
 
@@ -802,8 +796,8 @@
 				</h3>
 
 				<FloatLabel variant="in">
-					<InputText id="in_label" variant="filled" />
-					<label for="in_label">In Label</label>
+					<InputText id="in_label_inputtext" variant="filled" />
+					<label for="in_label_inputtext">In Label</label>
 				</FloatLabel>
 			</div>
 
@@ -865,16 +859,16 @@
 									<label for="cheese">Cheese</label>
 								</div>
 								<div class="flex items-center gap-2">
-									<RadioButton input-id="mushroom" value="Mushroom" variant="filled" />
-									<label for="mushroom">Mushroom</label>
+									<RadioButton input-id="salt" value="Salt" variant="filled" />
+									<label for="salt">Salt</label>
 								</div>
 								<div class="flex items-center gap-2">
 									<RadioButton input-id="pepper" value="Pepper" variant="filled" />
 									<label for="pepper">Pepper</label>
 								</div>
 								<div class="flex items-center gap-2">
-									<RadioButton input-id="onion" value="Onion" variant="filled" />
-									<label for="onion">Onion</label>
+									<RadioButton input-id="pineapple" value="Pineapple" variant="filled" />
+									<label for="pineapple">Pineapple</label>
 								</div>
 							</RadioButtonGroup>
 							<Message v-if="$form.ingredient?.invalid" severity="error" size="small" variant="simple">
