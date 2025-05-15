@@ -118,11 +118,6 @@ const preset = definePreset(Aura, {
 			},
 		},
 		components: {
-			autocomplete: {
-				chip: {
-					borderRadius: '{border.radius.none}',
-				},
-			},
 			badge: {
 				root: {
 					fontWeight: '500',
