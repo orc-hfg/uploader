@@ -117,128 +117,128 @@ const preset = definePreset(Aura, {
 				},
 			},
 		},
-		components: {
-			badge: {
-				root: {
-					fontWeight: '500',
+	},
+	components: {
+		badge: {
+			root: {
+				fontWeight: '500',
+			},
+			colorScheme: {
+				light: {
+					secondary: {
+						background: '{surface.50}',
+						color: '{surface.900}',
+					},
+					warn: {
+						background: '{primary.color}',
+					},
 				},
-				colorScheme: {
-					light: {
+			},
+		},
+		button: {
+			root: {
+				lg: {
+					fontSize: '1.25rem',
+				},
+			},
+			colorScheme: {
+				light: {
+					root: {
 						secondary: {
 							background: '{surface.50}',
+							hoverBackground: '{surface.100}',
+							activeBackground: '{surface.200}',
+							borderColor: '{surface.500}',
+							hoverBorderColor: '{surface.100}',
+							activeBorderColor: '{surface.200}',
 							color: '{surface.900}',
+							hoverColor: '{surface.950}',
+							activeColor: '{surface.9500}',
 						},
 						warn: {
 							background: '{primary.color}',
+							hoverBackground: '{primary.hover.color}',
+							activeBackground: '{primary.active.color}',
+							borderColor: '{primary.color}',
+							hoverBorderColor: '{primary.hover.color}',
+							activeBorderColor: '{primary.active.color}',
+							focusRing: {
+								color: '{primary.color}',
+							},
+						},
+						contrast: {
+							background: '{surface.900}',
+							hoverBackground: '{surface.950}',
+							activeBackground: '{surface.950}',
+							activeBorderColor: '{surface.950}',
 						},
 					},
-				},
-			},
-			button: {
-				root: {
-					lg: {
-						fontSize: '1.25rem',
-					},
-				},
-				colorScheme: {
-					light: {
-						root: {
-							secondary: {
-								background: '{surface.50}',
-								hoverBackground: '{surface.100}',
-								activeBackground: '{surface.200}',
-								borderColor: '{surface.500}',
-								hoverBorderColor: '{surface.100}',
-								activeBorderColor: '{surface.200}',
-								color: '{surface.900}',
-								hoverColor: '{surface.950}',
-								activeColor: '{surface.9500}',
-							},
-							warn: {
-								background: '{primary.color}',
-								hoverBackground: '{primary.hover.color}',
-								activeBackground: '{primary.active.color}',
-								borderColor: '{primary.color}',
-								hoverBorderColor: '{primary.hover.color}',
-								activeBorderColor: '{primary.active.color}',
-								focusRing: {
-									color: '{primary.color}',
-								},
-							},
-							contrast: {
-								background: '{surface.900}',
-								hoverBackground: '{surface.950}',
-								activeBackground: '{surface.950}',
-								activeBorderColor: '{surface.950}',
-							},
+					outlined: {
+						primary: {
+							borderColor: '{primary.500}',
 						},
-						outlined: {
-							primary: {
-								borderColor: '{primary.500}',
-							},
-							secondary: {
-								hoverBackground: '{surface.100}',
-								activeBackground: '{surface.200}',
-								borderColor: '{surface.400}',
-								color: '{surface.900}',
-							},
-						},
-						text: {
-							secondary: {
-								hoverBackground: '{surface.100}',
-								activeBackground: '{surface.200}',
-								color: '{surface.900}',
-							},
-						},
-					},
-				},
-			},
-			checkbox: {
-				root: {
-					borderColor: '{surface.300}',
-				},
-			},
-			chip: {
-				root: {
-					borderRadius: '2rem',
-				},
-				colorScheme: {
-					light: {
-						root: {
+						secondary: {
+							hoverBackground: '{surface.100}',
+							activeBackground: '{surface.200}',
+							borderColor: '{surface.400}',
 							color: '{surface.900}',
 						},
-						icon: {
-							color: '{surface.900}',
-						},
-						removeIcon: {
+					},
+					text: {
+						secondary: {
+							hoverBackground: '{surface.100}',
+							activeBackground: '{surface.200}',
 							color: '{surface.900}',
 						},
 					},
 				},
 			},
-			multiselect: {
-				dropdown: {
-					color: '{surface.950}',
+		},
+		checkbox: {
+			root: {
+				borderColor: '{surface.300}',
+			},
+		},
+		chip: {
+			root: {
+				borderRadius: '2rem',
+			},
+			colorScheme: {
+				light: {
+					root: {
+						color: '{surface.900}',
+					},
+					icon: {
+						color: '{surface.900}',
+					},
+					removeIcon: {
+						color: '{surface.900}',
+					},
 				},
 			},
-			radiobutton: {
-				root: {
-					borderColor: '{surface.300}',
-				},
+		},
+		multiselect: {
+			dropdown: {
+				color: '{surface.950}',
 			},
-			togglebutton: {
-				content: {
-					checkedShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.00), 0px 1px 2px 0px rgba(0, 0, 0, 0.00)',
-				},
-				colorScheme: {
-					light: {
-						root: {
-							checkedColor: '{surface.0}',
-							checkedBorderColor: '{primary.500}',
-						},
-						content: {
-							checkedBackground: '{primary.500}',
-						},
+		},
+		radiobutton: {
+			root: {
+				borderColor: '{surface.300}',
+			},
+		},
+		togglebutton: {
+			content: {
+				checkedShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.00), 0px 1px 2px 0px rgba(0, 0, 0, 0.00)',
+			},
+			colorScheme: {
+				light: {
+					root: {
+						checkedColor: '{surface.0}',
+						checkedBorderColor: '{primary.500}',
+					},
+					content: {
+						checkedBackground: '{primary.500}',
 					},
 				},
 			},

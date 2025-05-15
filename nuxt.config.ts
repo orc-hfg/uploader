@@ -28,7 +28,7 @@ export default defineNuxtConfig({
 		},
 	},
 	primevue: {
-		importTheme: { from: '@/theme/primevue.ts' },
+		importTheme: { from: '@/theme/primevue-theme-application.ts' },
 	},
 	eslint: {
 		config: {

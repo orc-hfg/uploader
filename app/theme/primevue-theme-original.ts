@@ -1,3 +1,8 @@
+/*
+ * This file documents the complete original Aura theme.
+ * No changes should be made to this file.
+ */
+
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
