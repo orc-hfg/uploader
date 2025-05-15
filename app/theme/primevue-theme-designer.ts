@@ -17,6 +17,19 @@ const preset = definePreset(Aura, {
 			xl: '12px',
 		},
 		emerald: {
+			50: '#ecfdf5',
+			100: '#d1fae5',
+			200: '#a7f3d0',
+			300: '#6ee7b7',
+			400: '#34d399',
+			500: '#10b981',
+			600: '#059669',
+			700: '#047857',
+			800: '#065f46',
+			900: '#064e3b',
+			950: '#022c22',
+		},
+		flame: {
 			50: '#FFF1EB',
 			100: '#FFDBCC',
 			200: '#FFB899',
@@ -316,17 +329,17 @@ const preset = definePreset(Aura, {
 		iconSize: '1rem',
 		anchorGutter: '2px',
 		primary: {
-			50: '{emerald.50}',
-			100: '{emerald.100}',
-			200: '{emerald.200}',
-			300: '{emerald.300}',
-			400: '{emerald.400}',
-			500: '{emerald.500}',
-			600: '{emerald.600}',
-			700: '{emerald.700}',
-			800: '{emerald.800}',
-			900: '{emerald.900}',
-			950: '{emerald.950}',
+			50: '{flame.50}',
+			100: '{flame.100}',
+			200: '{flame.200}',
+			300: '{flame.300}',
+			400: '{flame.400}',
+			500: '{flame.500}',
+			600: '{flame.600}',
+			700: '{flame.700}',
+			800: '{flame.800}',
+			900: '{flame.900}',
+			950: '{flame.950}',
 		},
 		formField: {
 			paddingX: '0.75rem',
@@ -513,8 +526,8 @@ const preset = definePreset(Aura, {
 				},
 				navigation: {
 					item: {
-						focusBackground: '{surface.100}',
-						activeBackground: '{surface.100}',
+						focusBackground: '{surface.50}',
+						activeBackground: '{surface.50}',
 						color: '{text.color}',
 						focusColor: '{text.hover.color}',
 						activeColor: '{text.hover.color}',
@@ -791,7 +804,8 @@ const preset = definePreset(Aura, {
 				},
 			},
 			chip: {
-				borderRadius: '{border.radius.sm}',
+				// TODO: Wolltest du bewusst den Border der Chips in der Autocomplete-Komponente entfernen?
+				borderRadius: '{border.radius.none}',
 			},
 			emptyMessage: {
 				padding: '{list.option.padding}',
@@ -832,7 +846,7 @@ const preset = definePreset(Aura, {
 				width: '2rem',
 				height: '2rem',
 				fontSize: '1rem',
-				background: '{content.border.color}',
+				background: '{surface.100}',
 				color: '{content.color}',
 				borderRadius: '{content.border.radius}',
 			},
@@ -1004,7 +1018,8 @@ const preset = definePreset(Aura, {
 					iconOnlyWidth: '2rem',
 				},
 				lg: {
-					fontSize: '{form.field.lg.font.size}',
+					// TODO: Wert ggf. besser in Zeile 340 ändern?
+					fontSize: '1.25rem',
 					paddingX: '{form.field.lg.padding.x}',
 					paddingY: '{form.field.lg.padding.y}',
 					iconOnlyWidth: '3rem',
@@ -1629,12 +1644,13 @@ const preset = definePreset(Aura, {
 				borderRadius: '{border.radius.sm}',
 				width: '1.25rem',
 				height: '1.25rem',
-				background: '{form.field.background}',
+				background: '{surface.0}',
 				checkedBackground: '{primary.color}',
 				checkedHoverBackground: '{primary.hover.color}',
 				disabledBackground: '{form.field.disabled.background}',
 				filledBackground: '{form.field.filled.background}',
-				borderColor: '{surface.300}',
+				// TODO: Wolltest du bewusst den Border vom Standard-Border der FormFields entkoppeln?
+				borderColor: '{surface.400}',
 				hoverBorderColor: '{form.field.hover.border.color}',
 				focusBorderColor: '{form.field.border.color}',
 				checkedBorderColor: '{primary.color}',
@@ -1676,7 +1692,7 @@ const preset = definePreset(Aura, {
 		},
 		chip: {
 			root: {
-				borderRadius: '2rem',
+				borderRadius: '{border.radius.none}',
 				paddingX: '0.75rem',
 				paddingY: '0.5rem',
 				gap: '0.5rem',
@@ -2809,7 +2825,7 @@ const preset = definePreset(Aura, {
 				transitionDuration: '{form.field.transition.duration}',
 			},
 			chip: {
-				borderRadius: '{border.radius.sm}',
+				borderRadius: '{border.radius.none}',
 			},
 			colorScheme: {
 				light: {
@@ -3590,7 +3606,7 @@ const preset = definePreset(Aura, {
 				padding: '{list.option.group.padding}',
 			},
 			chip: {
-				borderRadius: '{border.radius.sm}',
+				borderRadius: '{border.radius.none}',
 			},
 			clearIcon: {
 				color: '{form.field.icon.color}',
@@ -3855,12 +3871,12 @@ const preset = definePreset(Aura, {
 			root: {
 				width: '1.25rem',
 				height: '1.25rem',
-				background: '{form.field.background}',
+				background: '{surface.0}',
 				checkedBackground: '{primary.color}',
 				checkedHoverBackground: '{primary.hover.color}',
 				disabledBackground: '{form.field.disabled.background}',
 				filledBackground: '{form.field.filled.background}',
-				borderColor: '{surface.300}',
+				borderColor: '{surface.400}',
 				hoverBorderColor: '{form.field.hover.border.color}',
 				focusBorderColor: '{form.field.border.color}',
 				checkedBorderColor: '{primary.color}',
@@ -4841,8 +4857,8 @@ const preset = definePreset(Aura, {
 				borderRadius: '{content.border.radius}',
 				gap: '0.5rem',
 				fontWeight: '500',
-				disabledBackground: '{form.field.disabled.background}',
-				disabledBorderColor: '{form.field.disabled.background}',
+				disabledBackground: '{form.field.background}',
+				disabledBorderColor: '{form.field.background}',
 				disabledColor: '{form.field.disabled.color}',
 				invalidBorderColor: '{form.field.invalid.border.color}',
 				focusRing: {
@@ -4879,14 +4895,14 @@ const preset = definePreset(Aura, {
 			colorScheme: {
 				light: {
 					root: {
-						background: '{surface.100}',
-						checkedBackground: '{surface.100}',
+						background: '{surface.50}',
+						checkedBackground: '{surface.50}',
 						hoverBackground: '{surface.100}',
 						borderColor: '{surface.100}',
 						color: '{surface.500}',
 						hoverColor: '{surface.700}',
 						checkedColor: '{surface.0}',
-						checkedBorderColor: '{primary.500}',
+						checkedBorderColor: '{surface.100}',
 					},
 					content: {
 						checkedBackground: '{primary.500}',
