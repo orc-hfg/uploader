@@ -3,19 +3,6 @@ import Aura from '@primeuix/themes/aura';
 
 const preset = definePreset(Aura, {
 	primitive: {
-		emerald: {
-			50: '#FFF1EB',
-			100: '#FFDBCC',
-			200: '#FFB899',
-			300: '#FF8957',
-			400: '#FF621F',
-			500: '#FF4D00',
-			600: '#E54500',
-			700: '#762604',
-			800: '#602106',
-			900: '#4B1B06',
-			950: '#2E0E00',
-		},
 		red: {
 			50: '#FFF1EB',
 			100: '#FFDBCC',
@@ -44,8 +31,22 @@ const preset = definePreset(Aura, {
 		},
 	},
 	semantic: {
+		primary: {
+			50: '{red.50}',
+			100: '{red.100}',
+			200: '{red.200}',
+			300: '{red.300}',
+			400: '{red.400}',
+			500: '{red.500}',
+			600: '{red.600}',
+			700: '{red.700}',
+			800: '{red.800}',
+			900: '{red.900}',
+			950: '{red.950}',
+		},
 		formField: {
 			lg: {
+				fontSize: '1.25rem',
 				paddingX: '0.6rem',
 				paddingY: '0.3rem',
 			},
@@ -108,6 +109,8 @@ const preset = definePreset(Aura, {
 				},
 				navigation: {
 					item: {
+						focusBackground: '{surface.50}',
+						activeBackground: '{surface.50}',
 						icon: {
 							color: '{text.color}',
 							focusColor: '{text.color}',
@@ -119,6 +122,16 @@ const preset = definePreset(Aura, {
 		},
 	},
 	components: {
+		autocomplete: {
+			chip: {
+				borderRadius: '{border.radius.none}',
+			},
+		},
+		avatar: {
+			root: {
+				background: '{surface.100}',
+			},
+		},
 		badge: {
 			root: {
 				fontWeight: '500',
@@ -196,12 +209,13 @@ const preset = definePreset(Aura, {
 		},
 		checkbox: {
 			root: {
-				borderColor: '{surface.300}',
+				background: '{surface.0}',
+				borderColor: '{surface.400}',
 			},
 		},
 		chip: {
 			root: {
-				borderRadius: '2rem',
+				borderRadius: '{border.radius.none}',
 			},
 			colorScheme: {
 				light: {
@@ -217,25 +231,40 @@ const preset = definePreset(Aura, {
 				},
 			},
 		},
+		inputchips: {
+			chip: {
+				borderRadius: '{border.radius.none}',
+			},
+		},
 		multiselect: {
 			dropdown: {
 				color: '{surface.950}',
 			},
+			chip: {
+				borderRadius: '{border.radius.none}',
+			},
 		},
 		radiobutton: {
 			root: {
-				borderColor: '{surface.300}',
+				background: '{surface.0}',
+				borderColor: '{surface.400}',
 			},
 		},
 		togglebutton: {
+			root: {
+				disabledBackground: '{form.field.background}',
+				disabledBorderColor: '{form.field.background}',
+			},
 			content: {
 				checkedShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.00), 0px 1px 2px 0px rgba(0, 0, 0, 0.00)',
 			},
 			colorScheme: {
 				light: {
 					root: {
+						background: '{surface.50}',
+						checkedBackground: '{surface.50}',
 						checkedColor: '{surface.0}',
-						checkedBorderColor: '{primary.500}',
+						checkedBorderColor: '{surface.100}',
 					},
 					content: {
 						checkedBackground: '{primary.500}',

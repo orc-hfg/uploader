@@ -2,6 +2,7 @@
 	import { zodResolver } from '@primevue/forms/resolvers/zod';
 	import { useConfirm } from 'primevue/useconfirm';
 	import { z } from 'zod';
+	import { themeDesignerVersion } from '../theme/primevue-theme-designer';
 
 	// Button Loading
 	const loading = ref(false);
@@ -223,6 +224,8 @@
 	<div class="pt-8 pb-32 px-4 max-w-4xl mx-auto">
 		<h1 class="text-3xl font-bold mb-8">
 			Design Lab
+			<br>
+			<small>Theme Designer Version: {{ themeDesignerVersion }}</small>
 		</h1>
 
 		<h2 class="section-heading">

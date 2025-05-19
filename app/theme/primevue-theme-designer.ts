@@ -6,6 +6,12 @@
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
+/*
+ * Please update this version number when you make changes to the theme.
+ * It will be shown in the design lab.
+ */
+export const themeDesignerVersion = '0.4.0';
+
 const preset = definePreset(Aura, {
 	primitive: {
 		borderRadius: {
@@ -28,19 +34,6 @@ const preset = definePreset(Aura, {
 			800: '#065f46',
 			900: '#064e3b',
 			950: '#022c22',
-		},
-		flame: {
-			50: '#FFF1EB',
-			100: '#FFDBCC',
-			200: '#FFB899',
-			300: '#FF8957',
-			400: '#FF621F',
-			500: '#FF4D00',
-			600: '#E54500',
-			700: '#762604',
-			800: '#602106',
-			900: '#4B1B06',
-			950: '#2E0E00',
 		},
 		green: {
 			50: '#f0fdf4',
@@ -329,17 +322,17 @@ const preset = definePreset(Aura, {
 		iconSize: '1rem',
 		anchorGutter: '2px',
 		primary: {
-			50: '{flame.50}',
-			100: '{flame.100}',
-			200: '{flame.200}',
-			300: '{flame.300}',
-			400: '{flame.400}',
-			500: '{flame.500}',
-			600: '{flame.600}',
-			700: '{flame.700}',
-			800: '{flame.800}',
-			900: '{flame.900}',
-			950: '{flame.950}',
+			50: '{red.50}',
+			100: '{red.100}',
+			200: '{red.200}',
+			300: '{red.300}',
+			400: '{red.400}',
+			500: '{red.500}',
+			600: '{red.600}',
+			700: '{red.700}',
+			800: '{red.800}',
+			900: '{red.900}',
+			950: '{red.950}',
 		},
 		formField: {
 			paddingX: '0.75rem',
@@ -350,7 +343,7 @@ const preset = definePreset(Aura, {
 				paddingY: '0.375rem',
 			},
 			lg: {
-				fontSize: '1.125rem',
+				fontSize: '1.25rem',
 				paddingX: '0.6rem',
 				paddingY: '0.3rem',
 			},
@@ -804,7 +797,6 @@ const preset = definePreset(Aura, {
 				},
 			},
 			chip: {
-				// TODO: Wolltest du bewusst den Border der Chips in der Autocomplete-Komponente entfernen?
 				borderRadius: '{border.radius.none}',
 			},
 			emptyMessage: {
@@ -1018,8 +1010,7 @@ const preset = definePreset(Aura, {
 					iconOnlyWidth: '2rem',
 				},
 				lg: {
-					// TODO: Wert ggf. besser in Zeile 340 ändern?
-					fontSize: '1.25rem',
+					fontSize: '{form.field.lg.font.size}',
 					paddingX: '{form.field.lg.padding.x}',
 					paddingY: '{form.field.lg.padding.y}',
 					iconOnlyWidth: '3rem',
@@ -1649,7 +1640,6 @@ const preset = definePreset(Aura, {
 				checkedHoverBackground: '{primary.hover.color}',
 				disabledBackground: '{form.field.disabled.background}',
 				filledBackground: '{form.field.filled.background}',
-				// TODO: Wolltest du bewusst den Border vom Standard-Border der FormFields entkoppeln?
 				borderColor: '{surface.400}',
 				hoverBorderColor: '{form.field.hover.border.color}',
 				focusBorderColor: '{form.field.border.color}',
