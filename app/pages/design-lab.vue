@@ -540,9 +540,9 @@
 		<div class="flex flex-col gap-4">
 			<div class="variant-group">
 				<h3 class="variant-heading">
-					Accordion Basic/ -> <a href="https://primevue.org/accordion/#basic">Basic</a>
+					Accordion Multiple / -> <a href="https://primevue.org/accordion/#multiple">Multiple</a>
 				</h3>
-				<Accordion value="0">
+				<Accordion :value="['0']" multiple>
 					<AccordionPanel value="0">
 						<AccordionHeader>Header I</AccordionHeader>
 						<AccordionContent>
