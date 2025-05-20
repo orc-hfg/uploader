@@ -42,7 +42,6 @@ export default defineNuxtConfig({
 	},
 	app: {
 		head: {
-			title: 'Uploader',
 			htmlAttrs: {
 				lang: 'de',
 			},

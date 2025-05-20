@@ -8,6 +8,11 @@
 	"project": [
 		"app/**"
 	],
+	"ignore": [
+		"app/composables/**",
+		"app/app.config.ts"
+
+	],
 	"ignoreDependencies": [
 		"@nuxt/devtools",
 		"@nuxt/eslint",
