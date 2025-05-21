@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
+import devtoolsJson from 'vite-plugin-devtools-json';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -12,7 +13,7 @@ export default defineNuxtConfig({
 	},
 	css: ['@/assets/css/main.css'],
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [tailwindcss(), devtoolsJson()],
 	},
 	modules: [
 		'@nuxtjs/google-fonts',
