@@ -1,4 +1,10 @@
 <script setup lang="ts">
+	const metaTitle = useMetaTitle('Example2');
+
+	useHead({
+		title: metaTitle,
+	});
+
 	const { data: user2 } = await useCachedAsyncData('user', () => getUserRepository().getAuthInfo());
 </script>
 

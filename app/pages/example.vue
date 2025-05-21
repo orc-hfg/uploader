@@ -1,4 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+	const metaTitle = useMetaTitle('Example');
+
+	useHead({
+		title: metaTitle,
+	});
+
 	const userStore = useUserStore();
 	await callOnce(() => userStore.refreshData(), { mode: 'navigation' }); // executed once on every page visit
 
