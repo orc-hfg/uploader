@@ -3,14 +3,14 @@
 	"entry": [
 		"app/app.vue",
 		"app/pages/**/*.vue",
-		"app/theme/*.ts"
+		"app/theme/*.ts",
+		"app/layouts/*.vue"
 	],
 	"project": [
 		"app/**"
 	],
 	"ignore": [
 		"app/composables/**",
-		"app/layouts/**",
 		"app/app.config.ts"
 
 	],
