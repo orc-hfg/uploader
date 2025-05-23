@@ -4,6 +4,10 @@
 	import { z } from 'zod';
 	import { themeDesignerVersion } from '../theme/primevue-theme-designer';
 
+	definePageMeta({
+		layout: false,
+	});
+
 	// Button Loading
 	const loading = ref(false);
 
@@ -1030,6 +1034,9 @@
 </template>
 
 <style scoped>
+	/* See:
+		- https://tailwindcss.com/docs/functions-and-directives#reference-directive
+		- https://github.com/tailwindlabs/tailwindcss/issues/15717 */
 	@reference "@/assets/css/main.css";
 
 	.variant-group {

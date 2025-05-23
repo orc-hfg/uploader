@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+	definePageMeta({
+		layout: false,
+	});
+
 	const metaTitle = useMetaTitle('Example');
 
 	useHead({
