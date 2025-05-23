@@ -10,6 +10,7 @@
 	],
 	"ignore": [
 		"app/composables/**",
+		"app/layouts/**",
 		"app/app.config.ts"
 
 	],
@@ -20,6 +21,8 @@
 		"@orc-hfg/madek-api-nuxt-layer",
 		"@primevue/nuxt-module",
 		"@primevue/forms",
+		"@vueuse/core",
+		"@vueuse/nuxt",
 		"primeicons",
 		"primevue",
 		"tailwindcss",
