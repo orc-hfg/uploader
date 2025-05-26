@@ -6,70 +6,77 @@
 	const overlayReference = useTemplateRef<MaybeElement>('overlayReference');
 	const mainReference = useTemplateRef<MaybeElement>('mainReference');
 
-	const BLUR_TARGET = 20;
-	const OPACITY_TARGET = 0.5;
+	const LOGO_CONTAINER_BLUR_TARGET = 20;
+	const OVERLAY_OPACITY_TARGET = 0.5;
+	const MAIN_OPACITY_TARGET = 1;
 
-	const LOGO_DELAY = 500;
-	const LOGO_DURATION = 300;
+	const LOGO_CONTAINER_DELAY = 300;
+	const LOGO_CONTAINER_DURATION = 300;
 	const OVERLAY_DURATION = 500;
 	const MAIN_DURATION = 300;
 
-	const OVERLAY_START_PERCENTAGE = 0.5;
-	const OVERLAY_DELAY = LOGO_DELAY + (LOGO_DURATION * OVERLAY_START_PERCENTAGE);
+	const OVERLAY_START_PERCENTAGE = 0.1;
+	const OVERLAY_DELAY = LOGO_CONTAINER_DELAY + (LOGO_CONTAINER_DURATION * OVERLAY_START_PERCENTAGE);
 
-	function startAnimationSequence() {
-		animateLogo();
-
-		setTimeout(animateOverlay, OVERLAY_DELAY);
-	}
-
-	function animateLogo() {
-		useAnimate(
-			logoContainerReference,
+	function setupAnimations() {
+		const logoAnimation = useAnimate(
+			logoContainerReference.value,
 			[
-				{ filter: `blur(${BLUR_TARGET}px)` },
+				{ filter: `blur(${LOGO_CONTAINER_BLUR_TARGET}px)` },
 			],
 			{
-				duration: LOGO_DURATION,
-				delay: LOGO_DELAY,
-				easing: 'ease-out',
+				duration: LOGO_CONTAINER_DURATION,
+				delay: LOGO_CONTAINER_DELAY,
+				easing: 'ease-in',
 				fill: 'forwards',
+				immediate: false,
 			},
 		);
-	}
 
-	function animateOverlay() {
-		useAnimate(
-			overlayReference,
+		const overlayAnimation = useAnimate(
+			overlayReference.value,
 			[
-				{ opacity: OPACITY_TARGET },
+				{ opacity: OVERLAY_OPACITY_TARGET },
 			],
 			{
 				duration: OVERLAY_DURATION,
-				easing: 'ease-out',
+				easing: 'ease-in',
 				fill: 'forwards',
-				onReady: (animation) => {
-					animation.onfinish = animateMain;
-				},
+				immediate: false,
 			},
 		);
-	}
 
-	function animateMain() {
-		useAnimate(
-			mainReference,
+		const mainAnimation = useAnimate(
+			mainReference.value,
 			[
-				{ opacity: 1 },
+				{ opacity: MAIN_OPACITY_TARGET },
 			],
 			{
 				duration: MAIN_DURATION,
-				easing: 'ease-out',
+				easing: 'ease-in',
 				fill: 'forwards',
+				immediate: false,
 			},
 		);
+
+		return { logoAnimation, overlayAnimation, mainAnimation };
 	}
 
-	startAnimationSequence();
+	async function startSequence() {
+		const { logoAnimation, overlayAnimation, mainAnimation } = setupAnimations();
+
+		logoAnimation.play();
+
+		await new Promise(resolve => setTimeout(resolve, OVERLAY_DELAY));
+		overlayAnimation.play();
+
+		await new Promise(resolve => setTimeout(resolve, OVERLAY_DURATION));
+		mainAnimation.play();
+	}
+
+	onMounted(() => {
+		startSequence();
+	});
 </script>
 
 <template>
