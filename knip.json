@@ -11,6 +11,7 @@
 	],
 	"ignore": [
 		"app/composables/**",
+		"app/middleware/**",
 		"app/app.config.ts"
 
 	],

@@ -1033,7 +1033,7 @@
 	</div>
 </template>
 
-<style scoped>
+<style lang="css" scoped>
 	/* See:
 		- https://tailwindcss.com/docs/functions-and-directives#reference-directive
 		- https://github.com/tailwindlabs/tailwindcss/issues/15717 */
