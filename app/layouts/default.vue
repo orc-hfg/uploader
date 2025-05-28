@@ -86,11 +86,11 @@
 			class="overlay fixed inset-0 opacity-0 z-1 bg-surface-300"
 		/>
 		<div class="grid place-items-center h-screen">
-			<div ref="logoContainerReference">
+			<div ref="logoContainerReference" class="p-24">
 				<Logo />
 			</div>
 
-			<main ref="mainReference" class="w-[600px] h-[800px] overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fixed z-2 bg-surface-0 opacity-0">
+			<main ref="mainReference" class="w-full h-full lg:w-[600px] lg:h-[800px] overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fixed z-2 bg-surface-0 opacity-0">
 				<slot />
 			</main>
 		</div>
