@@ -20,6 +20,7 @@ export default defineNuxtConfig({
 		'@primevue/nuxt-module',
 		'@nuxt/eslint',
 		'@nuxt/test-utils/module',
+		'@vueuse/nuxt',
 	],
 	googleFonts: {
 		display: 'swap',

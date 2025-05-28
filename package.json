@@ -41,6 +41,7 @@
 		"@orc-hfg/madek-api-nuxt-layer": "1.1.16",
 		"@primeuix/themes": "1.1.1",
 		"@primevue/forms": "4.3.4",
+		"@vueuse/nuxt": "13.2.0",
 		"nuxt": "3.17.2",
 		"primeicons": "7.0.0",
 		"primevue": "4.3.4",

@@ -246,7 +246,6 @@ export default withNuxt(
 				'perfectionist/sort-object-types': 'error',
 				'perfectionist/sort-switch-case': 'error',
 				'perfectionist/sort-decorators': 'error',
-				'perfectionist/sort-interfaces': 'error',
 				'perfectionist/sort-enums': 'error',
 				'perfectionist/sort-sets': 'error',
 				'perfectionist/sort-maps': 'error',
