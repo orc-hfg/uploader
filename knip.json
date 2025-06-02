@@ -10,8 +10,10 @@
 		"app/**"
 	],
 	"ignore": [
+		"app/components/**",
 		"app/composables/**",
 		"app/middleware/**",
+		"app/stores/**",
 		"app/app.config.ts"
 
 	],
@@ -21,15 +23,12 @@
 		"@nuxtjs/google-fonts",
 		"@orc-hfg/madek-api-nuxt-layer",
 		"@primevue/nuxt-module",
-		"@primevue/forms",
 		"@vueuse/core",
 		"@vueuse/nuxt",
 		"primeicons",
-		"primevue",
 		"tailwindcss",
 		"tailwindcss-primeui",
 		"vitest-environment-nuxt",
-		"vue",
 		"vue-tsc",
 		"vue-router",
 		"zod"

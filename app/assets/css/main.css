@@ -9,3 +9,12 @@ html {
 	font-style: normal;
 	font-variation-settings: "wdth" 100;
 }
+
+/* Default theme overrides */
+/* Default theme variables: https://tailwindcss.com/docs/theme#default-theme-variables */
+@theme {
+	--breakpoint-sm: 37rem;
+
+	--text-xl: 1.375rem;
+	--text-xl--line-height: calc(1.75 / 1.375);
+}
