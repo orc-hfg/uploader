@@ -10,6 +10,33 @@ html {
 	font-variation-settings: "wdth" 100;
 }
 
+/* See `app/theme/primevue-theme-application.ts` for PrimeVue layers */
+/* CSS Snippets from Jeremy Keith: https://adactio.com/journal/21896 */
+@layer core {
+	figcaption {
+		max-inline-size: max-content;
+		margin-inline: auto;
+	}
+
+	a:focus-visible {
+		outline-offset: 0.25em;
+		outline-width: 0.25em;
+		outline-color: currentColor;
+	}
+
+	ul,
+	ol,
+	dl,
+	dt,
+	dd,
+	p,
+	figure,
+	blockquote {
+		hanging-punctuation: first last;
+		text-wrap: pretty;
+	}
+}
+
 /* Default theme overrides */
 /* Default theme variables: https://tailwindcss.com/docs/theme#default-theme-variables */
 @theme {
