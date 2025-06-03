@@ -19,12 +19,15 @@ export default defineNuxtConfig({
 		plugins: [tailwindcss(), devtoolsJson()],
 	},
 	modules: [
-		'@nuxtjs/google-fonts',
-		'@primevue/nuxt-module',
 		'@nuxt/eslint',
 		'@nuxt/test-utils/module',
+		'@nuxtjs/google-fonts',
+		'@primevue/nuxt-module',
 		'@vueuse/nuxt',
 	],
+	imports: {
+		dirs: ['stores'],
+	},
 	googleFonts: {
 		display: 'swap',
 		families: {

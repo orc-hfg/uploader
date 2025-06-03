@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-	import { useFooterUIStore } from '@/stores/footer-ui';
-	import { useHeaderUIStore } from '@/stores/header-ui';
 	import Button from 'primevue/button';
 
 	definePageMeta({
