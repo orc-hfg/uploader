@@ -10,9 +10,9 @@
 		"app/**"
 	],
 	"ignore": [
-		"app/components/**",
 		"app/composables/**",
 		"app/middleware/**",
+		"app/utils/**",
 		"app/stores/**",
 		"app/app.config.ts"
 
@@ -25,8 +25,8 @@
 		"@primevue/nuxt-module",
 		"@vueuse/core",
 		"@vueuse/nuxt",
+		"pinia",
 		"primeicons",
-		"tailwindcss",
 		"tailwindcss-primeui",
 		"vitest-environment-nuxt",
 		"vue-tsc",

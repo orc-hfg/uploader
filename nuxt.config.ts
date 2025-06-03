@@ -8,6 +8,9 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: '2025-05-09',
 	devtools: { enabled: true },
+	components: {
+		dirs: [],
+	},
 	typescript: {
 		typeCheck: true,
 	},

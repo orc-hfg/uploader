@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 	import type { MaybeElement } from '@vueuse/core';
 	import Logo from '@/components/brand/Logo.vue';
+	import Footer from '@/components/Footer.vue';
+	import Header from '@/components/Header.vue';
 
 	const logoReference = useTemplateRef<MaybeElement>('logoReference');
 	const overlayReference = useTemplateRef<MaybeElement>('overlayReference');
