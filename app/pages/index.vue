@@ -35,7 +35,7 @@
 
 <template>
 	<div class="h-full">
-		<div class="text-2xl font-bold bg-primary-200 text-primary-50 p-4 h-full">
+		<div class="h-full bg-primary-200 p-4 text-2xl font-bold text-primary-50">
 			<NuxtLink to="/projects">
 				Projects
 			</NuxtLink>

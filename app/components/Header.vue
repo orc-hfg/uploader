@@ -8,12 +8,12 @@
 </script>
 
 <template>
-	<div class="flex items-center justify-between h-full px-4">
+	<div class="flex h-full items-center justify-between px-4">
 		<div class="w-10">
 			Left
 		</div>
 
-		<h1 class="text-xl text-center">
+		<h1 class="text-center text-xl">
 			<Fade>
 				<span :key="title">{{ title }}</span>
 			</Fade>

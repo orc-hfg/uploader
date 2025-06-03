@@ -1,6 +1,7 @@
 // Further configuration examples can be found at the end of the file
 
 import antfu from '@antfu/eslint-config';
+import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import eslintPluginSonarJs from 'eslint-plugin-sonarjs';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
@@ -269,7 +270,35 @@ export default withNuxt(
 		},
 		{
 			files: ['**/*.vue'],
+			plugins: {
+				'better-tailwindcss': eslintPluginBetterTailwindcss,
+			},
+			settings: {
+				'better-tailwindcss': {
+					entryPoint: './app/assets/css/main.css',
+				},
+			},
 			rules: {
+				...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+				'better-tailwindcss/enforce-consistent-variable-syntax': 'error',
+				'better-tailwindcss/multiline': [
+					'error',
+					{
+						printWidth: 100,
+					},
+				],
+				// 'better-tailwindcss/no-conflicting-classes': 'error',
+				'better-tailwindcss/no-restricted-classes': [
+					'error',
+					{
+						restrict: [
+							// eslint-disable-next-line unicorn/prefer-string-raw
+							'^\\*+:.*',
+							'^.*!$',
+						],
+					},
+				],
+				'better-tailwindcss/no-unregistered-classes': 'off',
 				'vue/block-lang': [
 					'error',
 					{

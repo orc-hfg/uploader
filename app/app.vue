@@ -82,7 +82,13 @@
 <template>
 	<NuxtRouteAnnouncer />
 	<div>
-		<div ref="contentReference" class="w-full h-full sm:w-[600px] sm:h-[800px] overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute z-2 bg-surface-0 opacity-0 flex flex-col">
+		<div
+			ref="contentReference" class="
+     absolute top-1/2 left-1/2 z-2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 flex-col
+     overflow-hidden bg-surface-0 opacity-0
+     sm:h-[800px] sm:w-[600px]
+   "
+		>
 			<header class="h-[70px]">
 				<Header />
 			</header>
@@ -91,17 +97,22 @@
 				<NuxtPage />
 			</main>
 
-			<footer class="absolute bottom-0 w-full sm:w-[600px] p-4">
+			<footer
+				class="
+      absolute bottom-0 w-full p-4
+      sm:w-[600px]
+    "
+			>
 				<Footer />
 			</footer>
 		</div>
 	</div>
 	<div
 		ref="overlayReference"
-		class="overlay fixed inset-0 opacity-0 z-1 bg-surface-300"
+		class="overlay fixed inset-0 z-1 bg-surface-300 opacity-0"
 	/>
-	<div ref="logoReference" class="grid place-items-center h-screen p-24">
-		<Logo class="max-w-5xl w-full h-auto" />
+	<div ref="logoReference" class="grid h-screen place-items-center p-24">
+		<Logo class="h-auto w-full max-w-5xl" />
 	</div>
 </template>
 

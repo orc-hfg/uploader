@@ -225,8 +225,8 @@
 </script>
 
 <template>
-	<div class="pt-8 pb-32 px-4 max-w-4xl mx-auto">
-		<h1 class="text-3xl font-bold mb-8">
+	<div class="mx-auto max-w-4xl px-4 pt-8 pb-32">
+		<h1 class="mb-8 text-3xl font-bold">
 			Design Lab
 			<br>
 			<small>Theme Designer Version: {{ themeDesignerVersion }}</small>
@@ -594,7 +594,7 @@
 						>
 					</template>
 					<template #footer>
-						<div class="flex mt-1 justify-end">
+						<div class="mt-1 flex justify-end">
 							<Button label="Öffnen" icon="pi pi-arrow-right" />
 						</div>
 					</template>
@@ -659,7 +659,12 @@
 					Menu Basic / -> <a href="https://primevue.org/menu/#basic">Basic</a>
 				</h3>
 				<div class="flex">
-					<Menu :model="items" class="w-full md:w-80" />
+					<Menu
+						:model="items" class="
+        w-full
+        md:w-80
+      "
+					/>
 				</div>
 			</div>
 
@@ -670,11 +675,16 @@
 				<p class="mb-8 text-primary-600">
 					Das Menu Item für die Sprache ist problematisch, da in der Menu-Komponente der Hover auf dem Item immer das gesamte Item kennzeichnet.
 				</p>
-				<Menu :model="items" class="w-full md:w-80">
+				<Menu
+					:model="items" class="
+       w-full
+       md:w-80
+     "
+				>
 					<template #item="{ item, props }">
 						<template v-if="item.isLanguageItem">
 							<div class="flex items-center justify-between">
-								<div class="flex items-center p-3 gap-2">
+								<div class="flex items-center gap-2 p-3">
 									<span :class="item.icon" />
 									<span>{{ item.label }}</span>
 								</div>
@@ -704,7 +714,11 @@
 					Example form
 				</h3>
 				<div class="flex">
-					<Form v-slot="$form" :resolver="resolverBasic" :initial-values="initialValuesBasic" class="flex flex-col gap-4">
+					<Form
+						v-slot="$form" :resolver="resolverBasic" :initial-values="initialValuesBasic" class="
+        flex flex-col gap-4
+      "
+					>
 						<div class="flex flex-col gap-1">
 							<FloatLabel variant="in">
 								<label for="username">Username</label>
@@ -741,7 +755,11 @@
 				</h3>
 
 				<div class="flex">
-					<Form v-slot="$form" :resolver="resolverCheckbox" :initial-values="initialValuesCheckbox" class="flex justify-center flex-col gap-4">
+					<Form
+						v-slot="$form" :resolver="resolverCheckbox" :initial-values="initialValuesCheckbox" class="
+        flex flex-col justify-center gap-4
+      "
+					>
 						<div class="flex flex-col gap-2">
 							<CheckboxGroup name="ingredient" class="flex flex-wrap gap-4">
 								<div class="flex items-center gap-2">
@@ -815,9 +833,18 @@
 				</h3>
 
 				<div class="flex">
-					<Form v-slot="$form" :resolver="resolverMultiSelect" :initial-values="initialValuesMultiSelect" class="flex justify-center flex-col gap-4">
+					<Form
+						v-slot="$form" :resolver="resolverMultiSelect" :initial-values="initialValuesMultiSelect" class="
+        flex flex-col justify-center gap-4
+      "
+					>
 						<div class="flex flex-col gap-1">
-							<MultiSelect name="city" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="w-full md:w-80" />
+							<MultiSelect
+								name="city" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="
+          w-full
+          md:w-80
+        "
+							/>
 							<Message v-if="$form.city?.invalid" severity="error" size="small" variant="simple">
 								{{ $form.city.error?.message }}
 							</Message>
@@ -834,7 +861,12 @@
 				</h3>
 
 				<div class="flex">
-					<MultiSelect name="city" display="chip" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="w-full md:w-80" />
+					<MultiSelect
+						name="city" display="chip" :options="optionsMultiSelect" option-label="name" filter placeholder="Select Cities" :max-selected-labels="3" class="
+        w-full
+        md:w-80
+      "
+					/>
 				</div>
 			</div>
 
@@ -858,7 +890,11 @@
 				</h3>
 
 				<div class="flex">
-					<Form v-slot="$form" :resolver="resolverRadioButtons" :initial-values="initialValueRadioButtons" class="flex flex-col gap-4">
+					<Form
+						v-slot="$form" :resolver="resolverRadioButtons" :initial-values="initialValueRadioButtons" class="
+        flex flex-col gap-4
+      "
+					>
 						<div class="flex flex-col gap-2">
 							<RadioButtonGroup name="ingredient" class="flex flex-wrap gap-4">
 								<div class="flex items-center gap-2">
@@ -894,7 +930,12 @@
 				</h3>
 
 				<div class="flex">
-					<Form v-slot="$form" :resolver="resolverSelect" :initial-values="initialValuesSelect" class="flex flex-col gap-4 w-full md:w-56">
+					<Form
+						v-slot="$form" :resolver="resolverSelect" :initial-values="initialValuesSelect" class="
+        flex w-full flex-col gap-4
+        md:w-56
+      "
+					>
 						<div class="flex flex-col gap-1">
 							<!-- eslint-disable-next-line vue-a11y/form-control-has-label -->
 							<Select name="city.name" :options="optionsSelect" option-label="name" placeholder="Select a City" fluid />
@@ -942,7 +983,7 @@
 				<h3 class="variant-heading">
 					Avatar Label / -> <a href="https://primevue.org/avatar/#label">Label</a>
 				</h3>
-				<div class="flex flex-wrap gap-2 items-center">
+				<div class="flex flex-wrap items-center gap-2">
 					<Avatar label="P" class="mr-2" size="xlarge" shape="circle" />
 					<Avatar label="P" class="mr-2" size="large" shape="circle" />
 					<Avatar label="P" class="mr-2" shape="circle" />
@@ -953,7 +994,7 @@
 				<h3 class="variant-heading">
 					Avatar Icon / -> <a href="https://primevue.org/avatar/#icon">Icon</a>
 				</h3>
-				<div class="flex flex-wrap gap-2 items-center">
+				<div class="flex flex-wrap items-center gap-2">
 					<Avatar icon="pi pi-user" class="mr-2" size="xlarge" shape="circle" />
 					<Avatar icon="pi pi-user" class="mr-2" size="large" shape="circle" />
 					<Avatar icon="pi pi-user" class="mr-2" shape="circle" />
@@ -964,7 +1005,7 @@
 				<h3 class="variant-heading">
 					Avatar Image / -> <a href="https://primevue.org/avatar/#image">Image</a>
 				</h3>
-				<div class="flex flex-wrap gap-6 items-center">
+				<div class="flex flex-wrap items-center gap-6">
 					<OverlayBadge value="4">
 						<Avatar image="https://primefaces.org/cdn/primevue/images/organization/walter.jpg" size="xlarge" />
 					</OverlayBadge>
