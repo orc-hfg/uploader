@@ -28,9 +28,11 @@ export default defineNuxtConfig({
 	],
 
 	/*
-	 * Important note: Pinia only works if it is installed once in the project (in this case Pinia is installed in the madek-api-nuxt-layer)
-	 * Auto-import of stores folder ensures the same behavior as in the madek-api-nuxt-layer
+	 * Important note: Pinia only works if it is installed once in the project (in this case Pinia is installed in the extended madek-api-nuxt-layer)
+	 * Multiple Pinia installations do not work with symlinked dependencies (e.g. madek-api-nuxt-layer linked via `npm link`)
+	 * See related discussions here: https://github.com/vuejs/pinia/discussions/2378 / https://github.com/vuejs/pinia/pull/2699
 	 */
+	// Auto-import of stores folder ensures the same behavior as in the madek-api-nuxt-layer
 	imports: {
 		dirs: ['stores'],
 	},
