@@ -1,4 +1,8 @@
 {
-	"login": "Anmeldung",
-	"projects": "Projekte"
+	"pages": {
+		"title": {
+			"login": "Anmeldung",
+			"projects": "Projekte"
+		}
+	}
 }

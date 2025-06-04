@@ -9,7 +9,7 @@
 		middleware: 'page-transition',
 	});
 
-	const title = usePageMeta('login');
+	const title = usePageMeta('pages.title.login');
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
@@ -40,7 +40,7 @@
 	<div class="h-full">
 		<div class="h-full bg-primary-200 p-4 text-2xl font-bold text-primary-50">
 			<NuxtLinkLocale to="projects">
-				{{ $t('projects') }}
+				{{ $t('pages.title.projects') }}
 			</NuxtLinkLocale>
 
 			<button type="button" @click="switchToGerman">

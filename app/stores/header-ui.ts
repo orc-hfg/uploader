@@ -2,7 +2,8 @@ export const useHeaderUIStore = defineStore('header-ui', () => {
 	const titleTranslationKey = shallowRef('');
 
 	const { t } = useI18n();
-	const titleTranslationMessage = computed(() => t(titleTranslationKey.value));
+	const titleTranslationMessage = computed(() => (titleTranslationKey.value ? t(titleTranslationKey.value) : ''),
+	);
 
 	return {
 		titleTranslationKey,

@@ -1,4 +1,8 @@
 {
-	"login": "Login",
-	"projects": "Projects"
+	"pages": {
+		"title": {
+			"login": "Login",
+			"projects": "Projects"
+		}
+	}
 }
