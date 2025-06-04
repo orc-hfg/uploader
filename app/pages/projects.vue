@@ -14,7 +14,7 @@
 	const footerUIStore = useFooterUIStore();
 
 	onMounted(() => {
-		headerUIStore.title = title;
+		headerUIStore.titleTranslationKey = title;
 
 		footerUIStore.leftActionComponent = Button;
 		footerUIStore.leftActionProps = {

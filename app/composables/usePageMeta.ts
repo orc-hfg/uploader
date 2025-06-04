@@ -10,5 +10,5 @@ export function usePageMeta(translationKey: string): string {
 		title: metaTitle,
 	});
 
-	return translationMessage;
+	return translationKey;
 }

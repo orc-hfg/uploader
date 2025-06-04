@@ -19,7 +19,7 @@
 	const switchToEnglish = () => setLocale('en');
 
 	onMounted(() => {
-		headerUIStore.title = title;
+		headerUIStore.titleTranslationKey = title;
 
 		footerUIStore.leftActionComponent = Button;
 		footerUIStore.leftActionProps = {
