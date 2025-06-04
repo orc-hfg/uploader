@@ -1,8 +1,8 @@
 <script setup lang="ts">
+	import { themeDesignerVersion } from '@/theme/primevue-theme-designer';
 	import { zodResolver } from '@primevue/forms/resolvers/zod';
 	import { useConfirm } from 'primevue/useconfirm';
 	import { z } from 'zod';
-	import { themeDesignerVersion } from '../theme/primevue-theme-designer';
 
 	definePageMeta({
 		layout: false,

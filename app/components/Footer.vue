@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import Fade from './transitions/Fade.vue';
+	import Fade from '@/components/transitions/Fade.vue';
 
 	const fadeDuration = 1;
 

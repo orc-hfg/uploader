@@ -8,13 +8,13 @@
 		middleware: 'page-transition',
 	});
 
-	const title = usePageMeta('pages.title.projects');
+	const titleKeyPath = usePageMeta('pages.title.projects');
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
 
 	onMounted(() => {
-		headerUIStore.titleTranslationKey = title;
+		headerUIStore.setPageTitle(titleKeyPath);
 
 		footerUIStore.leftActionComponent = Button;
 		footerUIStore.leftActionProps = {

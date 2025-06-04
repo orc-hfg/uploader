@@ -1,13 +1,20 @@
+import type { TranslationKeyPath } from '@@/types/i18n-keys';
+
 export const useHeaderUIStore = defineStore('header-ui', () => {
-	const titleTranslationKey = shallowRef('');
+	const titleKeyPath = shallowRef<TranslationKeyPath>();
 
 	const { t } = useI18n();
-	const titleTranslationMessage = computed(() => (titleTranslationKey.value ? t(titleTranslationKey.value) : ''),
+	const titleTranslation = computed(() => (titleKeyPath.value ? t(titleKeyPath.value) : ''),
 	);
 
+	function setPageTitle(newTitleKeyPath: TranslationKeyPath): void {
+		titleKeyPath.value = newTitleKeyPath;
+	}
+
 	return {
-		titleTranslationKey,
-		titleTranslationMessage,
+		titleKeyPath,
+		titleTranslation,
+		setPageTitle,
 	};
 });
 

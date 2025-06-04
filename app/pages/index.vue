@@ -9,7 +9,7 @@
 		middleware: 'page-transition',
 	});
 
-	const title = usePageMeta('pages.title.login');
+	const titleKeyPath = usePageMeta('pages.title.login');
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
@@ -19,7 +19,7 @@
 	const switchToEnglish = () => setLocale('en');
 
 	onMounted(() => {
-		headerUIStore.titleTranslationKey = title;
+		headerUIStore.setPageTitle(titleKeyPath);
 
 		footerUIStore.leftActionComponent = Button;
 		footerUIStore.leftActionProps = {
