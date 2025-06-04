@@ -1,5 +1,3 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
-
 export const useHeaderUIStore = defineStore('header-ui', () => {
 	const title = shallowRef('');
 

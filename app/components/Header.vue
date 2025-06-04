@@ -1,6 +1,4 @@
 <script setup lang="ts">
-	import { useHeaderUIStore } from '@/stores/header-ui';
-	import { storeToRefs } from 'pinia';
 	import Fade from './transitions/Fade.vue';
 
 	const headerUIStore = useHeaderUIStore();

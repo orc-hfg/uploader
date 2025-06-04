@@ -1,6 +1,3 @@
-import type { Component } from 'vue';
-import { acceptHMRUpdate, defineStore } from 'pinia';
-
 interface ActionProps {
 	label?: string;
 	[key: string]: unknown;

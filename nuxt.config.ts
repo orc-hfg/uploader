@@ -8,9 +8,6 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: '2025-05-09',
 	devtools: { enabled: true },
-	components: {
-		dirs: [],
-	},
 	typescript: {
 		typeCheck: true,
 	},
@@ -25,8 +22,17 @@ export default defineNuxtConfig({
 		'@primevue/nuxt-module',
 		'@vueuse/nuxt',
 	],
+
+	/*
+	 * Important note: Pinia only works if it is installed once in the project (in this case Pinia is installed in the madek-api-nuxt-layer)
+	 * Auto-import of stores folder ensures the same behavior as in the madek-api-nuxt-layer
+	 */
 	imports: {
 		dirs: ['stores'],
+	},
+	// Support knip for unused imports
+	components: {
+		dirs: [],
 	},
 	googleFonts: {
 		display: 'swap',

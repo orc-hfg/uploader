@@ -1,6 +1,4 @@
 <script setup lang="ts">
-	import { useFooterUIStore } from '@/stores/footer-ui';
-	import { storeToRefs } from 'pinia';
 	import Fade from './transitions/Fade.vue';
 
 	const fadeDuration = 1;

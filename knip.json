@@ -25,10 +25,10 @@
 		"@primevue/nuxt-module",
 		"@vueuse/core",
 		"@vueuse/nuxt",
-		"pinia",
 		"primeicons",
 		"tailwindcss-primeui",
 		"vitest-environment-nuxt",
+		"vue",
 		"vue-tsc",
 		"vue-router",
 		"zod"
