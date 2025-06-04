@@ -6,6 +6,9 @@ export default defineNuxtConfig({
 	future: {
 		compatibilityVersion: 4,
 	},
+	experimental: {
+		typedPages: true,
+	},
 	compatibilityDate: '2025-05-09',
 	devtools: { enabled: true },
 	typescript: {
@@ -19,6 +22,7 @@ export default defineNuxtConfig({
 		'@nuxt/eslint',
 		'@nuxt/test-utils/module',
 		'@nuxtjs/google-fonts',
+		'@nuxtjs/i18n',
 		'@primevue/nuxt-module',
 		'@vueuse/nuxt',
 	],
@@ -34,16 +38,6 @@ export default defineNuxtConfig({
 	components: {
 		dirs: [],
 	},
-	googleFonts: {
-		display: 'swap',
-		families: {
-			// eslint-disable-next-line ts/no-magic-numbers
-			'Instrument+Sans': [400],
-		},
-	},
-	primevue: {
-		importTheme: { from: '@/theme/primevue-theme-application.ts' },
-	},
 	eslint: {
 		config: {
 
@@ -53,6 +47,30 @@ export default defineNuxtConfig({
 			 */
 			standalone: false,
 		},
+	},
+	googleFonts: {
+		display: 'swap',
+		families: {
+			// eslint-disable-next-line ts/no-magic-numbers
+			'Instrument+Sans': [400],
+		},
+	},
+	i18n: {
+		defaultLocale: 'de',
+		locales: [
+			{ code: 'de', language: 'de-DE', name: 'Deutsch', file: 'de.json' },
+			{ code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+		],
+		detectBrowserLanguage: false,
+		// Only the no_prefix strategy allows page transitions to work
+		strategy: 'no_prefix',
+		bundle: {
+			// See: https://github.com/nuxt-modules/i18n/issues/3238#issuecomment-2672492536
+			optimizeTranslationDirective: false,
+		},
+	},
+	primevue: {
+		importTheme: { from: '@/theme/primevue-theme-application.ts' },
 	},
 	app: {
 		head: {
@@ -64,6 +82,15 @@ export default defineNuxtConfig({
 	},
 	runtimeConfig: {
 		isMainApp: true,
+	},
+	$production: {
+		runtimeConfig: {
+			public: {
+				i18n: {
+					baseUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
+				},
+			},
+		},
 	},
 	extends: ['@orc-hfg/madek-api-nuxt-layer'],
 });

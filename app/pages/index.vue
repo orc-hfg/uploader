@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
+	import { useI18n } from 'vue-i18n';
 
 	definePageMeta({
 		pageTransition: {
@@ -8,10 +9,14 @@
 		middleware: 'page-transition',
 	});
 
-	const title = usePageMeta('Login');
+	const title = usePageMeta('login');
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
+
+	const { setLocale } = useI18n();
+	const switchToGerman = () => setLocale('de');
+	const switchToEnglish = () => setLocale('en');
 
 	onMounted(() => {
 		headerUIStore.title = title;
@@ -34,9 +39,26 @@
 <template>
 	<div class="h-full">
 		<div class="h-full bg-primary-200 p-4 text-2xl font-bold text-primary-50">
-			<NuxtLink to="/projects">
-				Projects
-			</NuxtLink>
+			<NuxtLinkLocale to="projects">
+				{{ $t('projects') }}
+			</NuxtLinkLocale>
+
+			<button type="button" @click="switchToGerman">
+				Deutsch
+			</button>
+
+			<button type="button" @click="switchToEnglish">
+				English
+			</button>
+			<!--
+				<SwitchLocalePathLink locale="de">
+				Deutsch
+				</SwitchLocalePathLink>
+
+				<SwitchLocalePathLink locale="en">
+				English
+				</SwitchLocalePathLink>
+			-->
 		</div>
 	</div>
 </template>

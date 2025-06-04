@@ -287,7 +287,7 @@ export default withNuxt(
 						printWidth: 100,
 					},
 				],
-				// 'better-tailwindcss/no-conflicting-classes': 'error',
+				'better-tailwindcss/no-conflicting-classes': 'error',
 				'better-tailwindcss/no-restricted-classes': [
 					'error',
 					{
@@ -477,6 +477,12 @@ export default withNuxt(
 				'ts/naming-convention': 'off',
 				'ts/explicit-function-return-type': 'off',
 				'sonarjs/no-nested-functions': 'off',
+			},
+		},
+		{
+			files: ['i18n/locales/**.json'],
+			rules: {
+				'jsonc/sort-keys': 'error',
 			},
 		},
 		{
