@@ -2,9 +2,16 @@
 	import Button from 'primevue/button';
 	import { useI18n } from 'vue-i18n';
 
+	defineI18nRoute({
+		paths: {
+			de: '/anmeldung',
+			en: '/login',
+		},
+	});
+
 	definePageMeta({
 		pageTransition: {
-			name: 'slide-left',
+			name: 'middleware-controlled',
 		},
 		middleware: 'page-transition',
 	});
@@ -14,20 +21,18 @@
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
 
-	const { setLocale } = useI18n();
-	const switchToGerman = () => setLocale('de');
-	const switchToEnglish = () => setLocale('en');
+	const { t, locale, locales, setLocale } = useI18n();
+
+	const availableLocales = computed(() => {
+		return locales.value.filter(index => index.code !== locale.value);
+	});
 
 	onMounted(() => {
 		headerUIStore.setPageTitle(titleKeyPath);
 
-		footerUIStore.leftActionComponent = Button;
-		footerUIStore.leftActionProps = {
-			label: 'Login Button left',
-		};
 		footerUIStore.rightActionComponent = Button;
 		footerUIStore.rightActionProps = {
-			label: 'Login Button right',
+			label: t('footer.actions.login'),
 		};
 	});
 
@@ -43,22 +48,17 @@
 				{{ $t('pages.title.projects') }}
 			</NuxtLinkLocale>
 
-			<button type="button" @click="switchToGerman">
-				Deutsch
+			<button v-for="localeOption in availableLocales" :key="localeOption.code" type="button" @click="() => setLocale(localeOption.code)">
+				{{ localeOption.name }}
 			</button>
 
-			<button type="button" @click="switchToEnglish">
-				English
-			</button>
-			<!--
-				<SwitchLocalePathLink locale="de">
+			<SwitchLocalePathLink locale="de">
 				Deutsch
-				</SwitchLocalePathLink>
+			</SwitchLocalePathLink>
 
-				<SwitchLocalePathLink locale="en">
+			<SwitchLocalePathLink locale="en">
 				English
-				</SwitchLocalePathLink>
-			-->
+			</SwitchLocalePathLink>
 		</div>
 	</div>
 </template>

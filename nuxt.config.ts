@@ -59,13 +59,15 @@ export default defineNuxtConfig({
 	},
 	i18n: {
 		defaultLocale: 'de',
+		strategy: 'prefix',
 		locales: [
 			{ code: 'de', language: 'de-DE', name: 'Deutsch', file: 'de.json' },
 			{ code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
 		],
-		detectBrowserLanguage: false,
-		// Only the no_prefix strategy allows page transitions to work
-		strategy: 'no_prefix',
+		detectBrowserLanguage: {
+			useCookie: true,
+			alwaysRedirect: true,
+		},
 		bundle: {
 			// See: https://github.com/nuxt-modules/i18n/issues/3238#issuecomment-2672492536
 			optimizeTranslationDirective: false,

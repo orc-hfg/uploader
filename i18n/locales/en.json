@@ -1,4 +1,10 @@
 {
+	"footer": {
+		"actions": {
+			"login": "Login",
+			"new_project": "New Project"
+		}
+	},
 	"pages": {
 		"title": {
 			"login": "Login",

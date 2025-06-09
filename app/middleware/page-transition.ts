@@ -5,10 +5,24 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
 	const PAGE_ORDER = ['index', 'projects'];
 
-	const toIndex = PAGE_ORDER.indexOf(String(to.name));
-	const fromIndex = PAGE_ORDER.indexOf(String(from.name));
+	const { $getRouteBaseName } = useNuxtApp();
+	const toBaseName = $getRouteBaseName(to);
+	const fromBaseName = $getRouteBaseName(from);
 
-	if (toIndex !== -1 && fromIndex !== -1) {
-		to.meta.pageTransition.name = toIndex > fromIndex ? 'slide-left' : 'slide-right';
+	let transitionName = 'no-transition';
+
+	if (
+		typeof toBaseName === 'string'
+		&& typeof fromBaseName === 'string'
+		&& toBaseName !== fromBaseName
+	) {
+		const toIndex = PAGE_ORDER.indexOf(toBaseName);
+		const fromIndex = PAGE_ORDER.indexOf(fromBaseName);
+
+		if (toIndex !== -1 && fromIndex !== -1) {
+			transitionName = toIndex > fromIndex ? 'slide-left' : 'slide-right';
+		}
 	}
+
+	to.meta.pageTransition.name = transitionName;
 });

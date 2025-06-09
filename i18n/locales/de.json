@@ -1,4 +1,10 @@
 {
+	"footer": {
+		"actions": {
+			"login": "Anmelden",
+			"new_project": "Neues Projekt"
+		}
+	},
 	"pages": {
 		"title": {
 			"login": "Anmeldung",

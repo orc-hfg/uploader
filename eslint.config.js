@@ -71,7 +71,7 @@ export default withNuxt(
 				'no-continue': 'error',
 				'no-implicit-coercion': 'error',
 				'no-multi-assign': 'error',
-				'logical-assignment-operators': ['error', 'never'],
+				'logical-assignment-operators': 'error',
 				'no-constant-binary-expression': 'error',
 				'no-constant-condition': 'error',
 				'no-div-regex': 'error',

@@ -1,9 +1,16 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
 
+	defineI18nRoute({
+		paths: {
+			de: '/projekte',
+			en: '/projects',
+		},
+	});
+
 	definePageMeta({
 		pageTransition: {
-			name: 'slide-left',
+			name: 'middleware-controlled',
 		},
 		middleware: 'page-transition',
 	});
@@ -14,15 +21,13 @@
 	const footerUIStore = useFooterUIStore();
 
 	onMounted(() => {
+		const { t } = useI18n();
+
 		headerUIStore.setPageTitle(titleKeyPath);
 
-		footerUIStore.leftActionComponent = Button;
-		footerUIStore.leftActionProps = {
-			label: 'Projects Button left',
-		};
 		footerUIStore.rightActionComponent = Button;
 		footerUIStore.rightActionProps = {
-			label: 'Projects Button right',
+			label: t('footer.actions.new_project'),
 		};
 	});
 
