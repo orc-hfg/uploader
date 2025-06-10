@@ -7,6 +7,7 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4,
 	},
 	experimental: {
+		// See: https://www.youtube.com/watch?v=SXk-L19gTZk
 		typedPages: true,
 	},
 	compatibilityDate: '2025-05-09',
@@ -36,7 +37,7 @@ export default defineNuxtConfig({
 	imports: {
 		dirs: ['stores'],
 	},
-	// Support knip for unused imports
+	// Support knip which is used to check for unused imports
 	components: {
 		dirs: [],
 	},

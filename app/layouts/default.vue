@@ -8,15 +8,21 @@
 
 	const route = useRoute();
 	const { t } = useI18n();
-	const metaTitle = computed(() => {
-		if (!route.meta.pageTitleKeyPath) {
-			return useMetaTitle();
+	const pageTitle = computed(() => {
+		const pageTitleKeyPath = route.meta.pageTitleKeyPath;
+
+		if (!pageTitleKeyPath) {
+			if (import.meta.dev) {
+				console.warn(`[i18n] No pageTitleKeyPath defined for route: ${route.path}`);
+			}
+
+			return;
 		}
 
-		const pageTitle = t(route.meta.pageTitleKeyPath);
-
-		return useMetaTitle(pageTitle);
+		return t(pageTitleKeyPath);
 	});
+
+	const metaTitle = useMetaTitle(pageTitle);
 
 	const logoReference = useTemplateRef<MaybeElement>('logoReference');
 	const overlayReference = useTemplateRef<MaybeElement>('overlayReference');
