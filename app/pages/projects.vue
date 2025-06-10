@@ -1,6 +1,16 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
 
+	const PAGE_TITLE_KEY_PATH = 'pages.title.projects';
+
+	definePageMeta({
+		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
+		pageTransition: {
+			name: 'middleware-controlled',
+		},
+		middleware: 'page-transition',
+	});
+
 	defineI18nRoute({
 		paths: {
 			de: '/projekte',
@@ -8,22 +18,13 @@
 		},
 	});
 
-	definePageMeta({
-		pageTransition: {
-			name: 'middleware-controlled',
-		},
-		middleware: 'page-transition',
-	});
-
-	const titleKeyPath = usePageMeta('pages.title.projects');
-
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
 
 	onMounted(() => {
 		const { t } = useI18n();
 
-		headerUIStore.setPageTitle(titleKeyPath);
+		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
 
 		footerUIStore.rightActionComponent = Button;
 		footerUIStore.rightActionProps = {

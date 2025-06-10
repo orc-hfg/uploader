@@ -1,34 +1,14 @@
-export function useMetaTitle(pageTitle?: string | Ref<string | undefined | null>): ComputedRef<string> {
+export function useMetaTitle(pageTitle?: string): ComputedRef<string> {
 	const appConfig = useAppConfig();
+	const appTitle = appConfig.title;
 
 	return computed(() => {
-		let pageTitleValue = '';
+		const hasValidPageTitle = typeof pageTitle === 'string' && pageTitle.trim() !== '';
 
-		if (typeof pageTitle === 'string') {
-			pageTitleValue = pageTitle;
-		}
-		else if (pageTitle && 'value' in pageTitle) {
-			const referenceValue = pageTitle.value;
-			if (typeof referenceValue === 'string' && referenceValue.trim() !== '') {
-				pageTitleValue = referenceValue;
-			}
-		}
-
-		const appTitle = appConfig.title;
-		const hasValidAppTitle = typeof appTitle === 'string' && appTitle.trim() !== '';
-
-		if (!pageTitleValue && !hasValidAppTitle) {
-			return '';
-		}
-
-		if (pageTitleValue && !hasValidAppTitle) {
-			return pageTitleValue;
-		}
-
-		if (!pageTitleValue && hasValidAppTitle) {
+		if (!hasValidPageTitle) {
 			return appTitle;
 		}
 
-		return `${pageTitleValue} – ${String(appTitle)}`;
+		return `${pageTitle} – ${appTitle}`;
 	});
 }

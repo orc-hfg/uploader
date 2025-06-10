@@ -3,6 +3,8 @@
 		layout: false,
 	});
 
+	defineI18nRoute(false);
+
 	const userStore = useUserStore();
 	await callOnce(() => userStore.refreshData(), { mode: 'navigation' }); // executed once on every page visit
 

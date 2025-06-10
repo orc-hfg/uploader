@@ -1,6 +1,15 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
-	import { useI18n } from 'vue-i18n';
+
+	const PAGE_TITLE_KEY_PATH = 'pages.title.login';
+
+	definePageMeta({
+		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
+		pageTransition: {
+			name: 'middleware-controlled',
+		},
+		middleware: 'page-transition',
+	});
 
 	defineI18nRoute({
 		paths: {
@@ -8,15 +17,6 @@
 			en: '/login',
 		},
 	});
-
-	definePageMeta({
-		pageTransition: {
-			name: 'middleware-controlled',
-		},
-		middleware: 'page-transition',
-	});
-
-	const titleKeyPath = usePageMeta('pages.title.login');
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
@@ -28,7 +28,7 @@
 	});
 
 	onMounted(() => {
-		headerUIStore.setPageTitle(titleKeyPath);
+		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
 
 		footerUIStore.rightActionComponent = Button;
 		footerUIStore.rightActionProps = {

@@ -20,3 +20,9 @@ declare module 'vue-i18n' {
  * which can be used as valid translation keys
  */
 export type TranslationKeyPath = Paths<MessageSchema, { leavesOnly: true }>;
+
+/**
+ * Type for page title translation keys
+ * Only allows keys under the pages.title namespace
+ */
+export type PageTitleKeyPath = Extract<TranslationKeyPath, `pages.title.${string}`>;

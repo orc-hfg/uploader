@@ -22,7 +22,6 @@
 <style lang="css">
 	.fade-enter-active,
 	.fade-leave-active {
-		will-change: opacity;
 		animation-duration: v-bind(animationDuration);
 		animation-fill-mode: forwards;
 		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);

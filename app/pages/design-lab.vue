@@ -8,6 +8,8 @@
 		layout: false,
 	});
 
+	defineI18nRoute(false);
+
 	// Button Loading
 	const loading = ref(false);
 

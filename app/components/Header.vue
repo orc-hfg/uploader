@@ -2,7 +2,7 @@
 	import Fade from '@/components/transitions/Fade.vue';
 
 	const headerUIStore = useHeaderUIStore();
-	const { titleTranslation } = storeToRefs(headerUIStore);
+	const { pageTitleTranslation } = storeToRefs(headerUIStore);
 </script>
 
 <template>
@@ -13,7 +13,7 @@
 
 		<h1 class="text-center text-xl">
 			<Fade>
-				<span :key="titleTranslation">{{ titleTranslation }}</span>
+				<span :key="pageTitleTranslation">{{ pageTitleTranslation }}</span>
 			</Fade>
 		</h1>
 

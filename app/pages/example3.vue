@@ -3,12 +3,7 @@
 		layout: false,
 	});
 
-	const metaTitle = useMetaTitle('Example3');
-
-	useHead({
-		title: metaTitle,
-	});
-
+	defineI18nRoute(false);
 	const { data: user2 } = await useCachedAsyncData('user', () => getUserRepository().getAuthInfo());
 </script>
 

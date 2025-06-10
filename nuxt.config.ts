@@ -58,6 +58,7 @@ export default defineNuxtConfig({
 		},
 	},
 	i18n: {
+		baseUrl: 'http://localhost:3000/',
 		defaultLocale: 'de',
 		strategy: 'prefix',
 		locales: [
@@ -78,9 +79,6 @@ export default defineNuxtConfig({
 	},
 	app: {
 		head: {
-			htmlAttrs: {
-				lang: 'de',
-			},
 			link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 		},
 	},
@@ -88,12 +86,8 @@ export default defineNuxtConfig({
 		isMainApp: true,
 	},
 	$production: {
-		runtimeConfig: {
-			public: {
-				i18n: {
-					baseUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
-				},
-			},
+		i18n: {
+			baseUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
 		},
 	},
 	extends: ['@orc-hfg/madek-api-nuxt-layer'],
