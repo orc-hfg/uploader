@@ -6,7 +6,8 @@
 	defineI18nRoute(false);
 
 	const userStore = useUserStore();
-	await callOnce(() => userStore.refreshData(), { mode: 'navigation' }); // executed once on every page visit
+	// Executed once on every page visit
+	await callOnce(() => userStore.refreshData(), { mode: 'navigation' });
 
 	const { data: authInfo } = await useAsyncData(() => getUserRepository().getAuthInfo());
 

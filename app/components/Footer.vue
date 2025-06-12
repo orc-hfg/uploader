@@ -6,13 +6,9 @@
 	const footerUIStore = useFooterUIStore();
 	const { leftActionComponent, leftActionProps, rightActionComponent, rightActionProps } = storeToRefs(footerUIStore);
 
-	const leftKey = computed(() => {
-		return leftActionProps.value?.label ?? 'left-label';
-	});
+	const leftKey = computed(() => leftActionProps.value?.label ?? 'left-label');
 
-	const rightKey = computed(() => {
-		return rightActionProps.value?.label ?? 'right-label';
-	});
+	const rightKey = computed(() => rightActionProps.value?.label ?? 'right-label');
 </script>
 
 <template>
