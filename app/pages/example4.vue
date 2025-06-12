@@ -3,11 +3,7 @@
 		layout: false,
 	});
 
-	const metaTitle = useMetaTitle('Example4');
-
-	useHead({
-		title: metaTitle,
-	});
+	defineI18nRoute(false);
 
 	const runtimeConfig = useRuntimeConfig();
 

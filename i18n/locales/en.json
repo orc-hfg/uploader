@@ -1,0 +1,33 @@
+{
+	"app": {
+		"title": "Uploader"
+	},
+	"footer": {
+		"actions": {
+			"login": "Login",
+			"new_project": "New Project"
+		}
+	},
+	"forms": {
+		"errors": {
+			"password_required": "Password is required.",
+			"username_or_email_required": "Username or email is required."
+		},
+		"help_texts": {
+			"hfg_email": "Only HfG-Karlsruhe addresses are accepted."
+		},
+		"labels": {
+			"password": "Password",
+			"username_or_email": "Username or mail address"
+		}
+	},
+	"meta": {
+		"description": "HfG Karlsruhe Uploader: a simple app that lets students quickly submit and share their projects."
+	},
+	"pages": {
+		"title": {
+			"login": "Login",
+			"projects": "Projects"
+		}
+	}
+}

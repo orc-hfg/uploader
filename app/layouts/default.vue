@@ -1,32 +1,62 @@
 <script lang="ts" setup>
 	import type { MaybeElement } from '@vueuse/core';
 	import Logo from '@/components/brand/Logo.vue';
+	import Footer from '@/components/Footer.vue';
+	import Header from '@/components/Header.vue';
 
-	const logoContainerReference = useTemplateRef<MaybeElement>('logoContainerReference');
+	const head = useLocaleHead();
+
+	const route = useRoute();
+	const { t } = useI18n();
+
+	const metaTitle = computed(() => {
+		const appTitle = t('app.title');
+
+		if (!appTitle?.trim()) {
+			return '';
+		}
+
+		const { pageTitleKeyPath } = route.meta;
+		if (!pageTitleKeyPath) {
+			if (import.meta.dev) {
+				console.warn(`[i18n] No pageTitleKeyPath defined for route: ${route.path}`);
+			}
+
+			return appTitle;
+		}
+
+		const pageTitle = t(pageTitleKeyPath);
+
+		if (!pageTitle?.trim()) {
+			return appTitle;
+		}
+
+		return `${pageTitle} – ${appTitle}`;
+	});
+
+	const logoReference = useTemplateRef<MaybeElement>('logoReference');
 	const overlayReference = useTemplateRef<MaybeElement>('overlayReference');
-	const mainReference = useTemplateRef<MaybeElement>('mainReference');
+	const contentReference = useTemplateRef<MaybeElement>('contentReference');
 
-	const LOGO_CONTAINER_BLUR_TARGET = 20;
+	const LOGO_BLUR_TARGET = 20;
 	const OVERLAY_OPACITY_TARGET = 0.5;
-	const MAIN_OPACITY_TARGET = 1;
+	const CONTENT_OPACITY_TARGET = 1;
 
-	const LOGO_CONTAINER_DELAY = 300;
-	const LOGO_CONTAINER_DURATION = 300;
+	const LOGO_DELAY = 300;
+	const LOGO_DURATION = 300;
 	const OVERLAY_DURATION = 500;
-	const MAIN_DURATION = 300;
+	const CONTENT_DURATION = 300;
 
 	const OVERLAY_START_PERCENTAGE = 0.1;
-	const OVERLAY_DELAY = LOGO_CONTAINER_DELAY + (LOGO_CONTAINER_DURATION * OVERLAY_START_PERCENTAGE);
+	const OVERLAY_DELAY = LOGO_DELAY + (LOGO_DURATION * OVERLAY_START_PERCENTAGE);
 
 	function setupAnimations() {
 		const logoAnimation = useAnimate(
-			logoContainerReference.value,
-			[
-				{ filter: `blur(${LOGO_CONTAINER_BLUR_TARGET}px)` },
-			],
+			logoReference.value,
+			[{ filter: `blur(${LOGO_BLUR_TARGET}px)` }],
 			{
-				duration: LOGO_CONTAINER_DURATION,
-				delay: LOGO_CONTAINER_DELAY,
+				duration: LOGO_DURATION,
+				delay: LOGO_DELAY,
 				easing: 'ease-in',
 				fill: 'forwards',
 				immediate: false,
@@ -35,9 +65,7 @@
 
 		const overlayAnimation = useAnimate(
 			overlayReference.value,
-			[
-				{ opacity: OVERLAY_OPACITY_TARGET },
-			],
+			[{ opacity: OVERLAY_OPACITY_TARGET }],
 			{
 				duration: OVERLAY_DURATION,
 				easing: 'ease-in',
@@ -46,32 +74,34 @@
 			},
 		);
 
-		const mainAnimation = useAnimate(
-			mainReference.value,
-			[
-				{ opacity: MAIN_OPACITY_TARGET },
-			],
+		const contentAnimation = useAnimate(
+			contentReference.value,
+			[{ opacity: CONTENT_OPACITY_TARGET }],
 			{
-				duration: MAIN_DURATION,
+				duration: CONTENT_DURATION,
 				easing: 'ease-in',
 				fill: 'forwards',
 				immediate: false,
 			},
 		);
 
-		return { logoAnimation, overlayAnimation, mainAnimation };
+		return { logoAnimation, overlayAnimation, contentAnimation };
 	}
 
 	async function startSequence() {
-		const { logoAnimation, overlayAnimation, mainAnimation } = setupAnimations();
+		const { logoAnimation, overlayAnimation, contentAnimation } = setupAnimations();
 
 		logoAnimation.play();
 
-		await new Promise(resolve => setTimeout(resolve, OVERLAY_DELAY));
+		await new Promise((resolve) => {
+			setTimeout(resolve, OVERLAY_DELAY);
+		});
 		overlayAnimation.play();
 
-		await new Promise(resolve => setTimeout(resolve, OVERLAY_DURATION));
-		mainAnimation.play();
+		await new Promise((resolve) => {
+			setTimeout(resolve, OVERLAY_DURATION);
+		});
+		contentAnimation.play();
 	}
 
 	onMounted(() => {
@@ -81,18 +111,102 @@
 
 <template>
 	<div>
-		<div
-			ref="overlayReference"
-			class="overlay fixed inset-0 opacity-0 z-1 bg-surface-300"
-		/>
-		<div class="grid place-items-center h-screen">
-			<div ref="logoContainerReference" class="p-24">
-				<Logo />
-			</div>
+		<Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
+			<Head>
+				<Title>{{ metaTitle }}</Title>
+				<Meta name="description" :content="$t('meta.description')" />
+				<template v-for="link in head.link" :key="link.hid">
+					<Link :id="link.hid" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
+				</template>
+				<template v-for="meta in head.meta" :key="meta.hid">
+					<Meta :id="meta.hid" :property="meta.property" :content="meta.content" />
+				</template>
+			</Head>
+			<Body>
+				<NuxtRouteAnnouncer />
+				<div>
+					<div
+						ref="contentReference" class="
+        absolute top-1/2 left-1/2 z-2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 flex-col
+        overflow-hidden bg-surface-0 opacity-0
+        sm:h-[800px] sm:w-[600px]
+      "
+					>
+						<header class="h-[75px]">
+							<Header />
+						</header>
 
-			<main ref="mainReference" class="w-full h-full lg:w-[600px] lg:h-[800px] overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fixed z-2 bg-surface-0 opacity-0">
-				<slot />
-			</main>
-		</div>
+						<main class="grow px-10 pt-12">
+							<NuxtPage />
+						</main>
+
+						<footer
+							class="
+         absolute bottom-0 h-[75px] w-full px-4
+         sm:w-[600px]
+       "
+						>
+							<Footer />
+						</footer>
+					</div>
+				</div>
+				<div
+					ref="overlayReference"
+					class="overlay fixed inset-0 z-1 bg-surface-300 opacity-0"
+				/>
+				<div ref="logoReference" class="grid h-screen place-items-center p-24">
+					<Logo class="h-auto w-full max-w-5xl" />
+				</div>
+			</Body>
+		</Html>
 	</div>
 </template>
+
+<style lang="css" scoped>
+	.slide-left-enter-active,
+	.slide-left-leave-active,
+	.slide-right-enter-active,
+	.slide-right-leave-active {
+		position: absolute;
+		width: 100%;
+		animation-duration: 0.5s;
+		animation-fill-mode: forwards;
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
+	}
+
+	.slide-left-enter-active {
+		animation-name: slideInFromRight;
+	}
+
+	.slide-left-leave-active {
+		animation-name: slideOutToRight;
+	}
+
+	.slide-right-enter-active {
+		animation-name: slideInFromLeft;
+	}
+
+	.slide-right-leave-active {
+		animation-name: slideOutToLeft;
+	}
+
+	@keyframes slideInFromRight {
+		from { transform: translateX(100%); }
+		to { transform: translateX(0); }
+	}
+
+	@keyframes slideOutToRight {
+		from { transform: translateX(0); }
+		to { transform: translateX(100%); }
+	}
+
+	@keyframes slideInFromLeft {
+		from { transform: translateX(-100%); }
+		to { transform: translateX(0); }
+	}
+
+	@keyframes slideOutToLeft {
+		from { transform: translateX(0); }
+		to { transform: translateX(-100%); }
+	}
+</style>

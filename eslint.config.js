@@ -1,6 +1,7 @@
 // Further configuration examples can be found at the end of the file
 
 import antfu from '@antfu/eslint-config';
+import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import eslintPluginSonarJs from 'eslint-plugin-sonarjs';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
@@ -24,7 +25,7 @@ export default withNuxt(
 			...eslintPluginSonarJs.configs.recommended,
 		},
 		{
-			files: ['**/*.ts'],
+			files: ['**/*.ts', '**/*.vue'],
 			rules: {
 				'arrow-body-style': [
 					'error',
@@ -55,7 +56,7 @@ export default withNuxt(
 				'no-continue': 'error',
 				'no-implicit-coercion': 'error',
 				'no-multi-assign': 'error',
-				'logical-assignment-operators': ['error', 'never'],
+				'logical-assignment-operators': 'error',
 				'no-constant-binary-expression': 'error',
 				'no-constant-condition': 'error',
 				'no-div-regex': 'error',
@@ -82,7 +83,6 @@ export default withNuxt(
 				'no-script-url': 'error',
 				'no-shadow': 'error',
 				'no-unsafe-optional-chaining': 'error',
-				'no-useless-assignment': 'error',
 				'no-useless-concat': 'error',
 				'no-useless-escape': 'error',
 				'no-void': 'error',
@@ -103,6 +103,52 @@ export default withNuxt(
 				'require-yield': 'error',
 				'import/no-deprecated': 'error',
 				'import/no-import-module-exports': 'error',
+				'style/array-bracket-newline': 'error',
+				'style/curly-newline': 'error',
+				'style/function-call-spacing': 'error',
+				'style/implicit-arrow-linebreak': 'error',
+				'style/line-comment-position': 'error',
+				'style/linebreak-style': 'error',
+				'style/lines-around-comment': 'error',
+				'style/multiline-comment-style': 'error',
+				'style/no-confusing-arrow': 'error',
+				'style/no-extra-parens': 'error',
+				'style/object-curly-newline': 'error',
+				'style/one-var-declaration-per-line': 'error',
+				'style/padding-line-between-statements': [
+					'error',
+					{ blankLine: 'always', prev: '*', next: ['enum', 'interface', 'type', 'return'] },
+				],
+				'style/semi-style': 'error',
+				'style/switch-colon-spacing': 'error',
+				'style/wrap-regex': 'error',
+				'perfectionist/sort-variable-declarations': 'error',
+				'perfectionist/sort-intersection-types': 'error',
+				'perfectionist/sort-heritage-clauses': 'error',
+				'perfectionist/sort-array-includes': 'error',
+				'perfectionist/sort-object-types': 'error',
+				'perfectionist/sort-switch-case': 'error',
+				'perfectionist/sort-decorators': 'error',
+				'perfectionist/sort-enums': 'error',
+				'perfectionist/sort-sets': 'error',
+				'perfectionist/sort-maps': 'error',
+				'sonarjs/todo-tag': 'warn',
+				'unicorn/prevent-abbreviations': [
+					'error',
+					{
+						replacements: {
+							props: {
+								properties: false,
+							},
+						},
+					},
+				],
+			},
+		},
+		{
+			files: ['**/*.ts'],
+			rules: {
+				'no-useless-assignment': 'error',
 				'ts/explicit-function-return-type': 'error',
 				'camelcase': 'off',
 				'ts/naming-convention': [
@@ -219,42 +265,39 @@ export default withNuxt(
 				'ts/related-getter-setter-pairs': 'error',
 				'ts/require-await': 'error',
 				'ts/use-unknown-in-catch-callback-variable': 'error',
-				'style/array-bracket-newline': 'error',
-				'style/curly-newline': 'error',
-				'style/function-call-spacing': 'error',
-				'style/implicit-arrow-linebreak': 'error',
-				'style/line-comment-position': 'error',
-				'style/linebreak-style': 'error',
-				'style/lines-around-comment': 'error',
-				'style/multiline-comment-style': 'error',
-				'style/newline-per-chained-call': 'error',
-				'style/no-confusing-arrow': 'error',
-				'style/no-extra-parens': 'error',
-				'style/object-curly-newline': 'error',
-				'style/one-var-declaration-per-line': 'error',
-				'style/padding-line-between-statements': [
-					'error',
-					{ blankLine: 'always', prev: '*', next: ['enum', 'interface', 'type', 'return'] },
-				],
-				'style/semi-style': 'error',
-				'style/switch-colon-spacing': 'error',
-				'style/wrap-regex': 'error',
-				'perfectionist/sort-variable-declarations': 'error',
-				'perfectionist/sort-intersection-types': 'error',
-				'perfectionist/sort-heritage-clauses': 'error',
-				'perfectionist/sort-array-includes': 'error',
-				'perfectionist/sort-object-types': 'error',
-				'perfectionist/sort-switch-case': 'error',
-				'perfectionist/sort-decorators': 'error',
-				'perfectionist/sort-enums': 'error',
-				'perfectionist/sort-sets': 'error',
-				'perfectionist/sort-maps': 'error',
-				'sonarjs/todo-tag': 'warn',
 			},
 		},
 		{
 			files: ['**/*.vue'],
+			plugins: {
+				'better-tailwindcss': eslintPluginBetterTailwindcss,
+			},
+			settings: {
+				'better-tailwindcss': {
+					entryPoint: './app/assets/css/main.css',
+				},
+			},
 			rules: {
+				...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+				'better-tailwindcss/enforce-consistent-variable-syntax': 'error',
+				'better-tailwindcss/multiline': [
+					'error',
+					{
+						printWidth: 100,
+					},
+				],
+				'better-tailwindcss/no-conflicting-classes': 'error',
+				'better-tailwindcss/no-restricted-classes': [
+					'error',
+					{
+						restrict: [
+							// eslint-disable-next-line unicorn/prefer-string-raw
+							'^\\*+:.*',
+							'^.*!$',
+						],
+					},
+				],
+				'better-tailwindcss/no-unregistered-classes': 'off',
 				'vue/block-lang': [
 					'error',
 					{
@@ -433,6 +476,12 @@ export default withNuxt(
 				'ts/naming-convention': 'off',
 				'ts/explicit-function-return-type': 'off',
 				'sonarjs/no-nested-functions': 'off',
+			},
+		},
+		{
+			files: ['i18n/locales/**.json'],
+			rules: {
+				'jsonc/sort-keys': 'error',
 			},
 		},
 		{

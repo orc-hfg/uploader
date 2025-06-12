@@ -61,5 +61,9 @@
 	"vue.inlayHints.inlineHandlerLeading": true,
 	"vue.inlayHints.missingProps": true,
 	"vue.inlayHints.optionsWrapper": true,
-	"vue.inlayHints.vBindShorthand": true
+	"vue.inlayHints.vBindShorthand": true,
+	"i18n-ally.localesPaths": "i18n/locales",
+	"i18n-ally.pathMatcher": "{locale}.json",
+	"i18n-ally.sourceLanguage": "en",
+	"i18n-ally.displayLanguage": "en"
 }
