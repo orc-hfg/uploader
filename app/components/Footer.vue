@@ -12,7 +12,7 @@
 </script>
 
 <template>
-	<div class="flex justify-between">
+	<div class="flex h-full items-center justify-between">
 		<Fade :duration="fadeDuration">
 			<div :key="leftKey">
 				<component

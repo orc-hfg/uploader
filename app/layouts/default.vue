@@ -8,21 +8,31 @@
 
 	const route = useRoute();
 	const { t } = useI18n();
-	const pageTitle = computed(() => {
-		const pageTitleKeyPath = route.meta.pageTitleKeyPath;
 
+	const metaTitle = computed(() => {
+		const appTitle = t('app.title');
+
+		if (!appTitle?.trim()) {
+			return '';
+		}
+
+		const { pageTitleKeyPath } = route.meta;
 		if (!pageTitleKeyPath) {
 			if (import.meta.dev) {
 				console.warn(`[i18n] No pageTitleKeyPath defined for route: ${route.path}`);
 			}
 
-			return;
+			return appTitle;
 		}
 
-		return t(pageTitleKeyPath);
-	});
+		const pageTitle = t(pageTitleKeyPath);
 
-	const metaTitle = useMetaTitle(pageTitle);
+		if (!pageTitle?.trim()) {
+			return appTitle;
+		}
+
+		return `${pageTitle} – ${appTitle}`;
+	});
 
 	const logoReference = useTemplateRef<MaybeElement>('logoReference');
 	const overlayReference = useTemplateRef<MaybeElement>('overlayReference');
@@ -43,9 +53,7 @@
 	function setupAnimations() {
 		const logoAnimation = useAnimate(
 			logoReference.value,
-			[
-				{ filter: `blur(${LOGO_BLUR_TARGET}px)` },
-			],
+			[{ filter: `blur(${LOGO_BLUR_TARGET}px)` }],
 			{
 				duration: LOGO_DURATION,
 				delay: LOGO_DELAY,
@@ -57,9 +65,7 @@
 
 		const overlayAnimation = useAnimate(
 			overlayReference.value,
-			[
-				{ opacity: OVERLAY_OPACITY_TARGET },
-			],
+			[{ opacity: OVERLAY_OPACITY_TARGET }],
 			{
 				duration: OVERLAY_DURATION,
 				easing: 'ease-in',
@@ -70,9 +76,7 @@
 
 		const contentAnimation = useAnimate(
 			contentReference.value,
-			[
-				{ opacity: CONTENT_OPACITY_TARGET },
-			],
+			[{ opacity: CONTENT_OPACITY_TARGET }],
 			{
 				duration: CONTENT_DURATION,
 				easing: 'ease-in',
@@ -89,10 +93,14 @@
 
 		logoAnimation.play();
 
-		await new Promise(resolve => setTimeout(resolve, OVERLAY_DELAY));
+		await new Promise((resolve) => {
+			setTimeout(resolve, OVERLAY_DELAY);
+		});
 		overlayAnimation.play();
 
-		await new Promise(resolve => setTimeout(resolve, OVERLAY_DURATION));
+		await new Promise((resolve) => {
+			setTimeout(resolve, OVERLAY_DURATION);
+		});
 		contentAnimation.play();
 	}
 
@@ -106,6 +114,7 @@
 		<Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
 			<Head>
 				<Title>{{ metaTitle }}</Title>
+				<Meta name="description" :content="$t('meta.description')" />
 				<template v-for="link in head.link" :key="link.hid">
 					<Link :id="link.hid" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
 				</template>
@@ -123,17 +132,17 @@
         sm:h-[800px] sm:w-[600px]
       "
 					>
-						<header class="h-[70px]">
+						<header class="h-[75px]">
 							<Header />
 						</header>
 
-						<main class="grow">
+						<main class="grow px-10 pt-12">
 							<NuxtPage />
 						</main>
 
 						<footer
 							class="
-         absolute bottom-0 w-full p-4
+         absolute bottom-0 h-[75px] w-full px-4
          sm:w-[600px]
        "
 						>

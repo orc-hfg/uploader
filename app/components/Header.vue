@@ -7,8 +7,10 @@
 
 <template>
 	<div class="flex h-full items-center justify-between px-4">
-		<div class="w-10">
-			Left
+		<div>
+			<SwitchLocalePathLink locale="de">
+				Deutsch
+			</SwitchLocalePathLink>
 		</div>
 
 		<h1 class="text-center text-xl">
@@ -17,8 +19,10 @@
 			</Fade>
 		</h1>
 
-		<div class="w-10 text-right">
-			Right
+		<div>
+			<SwitchLocalePathLink locale="en">
+				English
+			</SwitchLocalePathLink>
 		</div>
 	</div>
 </template>

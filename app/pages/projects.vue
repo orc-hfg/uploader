@@ -21,9 +21,9 @@
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
 
-	onMounted(() => {
-		const { t } = useI18n();
+	const { t } = useI18n();
 
+	onMounted(() => {
 		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
 
 		footerUIStore.rightActionComponent = Button;
@@ -41,7 +41,7 @@
 	<div class="h-full">
 		<div class="h-full bg-primary-300 p-4 text-2xl font-bold text-primary-50">
 			<NuxtLinkLocale to="index">
-				{{ $t('pages.title.login') }}
+				{{ t('pages.title.login') }}
 			</NuxtLinkLocale>
 		</div>
 	</div>

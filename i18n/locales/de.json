@@ -1,9 +1,28 @@
 {
+	"app": {
+		"title": "Uploader"
+	},
 	"footer": {
 		"actions": {
 			"login": "Anmelden",
 			"new_project": "Neues Projekt"
 		}
+	},
+	"forms": {
+		"errors": {
+			"password_required": "Das Passwort ist erforderlich.",
+			"username_or_email_required": "Der Benutzername oder die E-Mail-Adresse ist erforderlich."
+		},
+		"help_texts": {
+			"hfg_email": "Nur HfG-Karlsruhe-Adressen werden akzeptiert."
+		},
+		"labels": {
+			"password": "Passwort",
+			"username_or_email": "Benutzername oder E-Mail-Adresse"
+		}
+	},
+	"meta": {
+		"description": "Uploader der HfG Karlsruhe: eine einfache App, mit der Studierende ihre Projekte schnell bereitstellen können."
 	},
 	"pages": {
 		"title": {
