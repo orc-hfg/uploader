@@ -101,8 +101,6 @@ export default withNuxt(
 				'radix': 'error',
 				'require-unicode-regexp': 'error',
 				'require-yield': 'error',
-				'import/no-deprecated': 'error',
-				'import/no-import-module-exports': 'error',
 				'style/array-bracket-newline': 'error',
 				'style/curly-newline': 'error',
 				'style/function-call-spacing': 'error',
@@ -118,6 +116,8 @@ export default withNuxt(
 				'style/padding-line-between-statements': [
 					'error',
 					{ blankLine: 'always', prev: '*', next: ['enum', 'interface', 'type', 'return'] },
+					{ blankLine: 'always', prev: 'import', next: '*' },
+					{ blankLine: 'any', prev: 'import', next: 'import' },
 				],
 				'style/semi-style': 'error',
 				'style/switch-colon-spacing': 'error',
@@ -229,6 +229,7 @@ export default withNuxt(
 				'ts/consistent-generic-constructors': 'error',
 				'ts/consistent-indexed-object-style': 'error',
 				'ts/consistent-type-assertions': 'error',
+				'ts/consistent-type-imports': 'error',
 				'ts/no-array-delete': 'error',
 				'ts/no-base-to-string': 'error',
 				'ts/no-confusing-non-null-assertion': 'error',
@@ -507,7 +508,6 @@ https://github.com/antfu/eslint-config
 Some of them are renamed to make the overall scope more consistent and easier to write:
 https://github.com/antfu/eslint-config?tab=readme-ov-file#plugins-renaming
 
-import/*
 node/*
 yaml/*
 ts/*
