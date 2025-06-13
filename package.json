@@ -39,7 +39,7 @@
 	"dependencies": {
 		"@nuxtjs/google-fonts": "3.2.0",
 		"@nuxtjs/i18n": "9.5.5",
-		"@orc-hfg/madek-api-nuxt-layer": "1.1.16",
+		"@orc-hfg/madek-api-nuxt-layer": "1.1.20",
 		"@primeuix/themes": "1.1.1",
 		"@primevue/forms": "4.3.4",
 		"@vueuse/nuxt": "13.2.0",
