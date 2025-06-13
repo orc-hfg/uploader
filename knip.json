@@ -31,7 +31,6 @@
 		"tailwindcss-primeui",
 		"vitest-environment-nuxt",
 		"vue",
-		"vue-i18n",
 		"vue-tsc",
 		"vue-router",
 		"zod"

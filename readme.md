@@ -105,4 +105,6 @@ Folgende Dateien entsprechend anpassen:
 - `npm run check-updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
 
 ### 3. Aufgaben für das nächste Dependency Update bearbeiten und ggf. neue erstellen
+- Kann happy-dom nun aktualisiert werden? https://github.com/nuxt/test-utils/issues/1323
+- Testen, ob Knip in Version ab 5.58.0 (5.61.0 ging zuletzt noch nicht) nun funktioniert und dieser Fehler nicht mehr auftritt: TypeError: Cannot assign to read only property 'defineNuxtConfig' of object '#<Object>'
 - ggf. kann Dependency `@primevue/forms` wieder entfernt werden, wenn dieses Problem gelöst ist: https://github.com/primefaces/primevue/issues/7434
