@@ -29,6 +29,8 @@
 		footerUIStore.rightActionComponent = Button;
 		footerUIStore.rightActionProps = {
 			label: t('footer.actions.new_project'),
+			icon: 'pi pi-plus',
+			type: 'button',
 		};
 	});
 
@@ -38,11 +40,7 @@
 </script>
 
 <template>
-	<div class="h-full">
-		<div class="h-full bg-primary-300 p-4 text-2xl font-bold text-primary-50">
-			<NuxtLinkLocale to="index">
-				{{ t('pages.title.login') }}
-			</NuxtLinkLocale>
-		</div>
+	<div>
+		Projektübersicht
 	</div>
 </template>
