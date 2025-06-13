@@ -114,7 +114,7 @@
 		<Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
 			<Head>
 				<Title>{{ metaTitle }}</Title>
-				<Meta name="description" :content="$t('meta.description')" />
+				<Meta name="description" :content="t('meta.description')" />
 				<template v-for="link in head.link" :key="link.hid">
 					<Link :id="link.hid" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
 				</template>
