@@ -3,6 +3,15 @@ export default defineNuxtRouteMiddleware((to, from) => {
 		return;
 	}
 
+	const motion = usePreferredReducedMotion();
+	if (motion.value === 'reduce') {
+		// Use fade transition for reduced motion: https://css-tricks.com/nuking-motion-with-prefers-reduced-motion/
+		to.meta.pageTransition.name = 'reduced-motion';
+		to.meta.pageTransition.mode = 'out-in';
+
+		return;
+	}
+
 	const PAGE_ORDER = ['index', 'projects'];
 
 	const { $getRouteBaseName } = useNuxtApp();

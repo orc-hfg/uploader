@@ -163,6 +163,15 @@
 </template>
 
 <style lang="css" scoped>
+	.reduced-motion-enter-active,
+	.reduced-motion-leave-active {
+		transition: opacity 0.5s;
+	}
+	.reduced-motion-enter-from,
+	.reduced-motion-leave-to {
+		opacity: 0;
+	}
+
 	.slide-left-enter-active,
 	.slide-left-leave-active,
 	.slide-right-enter-active,
