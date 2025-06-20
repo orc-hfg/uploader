@@ -17,6 +17,7 @@
 		}
 
 		const { pageTitleKeyPath } = route.meta;
+
 		if (!pageTitleKeyPath) {
 			if (import.meta.dev) {
 				console.warn(`[i18n] No pageTitleKeyPath defined for route: ${route.path}`);
@@ -123,7 +124,6 @@
 				</template>
 			</Head>
 			<Body>
-				<NuxtRouteAnnouncer />
 				<div>
 					<div
 						ref="contentReference" class="
