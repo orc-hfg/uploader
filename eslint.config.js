@@ -469,7 +469,6 @@ export default withNuxt(
 				'test/prefer-vi-mocked': 'error',
 				'test/require-local-test-context-for-concurrent-snapshots': 'error',
 				'test/require-to-throw-message': 'error',
-				'test/require-top-level-describe': ['error', { maxNumberOfTopLevelDescribes: 2 }],
 				'test/valid-describe-callback': 'error',
 				'test/valid-expect': 'error',
 				'test/valid-title': 'error',
