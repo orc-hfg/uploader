@@ -108,14 +108,14 @@
 		const CSRF_COOKIE_NAME = 'madek.auth.anti-csrf-token';
 		ca.forEach((element) => {
 			const kv = element.split('=');
-			if (kv[0] === CSRF_COOKIE_NAME) {
+			if (kv[0] && kv[0].indexOf(CSRF_COOKIE_NAME)>-1) {
 				cv = kv[1] || '';
 			}
 		});
 		if (cv.length > 0) {
 			console.info('getCSRF: found csrf cookie val: ', cv);
 		} else {
-			console.error('getCSRF: could not find csrf cookie value: ');
+			console.error('getCSRF: could not find csrf cookie value: ', ca);
 		}
 
 		return cv;
