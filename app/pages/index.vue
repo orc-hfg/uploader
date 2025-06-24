@@ -134,6 +134,8 @@
 
 	const userStore = useUserStore();
 
+	//const { $madekApi } = useNuxtApp();
+
 	async function doAuthLogin(login: string, password: string): Promise<void> {
 		console.info('doAuthLogin: ', login, password);
 		// first get auth system and csrf cookie value
@@ -155,11 +157,12 @@
 			body: JSON.stringify({ password: password }),
 		} as unknown) as Request;
 
-		const resp = await fetch(url, options)
+		const resp = await fetch(url, options);
 		const resp_data = await resp.text();
 		console.info('doAuthLogin: got response:', resp.status);
 		if (resp.status === 200) {
 			await userStore.initialize();
+			//const ai_resp = await $madekApi('/auth-info', { method: 'GET', credentials: 'include' });
 			console.info('doAuthLogin: got auth info:', userStore.login);
 		}
 		else {
