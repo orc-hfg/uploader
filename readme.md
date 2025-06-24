@@ -81,6 +81,49 @@ Alle relevanten Design-Dateien (PrimeVue Theme) befinden sich im Verzeichnis `ap
 - Bei Designänderungen sollte immer ein Abgleich zwischen Figma-Variablen und den Theme-Dateien stattfinden
 - Um neue Komponenten anzulegen, sollten die Designer auf bestehende PrimeVue-Komponenten zurückgreifen
 
+## Deployment
+
+Das Projekt lässt sich einfach auf verschiedene Umgebungen deployen. Hierfür wurde ein konsolidiertes Deployment-Skript erstellt, das wahlweise die Development- oder die Staging-Umgebung ansteuern kann.
+
+### Voraussetzungen für das Deployment
+
+- Zugriff auf den Server via SSH (MADEK_SSH_USER muss in der `.env`-Datei konfiguriert sein)
+- Eine gültige Build-Umgebung (Node.js in der korrekten Version)
+
+### Deployment-Umgebungen
+
+Das Projekt unterstützt zwei Deployment-Umgebungen:
+
+1. **Development**: Für Entwicklungszwecke und Tests
+   ```
+   npm run deploy:development
+   ```
+
+2. **Staging**: Für Qualitätssicherung vor der Produktivschaltung
+   ```
+   npm run deploy:staging
+   ```
+
+### Was passiert beim Deployment?
+
+Das Deployment-Skript führt folgende Schritte aus:
+
+1. Überprüfung der erforderlichen Umgebungsvariablen
+2. Bereinigung und Installation der Abhängigkeiten (`npm ci`)
+3. Build der Anwendung (`npm run build`)
+4. Übertragung der Build-Artefakte auf den entsprechenden Server via rsync
+5. Neustart des jeweiligen Services auf dem Server
+
+### Manuelle Ausführung des Deployment-Skripts
+
+Falls notwendig, kann das Deployment-Skript auch direkt aufgerufen werden:
+
+```
+sh ./deployment/uploader-deploy.sh [environment]
+```
+
+Mögliche Umgebungen sind `development` oder `staging`.
+
 ## Dependency Updates
 
 ### 1. Node-Version aktualisieren (auf aktuelle LTS-Version)
