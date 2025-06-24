@@ -82,22 +82,23 @@
 			AUTH_RETURN + encodeURIComponent(APP_BASE);
 	}
 
-	async function getAuthSystem(login: string): Promise<void> {
+	async function getAuthSystem(login: string): Promise<string> {
 		const url = AUTH_SYS_URL + AUTH_EMAIL_OR_LOGIN
 			+ encodeURIComponent(login);
 			// + AUTH_RETURN + encodeURIComponent(APP_BASE);
 
-  		const ri = ({
-    		headers: {
-      			'Content-Type': 'text/html',
-    		},
-    		method: 'GET',
-  		} as unknown) as Request;
+		const ri = ({
+			headers: {
+				'Content-Type': 'text/html',
+			},
+			method: 'GET',
+		} as unknown) as Request;
 
-  		const resp = await fetch(url, ri);
-  		console.info('getAuthSystem: result:', resp.status);
+		const resp = await fetch(url, ri);
+		console.info('getAuthSystem: result:', resp.status);
 		// TODO extract real auth system (but as we use only one, we report our default system)
-  		return 'password';
+
+		return 'password';
 	}
 
 	function getCSRF(): string {
