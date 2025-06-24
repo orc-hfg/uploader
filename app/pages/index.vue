@@ -69,6 +69,103 @@
 		}
 	});
 
+	// TODO use config
+	const APP_BASE = 'uploader';
+	const AUTH_BASE = '/auth/sign-in/';
+	const AUTH_SYS_URL = '/auth/sign-in/auth-systems/';
+	const AUTH_EMAIL_OR_LOGIN = '?email-or-login=';
+	const AUTH_RETURN = '&return-to=';
+
+	function getAuthUrl(authSys: string, fPath: string, login: string): string {
+		return AUTH_SYS_URL + authSys + '/' + authSys + fPath + 
+			AUTH_EMAIL_OR_LOGIN + encodeURIComponent(login) +
+			AUTH_RETURN + encodeURIComponent(APP_BASE);
+	}
+
+	async function getAuthSystem(login: string): Promise<void> {
+		const url = AUTH_SYS_URL + AUTH_EMAIL_OR_LOGIN
+			+ encodeURIComponent(login);
+			// + AUTH_RETURN + encodeURIComponent(APP_BASE);
+
+  		const ri = ({
+    		headers: {
+      			'Content-Type': 'text/html',
+    		},
+    		method: 'GET',
+  		} as unknown) as Request;
+
+  		const resp = await fetch(url, ri);
+  		console.info('getAuthSystem: result:', resp.status);
+		// TODO extract real auth system (but as we use only one, we report our default system)
+  		return 'password';
+	}
+
+	function getCSRF(): string {
+		const decodedCookie = decodeURIComponent(document.cookie);
+		const ca = decodedCookie.split(';');
+		let cv = '';
+		const CSRF_COOKIE_NAME = 'madek.auth.anti-csrf-token';
+		ca.forEach((element) => {
+			const kv = element.split('=');
+			if (kv[0] === CSRF_COOKIE_NAME) {
+				cv = kv[1] || '';
+			}
+		});
+		if (cv.length > 0) {
+			console.info('getCSRF: found csrf cookie val: ', cv);
+		} else {
+			console.error('getCSRF: could not find csrf cookie value: ');
+		}
+
+		return cv;
+	};
+
+	async function checkLogin(authSys: string, login: string): Promise<void> {
+		// TODO use auth-sys request by login to get CSRF token
+		const url = getAuthUrl(authSys, '/request', login);
+		const opts = ({
+			headers: { 'Content-Type': 'text/html' },
+			method: 'GET',
+		} as unknown) as Request;
+		const resp = await fetch(url, opts);
+		console.info('checkLogin: got response:', resp.status);
+	};
+
+	const userStore = useUserStore();
+
+	async function doAuthLogin(login: string, password: string): Promise<void> {
+		console.info('doAuthLogin: ', login, password);
+		// first get auth system and csrf cookie value
+		const authSys = await getAuthSystem(login);
+		// extract cookie value
+		const cv = getCSRF();
+		// check if login via auth-system exists (can be omitted perhabs)
+		// checkLogin(authSys, login);
+
+		const url = getAuthUrl(authSys, '/sign-in', login);
+
+		const options = ({
+			headers: {
+				'madek.auth.anti-csrf-token': cv,
+				'Content-Type': 'application/json',
+			},
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify({ password: password }),
+		} as unknown) as Request;
+
+		const resp = await fetch(url, options)
+		const resp_data = await resp.text();
+		console.info('doAuthLogin: got response:', resp.status);
+		if (resp.status === 200) {
+			await userStore.initialize();
+			console.info('doAuthLogin: got auth info:', userStore.login);
+		}
+		else {
+			console.error('doAuthLogin: error:', resp_data);
+		}
+	};
+
 	// Form submission handler
 	function onFormSubmit(event: FormSubmitEvent<Record<string, unknown>>) {
 		if (!event.valid) {
@@ -85,6 +182,10 @@
 		 * Bridges PrimeVue's generic API with our typed form values.
 		 */
 		const formValues = event.values as LoginFormValues;
+
+		doAuthLogin(formValues.username_or_email, formValues.password).then(() => {
+			console.info('logged in');
+		});
 		console.info('Form submitted', formValues);
 	}
 </script>
