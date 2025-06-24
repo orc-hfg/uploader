@@ -90,31 +90,36 @@
 </script>
 
 <template>
-	<Form id="loginForm" v-slot="$form" :initial-values :resolver @submit="onFormSubmit">
-		<Fluid>
-			<div class="flex flex-col gap-6">
-				<div class="flex flex-col gap-1">
-					<FloatLabel variant="in">
-						<InputText id="username_or_email_label" ref="usernameOrEmailInput" name="username_or_email" variant="filled" />
-						<label for="username_or_email_label">{{ t('forms.labels.username_or_email') }}</label>
-					</FloatLabel>
-					<Message size="small" severity="secondary" variant="simple">
-						{{ t('forms.help_texts.hfg_email') }}
-					</Message>
-					<Message v-if="$form.username_or_email?.invalid" severity="error" size="small" variant="simple">
-						{{ $form.username_or_email.error?.message }}
-					</Message>
+	<div>
+		<Form id="loginForm" v-slot="$form" :initial-values :resolver @submit="onFormSubmit">
+			<Fluid>
+				<div class="flex flex-col gap-6">
+					<div class="flex flex-col gap-1">
+						<FloatLabel variant="in">
+							<InputText id="username_or_email_label" ref="usernameOrEmailInput" name="username_or_email" variant="filled" />
+							<label for="username_or_email_label">{{ t('forms.labels.username_or_email') }}</label>
+						</FloatLabel>
+						<Message size="small" severity="secondary" variant="simple">
+							{{ t('forms.help_texts.hfg_email') }}
+						</Message>
+						<Message v-if="$form.username_or_email?.invalid" severity="error" size="small" variant="simple">
+							{{ $form.username_or_email.error?.message }}
+						</Message>
+					</div>
+					<div class="flex flex-col gap-1">
+						<FloatLabel variant="in">
+							<Password input-id="password_label" name="password" variant="filled" :feedback="false" />
+							<label for="password_label">{{ t('forms.labels.password') }}</label>
+						</FloatLabel>
+						<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
+							{{ $form.password.error?.message }}
+						</Message>
+					</div>
 				</div>
-				<div class="flex flex-col gap-1">
-					<FloatLabel variant="in">
-						<Password input-id="password_label" name="password" variant="filled" :feedback="false" />
-						<label for="password_label">{{ t('forms.labels.password') }}</label>
-					</FloatLabel>
-					<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
-						{{ $form.password.error?.message }}
-					</Message>
-				</div>
-			</div>
-		</Fluid>
-	</Form>
+			</Fluid>
+		</Form>
+		<NuxtLinkLocale to="projects">
+			Link: {{ $t('pages.title.projects') }}
+		</NuxtLinkLocale>
+	</div>
 </template>

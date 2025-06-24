@@ -41,6 +41,8 @@
 
 <template>
 	<div>
-		Projektübersicht
+		<NuxtLinkLocale to="index">
+			Link: {{ t('pages.title.login') }}
+		</NuxtLinkLocale>
 	</div>
 </template>
