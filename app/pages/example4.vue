@@ -35,12 +35,12 @@
 			Contexts:<br>
 			<ul>
 				<li v-for="context in contexts" :key="context.id">
-					{{ context.id }}: {{ context.labels.de }} / {{ context.labels.en }}
+					{{ context.id }}: {{ context?.labels?.de }} / {{ context?.labels?.en }}
 				</li>
 			</ul>
 			<p>
 				Context (core):<br>
-				{{ coreContext?.labels.de }} / {{ coreContext?.labels.en }}
+				{{ coreContext?.labels?.de }} / {{ coreContext?.labels?.en }}
 			</p>
 		</div>
 		<p>
