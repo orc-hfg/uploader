@@ -5,6 +5,9 @@ if (import.meta.dev || import.meta.test) {
 	console.info('[AUTHENTICATION MOCK] Authentication mock is active');
 }
 
+const runtimeConfig = useRuntimeConfig();
+const authenticationConfig = runtimeConfig.public.authentication;
+
 interface SignInRequestBody {
 	login: string;
 	password: string;
@@ -39,20 +42,16 @@ export default defineNitroPlugin((nitroApp) => {
 	const SESSION_MAX_AGE_SECONDS = 86_400;
 	const EMAIL_OR_LOGIN_PARAM = 'email-or-login';
 
-	nitroApp.router.get('/auth/sign-in/auth-systems', defineEventHandler((event) => {
+	nitroApp.router.get(`/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`, defineEventHandler((event) => {
 		console.info(`[AUTHENTICATION MOCK] GET ${getRequestURL(event).pathname}`);
 
 		setCookie(event, CSRF_COOKIE, generateCsrfToken(), {
 			path: '/',
 			httpOnly: false,
 		});
-
-		return {
-			auth_system: 'password',
-		};
 	}));
 
-	nitroApp.router.post('/auth/sign-in/auth-systems/password/password/sign-in', defineEventHandler(async (event) => {
+	nitroApp.router.post(`/${authenticationConfig.basePath}${authenticationConfig.systemPath}${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`, defineEventHandler(async (event) => {
 		console.info(`[AUTHENTICATION MOCK] POST ${getRequestURL(event).pathname}`);
 
 		const body = await readBody<SignInRequestBody>(event);
@@ -65,14 +64,14 @@ export default defineNitroPlugin((nitroApp) => {
 		if (csrfToken !== csrfHeader) {
 			throw createError({
 				statusCode: StatusCodes.FORBIDDEN,
-				statusMessage: 'CSRF token mismatch',
+				statusMessage: 'The CSRF token does not match.',
 			});
 		}
 
 		if (loginValue !== TEST_USER.login || body.password !== TEST_USER_PASSWORD) {
 			throw createError({
 				statusCode: StatusCodes.UNAUTHORIZED,
-				statusMessage: 'Invalid credentials',
+				statusMessage: 'The provided credentials are invalid.',
 			});
 		}
 
@@ -83,12 +82,5 @@ export default defineNitroPlugin((nitroApp) => {
 			secure: false,
 			maxAge: SESSION_MAX_AGE_SECONDS,
 		});
-
-		return {
-			status: 'ok',
-			data: {
-				user: TEST_USER.login,
-			},
-		};
 	}));
 });
