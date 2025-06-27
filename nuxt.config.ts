@@ -1,6 +1,13 @@
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
+const LOCAL_SERVER_URL = 'http://localhost:3000/';
+const DEVELOPMENT_SERVER_URL = 'https://dev.madek.hfg-karlsruhe.de/';
+const APP_PATH_NAME = 'uploader';
+const AUTHENTICATION_PATH_NAME = 'auth';
+const AUTHENTICATION_SIGN_IN_PATH_NAME = 'sign-in';
+const AUTHENTICATION_SYSTEM_PATH_NAME = 'auth-systems';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	future: {
@@ -59,7 +66,7 @@ export default defineNuxtConfig({
 		},
 	},
 	i18n: {
-		baseUrl: 'http://localhost:3000/',
+		baseUrl: LOCAL_SERVER_URL,
 		defaultLocale: 'de',
 		strategy: 'prefix',
 		locales: [
@@ -85,10 +92,31 @@ export default defineNuxtConfig({
 	},
 	runtimeConfig: {
 		isMainApp: true,
+		public: {
+			serverUrl: LOCAL_SERVER_URL,
+			appPathName: APP_PATH_NAME,
+			authentication: {
+				basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
+				signInPathName: AUTHENTICATION_SIGN_IN_PATH_NAME,
+				systemPathName: AUTHENTICATION_SYSTEM_PATH_NAME,
+				systemPath: `${AUTHENTICATION_SYSTEM_PATH_NAME}/`,
+				defaultSystemName: 'password',
+				emailOrLoginParameter: 'email-or-login',
+				returnToParameter: 'return-to',
+			},
+		},
 	},
 	$production: {
 		i18n: {
-			baseUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
+			baseUrl: `${DEVELOPMENT_SERVER_URL}${APP_PATH_NAME}/`,
+		},
+		runtimeConfig: {
+			public: {
+				serverUrl: DEVELOPMENT_SERVER_URL,
+				authentication: {
+					basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
+				},
+			},
 		},
 	},
 	extends: ['@orc-hfg/madek-api-nuxt-layer'],

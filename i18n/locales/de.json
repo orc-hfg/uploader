@@ -10,15 +10,15 @@
 	},
 	"forms": {
 		"errors": {
-			"password_required": "Das Passwort ist erforderlich.",
-			"username_or_email_required": "Der Benutzername oder die E-Mail-Adresse ist erforderlich."
+			"email_or_login_required": "Die E-Mail-Adresse oder das Login ist erforderlich.",
+			"password_required": "Das Passwort ist erforderlich."
 		},
 		"help_texts": {
-			"hfg_email": "Nur HfG-Karlsruhe-Adressen werden akzeptiert."
+			"hfg_email": "Nur eine E-Mail-Adresse der HfG-Karlsruhe wird akzeptiert."
 		},
 		"labels": {
-			"password": "Passwort",
-			"username_or_email": "Benutzername oder E-Mail-Adresse"
+			"email_or_login": "E-Mail-Adresse oder Login",
+			"password": "Passwort"
 		}
 	},
 	"meta": {
