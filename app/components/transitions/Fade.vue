@@ -1,13 +1,9 @@
 <script setup lang="ts">
-	interface Props {
+	const { duration = 0.5 } = defineProps<{
 		duration?: number;
-	}
+	}>();
 
-	const props = withDefaults(defineProps<Props>(), {
-		duration: 0.5,
-	});
-
-	const animationDuration = `${props.duration}s`;
+	const animationDuration = `${duration}s`;
 </script>
 
 <template>
