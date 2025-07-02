@@ -5,7 +5,9 @@ import { StatusCodes } from 'http-status-codes';
 const shouldActivateAuthenticationMock = import.meta.dev || import.meta.test;
 
 if (shouldActivateAuthenticationMock) {
-	console.info('[AUTHENTICATION MOCK] Authentication mock is active');
+	const logger = createLogger();
+
+	logger.info('Plugin: authentication-mock', 'Authentication mock is active.');
 }
 
 const runtimeConfig = useRuntimeConfig();
@@ -39,6 +41,8 @@ export default defineNitroPlugin((nitroApp) => {
 		return;
 	}
 
+	const logger = createLogger();
+
 	const CSRF_COOKIE = 'madek.auth.anti-csrf-token';
 	const CSRF_HEADER = 'madek.auth.anti-csrf-token';
 	const SESSION_COOKIE = 'madek.session';
@@ -46,7 +50,7 @@ export default defineNitroPlugin((nitroApp) => {
 	const EMAIL_OR_LOGIN_PARAM = 'email-or-login';
 
 	nitroApp.router.get(`/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`, defineEventHandler((event) => {
-		console.info(`[AUTHENTICATION MOCK] GET ${getRequestURL(event).pathname}`);
+		logger.info('Plugin: authentication-mock', `GET ${getRequestURL(event).pathname}`);
 
 		setCookie(event, CSRF_COOKIE, generateCsrfToken(), {
 			path: '/',
@@ -55,7 +59,7 @@ export default defineNitroPlugin((nitroApp) => {
 	}));
 
 	nitroApp.router.post(`/${authenticationConfig.basePath}${authenticationConfig.systemPath}${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`, defineEventHandler(async (event) => {
-		console.info(`[AUTHENTICATION MOCK] POST ${getRequestURL(event).pathname}`);
+		logger.info('Plugin: authentication-mock', `POST ${getRequestURL(event).pathname}`);
 
 		const body = await readBody<SignInRequestBody>(event);
 		const query = getQuery(event);
