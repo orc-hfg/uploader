@@ -1,7 +1,10 @@
 import { randomBytes } from 'node:crypto';
 import { StatusCodes } from 'http-status-codes';
 
-if (import.meta.dev || import.meta.test) {
+// Activate this authentication mock only in development (localhost server) and test environments
+const shouldActivateAuthenticationMock = import.meta.dev || import.meta.test;
+
+if (shouldActivateAuthenticationMock) {
 	console.info('[AUTHENTICATION MOCK] Authentication mock is active');
 }
 
@@ -32,7 +35,7 @@ function generateCsrfToken(): string {
 }
 
 export default defineNitroPlugin((nitroApp) => {
-	if (!(import.meta.dev || import.meta.test)) {
+	if (!shouldActivateAuthenticationMock) {
 		return;
 	}
 
