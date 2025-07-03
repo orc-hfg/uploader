@@ -2,7 +2,8 @@ import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
 const LOCAL_SERVER_URL = 'http://localhost:3000/';
-const DEVELOPMENT_SERVER_URL = 'https://dev.madek.hfg-karlsruhe.de/';
+const DEVELOPMENT_SERVER_HOSTNAME = 'dev.madek.hfg-karlsruhe.de';
+const DEVELOPMENT_SERVER_URL = `https://${DEVELOPMENT_SERVER_HOSTNAME}/`;
 const APP_PATH_NAME = 'uploader';
 const AUTHENTICATION_PATH_NAME = 'auth';
 const AUTHENTICATION_SIGN_IN_PATH_NAME = 'sign-in';
@@ -33,6 +34,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/i18n',
 		'@primevue/nuxt-module',
 		'@vueuse/nuxt',
+		'@sentry/nuxt/module',
 	],
 
 	/*
@@ -85,6 +87,15 @@ export default defineNuxtConfig({
 	primevue: {
 		importTheme: { from: '@/theme/primevue-theme-application.ts' },
 	},
+	sentry: {
+		sourceMapsUploadOptions: {
+			org: 'rene-zschoch',
+			project: 'javascript-nuxt',
+		},
+	},
+	sourcemap: {
+		client: 'hidden',
+	},
 	app: {
 		head: {
 			link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -103,6 +114,22 @@ export default defineNuxtConfig({
 				defaultSystemName: 'password',
 				emailOrLoginParameter: 'email-or-login',
 				returnToParameter: 'return-to',
+			},
+			sentry: {
+				// These options are used in both sentry.client.config.ts and sentry.server.config.ts
+				allowHostname: DEVELOPMENT_SERVER_HOSTNAME,
+
+				/*
+				 * See: https://docs.sentry.io/platforms/javascript/guides/nuxt/configuration/options/#enabled
+				 * Set to true to enable Sentry (NUXT_PUBLIC_SENTRY_ENABLED=true)
+				 */
+				enabled: false,
+
+				/*
+				 * See: https://docs.sentry.io/platforms/javascript/configuration/options/#dsn
+				 * Set to empty string on production server (NUXT_PUBLIC_SENTRY_DSN=)
+				 */
+				dsn: 'https://39dc4f041f52b538201e7f8cc495d884@o4509604852465664.ingest.de.sentry.io/4509604854104144',
 			},
 		},
 	},

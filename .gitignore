@@ -31,3 +31,6 @@ logs
 
 # AI rulesets
 .windsurf
+
+# Sentry Config File
+.env.sentry-build-plugin
