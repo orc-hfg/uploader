@@ -22,11 +22,11 @@ function getCsrfToken(): CookieRef<string | null | undefined> {
 }
 
 export function useAuthentication(): UseAuthenticationReturn {
-	const runtimeConfig = useRuntimeConfig();
+	const config = useRuntimeConfig();
 
-	const APP_PATH_NAME = runtimeConfig.public.appPathName;
-	const authenticationConfig = runtimeConfig.public.authentication;
-	const authenticationSystemEndpoint = `${runtimeConfig.public.serverUrl}${authenticationConfig.basePath}${authenticationConfig.systemPath}`;
+	const APP_PATH_NAME = config.public.appPathName;
+	const authenticationConfig = config.public.authentication;
+	const authenticationSystemEndpoint = `${config.public.serverUrl}${authenticationConfig.basePath}${authenticationConfig.systemPath}`;
 
 	function buildAuthenticationEndpoint(authenticationSystem: string, authenticationAction: string, emailOrLogin: string): string {
 		const endpoint = `${authenticationSystemEndpoint}${authenticationSystem}/${authenticationSystem}/${authenticationAction}?${authenticationConfig.emailOrLoginParameter}=${encodeURIComponent(emailOrLogin)}&${authenticationConfig.returnToParameter}=${APP_PATH_NAME}`;

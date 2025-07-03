@@ -1,5 +1,4 @@
 import { randomBytes } from 'node:crypto';
-import { createLogger } from '@orc-hfg/madek-api-nuxt-layer/server/utils/logger';
 import { StatusCodes } from 'http-status-codes';
 
 // Activate this authentication mock only in development (localhost server) and test environments
@@ -11,8 +10,8 @@ if (shouldActivateAuthenticationMock) {
 	logger.info('Plugin: authentication-mock', 'Authentication mock is active.');
 }
 
-const runtimeConfig = useRuntimeConfig();
-const authenticationConfig = runtimeConfig.public.authentication;
+const config = useRuntimeConfig();
+const authenticationConfig = config.public.authentication;
 
 interface SignInRequestBody {
 	login: string;
@@ -46,7 +45,7 @@ export default defineNitroPlugin((nitroApp) => {
 
 	const CSRF_COOKIE = 'madek.auth.anti-csrf-token';
 	const CSRF_HEADER = 'madek.auth.anti-csrf-token';
-	const SESSION_COOKIE = 'madek.session';
+	const SESSION_COOKIE = 'madek-session';
 	const SESSION_MAX_AGE_SECONDS = 86_400;
 	const EMAIL_OR_LOGIN_PARAM = 'email-or-login';
 
