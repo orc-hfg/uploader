@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto';
+import { createLogger } from '@orc-hfg/madek-api-nuxt-layer/server/utils/logger';
 import { StatusCodes } from 'http-status-codes';
 
 // Activate this authentication mock only in development (localhost server) and test environments
