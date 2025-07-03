@@ -33,6 +33,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/i18n',
 		'@primevue/nuxt-module',
 		'@vueuse/nuxt',
+		'@sentry/nuxt/module',
 	],
 
 	/*
@@ -120,4 +121,13 @@ export default defineNuxtConfig({
 		},
 	},
 	extends: ['@orc-hfg/madek-api-nuxt-layer'],
+	sentry: {
+		sourceMapsUploadOptions: {
+			org: 'rene-zschoch',
+			project: 'javascript-nuxt',
+		},
+	},
+	sourcemap: {
+		client: 'hidden',
+	},
 });
