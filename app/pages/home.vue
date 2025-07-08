@@ -5,8 +5,6 @@
 
 	defineI18nRoute(false);
 
-	const runtimeConfig = useRuntimeConfig();
-
 	const { data: appSettings } = await useAsyncData(() => getSettingsRepository().getAppSettings());
 </script>
 
@@ -19,13 +17,13 @@
 			</p>
 		</div>
 		<p>
-			<small>Madek API Nuxt Layer Version:<br>{{ runtimeConfig.public.version }}</small>
+			<small>Madek API Nuxt Layer Version:<br>{{ $config.public.version }}</small>
 		</p>
 		<p>
-			<small>App Base URL:<br>{{ runtimeConfig.app.baseURL || 'not defined' }}</small>
+			<small>App Base URL:<br>{{ $config.app.baseURL || 'not defined' }}</small>
 		</p>
 		<p>
-			<small>Madek API Base URL:<br>{{ runtimeConfig.public.madekApi.baseURL }}</small>
+			<small>Madek API Base URL:<br>{{ $config.public.madekApi.baseURL }}</small>
 		</p>
 		<div>
 			<Button label="Test Button" />

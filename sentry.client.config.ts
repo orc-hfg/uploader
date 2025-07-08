@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nuxt';
 
-const runtimeConfig = useRuntimeConfig();
-const { sentry } = runtimeConfig.public;
+const config = useRuntimeConfig();
+const { serverUrl, sentry } = config.public;
 
 const isHostAllowed = location.hostname === sentry.allowHostname;
 
@@ -9,7 +9,7 @@ const isHostAllowed = location.hostname === sentry.allowHostname;
 if (sentry.enabled && isHostAllowed) {
 	Sentry.init({
 		// Match scripts loaded from exactly our server URL
-		allowUrls: [new RegExp(runtimeConfig.public.serverUrl, 'u')],
+		allowUrls: [new RegExp(serverUrl, 'u')],
 		dsn: typeof sentry.dsn === 'string' ? sentry.dsn : '',
 
 		/*

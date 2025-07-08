@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nuxt';
 
-const runtimeConfig = useRuntimeConfig();
-const { sentry } = runtimeConfig.public;
+const config = useRuntimeConfig();
+const { sentry } = config.public;
 
 function extractHostname(raw: string | undefined): string {
 	if (raw === undefined) {

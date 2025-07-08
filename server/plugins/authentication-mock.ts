@@ -10,8 +10,8 @@ if (shouldActivateAuthenticationMock) {
 	logger.info('Plugin: authentication-mock', 'Authentication mock is active.');
 }
 
-const runtimeConfig = useRuntimeConfig();
-const authenticationConfig = runtimeConfig.public.authentication;
+const config = useRuntimeConfig();
+const authenticationConfig = config.public.authentication;
 
 interface SignInRequestBody {
 	login: string;
