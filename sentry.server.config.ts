@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/nuxt';
 
 const config = useRuntimeConfig();
 const { sentry } = config.public;
+const { sessionCookieName } = config.public.authentication;
 
 function extractHostname(raw: string | undefined): string {
 	if (raw === undefined) {
@@ -42,7 +43,7 @@ if (sentry.enabled) {
 			}
 
 			// Sensitive data scrubbing
-			const SENSITIVE_COOKIES = new Set(['madek-session']);
+			const SENSITIVE_COOKIES = new Set([sessionCookieName]);
 			const SENSITIVE_PARAMETERS = new Set(['responsible_user_id']);
 
 			// Remove sensitive cookies from request

@@ -6,6 +6,7 @@
 	defineI18nRoute(false);
 
 	const userStore = useUserStore();
+
 	// Executed once on every page visit
 	await callOnce(() => userStore.refreshData(), { mode: 'navigation' });
 

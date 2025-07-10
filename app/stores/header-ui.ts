@@ -1,4 +1,4 @@
-import type { PageTitleKeyPath } from '@@/types/i18n-keys';
+import type { PageTitleKeyPath } from '@/types/i18n-keys';
 
 export const useHeaderUIStore = defineStore('header-ui', () => {
 	const pageTitleKeyPath = shallowRef<PageTitleKeyPath>();

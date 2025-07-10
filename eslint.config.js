@@ -1,7 +1,7 @@
 // Further configuration examples can be found at the end of the file
-
 import antfu from '@antfu/eslint-config';
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
+import eslintPluginPlaywright from 'eslint-plugin-playwright';
 import eslintPluginSonarJs from 'eslint-plugin-sonarjs';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
@@ -107,7 +107,23 @@ export default withNuxt(
 				'style/implicit-arrow-linebreak': 'error',
 				'style/line-comment-position': 'error',
 				'style/linebreak-style': 'error',
-				'style/lines-around-comment': 'error',
+				'style/lines-around-comment': [
+					'error',
+					{
+						beforeBlockComment: true,
+						afterBlockComment: false,
+						beforeLineComment: true,
+						afterLineComment: false,
+						allowBlockStart: true,
+						allowBlockEnd: false,
+						allowObjectStart: true,
+						allowObjectEnd: false,
+						allowArrayStart: true,
+						allowArrayEnd: false,
+						allowClassStart: true,
+						allowClassEnd: false,
+					},
+				],
 				'style/multiline-comment-style': 'error',
 				'style/no-confusing-arrow': 'error',
 				'style/no-extra-parens': 'error',
@@ -126,7 +142,6 @@ export default withNuxt(
 				'perfectionist/sort-intersection-types': 'error',
 				'perfectionist/sort-heritage-clauses': 'error',
 				'perfectionist/sort-array-includes': 'error',
-				'perfectionist/sort-object-types': 'error',
 				'perfectionist/sort-switch-case': 'error',
 				'perfectionist/sort-decorators': 'error',
 				'perfectionist/sort-enums': 'error',
@@ -417,7 +432,7 @@ export default withNuxt(
 			},
 		},
 		{
-			files: ['**/*.test.ts'],
+			files: ['**/*.test.ts', 'tests/**/*.setup.ts'],
 			rules: {
 				'test/consistent-test-filename': 'error',
 				'test/consistent-test-it': ['error', { fn: 'it' }],
@@ -474,8 +489,48 @@ export default withNuxt(
 				'test/valid-title': 'error',
 				'test/valid-expect-in-promise': 'error',
 				'ts/naming-convention': 'off',
+				'ts/no-magic-numbers': 'off',
 				'ts/explicit-function-return-type': 'off',
 				'sonarjs/no-nested-functions': 'off',
+			},
+		},
+		{
+			...eslintPluginPlaywright.configs['flat/recommended'],
+			files: ['tests/e2e/**'],
+			settings: {
+				playwright: {
+					globalAliases: {
+						test: ['setup'],
+					},
+				},
+			},
+			rules: {
+				'playwright/no-commented-out-tests': 'error',
+				'playwright/no-duplicate-hooks': 'error',
+				'playwright/no-get-by-title': 'error',
+				'playwright/no-nth-methods': 'error',
+				'playwright/no-raw-locators': 'error',
+				'playwright/no-restricted-matchers': 'error',
+				'playwright/prefer-comparison-matcher': 'error',
+				'playwright/prefer-equality-matcher': 'error',
+				'playwright/prefer-hooks-in-order': 'error',
+				'playwright/prefer-hooks-on-top': 'error',
+				'playwright/prefer-lowercase-title': [
+					'error',
+					{
+						ignoreTopLevelDescribe: true,
+					},
+				],
+				'playwright/prefer-locator': 'error',
+				'playwright/prefer-native-locators': 'error',
+				'playwright/prefer-strict-equal': 'error',
+				'playwright/prefer-to-be': 'error',
+				'playwright/prefer-to-contain': 'error',
+				'playwright/prefer-to-have-count': 'error',
+				'playwright/prefer-to-have-length': 'error',
+				'playwright/require-hook': 'error',
+				'playwright/require-to-throw-message': 'error',
+				'playwright/require-top-level-describe': 'error',
 			},
 		},
 		{
