@@ -126,7 +126,6 @@ export default withNuxt(
 				'perfectionist/sort-intersection-types': 'error',
 				'perfectionist/sort-heritage-clauses': 'error',
 				'perfectionist/sort-array-includes': 'error',
-				'perfectionist/sort-object-types': 'error',
 				'perfectionist/sort-switch-case': 'error',
 				'perfectionist/sort-decorators': 'error',
 				'perfectionist/sort-enums': 'error',
