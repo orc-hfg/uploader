@@ -102,7 +102,13 @@ export default defineNuxtConfig({
 		},
 	},
 	runtimeConfig: {
-		isMainApp: true,
+
+		/*
+		 * Flag indicating this is the main application (not a layer).
+		 * Used in plugins to enforce config requirements during development.
+		 */
+		mainApplication: true,
+		debugLogging: true,
 		public: {
 			serverUrl: LOCAL_SERVER_URL,
 			appPathName: APP_PATH_NAME,
