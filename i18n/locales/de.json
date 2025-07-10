@@ -2,6 +2,10 @@
 	"app": {
 		"title": "Uploader"
 	},
+	"errors": {
+		"invalid_credentials": "Die Anmeldedaten sind ungültig.",
+		"login_failed": "Die Anmeldung ist fehlgeschlagen."
+	},
 	"footer": {
 		"actions": {
 			"login": "Anmelden",

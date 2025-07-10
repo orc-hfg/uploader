@@ -15,7 +15,7 @@ Für den Zugriff auf die @orc-hfg GitHub Packages wird ein GitHub Personal Acces
 - eine neue `.env` Datei im Projekt-Root (an `.env.example` orientieren) erstellen
 - Den generierten GitHub Token einfügen:
   ```
-  GITHUB_TOKEN=Token_einfügen
+  GITHUB_PAT=Token_einfügen
   ```
 - `npm run setup-npmrc` ausführen, um die `.npmrc` Datei zu erstellen
 - anschließend `npm install` ausführen, um die Packages zu installieren
@@ -123,6 +123,32 @@ sh ./deployment/uploader-deploy.sh [environment]
 ```
 
 Mögliche Umgebungen sind `development` oder `staging`.
+
+## Authentifizierung
+
+### Entwicklungsumgebung (`npm run dev`)
+
+**Strategie**: Token-basierte Authentifizierung mit Mock-Login
+- **Authentifizierungs-Mock**: Aktiv - Stellt Login-Endpoints zur Verfügung
+- **Auth-Info-Mock**: Inaktiv - **Nicht benötigt** bei Token-basierter Authentifizierung
+- **Zweck**: Lokale Entwicklung ohne externen Authentifizierungsserver
+
+**Ablauf**:
+1. Login-Formular nutzt gemockte Login-Endpoints
+2. Nach erfolgreichem Login wird **Authentifizierungstoken** gesetzt
+3. **Direkter API-Zugriff**: Token im Header ermöglicht alle API-Aufrufe ohne Session-Validierung
+
+### Preview/CI-Umgebung (`npm run preview:ci`)
+
+**Strategie**: Session-basierte Authentifizierung mit vollständigem Mock
+- **Authentifizierungs-Mock**: Aktiv - Stellt Login-Endpoints zur Verfügung
+- **Auth-Info-Mock**: Aktiv - **Erforderlich** für Session-Validierung
+- **Zweck**: E2E-Testing ohne externe Abhängigkeiten
+
+**Ablauf**:
+1. Login-Formular nutzt gemockte Login-Endpoints
+2. Nach erfolgreichem Login wird **Session-Cookie** gesetzt
+3. **Session-Validierung**: Auth-Info-Endpoint validiert Session-Cookies für jeden nachfolgenden Request
 
 ## Dependency Updates
 

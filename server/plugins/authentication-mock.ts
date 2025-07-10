@@ -1,34 +1,44 @@
 import { randomBytes } from 'node:crypto';
+import { AUTHENTICATION_MOCK_SESSION_PREFIX, AUTHENTICATION_MOCK_VALID_USER, AUTHENTICATION_MOCK_VALID_USER_PASSWORD } from '@@/shared/constants/test';
+import { ONE_DAY_IN_SECONDS } from '@orc-hfg/madek-api-nuxt-layer/shared/constants/time';
 import { StatusCodes } from 'http-status-codes';
 
-// Activate this authentication mock only in development (localhost server) and test environments
-const shouldActivateAuthenticationMock = import.meta.dev || import.meta.test;
+const logger = createLogger();
 
-if (shouldActivateAuthenticationMock) {
-	const logger = createLogger();
+const config = useRuntimeConfig();
+const publicConfig = config.public;
+const authenticationConfig = publicConfig.authentication;
 
+const isAuthenticationMockEnabled = publicConfig.enableAuthenticationMock;
+
+if (isAuthenticationMockEnabled) {
 	logger.info('Plugin: authentication-mock', 'Authentication mock is active.');
 }
 
-const config = useRuntimeConfig();
-const authenticationConfig = config.public.authentication;
+/*
+ * Authentication Mock Plugin
+ *
+ * This plugin provides mock authentication endpoints for development and testing environments.
+ *
+ * WHEN ACTIVE:
+ * - Development environment (npm run dev) - for local development without external server
+ * - Preview/CI environment (npm run preview:ci) - for E2E testing with session-based authentication
+ *
+ * PROVIDES:
+ * - GET /auth/sign-in/auth-systems/ - Returns CSRF token for authentication
+ * - POST /auth/sign-in/auth-systems/password/password/sign-in - Validates credentials and sets session cookie
+ *
+ * AUTHENTICATION FLOW:
+ * 1. Client requests CSRF token from GET endpoint
+ * 2. Client submits login form with CSRF token in header
+ * 3. Plugin validates credentials and CSRF token
+ * 4. On success, sets session cookie for subsequent requests
+ */
 
 interface SignInRequestBody {
 	login: string;
 	password: string;
 }
-
-interface AuthenticationMockUser {
-	id: string;
-	login: string;
-}
-
-const TEST_USER_PASSWORD = '123';
-
-const TEST_USER: AuthenticationMockUser = {
-	login: 'test',
-	id: 'test-123',
-};
 
 function generateCsrfToken(): string {
 	const CSRF_TOKEN_BYTES = 12;
@@ -37,36 +47,30 @@ function generateCsrfToken(): string {
 }
 
 export default defineNitroPlugin((nitroApp) => {
-	if (!shouldActivateAuthenticationMock) {
+	if (!isAuthenticationMockEnabled) {
 		return;
 	}
 
-	const logger = createLogger();
+	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
 
-	const CSRF_COOKIE = 'madek.auth.anti-csrf-token';
-	const CSRF_HEADER = 'madek.auth.anti-csrf-token';
-	const SESSION_COOKIE = 'madek-session';
-	const SESSION_MAX_AGE_SECONDS = 86_400;
-	const EMAIL_OR_LOGIN_PARAM = 'email-or-login';
+	// Build authentication route paths
+	const getSystemPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`;
+	const postSignInPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`;
 
-	nitroApp.router.get(`/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`, defineEventHandler((event) => {
-		logger.info('Plugin: authentication-mock', `GET ${getRequestURL(event).pathname}`);
-
-		setCookie(event, CSRF_COOKIE, generateCsrfToken(), {
+	nitroApp.router.get(getSystemPath, defineEventHandler((event) => {
+		setCookie(event, csrfCookieName, generateCsrfToken(), {
 			path: '/',
 			httpOnly: false,
 		});
 	}));
 
-	nitroApp.router.post(`/${authenticationConfig.basePath}${authenticationConfig.systemPath}${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`, defineEventHandler(async (event) => {
-		logger.info('Plugin: authentication-mock', `POST ${getRequestURL(event).pathname}`);
-
+	nitroApp.router.post(postSignInPath, defineEventHandler(async (event) => {
 		const body = await readBody<SignInRequestBody>(event);
 		const query = getQuery(event);
-		const loginValue = query[EMAIL_OR_LOGIN_PARAM] ?? '';
+		const loginValue = query[emailOrLoginParameter] ?? '';
 
-		const csrfToken = (getCookie(event, CSRF_COOKIE) ?? '').toLowerCase();
-		const csrfHeader = (getHeader(event, CSRF_HEADER) ?? '').toString().toLowerCase();
+		const csrfToken = (getCookie(event, csrfCookieName) ?? '').toLowerCase();
+		const csrfHeader = (getHeader(event, csrfHeaderName) ?? '').toLowerCase();
 
 		if (csrfToken !== csrfHeader) {
 			throw createError({
@@ -75,19 +79,17 @@ export default defineNitroPlugin((nitroApp) => {
 			});
 		}
 
-		if (loginValue !== TEST_USER.login || body.password !== TEST_USER_PASSWORD) {
+		if (loginValue !== AUTHENTICATION_MOCK_VALID_USER.login || body.password !== AUTHENTICATION_MOCK_VALID_USER_PASSWORD) {
 			throw createError({
 				statusCode: StatusCodes.UNAUTHORIZED,
 				statusMessage: 'The provided credentials are invalid.',
 			});
 		}
 
-		setCookie(event, SESSION_COOKIE, `mock-session-${TEST_USER.id}`, {
+		setCookie(event, sessionCookieName, `${AUTHENTICATION_MOCK_SESSION_PREFIX}${AUTHENTICATION_MOCK_VALID_USER.id}`, {
 			path: '/',
 			httpOnly: true,
-			sameSite: 'lax',
-			secure: false,
-			maxAge: SESSION_MAX_AGE_SECONDS,
+			maxAge: ONE_DAY_IN_SECONDS,
 		});
 	}));
 });

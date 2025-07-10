@@ -1,13 +1,8 @@
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
-const LOCAL_SERVER_URL = 'http://localhost:3000/';
-const DEVELOPMENT_SERVER_HOSTNAME = 'dev.madek.hfg-karlsruhe.de';
-const DEVELOPMENT_SERVER_URL = `https://${DEVELOPMENT_SERVER_HOSTNAME}/`;
-const APP_PATH_NAME = 'uploader';
-const AUTHENTICATION_PATH_NAME = 'auth';
-const AUTHENTICATION_SIGN_IN_PATH_NAME = 'sign-in';
-const AUTHENTICATION_SYSTEM_PATH_NAME = 'auth-systems';
+// Recognize CI environment (e.g. GitHub Actions)
+const isCI = Boolean(import.meta.env.CI);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -25,6 +20,7 @@ export default defineNuxtConfig({
 	},
 	css: ['@/assets/css/main.css'],
 	vite: {
+		// See: https://github.com/ChromeDevTools/vite-plugin-devtools-json
 		plugins: [tailwindcss(), devtoolsJson()],
 	},
 	modules: [
@@ -46,6 +42,7 @@ export default defineNuxtConfig({
 	imports: {
 		dirs: ['stores'],
 	},
+
 	// Support knip which is used to check for unused imports
 	components: {
 		dirs: [],
@@ -68,7 +65,16 @@ export default defineNuxtConfig({
 		},
 	},
 	i18n: {
-		baseUrl: LOCAL_SERVER_URL,
+		/*
+		 * IMPORTANT: Note the different spelling compared to app.baseURL
+		 * - Nuxt core uses: app.baseURL (with capital URL)
+		 * - Nuxt i18n uses: i18n.baseUrl (with lowercase u)
+		 *
+		 * This is not a mistake - each module expects its documented spelling.
+		 * Changing the spelling will break the respective module's functionality.
+		 * Always follow the official documentation for each module.
+		 */
+		baseUrl: 'http://localhost:3000/uploader/',
 		defaultLocale: 'de',
 		strategy: 'prefix',
 		locales: [
@@ -94,30 +100,66 @@ export default defineNuxtConfig({
 		},
 	},
 	sourcemap: {
-		client: 'hidden',
+		/*
+		 * Disable source maps in CI to prevent buffer overflow issues during E2E tests
+		 * Keep them enabled locally for debugging and in production for Sentry
+		 */
+		client: isCI ? false : 'hidden',
+		server: !isCI,
 	},
 	app: {
+		/*
+		 * IMPORTANT: Note the different spelling compared to i18n.baseUrl
+		 * - Nuxt core uses: app.baseURL (with capital URL)
+		 * - Nuxt i18n uses: i18n.baseUrl (with lowercase u)
+		 *
+		 * This is not a mistake - each module expects its documented spelling.
+		 * Changing the spelling will break the respective module's functionality.
+		 * Always follow the official documentation for each module.
+		 */
+		baseURL: '/uploader/',
 		head: {
 			link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 		},
 	},
 	runtimeConfig: {
-		isMainApp: true,
+
+		/*
+		 * Flag indicating this is the main application (not a layer).
+		 * Used in plugins to enforce config requirements during development.
+		 */
+		mainApplication: true,
 		public: {
-			serverUrl: LOCAL_SERVER_URL,
-			appPathName: APP_PATH_NAME,
+			// Enable debug logging (logger)
+			enableDebugLogging: false,
+
+			// Enable authentication mock for development and testing (session-based authentication)
+			enableAuthenticationMock: false,
+
+			// Enable authentication info endpoint mock for E2E testing with session-based authentication
+			enableAuthenticationInfoEndpointMock: false,
+
+			serverUrl: 'http://localhost:3000/uploader/',
+
+			// Authentication configuration
 			authentication: {
-				basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
-				signInPathName: AUTHENTICATION_SIGN_IN_PATH_NAME,
-				systemPathName: AUTHENTICATION_SYSTEM_PATH_NAME,
-				systemPath: `${AUTHENTICATION_SYSTEM_PATH_NAME}/`,
+				appPathName: 'uploader',
+				basePath: 'auth/sign-in/',
+				signInPathName: 'sign-in',
+				systemPathName: 'auth-systems',
+				systemPath: 'auth-systems/',
 				defaultSystemName: 'password',
 				emailOrLoginParameter: 'email-or-login',
 				returnToParameter: 'return-to',
+				csrfCookieName: 'madek.auth.anti-csrf-token',
+				csrfHeaderName: 'madek.auth.anti-csrf-token',
+				sessionCookieName: 'madek-session',
 			},
+
+			// Sentry configuration
 			sentry: {
 				// These options are used in both sentry.client.config.ts and sentry.server.config.ts
-				allowHostname: DEVELOPMENT_SERVER_HOSTNAME,
+				allowHostname: 'dev.madek.hfg-karlsruhe.de',
 
 				/*
 				 * See: https://docs.sentry.io/platforms/javascript/guides/nuxt/configuration/options/#enabled
@@ -133,16 +175,21 @@ export default defineNuxtConfig({
 			},
 		},
 	},
+	$development: {
+		runtimeConfig: {
+			public: {
+				enableDebugLogging: true,
+				enableAuthenticationMock: true,
+			},
+		},
+	},
 	$production: {
 		i18n: {
-			baseUrl: `${DEVELOPMENT_SERVER_URL}${APP_PATH_NAME}/`,
+			baseUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
 		},
 		runtimeConfig: {
 			public: {
-				serverUrl: DEVELOPMENT_SERVER_URL,
-				authentication: {
-					basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
-				},
+				serverUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
 			},
 		},
 	},

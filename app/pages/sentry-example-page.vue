@@ -7,6 +7,7 @@
 	import * as Sentry from '@sentry/nuxt';
 
 	definePageMeta({
+		skipAuthentication: true,
 		layout: false,
 	});
 
@@ -19,6 +20,8 @@
 		}
 	}
 
+	const logger = createLogger();
+
 	const hasSentError = ref(false);
 	const isConnected = ref(true);
 
@@ -29,7 +32,8 @@
 			isConnected.value = result !== 'sentry-unreachable';
 
 			if (result === undefined) {
-				console.info(
+				logger.info(
+					'Page: sentry-example-page',
 					'The initial health-check request purposely triggers a 400 Bad Request. This only verifies that the Sentry endpoint is reachable. Actual error events will still be sent successfully.',
 				);
 			}
@@ -48,6 +52,7 @@
 			async () => {
 				const response = await $fetch('/api/sentry-example-api', {
 					method: 'GET',
+
 					// Test Sentry authorization header filtering
 					headers: { Authorization: 'token 123' },
 					query: {

@@ -2,6 +2,10 @@
 	"app": {
 		"title": "Uploader"
 	},
+	"errors": {
+		"invalid_credentials": "Invalid credentials.",
+		"login_failed": "Login failed."
+	},
 	"footer": {
 		"actions": {
 			"login": "Login",

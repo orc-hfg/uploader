@@ -19,7 +19,7 @@ declare module 'vue-i18n' {
  * This type represents all possible paths to leaf nodes in the MessageSchema
  * which can be used as valid translation keys
  */
-export type TranslationKeyPath = Paths<MessageSchema, { leavesOnly: true }>;
+type TranslationKeyPath = Paths<MessageSchema, { leavesOnly: true }>;
 
 /**
  * Type for page title translation keys
