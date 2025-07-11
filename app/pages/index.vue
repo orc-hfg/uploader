@@ -22,8 +22,6 @@
 		},
 	});
 
-	const logger = createLogger();
-
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
 
@@ -71,10 +69,15 @@
 		}
 	});
 
-	function onFormSubmit(event: FormSubmitEvent<Record<string, unknown>>) {
+	const loginError = ref<string | undefined>(undefined);
+
+	async function onFormSubmit(event: FormSubmitEvent<Record<string, unknown>>) {
 		if (!event.valid) {
 			return;
 		}
+
+		// Reset any previous login errors
+		loginError.value = undefined;
 
 		/*
 		 * Safe type assertion after zod validation and valid check.
@@ -84,13 +87,20 @@
 
 		const { login } = useAuthentication();
 
-		login(formValues.email_or_login, formValues.password)
-			.then(() => {
-				logger.info('Page: index', 'logged in');
-			})
-			.catch((error) => {
-				logger.error('Page: index', 'Login failed:', error);
-			});
+		try {
+			await login(formValues.email_or_login, formValues.password);
+
+			const localeRoute = useLocaleRoute();
+			navigateTo(localeRoute('projects'));
+		}
+		catch (error) {
+			if (error && typeof error === 'object' && 'statusCode' in error) {
+				loginError.value = error.statusCode === 401 ? t('errors.invalid_credentials') : t('errors.login_failed');
+			}
+			else {
+				loginError.value = t('errors.login_failed');
+			}
+		}
 	}
 </script>
 
@@ -119,6 +129,9 @@
 						{{ $form.password.error?.message }}
 					</Message>
 				</div>
+				<Message v-if="loginError" severity="error" variant="outlined">
+					{{ loginError }}
+				</Message>
 			</div>
 		</Fluid>
 	</Form>
