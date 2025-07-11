@@ -22,6 +22,8 @@
 		},
 	});
 
+	const logger = createLogger();
+
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
 
@@ -84,10 +86,10 @@
 
 		login(formValues.email_or_login, formValues.password)
 			.then(() => {
-				console.info('logged in');
+				logger.info('Page: index', 'logged in');
 			})
 			.catch((error) => {
-				console.error('Login failed:', error);
+				logger.error('Page: index', 'Login failed:', error);
 			});
 	}
 </script>
