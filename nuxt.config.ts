@@ -108,7 +108,6 @@ export default defineNuxtConfig({
 		 * Used in plugins to enforce config requirements during development.
 		 */
 		mainApplication: true,
-		debugLogging: true,
 		public: {
 			serverUrl: LOCAL_SERVER_URL,
 			appPathName: APP_PATH_NAME,
