@@ -4,6 +4,7 @@
 	import { onStartTyping } from '@vueuse/core';
 	import Button from 'primevue/button';
 	import { z } from 'zod';
+	import { useAuthenticationStore } from '@/stores/authentication';
 
 	const PAGE_TITLE_KEY_PATH = 'pages.title.login';
 
@@ -86,12 +87,15 @@
 		const formValues = event.values as LoginFormValues;
 
 		const { login } = useAuthentication();
+		const authenticationStore = useAuthenticationStore();
 
 		try {
 			await login(formValues.email_or_login, formValues.password);
 
+			authenticationStore.hasJustLoggedIn = true;
+
 			const localeRoute = useLocaleRoute();
-			navigateTo(localeRoute('projects'));
+			await navigateTo(localeRoute('projects'));
 		}
 		catch (error) {
 			if (error && typeof error === 'object' && 'statusCode' in error) {

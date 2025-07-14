@@ -4,11 +4,13 @@ import { FetchError } from 'ofetch';
 
 interface UseAuthenticationReturn {
 	login: (emailOrLogin: string, password: string) => Promise<void>;
+	hasValidCookies: () => boolean;
 }
 
-function getCsrfToken(): CookieRef<string | null | undefined> {
-	const CSRF_COOKIE_NAME = 'madek.auth.anti-csrf-token';
+const CSRF_COOKIE_NAME = 'madek.auth.anti-csrf-token';
+const SESSION_COOKIE_NAME = 'madek-session';
 
+function getCsrfToken(): CookieRef<string | null | undefined> {
 	const csrfToken = useCookie(CSRF_COOKIE_NAME, { watch: false });
 
 	if (typeof csrfToken.value === 'string' && csrfToken.value.length > 0) {
@@ -19,6 +21,32 @@ function getCsrfToken(): CookieRef<string | null | undefined> {
 		statusCode: StatusCodes.FORBIDDEN,
 		statusMessage: 'The CSRF token is missing.',
 	});
+}
+
+function hasValidCookies(): boolean {
+	const logger = createLogger();
+
+	try {
+		const csrfCookie = useCookie(CSRF_COOKIE_NAME, { watch: false });
+		const sessionCookie = useCookie(SESSION_COOKIE_NAME, { watch: false });
+
+		logger.debug('Composable: useAuthentication', 'Checking authentication cookies.', {
+			csrfCookieValue: csrfCookie.value,
+			sessionCookieValue: sessionCookie.value,
+		});
+
+		const hasValidAuthenticationCookies = typeof csrfCookie.value === 'string'
+			&& csrfCookie.value.length > 0
+			&& typeof sessionCookie.value === 'string'
+			&& sessionCookie.value.length > 0;
+
+		return hasValidAuthenticationCookies;
+	}
+	catch (error) {
+		logger.error('Composable: useAuthentication', 'Error checking authentication status.', error);
+
+		return false;
+	}
 }
 
 export function useAuthentication(): UseAuthenticationReturn {
@@ -106,5 +134,6 @@ export function useAuthentication(): UseAuthenticationReturn {
 
 	return {
 		login,
+		hasValidCookies,
 	};
 }
