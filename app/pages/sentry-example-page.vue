@@ -51,6 +51,7 @@
 			async () => {
 				const response = await $fetch('/api/sentry-example-api', {
 					method: 'GET',
+
 					// Test Sentry authorization header filtering
 					headers: { Authorization: 'token 123' },
 					query: {

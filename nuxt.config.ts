@@ -46,6 +46,7 @@ export default defineNuxtConfig({
 	imports: {
 		dirs: ['stores'],
 	},
+
 	// Support knip which is used to check for unused imports
 	components: {
 		dirs: [],
