@@ -120,6 +120,9 @@ export default defineNuxtConfig({
 				defaultSystemName: 'password',
 				emailOrLoginParameter: 'email-or-login',
 				returnToParameter: 'return-to',
+				csrfCookieName: 'madek.auth.anti-csrf-token',
+				csrfHeaderName: 'madek.auth.anti-csrf-token',
+				sessionCookieName: 'madek-session',
 			},
 			sentry: {
 				// These options are used in both sentry.client.config.ts and sentry.server.config.ts

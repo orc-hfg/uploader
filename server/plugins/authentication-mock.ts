@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto';
 import { StatusCodes } from 'http-status-codes';
 
-// Activate this authentication mock only in development (localhost server) and test environments
+// Activate this authentication mock only in development (localhost) and test environments
 const shouldActivateAuthenticationMock = import.meta.dev || import.meta.test;
 
 if (shouldActivateAuthenticationMock) {
@@ -43,16 +43,13 @@ export default defineNitroPlugin((nitroApp) => {
 
 	const logger = createLogger();
 
-	const CSRF_COOKIE = 'madek.auth.anti-csrf-token';
-	const CSRF_HEADER = 'madek.auth.anti-csrf-token';
-	const SESSION_COOKIE = 'madek-session';
-	const SESSION_MAX_AGE_SECONDS = 86_400;
-	const EMAIL_OR_LOGIN_PARAM = 'email-or-login';
+	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
+	const sessionMaxAgeSeconds = 86_400;
 
 	nitroApp.router.get(`/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`, defineEventHandler((event) => {
 		logger.info('Plugin: authentication-mock', `GET ${getRequestURL(event).pathname}`);
 
-		setCookie(event, CSRF_COOKIE, generateCsrfToken(), {
+		setCookie(event, csrfCookieName, generateCsrfToken(), {
 			path: '/',
 			httpOnly: false,
 		});
@@ -63,10 +60,10 @@ export default defineNitroPlugin((nitroApp) => {
 
 		const body = await readBody<SignInRequestBody>(event);
 		const query = getQuery(event);
-		const loginValue = query[EMAIL_OR_LOGIN_PARAM] ?? '';
+		const loginValue = query[emailOrLoginParameter] ?? '';
 
-		const csrfToken = (getCookie(event, CSRF_COOKIE) ?? '').toLowerCase();
-		const csrfHeader = (getHeader(event, CSRF_HEADER) ?? '').toString().toLowerCase();
+		const csrfToken = (getCookie(event, csrfCookieName) ?? '').toLowerCase();
+		const csrfHeader = (getHeader(event, csrfHeaderName) ?? '').toLowerCase();
 
 		if (csrfToken !== csrfHeader) {
 			throw createError({
@@ -82,12 +79,10 @@ export default defineNitroPlugin((nitroApp) => {
 			});
 		}
 
-		setCookie(event, SESSION_COOKIE, `mock-session-${TEST_USER.id}`, {
+		setCookie(event, sessionCookieName, `mock-session-${TEST_USER.id}`, {
 			path: '/',
 			httpOnly: true,
-			sameSite: 'lax',
-			secure: false,
-			maxAge: SESSION_MAX_AGE_SECONDS,
+			maxAge: sessionMaxAgeSeconds,
 		});
 	}));
 });
