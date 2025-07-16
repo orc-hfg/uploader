@@ -9,7 +9,6 @@ interface UseAuthenticationReturn {
 
 export function useAuthentication(): UseAuthenticationReturn {
 	const config = useRuntimeConfig();
-	const logger = createLogger();
 	const authenticationConfig = config.public.authentication;
 	const { csrfCookieName, csrfHeaderName } = authenticationConfig;
 
@@ -50,8 +49,6 @@ export function useAuthentication(): UseAuthenticationReturn {
 	async function initializeAuthenticationSession(emailOrLogin: string): Promise<void> {
 		const authenticationSessionEndpoint = `${authenticationSystemEndpoint}?${authenticationConfig.emailOrLoginParameter}=${encodeURIComponent(emailOrLogin)}`;
 
-		logger.debug('Composable: useAuthentication', 'Initializing authentication session.', authenticationSessionEndpoint);
-
 		try {
 			await $fetch(authenticationSessionEndpoint);
 		}
@@ -81,8 +78,6 @@ export function useAuthentication(): UseAuthenticationReturn {
 		const csrfToken = getCsrfToken();
 		const csrfTokenValue = csrfToken.value ?? '';
 
-		logger.debug('Composable: useAuthentication', `Login attempt for ${emailOrLogin}.`, { authenticationSystem, csrfTokenValue });
-
 		if (!csrfTokenValue) {
 			throw createError({
 				statusCode: StatusCodes.FORBIDDEN,
@@ -91,8 +86,6 @@ export function useAuthentication(): UseAuthenticationReturn {
 		}
 
 		const signInEndpoint = buildAuthenticationEndpoint(authenticationSystem, authenticationConfig.signInPathName, emailOrLogin);
-
-		logger.debug('Composable: useAuthentication', `Login attempt for ${emailOrLogin}.`, signInEndpoint);
 
 		try {
 			await $fetch(signInEndpoint, {
