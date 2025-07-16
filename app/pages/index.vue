@@ -132,7 +132,7 @@
 						{{ $form.password.error?.message }}
 					</Message>
 				</div>
-				<Message v-if="loginError" severity="error" variant="outlined">
+				<Message v-if="loginError" severity="error" variant="outlined" data-testid="login-error">
 					{{ loginError }}
 				</Message>
 			</div>

@@ -1,8 +1,8 @@
 import { randomBytes } from 'node:crypto';
 import { StatusCodes } from 'http-status-codes';
 
-// Activate this authentication mock only in development (localhost) and test environments
-const shouldActivateAuthenticationMock = import.meta.dev || import.meta.test;
+// Activate this authentication mock only in development (localhost)
+const shouldActivateAuthenticationMock = import.meta.dev;
 
 if (shouldActivateAuthenticationMock) {
 	const logger = createLogger();

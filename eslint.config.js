@@ -494,6 +494,12 @@ export default withNuxt(
 			},
 		},
 		{
+			files: ['tests/e2e/**/*.ts'],
+			rules: {
+				'sonarjs/no-hardcoded-passwords': 'off',
+			},
+		},
+		{
 			files: ['i18n/locales/**.json'],
 			rules: {
 				'jsonc/sort-keys': 'error',

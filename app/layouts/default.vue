@@ -126,7 +126,9 @@
 			<Body>
 				<div>
 					<div
-						ref="contentReference" class="
+						ref="contentReference"
+						data-testid="content"
+						class="
         absolute top-1/2 left-1/2 z-2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 flex-col
         overflow-hidden bg-surface-0 opacity-0
         sm:h-[800px] sm:w-[600px]
