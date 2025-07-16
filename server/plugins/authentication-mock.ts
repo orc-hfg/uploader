@@ -46,6 +46,7 @@ export default defineNitroPlugin((nitroApp) => {
 	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
 	const sessionMaxAgeSeconds = 86_400;
 
+	// E.g. GET https://dev.madek.hfg-karlsruhe.de/auth/sign-in/auth-systems/?email-or-login=test
 	nitroApp.router.get(`/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`, defineEventHandler((event) => {
 		logger.info('Plugin: authentication-mock', `GET ${getRequestURL(event).pathname}`);
 
@@ -55,6 +56,7 @@ export default defineNitroPlugin((nitroApp) => {
 		});
 	}));
 
+	// E.g. POST https://dev.madek.hfg-karlsruhe.de/auth/sign-in/auth-systems/password/password/sign-in?email-or-login=test&return-to=uploader
 	nitroApp.router.post(`/${authenticationConfig.basePath}${authenticationConfig.systemPath}${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`, defineEventHandler(async (event) => {
 		logger.info('Plugin: authentication-mock', `POST ${getRequestURL(event).pathname}`);
 

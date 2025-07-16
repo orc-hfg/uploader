@@ -71,13 +71,16 @@
 
 	const loginError = ref<string | undefined>(undefined);
 
+	function clearLoginError() {
+		if (loginError.value) {
+			loginError.value = undefined;
+		}
+	}
+
 	async function onFormSubmit(event: FormSubmitEvent<Record<string, unknown>>) {
 		if (!event.valid) {
 			return;
 		}
-
-		// Reset any previous login errors
-		loginError.value = undefined;
 
 		/*
 		 * Safe type assertion after zod validation and valid check.
@@ -105,12 +108,12 @@
 </script>
 
 <template>
-	<Form id="loginForm" v-slot="$form" :initial-values :resolver @submit="onFormSubmit">
+	<Form id="loginForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
 		<Fluid>
 			<div class="flex flex-col gap-6">
 				<div class="flex flex-col gap-1">
 					<FloatLabel variant="in">
-						<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" />
+						<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" @update:model-value="clearLoginError" />
 						<label for="email_or_login_label">{{ t('forms.labels.email_or_login') }}</label>
 					</FloatLabel>
 					<Message size="small" severity="secondary" variant="simple">
@@ -122,7 +125,7 @@
 				</div>
 				<div class="flex flex-col gap-1">
 					<FloatLabel variant="in">
-						<Password input-id="password_label" name="password" variant="filled" :feedback="false" />
+						<Password input-id="password_label" name="password" variant="filled" :feedback="false" @update:model-value="clearLoginError" />
 						<label for="password_label">{{ t('forms.labels.password') }}</label>
 					</FloatLabel>
 					<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
