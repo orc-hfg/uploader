@@ -2,6 +2,7 @@ import { expect, type Page, test } from '@playwright/test';
 
 const TEST_USER = {
 	login: 'test',
+	// eslint-disable-next-line sonarjs/no-hardcoded-passwords
 	password: '123',
 };
 
@@ -28,6 +29,8 @@ test.describe('Authentication Flow', () => {
 
 		await expect(loginInput).toBeVisible();
 		await expect(passwordInput).toBeVisible();
+
+		await expect(page).toHaveTitle('Anmeldung – Uploader');
 		await expect(page.getByRole('heading', { name: 'Anmeldung' })).toBeVisible();
 		await expect(page.getByRole('button', { name: 'Anmelden' })).toBeVisible();
 	});
@@ -36,7 +39,6 @@ test.describe('Authentication Flow', () => {
 		await loginAs(page, TEST_USER.login, TEST_USER.password);
 
 		await expect(page).toHaveURL('/de/projekte');
-		await expect(page).not.toHaveTitle('Anmeldung – Uploader');
 		await expect(page).toHaveTitle('Projekte – Uploader');
 	});
 
