@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto';
+import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/tests/helpers/constants';
 import { StatusCodes } from 'http-status-codes';
 
 const isDevelopment = import.meta.dev;
@@ -22,10 +23,8 @@ interface AuthenticationMockUser {
 	login: string;
 }
 
-const TEST_USER_PASSWORD = '123';
-
 const TEST_USER: AuthenticationMockUser = {
-	login: 'test',
+	login: TEST_USER_LOGIN,
 	id: 'test-123',
 };
 

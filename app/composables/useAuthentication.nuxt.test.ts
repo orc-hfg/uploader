@@ -2,6 +2,8 @@ import { mockNuxtImport } from '@nuxt/test-utils/runtime';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAuthentication } from './useAuthentication';
 
+const TEST_COOKIE = 'test-cookie';
+
 function getRuntimeConfigMock() {
 	return {
 		public: {
@@ -25,7 +27,7 @@ function getRuntimeConfigMock() {
 
 function getCookieMock() {
 	return {
-		value: 'test-token',
+		value: TEST_COOKIE,
 	};
 }
 
@@ -80,7 +82,7 @@ describe('useAuthentication()', () => {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					'madek.auth.anti-csrf-token': 'test-token',
+					'madek.auth.anti-csrf-token': TEST_COOKIE,
 				},
 				body: {
 					password: testPassword,

@@ -1,10 +1,5 @@
+import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/tests/helpers/constants';
 import { expect, type Page, test } from '@playwright/test';
-
-const TEST_USER = {
-	login: 'test',
-	// eslint-disable-next-line sonarjs/no-hardcoded-passwords
-	password: '123',
-};
 
 async function loginAs(page: Page, login: string, password: string) {
 	await page.getByLabel('E-Mail-Adresse oder Login').fill(login);
@@ -36,14 +31,14 @@ test.describe('Authentication flow', () => {
 	});
 
 	test('should login successfully with valid credentials', async ({ page }) => {
-		await loginAs(page, TEST_USER.login, TEST_USER.password);
+		await loginAs(page, TEST_USER_LOGIN, TEST_USER_PASSWORD);
 
 		await expect(page).toHaveURL('/de/projekte');
 		await expect(page).toHaveTitle('Projekte – Uploader');
 	});
 
 	test('should show error with invalid credentials', async ({ page }) => {
-		await loginAs(page, TEST_USER.login, 'falschesPasswort');
+		await loginAs(page, TEST_USER_LOGIN, 'falschesPasswort');
 
 		const errorMessage = page.getByTestId('login-error');
 
