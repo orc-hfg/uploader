@@ -5,7 +5,7 @@
 		"app/pages/**/*.vue",
 		"app/theme/*.ts",
 		"app/layouts/*.vue",
-		"types/*.ts"
+		"app/types/*.ts"
 	],
 	"project": [
 		"app/**"
@@ -14,9 +14,7 @@
 		"app/composables/**",
 		"app/middleware/**",
 		"app/utils/**",
-		"app/stores/**",
-		"app/app.config.ts"
-
+		"app/stores/**"
 	],
 	"ignoreDependencies": [
 		"@nuxt/devtools",

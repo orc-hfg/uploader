@@ -1,41 +1,8 @@
+import { TEST_COOKIE } from '@@/shared/constants/test';
+import { getCookieMock, getRuntimeConfigMock, getUserRepositoryMock } from '@@/tests/mocks/authentication';
 import { mockNuxtImport } from '@nuxt/test-utils/runtime';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAuthentication } from './useAuthentication';
-
-const TEST_COOKIE = 'test-cookie';
-
-function getRuntimeConfigMock() {
-	return {
-		public: {
-			serverUrl: 'https://test.server.de/',
-			appPathName: 'uploader',
-			authentication: {
-				basePath: `auth/sign-in/`,
-				signInPathName: 'sign-in',
-				systemPathName: 'auth-systems',
-				systemPath: `auth-systems/`,
-				defaultSystemName: 'password',
-				emailOrLoginParameter: 'email-or-login',
-				returnToParameter: 'return-to',
-				csrfCookieName: 'madek.auth.anti-csrf-token',
-				csrfHeaderName: 'madek.auth.anti-csrf-token',
-				sessionCookieName: 'madek-session',
-			},
-		},
-	};
-}
-
-function getCookieMock() {
-	return {
-		value: TEST_COOKIE,
-	};
-}
-
-function getUserRepositoryMock() {
-	return {
-		getAuthInfo: vi.fn().mockResolvedValue({}),
-	};
-}
 
 describe('useAuthentication()', () => {
 	let fetchSpy: ReturnType<typeof vi.spyOn>;

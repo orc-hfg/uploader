@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/tests/helpers/constants';
+import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
 const isDevelopment = import.meta.dev;

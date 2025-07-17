@@ -1,4 +1,4 @@
-import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/tests/helpers/constants';
+import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/shared/constants/test';
 import { expect, type Page, test } from '@playwright/test';
 
 async function loginAs(page: Page, login: string, password: string) {
