@@ -489,6 +489,7 @@ export default withNuxt(
 				'test/valid-title': 'error',
 				'test/valid-expect-in-promise': 'error',
 				'ts/naming-convention': 'off',
+				'ts/no-magic-numbers': 'off',
 				'ts/explicit-function-return-type': 'off',
 				'sonarjs/no-nested-functions': 'off',
 			},
