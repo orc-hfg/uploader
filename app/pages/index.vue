@@ -2,6 +2,7 @@
 	import type { FormSubmitEvent } from '@primevue/forms';
 	import { zodResolver } from '@primevue/forms/resolvers/zod';
 	import { onStartTyping } from '@vueuse/core';
+	import { StatusCodes } from 'http-status-codes';
 	import Button from 'primevue/button';
 	import { z } from 'zod';
 
@@ -98,7 +99,7 @@
 		}
 		catch (error) {
 			if (error && typeof error === 'object' && 'statusCode' in error) {
-				loginError.value = error.statusCode === 401 ? t('errors.invalid_credentials') : t('errors.login_failed');
+				loginError.value = error.statusCode === StatusCodes.UNAUTHORIZED ? t('errors.invalid_credentials') : t('errors.login_failed');
 			}
 			else {
 				loginError.value = t('errors.login_failed');
