@@ -13,7 +13,7 @@ async function loginAs(page: Page, login: string, password: string) {
 	await page.getByRole('button', { name: 'Anmelden' }).click();
 }
 
-test.describe('Authentication Flow', () => {
+test.describe('Authentication flow', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/de/anmeldung');
 
