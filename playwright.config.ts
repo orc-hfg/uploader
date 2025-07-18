@@ -2,10 +2,15 @@ import process from 'node:process';
 import { defineConfig, devices } from '@playwright/test';
 import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
-// eslint-disable-next-line ts/no-magic-numbers
-const WEB_SERVER_TIMEOUT_MS = 2 * 60 * 1000;
-const CI_TEST_RETRIES = 2;
 const isCI = Boolean(process.env.CI);
+
+const CI_TEST_RETRIES = 2;
+
+const NUXT_PREVIEW_PORT = 4173;
+const NUXT_DEVELOPMENT_PORT = 3000;
+
+const webServerPort = isCI ? NUXT_PREVIEW_PORT : NUXT_DEVELOPMENT_PORT;
+const webServerCommand = isCI ? 'npm run preview' : 'npm run dev';
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
@@ -28,7 +33,7 @@ export default defineConfig({
 
 	use: {
 		// Base URL to use in actions like `await page.goto('/')`.
-		baseURL: 'http://localhost:3000',
+		baseURL: `http://localhost:${webServerPort}`,
 
 		// Collect trace when retrying the failed test.
 		trace: 'on-first-retry',
@@ -84,12 +89,12 @@ export default defineConfig({
 
 	// Run your local dev server before starting the tests.
 	webServer: {
-		command: 'npm run dev',
+		command: webServerCommand,
 
 		// Use health endpoint that bypasses i18n redirects and always returns 200 OK
-		url: 'http://localhost:3000/health',
+		url: `http://localhost:${webServerPort}/health`,
 		reuseExistingServer: !isCI,
-		timeout: WEB_SERVER_TIMEOUT_MS,
+		timeout: 120_000,
 		stdout: 'pipe',
 		stderr: 'pipe',
 	},
