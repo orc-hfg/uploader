@@ -11,8 +11,11 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node.js environment
-        uses: ./.github/actions/setup-node
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
       - name: Run linting
         run: npm run lint
@@ -35,8 +38,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: quality-and-build
     steps:
-      - name: Setup Node.js environment
-        uses: ./.github/actions/setup-node
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
