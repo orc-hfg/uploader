@@ -26,7 +26,14 @@ function loadEnvironmentFile() {
 		}
 	}
 	catch (error) {
-		console.warn('Could not read .env file:', error.message);
+		const isCI = process.env.CI;
+
+		if (isCI) {
+			console.info('No .env file found (expected in CI), using environment variables');
+		}
+		else {
+			console.warn('Could not read .env file:', error.message);
+		}
 	}
 }
 
