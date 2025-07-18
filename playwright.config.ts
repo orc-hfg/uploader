@@ -6,6 +6,12 @@ const isCI = Boolean(process.env.CI);
 
 const CI_TEST_RETRIES = 2;
 
+const NUXT_PREVIEW_PORT = 4173;
+const NUXT_DEVELOPMENT_PORT = 3000;
+
+const webServerPort = isCI ? NUXT_PREVIEW_PORT : NUXT_DEVELOPMENT_PORT;
+const webServerCommand = isCI ? 'npm run build && npm run preview:playwright' : 'npm run dev';
+
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
 	testDir: 'tests',
@@ -27,7 +33,7 @@ export default defineConfig({
 
 	use: {
 		// Base URL to use in actions like `await page.goto('/')`.
-		baseURL: 'http://localhost:3000',
+		baseURL: `http://localhost:${webServerPort}`,
 
 		// Collect trace when retrying the failed test.
 		trace: 'on-first-retry',
@@ -83,10 +89,10 @@ export default defineConfig({
 
 	// Run your local dev server before starting the tests.
 	webServer: {
-		command: 'npm run dev',
+		command: webServerCommand,
 
 		// Use health endpoint that bypasses i18n redirects and always returns 200 OK
-		url: 'http://localhost:3000/health',
+		url: `http://localhost:${webServerPort}/health`,
 		reuseExistingServer: !isCI,
 		timeout: 120_000,
 		stdout: 'pipe',
