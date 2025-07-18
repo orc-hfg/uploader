@@ -2,6 +2,8 @@ import process from 'node:process';
 import { defineConfig, devices } from '@playwright/test';
 import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
+// eslint-disable-next-line ts/no-magic-numbers
+const WEB_SERVER_TIMEOUT_MS = 2 * 60 * 1000;
 const CI_TEST_RETRIES = 2;
 const isCI = typeof process.env.CI === 'string' && process.env.CI !== '';
 
@@ -85,5 +87,8 @@ export default defineConfig({
 		command: 'npm run dev',
 		url: 'http://localhost:3000',
 		reuseExistingServer: !isCI,
+		timeout: WEB_SERVER_TIMEOUT_MS,
+		stdout: 'pipe',
+		stderr: 'pipe',
 	},
 });
