@@ -15,7 +15,7 @@ Für den Zugriff auf die @orc-hfg GitHub Packages wird ein GitHub Personal Acces
 - eine neue `.env` Datei im Projekt-Root (an `.env.example` orientieren) erstellen
 - Den generierten GitHub Token einfügen:
   ```
-  PACKAGES_TOKEN=Token_einfügen
+  GITHUB_PAT=Token_einfügen
   ```
 - `npm run setup-npmrc` ausführen, um die `.npmrc` Datei zu erstellen
 - anschließend `npm install` ausführen, um die Packages zu installieren
