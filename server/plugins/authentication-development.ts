@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/shared/constants/test';
+import { VALID_USER_LOGIN, VALID_USER_PASSWORD } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
 const isDevelopment = import.meta.dev;
@@ -23,8 +23,8 @@ interface AuthenticationMockUser {
 	login: string;
 }
 
-const TEST_USER: AuthenticationMockUser = {
-	login: TEST_USER_LOGIN,
+const VALID_USER: AuthenticationMockUser = {
+	login: VALID_USER_LOGIN,
 	id: 'test-123',
 };
 
@@ -72,14 +72,14 @@ export default defineNitroPlugin((nitroApp) => {
 			});
 		}
 
-		if (loginValue !== TEST_USER.login || body.password !== TEST_USER_PASSWORD) {
+		if (loginValue !== VALID_USER.login || body.password !== VALID_USER_PASSWORD) {
 			throw createError({
 				statusCode: StatusCodes.UNAUTHORIZED,
 				statusMessage: 'The provided credentials are invalid.',
 			});
 		}
 
-		setCookie(event, sessionCookieName, `mock-session-${TEST_USER.id}`, {
+		setCookie(event, sessionCookieName, `mock-session-${VALID_USER.id}`, {
 			path: '/',
 			httpOnly: true,
 			maxAge: sessionMaxAgeSeconds,
