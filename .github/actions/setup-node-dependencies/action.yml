@@ -1,6 +1,12 @@
 name: Setup Node.js and dependencies
 description: Setup Node.js and install dependencies
 
+inputs:
+  token:
+    description: GitHub token for private package access
+    required: false
+    default: ${{ github.token }}
+
 runs:
   using: composite
   steps:
@@ -9,7 +15,11 @@ runs:
       with:
         node-version-file: .nvmrc
         cache: npm
+        registry-url: https://npm.pkg.github.com
+        token: ${{ inputs.token }}
 
     - name: Install dependencies
       run: npm ci
       shell: bash
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.token }}
