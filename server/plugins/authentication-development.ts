@@ -1,13 +1,15 @@
 import { randomBytes } from 'node:crypto';
+import process from 'node:process';
 import { VALID_USER_LOGIN, VALID_USER_PASSWORD } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
-const isDevelopment = import.meta.dev;
+// Enable authentication mock for development AND testing (E2E tests)
+const isDevelopment = import.meta.dev || process.env.CI === 'true';
 
 if (isDevelopment) {
 	const logger = createLogger();
 
-	logger.info('Plugin: authentication-mock', 'Authentication mock is active.');
+	logger.info('Plugin: authentication-development', 'Authentication development plugin is active.');
 }
 
 const config = useRuntimeConfig();
@@ -41,12 +43,20 @@ export default defineNitroPlugin((nitroApp) => {
 
 	const logger = createLogger();
 
+	logger.debug('Plugin: authentication-development', 'Setting up authentication routes...');
+
 	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
 	const sessionMaxAgeSeconds = 86_400;
 
+	const getSystemPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`;
+	const postSignInPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPath}${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`;
+
+	logger.debug('Plugin: authentication-development', `GET route: ${getSystemPath}`);
+	logger.debug('Plugin: authentication-development', `POST route: ${postSignInPath}`);
+
 	// E.g. GET https://dev.madek.hfg-karlsruhe.de/auth/sign-in/auth-systems/?email-or-login=test
-	nitroApp.router.get(`/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`, defineEventHandler((event) => {
-		logger.info('Plugin: authentication-mock', `GET ${getRequestURL(event).pathname}`);
+	nitroApp.router.get(getSystemPath, defineEventHandler((event) => {
+		logger.debug('Plugin: authentication-development', `GET ${getRequestURL(event).pathname}`);
 
 		setCookie(event, csrfCookieName, generateCsrfToken(), {
 			path: '/',
@@ -55,8 +65,8 @@ export default defineNitroPlugin((nitroApp) => {
 	}));
 
 	// E.g. POST https://dev.madek.hfg-karlsruhe.de/auth/sign-in/auth-systems/password/password/sign-in?email-or-login=test&return-to=uploader
-	nitroApp.router.post(`/${authenticationConfig.basePath}${authenticationConfig.systemPath}${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`, defineEventHandler(async (event) => {
-		logger.info('Plugin: authentication-mock', `POST ${getRequestURL(event).pathname}`);
+	nitroApp.router.post(postSignInPath, defineEventHandler(async (event) => {
+		logger.debug('Plugin: authentication-development', `POST ${getRequestURL(event).pathname}`);
 
 		const body = await readBody<SignInRequestBody>(event);
 		const query = getQuery(event);
@@ -84,5 +94,30 @@ export default defineNitroPlugin((nitroApp) => {
 			httpOnly: true,
 			maxAge: sessionMaxAgeSeconds,
 		});
+	}));
+
+	/*
+	 * Mock /api/auth-info endpoint for CI testing
+	 * In Preview mode, Layer expects session-based auth instead of token-based auth
+	 */
+	nitroApp.router.get('/api/auth-info', defineEventHandler((event) => {
+		logger.debug('Plugin: authentication-development', `GET ${getRequestURL(event).pathname}`);
+
+		const sessionCookie = getCookie(event, sessionCookieName);
+
+		if (!sessionCookie?.startsWith('mock-session-')) {
+			throw createError({
+				statusCode: StatusCodes.UNAUTHORIZED,
+				statusMessage: 'Authentication required.',
+			});
+		}
+
+		return {
+			id: VALID_USER.id,
+			login: VALID_USER.login,
+			email: `${VALID_USER.login}@example.com`,
+			first_name: 'Test',
+			last_name: 'User',
+		};
 	}));
 });

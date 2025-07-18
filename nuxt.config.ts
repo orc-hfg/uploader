@@ -2,6 +2,9 @@ import process from 'node:process';
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
+const isCI = Boolean(process.env.CI);
+
+const CI_SERVER_URL = 'http://localhost:4173/';
 const LOCAL_SERVER_URL = 'http://localhost:3000/';
 const DEVELOPMENT_SERVER_HOSTNAME = 'dev.madek.hfg-karlsruhe.de';
 const DEVELOPMENT_SERVER_URL = `https://${DEVELOPMENT_SERVER_HOSTNAME}/`;
@@ -100,8 +103,8 @@ export default defineNuxtConfig({
 		 * Disable source maps in CI to prevent buffer overflow issues during E2E tests
 		 * Keep them enabled locally for debugging and in production for Sentry
 		 */
-		client: process.env.CI === 'true' ? false : 'hidden',
-		server: process.env.CI !== 'true',
+		client: isCI ? false : 'hidden',
+		server: !isCI,
 	},
 	app: {
 		head: {
@@ -116,7 +119,7 @@ export default defineNuxtConfig({
 		 */
 		mainApplication: true,
 		public: {
-			serverUrl: LOCAL_SERVER_URL,
+			serverUrl: isCI ? CI_SERVER_URL : LOCAL_SERVER_URL,
 			appPathName: APP_PATH_NAME,
 			authentication: {
 				basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
@@ -129,6 +132,9 @@ export default defineNuxtConfig({
 				csrfCookieName: 'madek.auth.anti-csrf-token',
 				csrfHeaderName: 'madek.auth.anti-csrf-token',
 				sessionCookieName: 'madek-session',
+			},
+			madekApi: {
+				baseURL: isCI ? 'http://localhost:4173/api/' : undefined,
 			},
 			sentry: {
 				// These options are used in both sentry.client.config.ts and sentry.server.config.ts

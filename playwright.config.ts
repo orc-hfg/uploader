@@ -10,7 +10,7 @@ const NUXT_PREVIEW_PORT = 4173;
 const NUXT_DEVELOPMENT_PORT = 3000;
 
 const webServerPort = isCI ? NUXT_PREVIEW_PORT : NUXT_DEVELOPMENT_PORT;
-const webServerCommand = isCI ? 'npm run preview' : 'npm run dev';
+const webServerCommand = isCI ? 'npm run build && npm run preview:playwright' : 'npm run dev';
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
