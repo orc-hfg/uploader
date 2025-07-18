@@ -1,3 +1,4 @@
+import process from 'node:process';
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
@@ -95,7 +96,12 @@ export default defineNuxtConfig({
 		},
 	},
 	sourcemap: {
-		client: 'hidden',
+		/*
+		 * Disable source maps in CI to prevent buffer overflow issues during E2E tests
+		 * Keep them enabled locally for debugging and in production for Sentry
+		 */
+		client: process.env.CI === 'true' ? false : 'hidden',
+		server: process.env.CI !== 'true',
 	},
 	app: {
 		head: {
