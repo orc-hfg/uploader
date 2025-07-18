@@ -1,21 +1,9 @@
-import { TEST_USER_LOGIN, TEST_USER_PASSWORD } from '@@/shared/constants/test';
-import { expect, type Page, test } from '@playwright/test';
-
-async function loginAs(page: Page, login: string, password: string) {
-	await page.getByLabel('E-Mail-Adresse oder Login').fill(login);
-	await page.getByLabel('Passwort').fill(password);
-
-	await page.getByRole('button', { name: 'Anmelden' }).click();
-}
+import { expect, test } from '@playwright/test';
+import { loginAsInvalidUser, loginAsValidUser } from './helpers/authentication';
 
 test.describe('Authentication flow', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/de/anmeldung');
-
-		const content = page.getByTestId('content');
-
-		await expect(content).toBeVisible();
-		await expect(content).toHaveCSS('opacity', '1');
 	});
 
 	test('should show login page correctly', async ({ page }) => {
@@ -31,14 +19,14 @@ test.describe('Authentication flow', () => {
 	});
 
 	test('should login successfully with valid credentials', async ({ page }) => {
-		await loginAs(page, TEST_USER_LOGIN, TEST_USER_PASSWORD);
+		await loginAsValidUser(page);
 
 		await expect(page).toHaveURL('/de/projekte');
 		await expect(page).toHaveTitle('Projekte – Uploader');
 	});
 
 	test('should show error with invalid credentials', async ({ page }) => {
-		await loginAs(page, TEST_USER_LOGIN, 'falschesPasswort');
+		await loginAsInvalidUser(page);
 
 		const errorMessage = page.getByTestId('login-error');
 

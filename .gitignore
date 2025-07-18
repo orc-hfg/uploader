@@ -36,5 +36,6 @@ logs
 .env.sentry-build-plugin
 
 # Playwright
+.authentication/session.json
 playwright-report
 test-results
