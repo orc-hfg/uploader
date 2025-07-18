@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js and dependencies
         uses: ./.github/actions/setup-node-dependencies
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PACKAGES_TOKEN }}
 
       - name: Run linting
         run: npm run lint
@@ -48,7 +48,7 @@ jobs:
       - name: Setup Node.js and dependencies
         uses: ./.github/actions/setup-node-dependencies
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PACKAGES_TOKEN }}
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps

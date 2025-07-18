@@ -17,7 +17,7 @@ runs:
 
     - name: Setup .npmrc from template
       run: |
-        sed "s/@@GITHUB_TOKEN@@/${{ inputs.token }}/g" .npmrc.template > .npmrc
+        sed "s/@@PACKAGES_TOKEN@@/${{ inputs.token }}/g" .npmrc.template > .npmrc
         cat .npmrc
       shell: bash
 

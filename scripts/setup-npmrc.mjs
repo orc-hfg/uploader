@@ -16,9 +16,9 @@ const targetPath = path.resolve(__dirname, '..', '.npmrc');
 
 let template = readFileSync(templatePath, 'utf8');
 
-const githubToken = process.env.GITHUB_TOKEN || 'TOKEN_PLACEHOLDER';
-const placeholder = '@@GITHUB_TOKEN@@';
-template = template.replaceAll(placeholder, githubToken);
+const packagesToken = process.env.PACKAGES_TOKEN || 'PACKAGES_TOKEN_PLACEHOLDER';
+const placeholder = '@@PACKAGES_TOKEN@@';
+template = template.replaceAll(placeholder, packagesToken);
 
 writeFileSync(targetPath, template);
 
