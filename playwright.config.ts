@@ -79,13 +79,19 @@ export default defineConfig({
 		 * },
 		 */
 	],
-
-	// Run your local dev server before starting the tests.
 	webServer: {
+		/*
+		 * Different server commands for different environments:
+		 * - CI uses preview:e2e (production-like build with /uploader/ base path)
+		 * - Local uses dev server (fast development without base path)
+		 */
 		command: isCI ? 'npm run preview:e2e' : 'npm run dev',
 
-		// Use health endpoint that bypasses i18n redirects and always returns 200 OK
-		url: 'http://localhost:3000/health',
+		/*
+		 * Use health endpoint that bypasses i18n redirects and always returns 200 OK
+		 * CI/preview uses /uploader/ base path, local dev doesn't
+		 */
+		url: isCI ? 'http://localhost:3000/uploader/health' : 'http://localhost:3000/health',
 		reuseExistingServer: !isCI,
 		timeout: 120_000,
 		stdout: 'pipe',
