@@ -1,0 +1,53 @@
+name: Quality Assurance and Build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-and-build:
+    name: Code Quality and Build
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js environment
+        uses: ./.github/actions/setup-node
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Type check
+        run: npm run check:types
+
+      - name: Check for unused code and dependencies
+        run: npm run check:unused
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Build application
+        run: npm run build
+
+  e2e:
+    name: E2E Tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    needs: quality-and-build
+    steps:
+      - name: Setup Node.js environment
+        uses: ./.github/actions/setup-node
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
