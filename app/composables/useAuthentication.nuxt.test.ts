@@ -1,23 +1,23 @@
 import { TEST_COOKIE } from '@@/shared/constants/test';
 import { getCookieMock, getRuntimeConfigMock, getUserRepositoryMock } from '@@/tests/mocks/authentication';
 import { mockNuxtImport } from '@nuxt/test-utils/runtime';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAuthentication } from './useAuthentication';
 
 describe('useAuthentication()', () => {
 	let fetchSpy: ReturnType<typeof vi.spyOn>;
 
 	beforeEach(() => {
-		vi.resetAllMocks();
-
 		mockNuxtImport('useRuntimeConfig', () => getRuntimeConfigMock);
-
 		mockNuxtImport('useCookie', () => getCookieMock);
+		mockNuxtImport('getUserRepository', () => getUserRepositoryMock);
 
 		fetchSpy = vi.fn();
 		vi.stubGlobal('$fetch', fetchSpy);
+	});
 
-		mockNuxtImport('getUserRepository', () => getUserRepositoryMock);
+	afterEach(() => {
+		vi.resetAllMocks();
 	});
 
 	it('should return true from validateAuthentication when CSRF token exists and getAuthInfo succeeds', async () => {
