@@ -15,11 +15,11 @@ runs:
         node-version-file: .nvmrc
         cache: npm
 
-    - name: Setup .npmrc with GitHub token
-      run: npm run setup-npmrc
+    - name: Setup .npmrc from template
+      run: |
+        sed "s/@@GITHUB_TOKEN@@/${{ inputs.token }}/g" .npmrc.template > .npmrc
+        cat .npmrc
       shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
 
     - name: Install dependencies
       run: npm ci
