@@ -9,12 +9,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Read .env file manually without dotenv dependency
-function loadEnvFile() {
+function loadEnvironmentFile() {
 	try {
-		const envPath = path.resolve(__dirname, '..', '.env');
-		const envContent = readFileSync(envPath, 'utf8');
+		const environmentPath = path.resolve(__dirname, '..', '.env');
+		const environmentContent = readFileSync(environmentPath, 'utf8');
 
-		envContent.split('\n').forEach(line => {
+		for (const line of environmentContent.split('\n')) {
 			const trimmedLine = line.trim();
 			if (trimmedLine && !trimmedLine.startsWith('#')) {
 				const [key, ...valueParts] = trimmedLine.split('=');
@@ -23,13 +23,14 @@ function loadEnvFile() {
 					process.env[key] = value;
 				}
 			}
-		});
-	} catch (error) {
+		}
+	}
+	catch (error) {
 		console.warn('Could not read .env file:', error.message);
 	}
 }
 
-loadEnvFile();
+loadEnvironmentFile();
 
 const templatePath = path.resolve(__dirname, '..', '.npmrc.template');
 const targetPath = path.resolve(__dirname, '..', '.npmrc');
