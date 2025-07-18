@@ -3,14 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
 const isCI = Boolean(process.env.CI);
-
 const CI_TEST_RETRIES = 2;
-
-const NUXT_PREVIEW_PORT = 4173;
-const NUXT_DEVELOPMENT_PORT = 3000;
-
-const webServerPort = isCI ? NUXT_PREVIEW_PORT : NUXT_DEVELOPMENT_PORT;
-const webServerCommand = isCI ? 'npm run build && npm run preview:playwright' : 'npm run dev';
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
@@ -33,7 +26,7 @@ export default defineConfig({
 
 	use: {
 		// Base URL to use in actions like `await page.goto('/')`.
-		baseURL: `http://localhost:${webServerPort}`,
+		baseURL: 'http://localhost:3000',
 
 		// Collect trace when retrying the failed test.
 		trace: 'on-first-retry',
@@ -89,10 +82,10 @@ export default defineConfig({
 
 	// Run your local dev server before starting the tests.
 	webServer: {
-		command: webServerCommand,
+		command: isCI ? 'npm run preview:e2e' : 'npm run dev',
 
 		// Use health endpoint that bypasses i18n redirects and always returns 200 OK
-		url: `http://localhost:${webServerPort}/health`,
+		url: 'http://localhost:3000/health',
 		reuseExistingServer: !isCI,
 		timeout: 120_000,
 		stdout: 'pipe',
