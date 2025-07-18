@@ -26,7 +26,7 @@ function loadEnvironmentFile() {
 		}
 	}
 	catch (error) {
-		const isCI = process.env.CI;
+		const isCI = Boolean(process.env.CI);
 
 		if (isCI) {
 			console.info('No .env file found (expected in CI), using environment variables');

@@ -5,7 +5,7 @@ import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 // eslint-disable-next-line ts/no-magic-numbers
 const WEB_SERVER_TIMEOUT_MS = 2 * 60 * 1000;
 const CI_TEST_RETRIES = 2;
-const isCI = typeof process.env.CI === 'string' && process.env.CI !== '';
+const isCI = Boolean(process.env.CI);
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
