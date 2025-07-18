@@ -7,9 +7,13 @@
  * - Monitoring systems
  * - Load balancer health checks
  */
-export default defineEventHandler(() => {
+
+export default defineEventHandler((event) => {
+	setResponseHeader(event, 'Cache-Control', 'no-store');
+
 	return {
 		status: 'healthy',
+		service: 'uploader',
 		timestamp: new Date().toISOString(),
 	};
 });

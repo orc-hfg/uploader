@@ -1,8 +1,7 @@
-import process from 'node:process';
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
-const isCI = Boolean(process.env.CI);
+const isCI = Boolean(import.meta.env.CI);
 
 const CI_SERVER_URL = 'http://localhost:4173/';
 const LOCAL_SERVER_URL = 'http://localhost:3000/';

@@ -1,10 +1,9 @@
 import { randomBytes } from 'node:crypto';
-import process from 'node:process';
 import { VALID_USER_LOGIN, VALID_USER_PASSWORD } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
 // Enable authentication mock for development AND testing (E2E tests)
-const isDevelopment = import.meta.dev || process.env.CI === 'true';
+const isDevelopment = import.meta.dev || Boolean(import.meta.env.CI);
 
 if (isDevelopment) {
 	const logger = createLogger();
@@ -29,6 +28,8 @@ const VALID_USER: AuthenticationMockUser = {
 	login: VALID_USER_LOGIN,
 	id: 'test-123',
 };
+
+const MOCK_SESSION_PREFIX = 'mock-session-';
 
 function generateCsrfToken(): string {
 	const CSRF_TOKEN_BYTES = 12;
@@ -89,7 +90,7 @@ export default defineNitroPlugin((nitroApp) => {
 			});
 		}
 
-		setCookie(event, sessionCookieName, `mock-session-${VALID_USER.id}`, {
+		setCookie(event, sessionCookieName, `${MOCK_SESSION_PREFIX}${VALID_USER.id}`, {
 			path: '/',
 			httpOnly: true,
 			maxAge: sessionMaxAgeSeconds,
@@ -104,8 +105,9 @@ export default defineNitroPlugin((nitroApp) => {
 		logger.debug('Plugin: authentication-development', `GET ${getRequestURL(event).pathname}`);
 
 		const sessionCookie = getCookie(event, sessionCookieName);
+		const hasValidSession = sessionCookie?.startsWith(MOCK_SESSION_PREFIX);
 
-		if (!sessionCookie?.startsWith('mock-session-')) {
+		if (!hasValidSession) {
 			throw createError({
 				statusCode: StatusCodes.UNAUTHORIZED,
 				statusMessage: 'Authentication required.',
