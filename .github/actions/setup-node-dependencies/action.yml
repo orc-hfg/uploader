@@ -4,8 +4,7 @@ description: Setup Node.js and install dependencies
 inputs:
   token:
     description: GitHub token for private package access
-    required: false
-    default: ${{ github.token }}
+    required: true
 
 runs:
   using: composite
@@ -20,6 +19,7 @@ runs:
       run: |
         echo "@orc-hfg:registry=https://npm.pkg.github.com" >> ~/.npmrc
         echo "//npm.pkg.github.com/:_authToken=${{ inputs.token }}" >> ~/.npmrc
+        cat ~/.npmrc
       shell: bash
 
     - name: Install dependencies
