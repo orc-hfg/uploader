@@ -85,7 +85,9 @@ export default defineConfig({
 	// Run your local dev server before starting the tests.
 	webServer: {
 		command: 'npm run dev',
-		url: 'http://localhost:3000',
+
+		// Use health endpoint that bypasses i18n redirects and always returns 200 OK
+		url: 'http://localhost:3000/health',
 		reuseExistingServer: !isCI,
 		timeout: WEB_SERVER_TIMEOUT_MS,
 		stdout: 'pipe',
