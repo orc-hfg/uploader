@@ -4,7 +4,6 @@ import devtoolsJson from 'vite-plugin-devtools-json';
 
 const isCI = Boolean(process.env.CI);
 
-const CI_SERVER_URL = 'http://localhost:4173/';
 const LOCAL_SERVER_URL = 'http://localhost:3000/';
 const DEVELOPMENT_SERVER_HOSTNAME = 'dev.madek.hfg-karlsruhe.de';
 const DEVELOPMENT_SERVER_URL = `https://${DEVELOPMENT_SERVER_HOSTNAME}/`;
@@ -119,7 +118,7 @@ export default defineNuxtConfig({
 		 */
 		mainApplication: true,
 		public: {
-			serverUrl: isCI ? CI_SERVER_URL : LOCAL_SERVER_URL,
+			serverUrl: LOCAL_SERVER_URL,
 			appPathName: APP_PATH_NAME,
 			authentication: {
 				basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
@@ -132,9 +131,6 @@ export default defineNuxtConfig({
 				csrfCookieName: 'madek.auth.anti-csrf-token',
 				csrfHeaderName: 'madek.auth.anti-csrf-token',
 				sessionCookieName: 'madek-session',
-			},
-			madekApi: {
-				baseURL: isCI ? 'http://localhost:4173/api/' : undefined,
 			},
 			sentry: {
 				// These options are used in both sentry.client.config.ts and sentry.server.config.ts

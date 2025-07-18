@@ -4,10 +4,12 @@ import { VALID_USER_LOGIN, VALID_USER_PASSWORD } from '@@/shared/constants/test'
 import { StatusCodes } from 'http-status-codes';
 
 // Enable authentication mock for development AND testing (E2E tests)
-const isDevelopment = import.meta.dev || process.env.CI === 'true';
+const shouldEnableAuthenticationMock = import.meta.dev || process.env.CI === 'true';
 
-if (isDevelopment) {
+if (shouldEnableAuthenticationMock) {
 	const logger = createLogger();
+
+	logger.debug('Plugin: authentication-development', 'META ENV CI', import.meta.env.CI);
 
 	logger.info('Plugin: authentication-development', 'Authentication development plugin is active.');
 }
@@ -37,7 +39,7 @@ function generateCsrfToken(): string {
 }
 
 export default defineNitroPlugin((nitroApp) => {
-	if (!isDevelopment) {
+	if (!shouldEnableAuthenticationMock) {
 		return;
 	}
 
@@ -45,8 +47,7 @@ export default defineNitroPlugin((nitroApp) => {
 
 	logger.debug('Plugin: authentication-development', 'Setting up authentication routes...');
 
-	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
-	const sessionMaxAgeSeconds = 86_400;
+	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName } = authenticationConfig;
 
 	const getSystemPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`;
 	const postSignInPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPath}${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`;
@@ -88,36 +89,5 @@ export default defineNitroPlugin((nitroApp) => {
 				statusMessage: 'The provided credentials are invalid.',
 			});
 		}
-
-		setCookie(event, sessionCookieName, `mock-session-${VALID_USER.id}`, {
-			path: '/',
-			httpOnly: true,
-			maxAge: sessionMaxAgeSeconds,
-		});
-	}));
-
-	/*
-	 * Mock /api/auth-info endpoint for CI testing
-	 * In Preview mode, Layer expects session-based auth instead of token-based auth
-	 */
-	nitroApp.router.get('/api/auth-info', defineEventHandler((event) => {
-		logger.debug('Plugin: authentication-development', `GET ${getRequestURL(event).pathname}`);
-
-		const sessionCookie = getCookie(event, sessionCookieName);
-
-		if (!sessionCookie?.startsWith('mock-session-')) {
-			throw createError({
-				statusCode: StatusCodes.UNAUTHORIZED,
-				statusMessage: 'Authentication required.',
-			});
-		}
-
-		return {
-			id: VALID_USER.id,
-			login: VALID_USER.login,
-			email: `${VALID_USER.login}@example.com`,
-			first_name: 'Test',
-			last_name: 'User',
-		};
 	}));
 });
