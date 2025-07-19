@@ -103,7 +103,9 @@ export default defineConfig({
 		 * Pipe server output to test logs for debugging CI issues
 		 * Allows viewing build process, startup logs, and error details
 		 */
-		stdout: 'pipe',
-		stderr: 'pipe',
+		...(isCI && {
+			stdout: 'pipe',
+			stderr: 'pipe',
+		}),
 	},
 });
