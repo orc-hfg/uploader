@@ -11,6 +11,7 @@
 	},
 	"scripts": {
 		"build": "nuxt build",
+		"build:ci": "npm run build",
 		"dev": "nuxt dev",
 		"staging": "nuxt dev --envName staging --dotenv .env.staging",
 		"generate": "nuxt generate",

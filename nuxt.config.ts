@@ -7,7 +7,7 @@ const isPreview = Boolean(import.meta.env.NUXT_PREVIEW);
 const LOCAL_SERVER_URL = 'http://localhost:3000/';
 const DEVELOPMENT_SERVER_HOSTNAME = 'dev.madek.hfg-karlsruhe.de';
 const DEVELOPMENT_SERVER_URL = `https://${DEVELOPMENT_SERVER_HOSTNAME}/`;
-const PRODUCTION_SERVER_URL = isPreview ? LOCAL_SERVER_URL : DEVELOPMENT_SERVER_URL;
+const PRODUCTION_SERVER_URL = (isCI || isPreview) ? LOCAL_SERVER_URL : DEVELOPMENT_SERVER_URL;
 const APP_PATH_NAME = 'uploader';
 const AUTHENTICATION_PATH_NAME = 'auth';
 const AUTHENTICATION_SIGN_IN_PATH_NAME = 'sign-in';
@@ -122,8 +122,8 @@ export default defineNuxtConfig({
 			isCI,
 			isPreview,
 
-			// Enable debug logging automatically in preview/CI modes (can be overridden by NUXT_PUBLIC_DEBUG_LOGGING)
-			debugLogging: isPreview || isCI,
+			// Enable debug logging automatically in CI/Preview modes (can be overridden by NUXT_PUBLIC_DEBUG_LOGGING)
+			debugLogging: isCI || isPreview,
 			serverUrl: LOCAL_SERVER_URL,
 			appPathName: APP_PATH_NAME,
 			authentication: {
