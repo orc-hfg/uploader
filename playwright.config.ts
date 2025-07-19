@@ -25,8 +25,13 @@ export default defineConfig({
 	reporter: 'html',
 
 	use: {
-		// Base URL to use in actions like `await page.goto('/')`.
-		baseURL: 'http://localhost:3000',
+		/*
+		 * Base URL to use in actions like `await page.goto('/')`.
+		 *
+		 * CI includes /uploader base path to match preview server configuration,
+		 * local development uses root path for simpler development workflow
+		 */
+		baseURL: isCI ? 'http://localhost:3000/uploader' : 'http://localhost:3000',
 
 		// Collect trace when retrying the failed test.
 		trace: 'on-first-retry',
@@ -82,10 +87,10 @@ export default defineConfig({
 	webServer: {
 		/*
 		 * Different server commands for different environments:
-		 * - CI uses preview:e2e (production-like build with /uploader/ base path)
+		 * - CI uses preview (production-like build with /uploader/ base path)
 		 * - Local uses dev server (fast development without base path)
 		 */
-		command: isCI ? 'npm run preview:e2e' : 'npm run dev',
+		command: isCI ? 'npm run preview' : 'npm run dev',
 
 		/*
 		 * Use health endpoint that bypasses i18n redirects and always returns 200 OK
@@ -93,7 +98,11 @@ export default defineConfig({
 		 */
 		url: isCI ? 'http://localhost:3000/uploader/health' : 'http://localhost:3000/health',
 		reuseExistingServer: !isCI,
-		timeout: 120_000,
+
+		/*
+		 * Pipe server output to test logs for debugging CI issues
+		 * Allows viewing build process, startup logs, and error details
+		 */
 		stdout: 'pipe',
 		stderr: 'pipe',
 	},

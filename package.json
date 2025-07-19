@@ -18,7 +18,6 @@
 		"deploy:staging": "sh ./deployment/uploader-deploy.sh staging",
 		"start:sentry": "node --import ./.output/server/sentry.server.config.mjs .output/server/index.mjs",
 		"preview": "NUXT_APP_BASE_URL=/uploader/ NUXT_PUBLIC_DEBUG_LOGGING=true nuxt preview",
-		"preview:e2e": "npm run build && npm run preview",
 		"preview:production": "npm run build && NUXT_APP_BASE_URL=/uploader/ NUXT_PUBLIC_DEBUG_LOGGING=true node .output/server/index.mjs",
 		"preview:production:sentry": "npm run build && NUXT_APP_BASE_URL=/uploader/ NUXT_PUBLIC_DEBUG_LOGGING=true NUXT_PUBLIC_SERVER_URL=http://localhost:3000/ NUXT_PUBLIC_SENTRY_ALLOW_HOSTNAME=localhost NUXT_PUBLIC_SENTRY_ENABLED=true npm run start:sentry",
 		"postinstall": "nuxt prepare",
