@@ -85,7 +85,7 @@ export default defineConfig({
 		 * - CI uses preview (production-like build for testing)
 		 * - Local uses dev server (fast development)
 		 */
-		command: isCI ? 'npm run preview' : 'npm run dev',
+		command: isCI ? 'npm run preview:ci' : 'npm run dev',
 
 		// Health endpoint bypasses i18n redirects and always returns 200 OK
 		url: 'http://localhost:3000/health',
