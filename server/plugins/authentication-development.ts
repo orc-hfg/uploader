@@ -2,19 +2,22 @@ import { randomBytes } from 'node:crypto';
 import { VALID_USER_LOGIN, VALID_USER_PASSWORD } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
+const logger = createLogger();
+
+const config = useRuntimeConfig();
+const publicConfig = config.public;
+const authenticationConfig = publicConfig.authentication;
+
 const isDevelopment = import.meta.dev;
-const isPreview = Boolean(import.meta.env.NUXT_PREVIEW);
-const isCI = Boolean(import.meta.env.CI);
+const { isPreview, isCI } = publicConfig;
+
 const isDevelopmentAuthentication = isDevelopment || isPreview || isCI;
 
 if (isDevelopmentAuthentication) {
-	const logger = createLogger();
-
 	logger.info('Plugin: authentication-development', 'Authentication development plugin is active.');
 }
 
-const config = useRuntimeConfig();
-const authenticationConfig = config.public.authentication;
+logger.debug('Plugin: authentication-development', `isPreview: ${isPreview}`);
 
 interface SignInRequestBody {
 	login: string;
@@ -43,8 +46,6 @@ export default defineNitroPlugin((nitroApp) => {
 	if (!isDevelopmentAuthentication) {
 		return;
 	}
-
-	const logger = createLogger();
 
 	logger.debug('Plugin: authentication-development', 'Setting up authentication routes...');
 

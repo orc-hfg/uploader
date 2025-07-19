@@ -119,6 +119,11 @@ export default defineNuxtConfig({
 		 */
 		mainApplication: true,
 		public: {
+			isCI,
+			isPreview,
+
+			// Enable debug logging via environment variable or automatically in preview/CI modes
+			debugLogging: Boolean(import.meta.env.NUXT_PUBLIC_DEBUG_LOGGING) || isPreview || isCI,
 			serverUrl: LOCAL_SERVER_URL,
 			appPathName: APP_PATH_NAME,
 			authentication: {
@@ -160,6 +165,9 @@ export default defineNuxtConfig({
 				serverUrl: PRODUCTION_SERVER_URL,
 				authentication: {
 					basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
+				},
+				madekApi: {
+					baseURL: `${PRODUCTION_SERVER_URL}api-v2/`,
 				},
 			},
 		},
