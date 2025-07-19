@@ -122,8 +122,8 @@ export default defineNuxtConfig({
 			isCI,
 			isPreview,
 
-			// Enable debug logging via environment variable or automatically in preview/CI modes
-			debugLogging: Boolean(import.meta.env.NUXT_PUBLIC_DEBUG_LOGGING) || isPreview || isCI,
+			// Enable debug logging automatically in preview/CI modes (can be overridden by NUXT_PUBLIC_DEBUG_LOGGING)
+			debugLogging: isPreview || isCI,
 			serverUrl: LOCAL_SERVER_URL,
 			appPathName: APP_PATH_NAME,
 			authentication: {
