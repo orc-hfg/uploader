@@ -1,4 +1,4 @@
-name: Quality Assurance and Build
+name: QA & E2E Tests
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
 
 jobs:
   quality-build-and-e2e:
-    name: Code Quality, Build & E2E Tests
+    name: QA & E2E Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

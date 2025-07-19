@@ -2,10 +2,12 @@ import { randomBytes } from 'node:crypto';
 import { VALID_USER_LOGIN, VALID_USER_PASSWORD } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
-// Enable authentication mock for development AND testing (E2E tests)
-const isDevelopment = import.meta.dev || Boolean(import.meta.env.CI);
+const isDevelopment = import.meta.dev;
+const isPreview = Boolean(import.meta.env.NUXT_PREVIEW);
+const isCI = Boolean(import.meta.env.CI);
+const isDevelopmentAuthentication = isDevelopment || isPreview || isCI;
 
-if (isDevelopment) {
+if (isDevelopmentAuthentication) {
 	const logger = createLogger();
 
 	logger.info('Plugin: authentication-development', 'Authentication development plugin is active.');
@@ -38,7 +40,7 @@ function generateCsrfToken(): string {
 }
 
 export default defineNitroPlugin((nitroApp) => {
-	if (!isDevelopment) {
+	if (!isDevelopmentAuthentication) {
 		return;
 	}
 

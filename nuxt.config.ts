@@ -2,10 +2,12 @@ import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
 const isCI = Boolean(import.meta.env.CI);
+const isPreview = Boolean(import.meta.env.NUXT_PREVIEW);
 
 const LOCAL_SERVER_URL = 'http://localhost:3000/';
 const DEVELOPMENT_SERVER_HOSTNAME = 'dev.madek.hfg-karlsruhe.de';
 const DEVELOPMENT_SERVER_URL = `https://${DEVELOPMENT_SERVER_HOSTNAME}/`;
+const PRODUCTION_SERVER_URL = isPreview ? LOCAL_SERVER_URL : DEVELOPMENT_SERVER_URL;
 const APP_PATH_NAME = 'uploader';
 const AUTHENTICATION_PATH_NAME = 'auth';
 const AUTHENTICATION_SIGN_IN_PATH_NAME = 'sign-in';
@@ -151,11 +153,11 @@ export default defineNuxtConfig({
 	},
 	$production: {
 		i18n: {
-			baseUrl: `${DEVELOPMENT_SERVER_URL}${APP_PATH_NAME}/`,
+			baseUrl: `${PRODUCTION_SERVER_URL}${APP_PATH_NAME}/`,
 		},
 		runtimeConfig: {
 			public: {
-				serverUrl: DEVELOPMENT_SERVER_URL,
+				serverUrl: PRODUCTION_SERVER_URL,
 				authentication: {
 					basePath: `${AUTHENTICATION_PATH_NAME}/${AUTHENTICATION_SIGN_IN_PATH_NAME}/`,
 				},
