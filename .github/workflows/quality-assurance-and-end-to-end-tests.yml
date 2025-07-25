@@ -3,6 +3,7 @@ name: Quality Assurance & End-to-End Tests
 on:
   push:
     branches: [main]
+    tags: ['v*'] # Ensures workflow also runs for tag pushes (git push origin v1.2.3) which don't trigger branch-based workflows
   pull_request:
     branches: [main]
 
