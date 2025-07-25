@@ -1,5 +1,10 @@
 # Uploader
 
+## Weiterführende Dokumentation
+
+- [Testing-Strategie](./documentation/testing-strategy.md)
+- [Details zur Architektur und dem madek-api-nuxt-layer](https://github.com/orc-hfg/madek-api-nuxt-layer?tab=readme-ov-file#madek-api-nuxt-layer)
+
 ## Projekt installieren und Konfiguration des GitHub Personal Access Tokens
 
 Für den Zugriff auf die @orc-hfg GitHub Packages (z.B. für die Installation des Packages @orc-hfg/madek-api-nuxt-layer) wird ein GitHub Personal Access Token benötigt:

@@ -8,6 +8,7 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 export default withNuxt(
 	antfu(
 		{
+			ignores: ['documentation/'],
 			typescript: {
 				// Enables type-aware linting
 				tsconfigPath: 'tsconfig.json',
@@ -23,6 +24,24 @@ export default withNuxt(
 				semi: true,
 			},
 			...eslintPluginSonarJs.configs.recommended,
+		},
+		{
+			// Prevent importing E2E logger outside of E2E tests
+			files: ['**/*.ts', '**/*.vue'],
+			ignores: ['tests/e2e/**/*'],
+			rules: {
+				'no-restricted-imports': [
+					'error',
+					{
+						patterns: [
+							{
+								group: ['**/tests/e2e/helpers/logger*'],
+								message: 'E2E logger should only be used in E2E tests. Use "@orc-hfg/madek-api-nuxt-layer/shared/logger" instead.',
+							},
+						],
+					},
+				],
+			},
 		},
 		{
 			files: ['**/*.ts', '**/*.vue'],
@@ -505,6 +524,13 @@ export default withNuxt(
 				},
 			},
 			rules: {
+				'no-restricted-syntax': [
+					'warn',
+					{
+						selector: 'CallExpression[callee.name="test"]:not(:has(CallExpression[callee.name="makeAxeBuilder"]))',
+						message: 'E2E tests should include accessibility testing using makeAxeBuilder(). Add accessibility checks to ensure inclusive user experience.',
+					},
+				],
 				'playwright/no-commented-out-tests': 'error',
 				'playwright/no-duplicate-hooks': 'error',
 				'playwright/no-get-by-title': 'error',

@@ -4,6 +4,12 @@ import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
 const isCI = Boolean(process.env.CI);
 
+// Decrease number of workers on local development to avoid flaky tests
+const LOCAL_WORKERS = 2;
+
+// Generally increase number of retries to handle sporadic EPIPE errors
+const MAX_RETRIES = 3;
+
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
 	testDir: 'tests',
@@ -14,13 +20,10 @@ export default defineConfig({
 	// Fail the build on CI if you accidentally left test.only in the source code.
 	forbidOnly: isCI,
 
-	// Retry failed tests to handle sporadic EPIPE errors
-	retries: 2,
+	retries: MAX_RETRIES,
 
-	// Opt out of parallel tests on CI.
-	workers: isCI ? 1 : undefined,
+	workers: isCI ? 1 : LOCAL_WORKERS,
 
-	// Reporter to use
 	reporter: 'html',
 
 	use: {
