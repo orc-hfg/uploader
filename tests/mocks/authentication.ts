@@ -41,14 +41,10 @@ export function getRuntimeConfigMock(): RuntimeConfigMock {
 	};
 }
 
-export function getCookieMock(): { value: string } {
-	return {
-		value: AUTHENTICATION_TEST_COOKIE,
-	};
-}
+export const getCookieMock = vi.fn<() => { value: string | null | undefined }>().mockReturnValue({
+	value: AUTHENTICATION_TEST_COOKIE,
+});
 
-export function getUserRepositoryMock(): { getAuthInfo: ReturnType<typeof vi.fn> } {
-	return {
-		getAuthInfo: vi.fn().mockResolvedValue({}),
-	};
-}
+export const getUserRepositoryMock = vi.fn<() => { getAuthInfo: ReturnType<typeof vi.fn> }>().mockReturnValue({
+	getAuthInfo: vi.fn().mockResolvedValue({}),
+});
