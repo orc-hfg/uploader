@@ -57,6 +57,8 @@
 		"pcss",
 		"postcss"
 	],
+	"vue.format.script.initialIndent": true,
+	"vue.format.style.initialIndent": true,
 	"vue.inlayHints.destructuredProps": true,
 	"vue.inlayHints.inlineHandlerLeading": true,
 	"vue.inlayHints.missingProps": true,

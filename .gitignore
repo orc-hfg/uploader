@@ -28,6 +28,16 @@ logs
 .env
 .env.*
 !.env.example
+!.env.preview
+!.env.preview.*
 
 # AI rulesets
 .windsurf
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+# Playwright
+.authentication/session.json
+playwright-report
+test-results

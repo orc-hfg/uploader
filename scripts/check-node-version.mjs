@@ -5,6 +5,7 @@ import https from 'node:https';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { StatusCodes } from 'http-status-codes';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,7 +63,7 @@ function fetchNodeVersions() {
 	return new Promise((resolve, reject) => {
 		https
 			.get('https://nodejs.org/dist/index.json', (response) => {
-				if (response.statusCode !== 200) {
+				if (response.statusCode !== StatusCodes.OK) {
 					reject(new Error(`HTTP error ${response.statusCode}`));
 					return;
 				}
