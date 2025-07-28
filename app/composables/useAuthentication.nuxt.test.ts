@@ -129,7 +129,6 @@ describe('useAuthentication()', () => {
 			{
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json',
 					'madek.auth.anti-csrf-token': AUTHENTICATION_TEST_COOKIE,
 				},
 				body: {

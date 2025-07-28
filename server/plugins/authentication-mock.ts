@@ -56,6 +56,7 @@ export default defineNitroPlugin((nitroApp) => {
 	// Build authentication route paths
 	const getSystemPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`;
 	const postSignInPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`;
+	const getSignOutPath = `/${authenticationConfig.basePath}${authenticationConfig.signOutPathName}`;
 
 	nitroApp.router.get(getSystemPath, defineEventHandler((event) => {
 		setCookie(event, csrfCookieName, generateCsrfToken(), {
@@ -90,6 +91,18 @@ export default defineNitroPlugin((nitroApp) => {
 			path: '/',
 			httpOnly: true,
 			maxAge: ONE_DAY_IN_SECONDS,
+		});
+	}));
+
+	nitroApp.router.get(getSignOutPath, defineEventHandler((event) => {
+		deleteCookie(event, sessionCookieName, {
+			path: '/',
+			httpOnly: true,
+		});
+
+		deleteCookie(event, csrfCookieName, {
+			path: '/',
+			httpOnly: false,
 		});
 	}));
 });

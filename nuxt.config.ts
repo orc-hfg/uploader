@@ -144,8 +144,9 @@ export default defineNuxtConfig({
 			// Authentication configuration
 			authentication: {
 				appPathName: 'uploader',
-				basePath: 'auth/sign-in/',
+				basePath: 'auth/',
 				signInPathName: 'sign-in',
+				signOutPathName: 'sign-out',
 				systemPathName: 'auth-systems',
 				systemPath: 'auth-systems/',
 				defaultSystemName: 'password',
@@ -189,7 +190,8 @@ export default defineNuxtConfig({
 		},
 		runtimeConfig: {
 			public: {
-				serverUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
+				// Authentication endpoints are only available at root path on development server
+				serverUrl: 'https://dev.madek.hfg-karlsruhe.de/',
 			},
 		},
 	},
