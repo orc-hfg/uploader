@@ -119,6 +119,18 @@ Die Release-Skripte führen automatische **Pre-Flight-Checks** durch, um sichere
 3. **Git Pull**: Automatischer Pull der neuesten Änderungen von `origin/main`
 4. **Fehlerbehandlung**: Detaillierte Fehlermeldungen bei Problemen
 
+### Branch Protection & Berechtigungen
+
+**Wichtig**: Der main Branch ist durch Branch Protection Rules geschützt. Für die Erstellung von Releases sind spezielle Berechtigungen erforderlich:
+
+- **Repository Admins** können Releases direkt vom main Branch erstellen (Bypass-Berechtigung)
+- **Andere Contributors** benötigen Admin-Rechte oder müssen zur Bypass-Liste hinzugefügt werden
+- Bei fehlenden Berechtigungen schlägt `npm run release:*` mit einem Branch Protection Fehler fehl
+
+**Für neue Team-Mitglieder**: Falls Release-Erstellung fehlschlägt, kontaktiere einen Repository Admin zur Berechtigung.
+
+**Alternative für Teams**: Für größere Teams kann später ein GitHub Actions Manual Workflow (`workflow_dispatch`) implementiert werden, der es allen Contributors mit Write-Zugriff ermöglicht, Releases über die GitHub UI zu erstellen, ohne lokale Branch Protection Bypass-Rechte zu benötigen.
+
 ### Wann sollten Releases erstellt werden?
 
 Releases sollten strategisch und bewusst erstellt werden.
