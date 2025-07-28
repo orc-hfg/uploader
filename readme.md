@@ -166,6 +166,8 @@ Releases sollten strategisch und bewusst erstellt werden.
 - Möglichkeit, mehrere Changes zu bündeln
 - Bewusste Qualitätskontrolle vor Release
 - Koordination mit Deployment-Zyklen
+- **Kein Package Publishing**: Diese Anwendung wird deployed, nicht als Dependency installiert
+- **Deployment-Meilensteine**: Releases markieren deployment-bereite Zustände
 
 ### Was passiert bei einem Release?
 
