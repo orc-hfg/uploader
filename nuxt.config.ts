@@ -73,8 +73,20 @@ export default defineNuxtConfig({
 		 * This is not a mistake - each module expects its documented spelling.
 		 * Changing the spelling will break the respective module's functionality.
 		 * Always follow the official documentation for each module.
+		 *
+		 * CRITICAL: i18n.baseUrl must NOT include the app path!
+		 *
+		 * WRONG: baseUrl: 'http://localhost:3000/uploader/'
+		 * CORRECT: baseUrl: 'http://localhost:3000/'
+		 *
+		 * Why: Nuxt i18n automatically combines baseUrl + app.baseURL + route
+		 * - If baseUrl includes /uploader/: http://localhost:3000/uploader/ + /uploader/ + /de/projekte = /uploader/uploader/de/projekte
+		 * - If baseUrl is server only: http://localhost:3000/ + /uploader/ + /de/projekte = /uploader/de/projekte
+		 *
+		 * The baseUrl should only specify "where is the server", not "where is the app".
+		 * The app path is automatically added from app.baseURL.
 		 */
-		baseUrl: 'http://localhost:3000/uploader/',
+		baseUrl: 'http://localhost:3000/',
 		defaultLocale: 'de',
 		strategy: 'prefix',
 		locales: [
@@ -116,6 +128,20 @@ export default defineNuxtConfig({
 		 * This is not a mistake - each module expects its documented spelling.
 		 * Changing the spelling will break the respective module's functionality.
 		 * Always follow the official documentation for each module.
+		 *
+		 * CONFUSING NAMING: Despite being called "baseURL", this is NOT a full URL!
+		 *
+		 * ❌ MISLEADING: The name "baseURL" suggests a full URL like "https://example.com/"
+		 * ✅ REALITY: It's only a path like "/uploader/"
+		 *
+		 * Semantically correct naming would be:
+		 * - app.basePath = "/uploader/" (what this actually is)
+		 * - i18n.baseURL = "https://example.com/" (what i18n.baseUrl actually is)
+		 *
+		 * This naming inconsistency is a known issue in the Nuxt ecosystem but cannot
+		 * be changed without breaking changes. Be aware of this when working with URLs:
+		 * - app.baseURL = path only ("/uploader/")
+		 * - i18n.baseUrl = full URL ("https://example.com/")
 		 */
 		baseURL: '/uploader/',
 		head: {
@@ -139,13 +165,26 @@ export default defineNuxtConfig({
 			// Enable authentication info endpoint mock for E2E testing with session-based authentication
 			enableAuthenticationInfoEndpointMock: false,
 
+			/**
+			 * Server URL for authentication endpoints
+			 *
+			 * IMPORTANT: Different URL structures between environments:
+			 * - Local Development: 'http://localhost:3000/uploader/' (authentication mock runs under app path)
+			 * - Production: 'https://server/' (authentication system runs at root path)
+			 *
+			 * This difference exists because local authentication mock is implemented as a Nuxt Server Plugin,
+			 * which is bound to app.baseURL and cannot serve routes outside this scope.
+			 *
+			 * The authentication composable uses this serverUrl to build correct endpoint URLs for each environment.
+			 */
 			serverUrl: 'http://localhost:3000/uploader/',
 
 			// Authentication configuration
 			authentication: {
 				appPathName: 'uploader',
-				basePath: 'auth/sign-in/',
+				basePath: 'auth/',
 				signInPathName: 'sign-in',
+				signOutPathName: 'sign-out',
 				systemPathName: 'auth-systems',
 				systemPath: 'auth-systems/',
 				defaultSystemName: 'password',
@@ -185,11 +224,12 @@ export default defineNuxtConfig({
 	},
 	$production: {
 		i18n: {
-			baseUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
+			baseUrl: 'https://dev.madek.hfg-karlsruhe.de/',
 		},
 		runtimeConfig: {
 			public: {
-				serverUrl: 'https://dev.madek.hfg-karlsruhe.de/uploader/',
+				// Authentication endpoints are only available at root path on development server
+				serverUrl: 'https://dev.madek.hfg-karlsruhe.de/',
 			},
 		},
 	},
