@@ -1,3 +1,27 @@
+/**
+ * Authentication Mock Plugin for Local Development
+ *
+ * Provides functional authentication endpoints for local development and testing.
+ *
+ * IMPORTANT: URL Structure Difference
+ * - Production: Authentication runs at root path (https://server/auth/*)
+ * - Local Development: Authentication runs under app path (http://localhost:3000/uploader/auth/*)
+ *
+ * This difference exists because Nuxt Server Routes are bound to app.baseURL and cannot
+ * be defined outside this scope. Attempts to serve routes at root level while keeping
+ * the app under /uploader/ break the application.
+ *
+ * This is an acceptable limitation - the mock provides functional authentication testing
+ * even though the URL structure differs from production.
+ *
+ * Authentication Flow:
+ * 1. Client requests session initialization (GET /auth/auth-systems)
+ * 2. Plugin sets CSRF token cookie for security
+ * 3. Client submits login credentials with CSRF token (POST /auth/auth-systems/password/password/sign-in)
+ * 4. Plugin validates credentials and CSRF token
+ * 5. On success, sets session cookie for subsequent requests
+ */
+
 import { randomBytes } from 'node:crypto';
 import { AUTHENTICATION_MOCK_SESSION_PREFIX, AUTHENTICATION_MOCK_VALID_USER, AUTHENTICATION_MOCK_VALID_USER_PASSWORD } from '@@/shared/constants/test';
 import { ONE_DAY_IN_SECONDS } from '@orc-hfg/madek-api-nuxt-layer/shared/constants/time';
@@ -14,26 +38,6 @@ const isAuthenticationMockEnabled = publicConfig.enableAuthenticationMock;
 if (isAuthenticationMockEnabled) {
 	logger.info('Plugin: authentication-mock', 'Authentication mock is active.');
 }
-
-/*
- * Authentication Mock Plugin
- *
- * This plugin provides mock authentication endpoints for development and testing environments.
- *
- * WHEN ACTIVE:
- * - Development environment (npm run dev) - for local development without external server
- * - Preview/CI environment (npm run preview:ci) - for E2E testing with session-based authentication
- *
- * PROVIDES:
- * - GET /auth/sign-in/auth-systems/ - Returns CSRF token for authentication
- * - POST /auth/sign-in/auth-systems/password/password/sign-in - Validates credentials and sets session cookie
- *
- * AUTHENTICATION FLOW:
- * 1. Client requests CSRF token from GET endpoint
- * 2. Client submits login form with CSRF token in header
- * 3. Plugin validates credentials and CSRF token
- * 4. On success, sets session cookie for subsequent requests
- */
 
 interface SignInRequestBody {
 	login: string;
@@ -54,8 +58,8 @@ export default defineNitroPlugin((nitroApp) => {
 	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
 
 	// Build authentication route paths
-	const getSystemPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}`;
-	const postSignInPath = `/${authenticationConfig.basePath}${authenticationConfig.systemPathName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`;
+	const getSystemPath = `/${authenticationConfig.basePath}${authenticationConfig.signInPathName}/${authenticationConfig.systemPathName}`;
+	const postSignInPath = `/${authenticationConfig.basePath}${authenticationConfig.signInPathName}/${authenticationConfig.systemPathName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`;
 	const getSignOutPath = `/${authenticationConfig.basePath}${authenticationConfig.signOutPathName}`;
 
 	nitroApp.router.get(getSystemPath, defineEventHandler((event) => {

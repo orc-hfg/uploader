@@ -4,11 +4,11 @@ import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
 const isCI = Boolean(process.env.CI);
 
-// Decrease number of workers on local development to avoid flaky tests
-const LOCAL_WORKERS = 2;
+// Maximum number of retries for CI environment to handle network instabilities
+const CI_MAX_RETRIES = 3;
 
 // Generally increase number of retries to handle sporadic EPIPE errors
-const MAX_RETRIES = 3;
+const MAX_RETRIES = isCI ? CI_MAX_RETRIES : 0;
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
@@ -22,7 +22,7 @@ export default defineConfig({
 
 	retries: MAX_RETRIES,
 
-	workers: isCI ? 1 : LOCAL_WORKERS,
+	workers: isCI ? 1 : undefined,
 
 	reporter: 'html',
 

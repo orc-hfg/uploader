@@ -120,7 +120,7 @@ describe('useAuthentication()', () => {
 
 		expect(fetchSpy).toHaveBeenNthCalledWith(
 			1,
-			`https://test.server.de/auth/sign-in/auth-systems/?email-or-login=${encodeURIComponent(testEmail)}`,
+			`https://test.server.de/auth/sign-in/auth-systems?email-or-login=${encodeURIComponent(testEmail)}`,
 		);
 
 		expect(fetchSpy).toHaveBeenNthCalledWith(
