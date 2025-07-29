@@ -57,10 +57,10 @@ jobs:
         run: |
           COMMIT_MSG=$(git log -1 --pretty=%B)
           if [[ "$COMMIT_MSG" == *"chore: release "* ]]; then
-            echo "should_skip=true" >> $GITHUB_OUTPUT
+            echo "should_run=false" >> $GITHUB_OUTPUT
             echo "This is a release commit - Quality Assurance will be skipped"
           else
-            echo "should_skip=false" >> $GITHUB_OUTPUT
+            echo "should_run=true" >> $GITHUB_OUTPUT
             echo "Not a release commit - continuing with Quality Assurance"
           fi
 
@@ -80,19 +80,19 @@ jobs:
         run: npm ci
 
       - name: Run linting
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm run lint
 
       - name: Type check
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm run check:types
 
       - name: Check for unused code & dependencies
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm run check:unused
 
       - name: Run unit tests
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm run test
 
       - name: Build application
@@ -111,15 +111,15 @@ jobs:
         run: |
           COMMIT_MSG=$(git log -1 --pretty=%B)
           if [[ "$COMMIT_MSG" == *"chore: release "* ]]; then
-            echo "should_skip=true" >> $GITHUB_OUTPUT
+            echo "should_run=false" >> $GITHUB_OUTPUT
             echo "This is a release commit - End-to-End Tests will be skipped"
           else
-            echo "should_skip=false" >> $GITHUB_OUTPUT
+            echo "should_run=true" >> $GITHUB_OUTPUT
             echo "Not a release commit - continuing with End-to-End Tests"
           fi
 
       - name: Setup Node.js + npm cache
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
@@ -127,36 +127,36 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Setup .npmrc from template
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm run setup-npmrc
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
 
       - name: Install dependencies
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm ci
 
       - name: Restore Playwright browser cache
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npx playwright install --with-deps
 
       - name: Build application for end-to-end tests
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm run build:ci
 
       - name: Run end-to-end tests
-        if: steps.check_release.outputs.should_skip != 'true'
+        if: steps.check_release.outputs.should_run == 'true'
         run: npm run test:e2e
 
       - name: Upload Playwright report
-        if: ${{ !cancelled() && steps.check_release.outputs.should_skip != 'true' }}
+        if: ${{ !cancelled() && steps.check_release.outputs.should_run == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
