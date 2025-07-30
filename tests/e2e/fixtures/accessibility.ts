@@ -10,17 +10,16 @@ interface AccessibilityFixtures {
 export const test = base.extend<AccessibilityFixtures>({
 	makeAxeBuilder: async ({ page }, use) => {
 		function makeAxeBuilder(): AxeBuilder {
-			/*
-			 * TODO: Remove this temporary exclusion after design fixes
-			 * Issue: Color contrast violations in login form labels
-			 */
 			const logger = createLogger();
 			logger.warn('Fixture: accessibility', 'Color contrast checks temporarily disabled. Please fix design issues and re-enable.');
 
 			return new AxeBuilder({ page })
 				.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
 
-				// TODO: Remove after design fixes
+			/*
+			 * TODO: Remove this temporary exclusion after design fixes
+			 * Issue: Color contrast violations in login form labels
+			 */
 				.disableRules(['color-contrast']);
 		}
 		await use(makeAxeBuilder);
