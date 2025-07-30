@@ -1,4 +1,4 @@
-/**
+/*
  * Authentication Mock Plugin for Local Development
  *
  * Provides functional authentication endpoints for local development and testing.

@@ -165,7 +165,7 @@ export default defineNuxtConfig({
 			// Enable authentication info endpoint mock for E2E testing with session-based authentication
 			enableAuthenticationInfoEndpointMock: false,
 
-			/**
+			/*
 			 * Server URL for authentication endpoints
 			 *
 			 * IMPORTANT: Different URL structures between environments:

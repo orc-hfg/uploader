@@ -8,7 +8,7 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 export default withNuxt(
 	antfu(
 		{
-			ignores: ['documentation/'],
+			ignores: ['documentation/', '**/readme.md'],
 			typescript: {
 				// Enables type-aware linting
 				tsconfigPath: 'tsconfig.json',

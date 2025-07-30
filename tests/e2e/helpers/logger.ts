@@ -1,6 +1,6 @@
 import { consola } from 'consola';
 
-/**
+/*
  * ⚠️ E2E TEST LOGGER ONLY ⚠️
  *
  * This logger is specifically designed for E2E tests and should NEVER be used
@@ -26,7 +26,7 @@ function log(level: 'debug' | 'info' | 'warn' | 'error', source: string, message
 	}
 }
 
-/**
+/*
  * Creates a logger instance for E2E tests only.
  *
  * ⚠️ DO NOT USE IN MAIN APPLICATION CODE ⚠️

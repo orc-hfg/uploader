@@ -1,4 +1,4 @@
-/**
+/*
  * Authentication Composable
  *
  * Provides authentication functionality for login, logout, and session validation.

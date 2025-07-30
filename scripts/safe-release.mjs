@@ -5,7 +5,7 @@ import process, { exit } from 'node:process';
 
 const RELEASE_TYPES = new Set(['patch', 'minor', 'major']);
 
-/**
+/*
  * Validates command line arguments
  */
 function validateArguments() {
@@ -20,7 +20,7 @@ function validateArguments() {
 	return releaseType;
 }
 
-/**
+/*
  * Ensures we're on the main branch
  */
 function checkCurrentBranch() {
@@ -38,7 +38,7 @@ function checkCurrentBranch() {
 	console.log('✅ Branch check passed: on main branch');
 }
 
-/**
+/*
  * Ensures working directory is clean
  */
 function checkWorkingDirectory() {
@@ -57,7 +57,7 @@ function checkWorkingDirectory() {
 	console.log('✅ Working directory check passed: clean');
 }
 
-/**
+/*
  * Pulls latest changes from origin/main
  */
 function pullLatestChanges() {
@@ -76,7 +76,7 @@ function pullLatestChanges() {
 	}
 }
 
-/**
+/*
  * Creates and pushes the release
  */
 function createRelease(releaseType) {
@@ -113,7 +113,7 @@ function createRelease(releaseType) {
 	}
 }
 
-/**
+/*
  * Main orchestration function
  */
 function main() {
