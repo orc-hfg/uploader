@@ -7,7 +7,7 @@
 		"url": "https://github.com/orc-hfg/uploader.git"
 	},
 	"engines": {
-		"node": "22.16.0"
+		"node": "22.17.1"
 	},
 	"scripts": {
 		"build": "nuxt build",
