@@ -48,19 +48,20 @@
 		"release:patch": "node ./scripts/safe-release.mjs patch",
 		"release:minor": "node ./scripts/safe-release.mjs minor",
 		"release:major": "node ./scripts/safe-release.mjs major",
-		"prepare": "husky"
+		"prepare": "husky",
+		"reinstall": "rm -rf node_modules package-lock.json && npm install"
 	},
 	"dependencies": {
 		"@nuxtjs/google-fonts": "3.2.0",
 		"@nuxtjs/i18n": "9.5.5",
-		"@orc-hfg/madek-api-nuxt-layer": "1.5.3",
+		"@orc-hfg/madek-api-nuxt-layer": "1.6.0-dev.3",
 		"@primeuix/themes": "1.1.1",
 		"@primevue/forms": "4.3.5",
 		"@sentry/nuxt": "9.34.0",
 		"@vueuse/nuxt": "13.3.0",
 		"consola": "3.4.2",
 		"http-status-codes": "2.3.0",
-		"nuxt": "3.17.5",
+		"nuxt": "4.0.2",
 		"primeicons": "7.0.0",
 		"primevue": "4.3.5",
 		"tailwindcss-primeui": "0.6.1",
