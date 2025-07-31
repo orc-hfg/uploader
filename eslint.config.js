@@ -314,7 +314,9 @@ export default withNuxt(
 			},
 			rules: {
 				...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+				'better-tailwindcss/enforce-consistent-important-position': 'error',
 				'better-tailwindcss/enforce-consistent-variable-syntax': 'error',
+				'better-tailwindcss/enforce-shorthand-classes': 'error',
 				'better-tailwindcss/multiline': [
 					'error',
 					{
@@ -322,6 +324,7 @@ export default withNuxt(
 					},
 				],
 				'better-tailwindcss/no-conflicting-classes': 'error',
+				'better-tailwindcss/no-deprecated-classes': 'error',
 				'better-tailwindcss/no-restricted-classes': [
 					'error',
 					{
