@@ -25,15 +25,11 @@
 		"@primevue/nuxt-module",
 		"@vueuse/core",
 		"@vueuse/nuxt",
-		"dotenv",
 		"ofetch",
 		"primeicons",
 		"tailwindcss-primeui",
 		"vue-router",
 		"zod"
-	],
-	"ignoreBinaries": [
-		"dotenv"
 	],
 	"ignoreUnresolved": [
 		"#app"
