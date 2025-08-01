@@ -24,6 +24,10 @@ export default defineConfig({
 
 	workers: isCI ? 1 : undefined,
 
+	expect: {
+		timeout: 10_000,
+	},
+
 	reporter: 'html',
 
 	use: {

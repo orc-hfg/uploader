@@ -1,19 +1,24 @@
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
+// Extend ImportMetaEnv interface to include CI property
+declare global {
+	// eslint-disable-next-line unicorn/prevent-abbreviations
+	interface ImportMetaEnv {
+		CI?: boolean | string;
+	}
+}
+
 // Recognize CI environment (e.g. GitHub Actions)
 const isCI = Boolean(import.meta.env.CI);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	future: {
-		compatibilityVersion: 4,
-	},
 	experimental: {
 		// See: https://www.youtube.com/watch?v=SXk-L19gTZk
 		typedPages: true,
 	},
-	compatibilityDate: '2025-05-09',
+	compatibilityDate: '2025-07-31',
 	devtools: { enabled: true },
 	typescript: {
 		typeCheck: true,
@@ -136,7 +141,7 @@ export default defineNuxtConfig({
 		 *
 		 * Semantically correct naming would be:
 		 * - app.basePath = "/uploader/" (what this actually is)
-		 * - i18n.baseURL = "https://example.com/" (what i18n.baseUrl actually is)
+		 * - i18n.baseUrl = "https://example.com/" (what i18n.baseUrl actually is)
 		 *
 		 * This naming inconsistency is a known issue in the Nuxt ecosystem but cannot
 		 * be changed without breaking changes. Be aware of this when working with URLs:

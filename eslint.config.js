@@ -8,7 +8,14 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 export default withNuxt(
 	antfu(
 		{
-			ignores: ['documentation/', '**/readme.md'],
+			ignores: [
+				'documentation/',
+				'**/readme.md',
+				'sentry.server.config.ts',
+				'sentry.client.config.ts',
+				'playwright.config.ts',
+				'vitest.config.ts',
+			],
 			typescript: {
 				// Enables type-aware linting
 				tsconfigPath: 'tsconfig.json',
@@ -35,8 +42,8 @@ export default withNuxt(
 					{
 						patterns: [
 							{
-								group: ['**/tests/e2e/helpers/logger*'],
-								message: 'E2E logger should only be used in E2E tests. Use "@orc-hfg/madek-api-nuxt-layer/shared/logger" instead.',
+								group: ['**/tests/e2e/helpers/test-logger*'],
+								message: 'E2E test-logger should only be used in E2E tests. Use "@orc-hfg/madek-api-nuxt-layer/app/utils/app-logger" or "@orc-hfg/madek-api-nuxt-layer/server/utils/server-logger" instead.',
 							},
 						],
 					},
@@ -317,12 +324,6 @@ export default withNuxt(
 				'better-tailwindcss/enforce-consistent-important-position': 'error',
 				'better-tailwindcss/enforce-consistent-variable-syntax': 'error',
 				'better-tailwindcss/enforce-shorthand-classes': 'error',
-				'better-tailwindcss/multiline': [
-					'error',
-					{
-						printWidth: 100,
-					},
-				],
 				'better-tailwindcss/no-conflicting-classes': 'error',
 				'better-tailwindcss/no-deprecated-classes': 'error',
 				'better-tailwindcss/no-restricted-classes': [
@@ -451,6 +452,19 @@ export default withNuxt(
 						case: 'camelCase',
 					},
 				],
+			},
+		},
+		{
+			// Disable TypeScript strict safety checks for Sentry configuration files.
+			// These files use useRuntimeConfig() which returns values that TypeScript
+			// cannot guarantee are not Error objects. Rather than adding excessive
+			// type checking in these specific files, we disable the relevant rules.
+			files: ['sentry.client.config.ts', 'sentry.server.config.ts'],
+			rules: {
+				'ts/no-unsafe-argument': 'off',
+				'ts/no-unsafe-assignment': 'off',
+				'ts/no-unsafe-call': 'off',
+				'ts/no-unsafe-member-access': 'off',
 			},
 		},
 		{

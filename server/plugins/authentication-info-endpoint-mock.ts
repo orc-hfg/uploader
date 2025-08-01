@@ -1,7 +1,7 @@
 import { AUTHENTICATION_MOCK_SESSION_PREFIX, AUTHENTICATION_MOCK_VALID_USER } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
-const logger = createLogger();
+const serverStartupLogger = createServerStartupLogger();
 
 const config = useRuntimeConfig();
 const publicConfig = config.public;
@@ -9,7 +9,7 @@ const publicConfig = config.public;
 const isAuthenticationInfoEndpointMockEnabled = publicConfig.enableAuthenticationInfoEndpointMock;
 
 if (isAuthenticationInfoEndpointMockEnabled) {
-	logger.info('Plugin: authentication-info-endpoint-mock', 'Authentication info endpoint mock is active.');
+	serverStartupLogger.info('Plugin: authentication-info-endpoint-mock', 'Authentication info endpoint mock is active.');
 }
 
 /*

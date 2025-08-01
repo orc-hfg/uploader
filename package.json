@@ -39,7 +39,7 @@
 		"check:eslint": "npx @eslint/config-inspector@latest",
 		"check:types": "nuxt prepare && vue-tsc -b --noEmit",
 		"check:unused": "NODE_NO_WARNINGS=1 knip",
-		"check:issues": "concurrently \"npm run lint\" \"npm run check:types\" \"npm run check:unused\" \"npm run test\" \"npm run test:e2e\"",
+		"check:issues": "npm run lint && npm run check:types && npm run check:unused && npm run test && npm run test:e2e",
 		"check:node": "node ./scripts/check-node-version.mjs",
 		"check:updates": "npm-check-updates --interactive --format group",
 		"upgrade": "nuxt upgrade",
@@ -54,7 +54,7 @@
 	"dependencies": {
 		"@nuxtjs/google-fonts": "3.2.0",
 		"@nuxtjs/i18n": "9.5.5",
-		"@orc-hfg/madek-api-nuxt-layer": "1.6.0-dev.3",
+		"@orc-hfg/madek-api-nuxt-layer": "1.6.0-dev.4",
 		"@primeuix/themes": "1.2.3",
 		"@primevue/forms": "4.3.7",
 		"@sentry/nuxt": "9.43.0",
@@ -74,12 +74,12 @@
 		"@nuxt/devtools": "npm:@nuxt/devtools-nightly@latest",
 		"@nuxt/eslint": "1.7.1",
 		"@nuxt/test-utils": "3.19.2",
-		"@playwright/test": "1.54.1",
+		"@playwright/test": "1.54.2",
 		"@primevue/nuxt-module": "4.3.7",
 		"@tailwindcss/vite": "4.1.11",
 		"@types/node": "24.1.0",
 		"@vue/test-utils": "2.4.6",
-		"concurrently": "9.2.0",
+		"dotenv": "17.2.1",
 		"eslint": "9.32.0",
 		"eslint-plugin-better-tailwindcss": "3.7.3",
 		"eslint-plugin-playwright": "2.2.2",
@@ -90,7 +90,7 @@
 		"knip": "5.62.0",
 		"lint-staged": "16.1.2",
 		"npm-check-updates": "18.0.2",
-		"playwright-core": "1.54.1",
+		"playwright-core": "1.54.2",
 		"tailwindcss": "4.1.11",
 		"type-fest": "4.41.0",
 		"typescript": "5.8.3",
@@ -99,6 +99,6 @@
 		"vue-tsc": "3.0.4"
 	},
 	"overrides": {
-		"@vercel/nft": "^0.27.4"
+		"@vercel/nft": "^0.30.0"
 	}
 }

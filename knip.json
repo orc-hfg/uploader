@@ -2,6 +2,7 @@
 	"$schema": "https://unpkg.com/knip@5/schema.json",
 	"entry": [
 		"app/app.vue",
+		"app/composables/*.ts",
 		"app/middleware/*.ts",
 		"app/pages/**/*.vue",
 		"app/stores/*.ts",
@@ -24,12 +25,26 @@
 		"@primevue/nuxt-module",
 		"@vueuse/core",
 		"@vueuse/nuxt",
+		"dotenv",
 		"ofetch",
 		"primeicons",
 		"tailwindcss-primeui",
-		"vitest-environment-nuxt",
-		"vue-tsc",
 		"vue-router",
 		"zod"
-	]
+	],
+	"ignoreBinaries": [
+		"dotenv"
+	],
+	"ignoreUnresolved": [
+		"#app"
+	],
+	"paths": {
+		"@/*": [
+			"app/*"
+		],
+		"@@/*": [
+			"./*"
+		]
+	},
+	"vitest": false
 }

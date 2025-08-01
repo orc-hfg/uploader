@@ -5,5 +5,3 @@ declare module '#app' {
 		pageTitleKeyPath?: PageTitleKeyPath;
 	}
 }
-
-export {};

@@ -27,7 +27,7 @@ import { AUTHENTICATION_MOCK_SESSION_PREFIX, AUTHENTICATION_MOCK_VALID_USER, AUT
 import { ONE_DAY_IN_SECONDS } from '@orc-hfg/madek-api-nuxt-layer/shared/constants/time';
 import { StatusCodes } from 'http-status-codes';
 
-const logger = createLogger();
+const serverStartupLogger = createServerStartupLogger();
 
 const config = useRuntimeConfig();
 const publicConfig = config.public;
@@ -36,7 +36,7 @@ const authenticationConfig = publicConfig.authentication;
 const isAuthenticationMockEnabled = publicConfig.enableAuthenticationMock;
 
 if (isAuthenticationMockEnabled) {
-	logger.info('Plugin: authentication-mock', 'Authentication mock is active.');
+	serverStartupLogger.info('Plugin: authentication-mock', 'Authentication mock is active.');
 }
 
 interface SignInRequestBody {

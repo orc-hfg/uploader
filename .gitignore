@@ -10,7 +10,7 @@
 dist
 
 # Typescript dev/build outputs
-tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # Node dependencies
 node_modules

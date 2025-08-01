@@ -1,12 +1,14 @@
 import * as Sentry from '@sentry/nuxt';
 
+// Tell TypeScript to ignore the next line since useRuntimeConfig is provided by Nuxt auto-imports
+// @ts-expect-error: useRuntimeConfig is provided by Nuxt auto-imports at runtime
 const config = useRuntimeConfig();
 const { serverUrl, sentry } = config.public;
 
 const isHostAllowed = location.hostname === sentry.allowHostname;
 
 // Only initialize Sentry if it is enabled (see nuxt.config.ts) and the current host is the allowed hostname
-if (sentry.enabled && isHostAllowed) {
+if (sentry.enabled === true && isHostAllowed) {
 	Sentry.init({
 		// Match scripts loaded from exactly our server URL
 		allowUrls: [new RegExp(serverUrl, 'u')],
@@ -34,6 +36,7 @@ if (sentry.enabled && isHostAllowed) {
 		 * If you don't want to use Session Replay, just remove the entry below:
 		 * integrations: [Sentry.replayIntegration(), Sentry.piniaIntegration(usePinia())],
 		 */
+		// @ts-expect-error: usePinia is provided by Nuxt auto-imports at runtime
 		integrations: [Sentry.piniaIntegration(usePinia())],
 
 		// Setting this option to true will print useful information to the console while you're setting up Sentry.
