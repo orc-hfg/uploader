@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 	definePageMeta({
+		skipAuthentication: true,
 		layout: false,
 	});
 

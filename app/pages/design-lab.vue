@@ -5,6 +5,7 @@
 	import { themeDesignerVersion } from '@/theme/primevue-theme-designer';
 
 	definePageMeta({
+		skipAuthentication: true,
 		layout: false,
 	});
 
