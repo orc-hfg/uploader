@@ -14,9 +14,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
 	const PAGE_ORDER = ['index', 'projects'];
 
-	const { $getRouteBaseName } = useNuxtApp();
-	const toBaseName = $getRouteBaseName(to);
-	const fromBaseName = $getRouteBaseName(from);
+	const { $routeBaseName } = useNuxtApp();
+	const toBaseName = $routeBaseName(to);
+	const fromBaseName = $routeBaseName(from);
 
 	let transitionName = 'no-transition';
 

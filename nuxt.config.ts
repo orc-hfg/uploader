@@ -71,6 +71,27 @@ export default defineNuxtConfig({
 	},
 	i18n: {
 		/*
+		 * NOTE: We deliberately use the classic `defineI18nRoute` method in pages
+		 * instead of the newer `i18n` property in `definePageMeta`.
+		 *
+		 * Reason: The new method has compatibility issues with other metadata like
+		 * `pageTransition` and `middleware`. When both are used together,
+		 * the i18n configuration doesn't work correctly.
+		 *
+		 * Benefits of the classic method:
+		 * - Works reliably
+		 * - Makes path definitions visible in each page
+		 * - No need to look up routes in nuxt.config.ts
+		 *
+		 * Documentation:
+		 * - definePageMeta approach: https://next.i18n.nuxtjs.org/docs/guide/custom-paths#definepagemeta
+		 * - customRoutes option: https://next.i18n.nuxtjs.org/docs/api/options#customroutes
+		 *
+		 * TODO: When upgrading to Nuxt i18n v11, check if these issues have been resolved
+		 * and consider switching to the new method.
+		 */
+
+		/*
 		 * IMPORTANT: Note the different spelling compared to app.baseURL
 		 * - Nuxt core uses: app.baseURL (with capital URL)
 		 * - Nuxt i18n uses: i18n.baseUrl (with lowercase u)
@@ -91,20 +112,32 @@ export default defineNuxtConfig({
 		 * The baseUrl should only specify "where is the server", not "where is the app".
 		 * The app path is automatically added from app.baseURL.
 		 */
+
 		baseUrl: 'http://localhost:3000/',
 		defaultLocale: 'de',
-		strategy: 'prefix',
 		locales: [
-			{ code: 'de', language: 'de-DE', name: 'Deutsch', file: 'de.json' },
-			{ code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+			{
+				code: 'de',
+				language: 'de-DE',
+				name: 'Deutsch',
+				file: 'de.json',
+			},
+			{
+				code: 'en',
+				language: 'en-US',
+				name: 'English',
+				file: 'en.json',
+			},
 		],
+		strategy: 'prefix',
 		detectBrowserLanguage: {
 			useCookie: true,
-			alwaysRedirect: true,
+			cookieKey: 'i18n_redirected',
+			redirectOn: 'root',
 		},
-		bundle: {
-			// See: https://github.com/nuxt-modules/i18n/issues/3238#issuecomment-2672492536
-			optimizeTranslationDirective: false,
+		experimental: {
+			// See: https://next.i18n.nuxtjs.org/docs/guide/new-features#experimental-strict-seo-mode
+			strictSeo: true,
 		},
 	},
 	primevue: {
