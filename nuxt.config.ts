@@ -15,7 +15,14 @@ const isCI = Boolean(import.meta.env.CI);
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	experimental: {
-		// See: https://www.youtube.com/watch?v=SXk-L19gTZk
+		// See: https://nuxt.com/docs/4.x/guide/going-further/experimental-features#inlinerouterules
+		inlineRouteRules: true,
+
+		/*
+		 * See:
+		 * https://nuxt.com/docs/4.x/guide/going-further/experimental-features#typedpages
+		 * https://www.youtube.com/watch?v=SXk-L19gTZk
+		 */
 		typedPages: true,
 	},
 	compatibilityDate: '2025-07-31',

@@ -27,10 +27,6 @@
 # Prevents parallel runs for the same PR/branch to save CI resources and avoid
 # conflicts. Main branch pushes run independently as they represent deployment stages.
 
-# Prevent parallel CI runs for the same PR/branch to save resources
-# and avoid conflicts during testing. Allow main branch pushes
-# to run independently since they represent deployment stages.
-
 name: Quality Assurance & End-to-End Tests
 
 concurrency:
