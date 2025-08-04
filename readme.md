@@ -79,7 +79,7 @@ Wenn wieder die offizielle (z.B. auf npm oder Git referenzierte) Version verwend
 1. Login-Formular nutzt gemockte Login-Endpoints
 2. **Direkter API-Zugriff**: Token im Header ermöglicht alle API-Aufrufe ohne Session-Validierung
 
-### Preview/CI-Umgebung (`npm run preview:ci`)
+### Preview/CI-Umgebung (`npm run preview`)
 
 **Strategie**: Session-basierte Authentifizierung mit vollständigem Mock
 - **Authentifizierungs-Mock**: Aktiv - Stellt Login-Endpoints zur Verfügung

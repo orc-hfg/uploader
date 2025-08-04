@@ -1,37 +1,32 @@
+# Quality assurance & end-to-end tests workflow
+#
 # This workflow runs comprehensive testing for all commits and PRs, with optimized
 # handling for release commits to balance security and efficiency.
 #
-# BEHAVIOR:
-# ========
+# Design decisions:
+# 1. **Job-gate pattern**: A dedicated job (is-release-commit) checks if the current
+#    commit is a release commit. Subsequent jobs only run if it's NOT a release commit.
 #
-# For NORMAL commits and PRs:
-# - Full Quality Assurance: linting, type checking, unused code detection, unit tests
-# - Complete End-to-End testing with Playwright
-# - Build verification
-# - ~4 minutes total execution time
+# 2. **Resource optimization**:
+#    - For NORMAL commits and PRs: Full quality assurance suite runs (~4 minutes)
+#    - For RELEASE commits: All quality assurance jobs are completely skipped (~30 seconds)
 #
-# For RELEASE commits (commit message contains "chore: release"):
-# - Setup and dependency installation (always required)
-# - Build test (critical for deployment validation)
-# - SKIPPED: linting, type checking, unit tests, E2E tests
-# - ~1 minute total execution time
+# 3. **Performance improvements**:
+#    - Optimized npm flags (--no-audit --no-fund --loglevel=error)
+#    - Playwright browser caching
+#    - Job-level conditional execution (not just step-level)
 #
-# RATIONALE:
-# ==========
-# Release commits only change version numbers in package.json. The actual code
-# was already tested when the PR was merged. However, we still run the build test
-# to ensure the release is deployable and package.json is not corrupted.
+# 4. **Artifact preservation**: Uploads Playwright reports for debugging failed tests,
+#    even when the workflow fails (but not when cancelled).
 #
-# CONCURRENCY:
-# ============
-# Prevents parallel runs for the same PR/branch to save CI resources and avoid
-# conflicts. Main branch pushes run independently as they represent deployment stages.
+# 5. **Concurrency control**: Prevents parallel runs for the same PR/branch to save
+#    CI resources. Main branch pushes run independently as they represent deployment stages.
 
-name: Quality Assurance & End-to-End Tests
+name: Quality assurance & end-to-end tests
 
 concurrency:
-  group: qa-e2e-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: app-qa-e2e-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 on:
   push:
@@ -40,119 +35,67 @@ on:
     branches: [main]
 
 jobs:
+  detect-release-commit:
+    name: Detect release commit
+    uses: ./.github/workflows/detect-release-commit.yml
   quality-assurance:
-    name: Quality Assurance
+    name: Quality assurance
+    needs: detect-release-commit
+    if: needs.detect-release-commit.outputs.is_release_commit == 'false'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check if release commit
-        id: check_release
-        run: |
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          if [[ "$COMMIT_MSG" == *"chore: release "* ]]; then
-            echo "should_run=false" >> $GITHUB_OUTPUT
-            echo "This is a release commit - Quality Assurance will be skipped"
-          else
-            echo "should_run=true" >> $GITHUB_OUTPUT
-            echo "Not a release commit - continuing with Quality Assurance"
-          fi
-
-      - name: Setup Node.js + npm cache
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-          cache-dependency-path: package-lock.json
-
       - name: Setup .npmrc from template
         run: npm run setup-npmrc
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Setup Node and install dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
-      - name: Run linting
-        if: steps.check_release.outputs.should_run == 'true'
-        run: npm run lint
-
-      - name: Type check
-        if: steps.check_release.outputs.should_run == 'true'
-        run: npm run check:types
-
-      - name: Check for unused code & dependencies
-        if: steps.check_release.outputs.should_run == 'true'
-        run: npm run check:unused
+      - name: Run static code analysis
+        uses: ./.github/actions/static-code-analysis
 
       - name: Run unit tests
-        if: steps.check_release.outputs.should_run == 'true'
         run: npm run test
 
-      - name: Build application
-        run: npm run build:ci
+      - name: Verify package can be packed
+        run: |
+          npm pack --dry-run
+          echo "Package packing verification passed"
 
   end-to-end-tests:
-    name: End-to-End Tests
+    name: End-to-end tests
+    needs: detect-release-commit
+    if: needs.detect-release-commit.outputs.is_release_commit == 'false'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check if release commit
-        id: check_release
-        run: |
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          if [[ "$COMMIT_MSG" == *"chore: release "* ]]; then
-            echo "should_run=false" >> $GITHUB_OUTPUT
-            echo "This is a release commit - End-to-End Tests will be skipped"
-          else
-            echo "should_run=true" >> $GITHUB_OUTPUT
-            echo "Not a release commit - continuing with End-to-End Tests"
-          fi
-
-      - name: Setup Node.js + npm cache
-        if: steps.check_release.outputs.should_run == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-          cache-dependency-path: package-lock.json
-
       - name: Setup .npmrc from template
-        if: steps.check_release.outputs.should_run == 'true'
         run: npm run setup-npmrc
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
 
-      - name: Install dependencies
-        if: steps.check_release.outputs.should_run == 'true'
-        run: npm ci
+      - name: Setup Node and install dependencies
+        uses: ./.github/actions/setup-node-dependencies
 
-      - name: Restore Playwright browser cache
-        if: steps.check_release.outputs.should_run == 'true'
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Playwright browsers
-        if: steps.check_release.outputs.should_run == 'true'
-        run: npx playwright install --with-deps
+      - name: Setup Playwright for end-to-end tests
+        uses: ./.github/actions/setup-playwright
 
       - name: Build application for end-to-end tests
-        if: steps.check_release.outputs.should_run == 'true'
-        run: npm run build:ci
+        run: npm run build
 
       - name: Run end-to-end tests
-        if: steps.check_release.outputs.should_run == 'true'
         run: npm run test:e2e
 
-      - name: Upload Playwright report
-        if: ${{ !cancelled() && steps.check_release.outputs.should_run == 'true' }}
+      - name: Upload end-to-end test report
+        if: ${{ always() && !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report

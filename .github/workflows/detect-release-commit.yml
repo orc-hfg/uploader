@@ -1,0 +1,36 @@
+name: Detect release commit
+
+on:
+  workflow_call:
+    outputs:
+      is_release_commit:
+        description: 'true if release commit, false if normal commit'
+        value: ${{ jobs.detect.outputs.is_release_commit }}
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      is_release_commit: ${{ steps.flag.outputs.is_release_commit }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Use the actual commit from PR branch (not merge commit) for pull requests,
+          # fallback to normal commit SHA for direct pushes
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Detect release commit
+        id: flag
+        shell: bash
+        run: |
+          commit_msg="$(git log -1 --pretty=%B)"
+          echo "Commit message: $commit_msg"
+
+          if [[ "$commit_msg" == *"chore: release "* ]] || [[ "$commit_msg" == *"chore: development release "* ]]; then
+            echo "is_release_commit=true" >> "$GITHUB_OUTPUT"
+            echo "Result: Release commit detected (true)"
+          else
+            echo "is_release_commit=false" >> "$GITHUB_OUTPUT"
+            echo "Result: Normal commit detected (false)"
+          fi

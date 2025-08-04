@@ -1,0 +1,32 @@
+name: Setup Playwright
+description: Install Playwright browsers and dependencies with caching
+inputs:
+  browsers:
+    description: Space-separated list of browsers (e.g. "chromium firefox webkit")
+    default: chromium
+runs:
+  using: composite
+  steps:
+    - name: Detect Playwright version
+      shell: bash
+      run: |
+        VERSION=$(node -p "try { require('./package.json').dependencies['@playwright/test'] || require('./package.json').devDependencies['@playwright/test'] || 'latest' } catch(e) { 'latest' }")
+        echo "PLAYWRIGHT_VERSION=$VERSION" >> "$GITHUB_ENV"
+        echo "Using Playwright version: $VERSION"
+
+    - name: Cache browsers
+      id: pw-cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-pw-${{ env.PLAYWRIGHT_VERSION }}
+
+    - name: Install browsers
+      if: steps.pw-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npx playwright install --with-deps ${{ inputs.browsers }}
+
+    - name: Install operating system dependencies
+      if: steps.pw-cache.outputs.cache-hit == 'true'
+      shell: bash
+      run: npx playwright install-deps ${{ inputs.browsers }}

@@ -18,7 +18,7 @@ if (isAuthenticationInfoEndpointMockEnabled) {
  * This plugin provides a mock /api/auth-info endpoint for development and testing environments.
  *
  * WHEN ACTIVE:
- * - Preview/CI environment (npm run preview:ci) - for E2E testing with session-based authentication
+ * - Preview/CI environment (npm run preview) - for E2E testing with session-based authentication
  * - NOT active in development environment (npm run dev) - uses token-based authentication
  *
  * PROVIDES:
