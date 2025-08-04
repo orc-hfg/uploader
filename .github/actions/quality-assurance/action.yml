@@ -1,0 +1,21 @@
+name: Quality assurance
+description: Runs quality assurance checks including static analysis and tests
+
+runs:
+  using: composite
+  steps:
+    - name: Run linting
+      run: npm run lint
+      shell: bash
+
+    - name: Type check
+      run: npm run check:types
+      shell: bash
+
+    - name: Check for unused code & dependencies
+      run: npm run check:unused
+      shell: bash
+
+    - name: Run unit tests
+      run: npm run test
+      shell: bash
