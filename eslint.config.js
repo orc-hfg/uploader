@@ -10,7 +10,7 @@ export default withNuxt(
 		{
 			ignores: [
 				'documentation/',
-				'**/readme.md',
+				'**/readme*.md',
 				'sentry.server.config.ts',
 				'sentry.client.config.ts',
 				'playwright.config.ts',
