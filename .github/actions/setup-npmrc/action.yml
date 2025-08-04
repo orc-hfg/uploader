@@ -1,0 +1,16 @@
+name: Setup npmrc
+description: Create .npmrc from template with authentication for GitHub package registry
+
+inputs:
+  github_token:
+    description: GitHub token for package registry authentication
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup .npmrc from template
+      shell: bash
+      run: npm run setup-npmrc
+      env:
+        GITHUB_PAT: ${{ inputs.github_token }}

@@ -19,7 +19,7 @@
 #
 # 4. **Modular structure**:
 #    - Reusable workflows for shared logic (detect-release-commit)
-#    - Composite actions for repeatable tasks (setup-node-dependencies, setup-playwright, quality-assurance)
+#    - Composite actions for repeatable tasks (setup-npmrc, setup-node-dependencies, setup-playwright, quality-assurance)
 #    - Improved maintainability through centralized definition of common steps
 #
 # 5. **Artifact preservation**: Uploads Playwright reports for debugging failed tests,
@@ -54,10 +54,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .npmrc from template
-        run: npm run setup-npmrc
-        env:
-          GITHUB_PAT: ${{ secrets.GH_PAT }}
+      - name: Setup .npmrc for GitHub packages
+        uses: ./.github/actions/setup-npmrc
+        with:
+          github_token: ${{ secrets.GH_PAT }}
 
       - name: Setup Node and install dependencies
         uses: ./.github/actions/setup-node-dependencies
@@ -80,10 +80,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .npmrc from template
-        run: npm run setup-npmrc
-        env:
-          GITHUB_PAT: ${{ secrets.GH_PAT }}
+      - name: Setup .npmrc for GitHub packages
+        uses: ./.github/actions/setup-npmrc
+        with:
+          github_token: ${{ secrets.GH_PAT }}
 
       - name: Setup Node and install dependencies
         uses: ./.github/actions/setup-node-dependencies
