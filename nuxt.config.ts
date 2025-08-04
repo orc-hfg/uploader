@@ -1,19 +1,31 @@
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
+// Extend ImportMetaEnv interface to include CI property
+declare global {
+	// eslint-disable-next-line unicorn/prevent-abbreviations
+	interface ImportMetaEnv {
+		CI?: boolean | string;
+	}
+}
+
 // Recognize CI environment (e.g. GitHub Actions)
 const isCI = Boolean(import.meta.env.CI);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	future: {
-		compatibilityVersion: 4,
-	},
 	experimental: {
-		// See: https://www.youtube.com/watch?v=SXk-L19gTZk
+		// See: https://nuxt.com/docs/4.x/guide/going-further/experimental-features#inlinerouterules
+		inlineRouteRules: true,
+
+		/*
+		 * See:
+		 * https://nuxt.com/docs/4.x/guide/going-further/experimental-features#typedpages
+		 * https://www.youtube.com/watch?v=SXk-L19gTZk
+		 */
 		typedPages: true,
 	},
-	compatibilityDate: '2025-05-09',
+	compatibilityDate: '2025-07-31',
 	devtools: { enabled: true },
 	typescript: {
 		typeCheck: true,
@@ -66,6 +78,27 @@ export default defineNuxtConfig({
 	},
 	i18n: {
 		/*
+		 * NOTE: We deliberately use the classic `defineI18nRoute` method in pages
+		 * instead of the newer `i18n` property in `definePageMeta`.
+		 *
+		 * Reason: The new method has compatibility issues with other metadata like
+		 * `pageTransition` and `middleware`. When both are used together,
+		 * the i18n configuration doesn't work correctly.
+		 *
+		 * Benefits of the classic method:
+		 * - Works reliably
+		 * - Makes path definitions visible in each page
+		 * - No need to look up routes in nuxt.config.ts
+		 *
+		 * Documentation:
+		 * - definePageMeta approach: https://next.i18n.nuxtjs.org/docs/guide/custom-paths#definepagemeta
+		 * - customRoutes option: https://next.i18n.nuxtjs.org/docs/api/options#customroutes
+		 *
+		 * TODO: When upgrading to Nuxt i18n v11, check if these issues have been resolved
+		 * and consider switching to the new method.
+		 */
+
+		/*
 		 * IMPORTANT: Note the different spelling compared to app.baseURL
 		 * - Nuxt core uses: app.baseURL (with capital URL)
 		 * - Nuxt i18n uses: i18n.baseUrl (with lowercase u)
@@ -86,20 +119,32 @@ export default defineNuxtConfig({
 		 * The baseUrl should only specify "where is the server", not "where is the app".
 		 * The app path is automatically added from app.baseURL.
 		 */
+
 		baseUrl: 'http://localhost:3000/',
 		defaultLocale: 'de',
-		strategy: 'prefix',
 		locales: [
-			{ code: 'de', language: 'de-DE', name: 'Deutsch', file: 'de.json' },
-			{ code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+			{
+				code: 'de',
+				language: 'de-DE',
+				name: 'Deutsch',
+				file: 'de.json',
+			},
+			{
+				code: 'en',
+				language: 'en-US',
+				name: 'English',
+				file: 'en.json',
+			},
 		],
+		strategy: 'prefix',
 		detectBrowserLanguage: {
 			useCookie: true,
-			alwaysRedirect: true,
+			cookieKey: 'i18n_redirected',
+			redirectOn: 'root',
 		},
-		bundle: {
-			// See: https://github.com/nuxt-modules/i18n/issues/3238#issuecomment-2672492536
-			optimizeTranslationDirective: false,
+		experimental: {
+			// See: https://next.i18n.nuxtjs.org/docs/guide/new-features#experimental-strict-seo-mode
+			strictSeo: true,
 		},
 	},
 	primevue: {
@@ -136,7 +181,7 @@ export default defineNuxtConfig({
 		 *
 		 * Semantically correct naming would be:
 		 * - app.basePath = "/uploader/" (what this actually is)
-		 * - i18n.baseURL = "https://example.com/" (what i18n.baseUrl actually is)
+		 * - i18n.baseUrl = "https://example.com/" (what i18n.baseUrl actually is)
 		 *
 		 * This naming inconsistency is a known issue in the Nuxt ecosystem but cannot
 		 * be changed without breaking changes. Be aware of this when working with URLs:
@@ -165,7 +210,7 @@ export default defineNuxtConfig({
 			// Enable authentication info endpoint mock for E2E testing with session-based authentication
 			enableAuthenticationInfoEndpointMock: false,
 
-			/**
+			/*
 			 * Server URL for authentication endpoints
 			 *
 			 * IMPORTANT: Different URL structures between environments:

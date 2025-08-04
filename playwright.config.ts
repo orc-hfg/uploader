@@ -24,10 +24,25 @@ export default defineConfig({
 
 	workers: isCI ? 1 : undefined,
 
+	expect: {
+		timeout: 10_000,
+	},
+
 	reporter: 'html',
 
 	use: {
-		// Base URL to use in actions like `await page.goto('/')`.
+		/*
+		 * Base URL to use in actions like `await page.goto('/')`.
+		 *
+		 * NOTE: Set to 'http://localhost:3000' instead of 'http://localhost:3000/uploader'
+		 * for consistency between page.goto() and expect(page).toHaveURL() calls.
+		 *
+		 * Why this decision was made:
+		 * - page.goto('/uploader/path') and expect(page).toHaveURL('/uploader/path') use the same schema
+		 * - Avoids confusion where goto() uses relative paths but toHaveURL() needs full URLs
+		 * - More explicit and predictable: what you write is what you get
+		 * - Easier maintenance: no mixed relative/absolute path handling
+		 */
 		baseURL: 'http://localhost:3000',
 
 		// Collect trace when retrying the failed test.
@@ -87,7 +102,7 @@ export default defineConfig({
 		 * - CI uses preview (production-like build for testing)
 		 * - Local uses dev server (fast development)
 		 */
-		command: isCI ? 'npm run preview:ci' : 'npm run dev',
+		command: isCI ? 'npm run preview' : 'npm run dev',
 
 		/*
 		 * Health endpoint for Playwright webServer readiness check

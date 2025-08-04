@@ -1,4 +1,4 @@
-/**
+/*
  * Health check endpoint for server readiness verification
  * Always returns 200 OK regardless of i18n redirects or authentication state
  *

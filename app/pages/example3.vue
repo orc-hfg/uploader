@@ -1,9 +1,11 @@
 <script setup lang="ts">
 	definePageMeta({
+		skipAuthentication: true,
 		layout: false,
 	});
 
 	defineI18nRoute(false);
+
 	const { data: user2 } = await useCachedAsyncData('user', () => getUserRepository().getAuthInfo());
 </script>
 

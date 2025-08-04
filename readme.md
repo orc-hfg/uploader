@@ -79,7 +79,7 @@ Wenn wieder die offizielle (z.B. auf npm oder Git referenzierte) Version verwend
 1. Login-Formular nutzt gemockte Login-Endpoints
 2. **Direkter API-Zugriff**: Token im Header ermöglicht alle API-Aufrufe ohne Session-Validierung
 
-### Preview/CI-Umgebung (`npm run preview:ci`)
+### Preview/CI-Umgebung (`npm run preview`)
 
 **Strategie**: Session-basierte Authentifizierung mit vollständigem Mock
 - **Authentifizierungs-Mock**: Aktiv - Stellt Login-Endpoints zur Verfügung
@@ -305,6 +305,12 @@ Folgende Dateien entsprechend anpassen:
 - `npm run check-updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
 
 ### 3. Aufgaben für das nächste Dependency Update bearbeiten und ggf. neue erstellen
-- Kann happy-dom nun aktualisiert werden? https://github.com/nuxt/test-utils/issues/1323
-- Testen, ob Knip in Version ab 5.58.0 (5.61.0 ging zuletzt noch nicht) nun funktioniert und dieser Fehler nicht mehr auftritt: TypeError: Cannot assign to read only property 'defineNuxtConfig' of object '#<Object>'
-- ggf. kann Dependency `@primevue/forms` wieder entfernt werden, wenn dieses Problem gelöst ist: https://github.com/primefaces/primevue/issues/7434
+- Kann `"vitest": false` aus `knip.json` wieder entfernt werden? Läuft dann `npm run check:unused` fehlerfrei?
+- `@nuxtjs/i18n > v10.0.3`: Gibt es weiterhin die Hydration Mismatches bei Verwendung von `SwitchLocalePathLink` (`app/components/Header.vue`)?
+	```vue
+	<SwitchLocalePathLink locale="de">Deutsch</SwitchLocalePathLink>
+
+	const switchLocalePath = useSwitchLocalePath();
+	<NuxtLink :to="switchLocalePath('de')">Deutsch</NuxtLink>
+	```
+- Kann Dependency `@primevue/forms` wieder entfernt werden? Also ist dieses Problem gelöst (zum Test auf Seite mit Formularelementen wechseln und Logs in CLI anschauen)? https://github.com/primefaces/primevue/issues/7434

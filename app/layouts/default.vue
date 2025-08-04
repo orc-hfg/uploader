@@ -4,9 +4,7 @@
 	import Footer from '@/components/Footer.vue';
 	import Header from '@/components/Header.vue';
 
-	const logger = createLogger();
-
-	const head = useLocaleHead();
+	const appLogger = createAppLogger();
 
 	const route = useRoute();
 	const { t } = useI18n();
@@ -21,7 +19,7 @@
 		const { pageTitleKeyPath } = route.meta;
 
 		if (!pageTitleKeyPath) {
-			logger.warn('Layout: default', `[i18n] No pageTitleKeyPath defined for route: ${route.path}`);
+			appLogger.warn('Layout: default', `[i18n] No pageTitleKeyPath defined for route: ${route.path}`);
 
 			return appTitle;
 		}
@@ -112,16 +110,10 @@
 
 <template>
 	<div>
-		<Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
+		<Html>
 			<Head>
 				<Title>{{ metaTitle }}</Title>
 				<Meta name="description" :content="t('meta.description')" />
-				<template v-for="link in head.link" :key="link.hid">
-					<Link :id="link.hid" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
-				</template>
-				<template v-for="meta in head.meta" :key="meta.hid">
-					<Meta :id="meta.hid" :property="meta.property" :content="meta.content" />
-				</template>
 			</Head>
 			<Body>
 				<div>
@@ -129,7 +121,7 @@
 						ref="contentReference"
 						data-testid="content"
 						class="
-        absolute top-1/2 left-1/2 z-2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 flex-col
+        absolute top-1/2 left-1/2 z-2 flex h-full w-full -translate-1/2 flex-col
         overflow-hidden bg-surface-0 opacity-0
         sm:h-[800px] sm:w-[600px]
       "

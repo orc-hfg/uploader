@@ -1,5 +1,7 @@
 import * as Sentry from '@sentry/nuxt';
 
+// Tell TypeScript to ignore the next line since useRuntimeConfig is provided by Nuxt auto-imports
+// @ts-expect-error: useRuntimeConfig is provided by Nuxt auto-imports at runtime
 const config = useRuntimeConfig();
 const { sentry } = config.public;
 const { sessionCookieName } = config.public.authentication;
@@ -20,7 +22,7 @@ function extractHostname(raw: string | undefined): string {
 }
 
 // Only initialize Sentry if it is enabled (see nuxt.config.ts)
-if (sentry.enabled) {
+if (sentry.enabled === true) {
 	Sentry.init({
 		dsn: typeof sentry.dsn === 'string' ? sentry.dsn : '',
 
@@ -49,7 +51,7 @@ if (sentry.enabled) {
 			// Remove sensitive cookies from request
 			if (event.request.cookies) {
 				for (const key of SENSITIVE_COOKIES) {
-					if (key in event.request.cookies) {
+					if (typeof key === 'string' && key in event.request.cookies) {
 						event.request.cookies[key] = '[Filtered (sentry.server.config.ts)]';
 					}
 				}

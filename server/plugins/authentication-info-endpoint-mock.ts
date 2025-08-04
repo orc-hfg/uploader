@@ -1,7 +1,7 @@
 import { AUTHENTICATION_MOCK_SESSION_PREFIX, AUTHENTICATION_MOCK_VALID_USER } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
-const logger = createLogger();
+const serverStartupLogger = createServerStartupLogger();
 
 const config = useRuntimeConfig();
 const publicConfig = config.public;
@@ -9,7 +9,7 @@ const publicConfig = config.public;
 const isAuthenticationInfoEndpointMockEnabled = publicConfig.enableAuthenticationInfoEndpointMock;
 
 if (isAuthenticationInfoEndpointMockEnabled) {
-	logger.info('Plugin: authentication-info-endpoint-mock', 'Authentication info endpoint mock is active.');
+	serverStartupLogger.info('Plugin: authentication-info-endpoint-mock', 'Authentication info endpoint mock is active.');
 }
 
 /*
@@ -18,7 +18,7 @@ if (isAuthenticationInfoEndpointMockEnabled) {
  * This plugin provides a mock /api/auth-info endpoint for development and testing environments.
  *
  * WHEN ACTIVE:
- * - Preview/CI environment (npm run preview:ci) - for E2E testing with session-based authentication
+ * - Preview/CI environment (npm run preview) - for E2E testing with session-based authentication
  * - NOT active in development environment (npm run dev) - uses token-based authentication
  *
  * PROVIDES:

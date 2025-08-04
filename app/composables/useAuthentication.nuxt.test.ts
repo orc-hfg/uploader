@@ -112,6 +112,7 @@ describe('useAuthentication()', () => {
 
 		const authentication = useAuthentication();
 		const testEmail = 'test@example.com';
+		// eslint-disable-next-line sonarjs/no-hardcoded-passwords
 		const testPassword = 'test-password';
 
 		await authentication.login(testEmail, testPassword);
