@@ -80,7 +80,11 @@ npm run build
 
 echo "🚀 Uploading to $HOST:$TARGET_DIR..."
 ssh "$MADEK_SSH_USER@$HOST" "mkdir -p $TARGET_DIR"
-rsync -avz --delete .output/ "$MADEK_SSH_USER@$HOST:$TARGET_DIR/"
+# IMPORTANT: Do NOT add a trailing slash to .output
+# With trailing slash (.output/): Only contents are copied, no .output directory is created
+# Without trailing slash (.output): Creates .output directory on target
+# The service expects files at .output/server/index.mjs relative to TARGET_DIR
+rsync -avz --delete .output "$MADEK_SSH_USER@$HOST:$TARGET_DIR/"
 
 echo "🔄 Restarting service $SERVICE ..."
 ssh -t "$MADEK_SSH_USER@$HOST" "sudo systemctl restart $SERVICE"
