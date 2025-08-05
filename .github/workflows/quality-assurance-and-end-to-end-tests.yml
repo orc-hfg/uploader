@@ -43,7 +43,7 @@ on:
 jobs:
   detect-release-commit:
     name: Detect release commit
-    uses: ./.github/workflows/detect-release-commit.yml
+    uses: ./.github/workflows/_reusable-detect-release-commit.yml
   quality-assurance:
     name: Quality assurance
     needs: detect-release-commit
