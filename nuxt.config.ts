@@ -201,7 +201,6 @@ export default defineNuxtConfig({
 		 */
 		mainApplication: true,
 		public: {
-			// Enable debug logging (logger)
 			enableDebugLogging: false,
 
 			// Enable authentication mock for development and testing (session-based authentication)
