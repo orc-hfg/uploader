@@ -7,14 +7,14 @@
 		"url": "https://github.com/orc-hfg/uploader.git"
 	},
 	"engines": {
-		"node": "22.17.1"
+		"node": "22.18.0"
 	},
 	"scripts": {
 		"build": "nuxt build",
 		"build:preview": "nuxt build && npm run preview",
 		"build:preview:sentry": "nuxt build && npm run preview:sentry",
 		"dev": "nuxt dev",
-		"link:dev": "npm run madek-api-nuxt-layer:link && echo '\n🔗 Main application successfully linked to development layer!' && echo '📋 Make sure the layer development server is running in parallel (also run \"npm run link:dev\" in your madek-api-nuxt-layer repository folder).' && echo '⚠️  Both development servers need to run for live updates.\n' && npm run dev",
+		"link:dev": "npm run madek-api-nuxt-layer:link && echo '\n🔗 Main application successfully linked to development layer!' && echo '📋 Make sure the layer development server is running in parallel (run \"npm run link:dev\" in your madek-api-nuxt-layer repository folder).' && echo '⚠️  Both development servers need to run for live updates.\n' && npm run dev",
 		"staging": "nuxt dev --envName staging --dotenv .env.staging",
 		"generate": "nuxt generate",
 		"deploy:development": "sh ./deployment/uploader-deploy.sh development",
@@ -53,7 +53,7 @@
 	"dependencies": {
 		"@nuxtjs/google-fonts": "3.2.0",
 		"@nuxtjs/i18n": "10.0.3",
-		"@orc-hfg/madek-api-nuxt-layer": "1.6.11-dev.2",
+		"@orc-hfg/madek-api-nuxt-layer": "1.6.11-dev.3",
 		"@primeuix/themes": "1.2.3",
 		"@primevue/forms": "4.3.7",
 		"@sentry/nuxt": "10.1.0",
