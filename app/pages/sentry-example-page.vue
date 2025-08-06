@@ -20,7 +20,7 @@
 		}
 	}
 
-	const appLogger = createAppLogger();
+	const appLogger = createAppLogger('Page: sentry-example-page');
 
 	const hasSentError = ref(false);
 	const isConnected = ref(true);
@@ -32,10 +32,7 @@
 			isConnected.value = result !== 'sentry-unreachable';
 
 			if (result === undefined) {
-				appLogger.info(
-					'Page: sentry-example-page',
-					'The initial health-check request purposely triggers a 400 Bad Request. This only verifies that the Sentry endpoint is reachable. Actual error events will still be sent successfully.',
-				);
+				appLogger.info('The initial health-check request purposely triggers a 400 Bad Request. This only verifies that the Sentry endpoint is reachable. Actual error events will still be sent successfully.');
 			}
 		}
 		catch {

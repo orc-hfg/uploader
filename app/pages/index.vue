@@ -28,16 +28,23 @@
 
 	const { t } = useI18n();
 
+	const footerConfig = {
+		right: {
+			component: Button,
+			props: {
+				label: t('footer.actions.login'),
+				icon: 'pi pi-sign-in',
+				type: 'submit',
+				form: 'loginForm',
+			},
+		},
+	};
+
 	onMounted(() => {
 		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
 
-		footerUIStore.rightActionComponent = Button;
-		footerUIStore.rightActionProps = {
-			label: t('footer.actions.login'),
-			icon: 'pi pi-sign-in',
-			type: 'submit',
-			form: 'loginForm',
-		};
+		footerUIStore.rightActionComponent = footerConfig.right.component;
+		footerUIStore.rightActionProps = footerConfig.right.props;
 	});
 
 	onBeforeUnmount(() => {

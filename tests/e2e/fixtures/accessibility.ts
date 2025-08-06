@@ -10,8 +10,8 @@ interface AccessibilityFixtures {
 export const test = base.extend<AccessibilityFixtures>({
 	makeAxeBuilder: async ({ page }, use) => {
 		function makeAxeBuilder(): AxeBuilder {
-			const testLogger = createTestLogger();
-			testLogger.warn('Fixture: accessibility', 'Color contrast checks temporarily disabled. Please fix design issues and re-enable.');
+			const testLogger = createTestLogger('Fixture: accessibility');
+			testLogger.warn('Color contrast checks temporarily disabled. Please fix design issues and re-enable.');
 
 			return new AxeBuilder({ page })
 				.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])

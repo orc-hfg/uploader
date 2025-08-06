@@ -4,7 +4,7 @@
 	import Footer from '@/components/Footer.vue';
 	import Header from '@/components/Header.vue';
 
-	const appLogger = createAppLogger();
+	const appLogger = createAppLogger('Layout: default');
 
 	const route = useRoute();
 	const { t } = useI18n();
@@ -19,7 +19,7 @@
 		const { pageTitleKeyPath } = route.meta;
 
 		if (!pageTitleKeyPath) {
-			appLogger.warn('Layout: default', `[i18n] No pageTitleKeyPath defined for route: ${route.path}`);
+			appLogger.warn('[i18n] No pageTitleKeyPath defined for route', route.path);
 
 			return appTitle;
 		}
@@ -121,7 +121,7 @@
 						ref="contentReference"
 						data-testid="content"
 						class="
-        absolute top-1/2 left-1/2 z-2 flex h-full w-full -translate-1/2 flex-col
+        absolute top-1/2 left-1/2 z-2 flex size-full -translate-1/2 flex-col
         overflow-hidden bg-surface-0 opacity-0
         sm:h-[800px] sm:w-[600px]
       "
