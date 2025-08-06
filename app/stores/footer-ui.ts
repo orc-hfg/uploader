@@ -1,5 +1,6 @@
 interface ActionProps {
 	label?: string;
+	click?: () => void;
 	[key: string]: unknown;
 }
 

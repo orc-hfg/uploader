@@ -50,7 +50,9 @@ confirm() {
 
 abort_if_dirty() {
   if ! git diff-index --quiet HEAD --; then
-    confirm "Uncommitted changes detected. Continue anyway?" "Proceeding with deployment of uncommitted changes..."
+    # Uncommitted changes mean the deployed version won't match any git commit,
+    # making it impossible to reproduce the exact deployment state later
+    confirm "Uncommitted changes detected (deployment won't match any git commit). Continue anyway?" "Proceeding with deployment of uncommitted changes..."
   else
     echo "Working directory clean, proceeding with deployment..."
   fi
@@ -63,10 +65,14 @@ abort_if_unpushed() {
     remote_sha=$(git rev-parse "@{u}")
     local_sha=$(git rev-parse HEAD)
     if [[ $remote_sha != $local_sha ]]; then
-      confirm "Local commits not pushed to origin/$branch. Continue anyway?" "Proceeding with deployment of unpushed commits..."
+      # Unpushed commits mean team members can't see what's being deployed,
+      # and the deployment can't be reproduced from the remote repository
+      confirm "Local commits not pushed to origin/$branch (team can't reproduce deployment). Continue anyway?" "Proceeding with deployment of unpushed commits..."
     fi
   else
-    confirm "Branch '$branch' not on remote. Continue anyway?" "Proceeding with deployment of untracked branch..."
+    # Untracked branches mean the deployment source isn't backed up remotely,
+    # risking data loss and making collaboration impossible
+    confirm "Branch '$branch' not on remote (no backup, collaboration impossible). Continue anyway?" "Proceeding with deployment of untracked branch..."
   fi
 }
 
