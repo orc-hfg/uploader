@@ -4,39 +4,51 @@
 
 Damit Änderungen am Nuxt-Layer lokal entwickelt und getestet werden können, ohne jedes Mal eine neue Version zu veröffentlichen, empfiehlt sich das Vorgehen über `npm link` (https://docs.npmjs.com/cli/v9/commands/npm-link):
 
-### 1. Zum Layer-Projekt wechseln
+### Schnellstartmethode (Empfohlen)
 
-In den Ordner des Nuxt-Layers wechseln (z.B. madek-api-nuxt-layer) und das Package global per Symlink verlinken:
+**Für parallele Entwicklung mit dem Hauptprojekt:**
+
+1. **Im Layer-Repository** (madek-api-nuxt-layer):
+   ```bash
+   npm run link:dev
+   ```
+   Das verlinkt den Layer global und startet den Development-Server (Port 3001).
+
+2. **Im Hauptprojekt** (z.B. Uploader):
+   ```bash
+   npm run link:dev
+   ```
+   Das verlinkt das Hauptprojekt mit dem Layer und startet ebenfalls den Development-Server.
+
+**Wichtig:** Beide Development-Server müssen parallel laufen, damit Live-Updates funktionieren.
+
+### Manuelle Methode (Alternative)
+
+Falls Sie die einzelnen Schritte manuell ausführen möchten:
+
+#### 1. Layer-Projekt global verlinken
+
+In den Ordner des Nuxt-Layers wechseln und das Package global per Symlink verlinken:
 
 ```bash
 cd /pfad/zu/madek-api-nuxt-layer
-npm link
+npm link && npm run dev
 ```
 
-### 2. Link im Hauptprojekt aktivieren
+#### 2. Link im Hauptprojekt aktivieren
 
-In das Hauptprojekt wechseln (z.B. Ordner dieses Repositories):
+In das Hauptprojekt wechseln:
 
 ```bash
 cd /pfad/zum/hauptprojekt
-npm link @orc-hfg/madek-api-nuxt-layer
+npm run madek-api-nuxt-layer:link && npm run dev
 ```
 
 Jetzt wird der lokal verlinkte Nuxt-Layer (aus Schritt 1) anstelle der in der package.json angegebenen (veröffentlichten) Version verwendet.
 
-**Hinweis:** Im Hauptprojekt stehen zwei Skripte in der `package.json` bereit, damit die Link/Unlink-Befehle nicht manuell eingegeben werden müssen:
-- Link aktivieren: `npm run madek-api-nuxt-layer:link`
-Das führt intern `npm link @orc-hfg/madek-api-nuxt-layer` aus.
+**Wichtiger Hinweis:** Nuxt Plugins dürfen nicht doppelt installiert werden. Beispielsweise darf Pinia nur im Layer-Projekt installiert sein.
 
-- Link auflösen: `npm run madek-api-nuxt-layer:unlink`
-Dabei werden der Symlink entfernt und anschließend automatisch wieder die reguläre (publizierte) Paketversion installiert.
-
-### 3. Lokale Entwicklung
-
-Jetzt kann wie gewohnt am Layer-Projekt gearbeitet werden. Werden Dateien geändert, wird das Hauptprojekt beim nächsten Start/Neubau mit den aktualisierten Layer-Dateien versorgt.
-Damit die Änderungen im Hauptprojekt wirksam werden, muss ggf. der Dev-Server neu gestartet bzw. auf HMR (Hot Module Replacement) gewartet werden.
-
-### 4. Linking wieder auflösen (optional)
+#### 3. Linking wieder auflösen (optional)
 
 Wenn wieder die offizielle (z.B. auf npm oder Git referenzierte) Version verwenden werden soll:
 
