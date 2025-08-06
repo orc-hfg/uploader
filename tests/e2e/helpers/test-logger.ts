@@ -12,10 +12,10 @@ import { consola } from 'consola';
  * uses consola directly without Nuxt runtime configuration.
  */
 export interface Logger {
-	debug: (source: string, message: string, data?: unknown) => void;
-	info: (source: string, message: string, data?: unknown) => void;
-	warn: (source: string, message: string, data?: unknown) => void;
-	error: (source: string, message: string, data?: unknown) => void;
+	debug: (message: string, data?: unknown) => void;
+	info: (message: string, data?: unknown) => void;
+	warn: (message: string, data?: unknown) => void;
+	error: (message: string, data?: unknown) => void;
 }
 
 function log(level: 'debug' | 'info' | 'warn' | 'error', source: string, message: string, data?: unknown): void {
@@ -34,11 +34,11 @@ function log(level: 'debug' | 'info' | 'warn' | 'error', source: string, message
  * Use '@orc-hfg/madek-api-nuxt-layer/app/utils/app-logger' or
  * '@orc-hfg/madek-api-nuxt-layer/server/utils/server-logger' instead.
  */
-export function createTestLogger(): Logger {
+export function createTestLogger(source: string): Logger {
 	return {
-		debug: (source: string, message: string, data?: unknown): void => { log('debug', source, message, data); },
-		info: (source: string, message: string, data?: unknown): void => { log('info', source, message, data); },
-		warn: (source: string, message: string, data?: unknown): void => { log('warn', source, message, data); },
-		error: (source: string, message: string, data?: unknown): void => { log('error', source, message, data); },
+		debug: (message: string, data?: unknown): void => { log('debug', source, message, data); },
+		info: (message: string, data?: unknown): void => { log('info', source, message, data); },
+		warn: (message: string, data?: unknown): void => { log('warn', source, message, data); },
+		error: (message: string, data?: unknown): void => { log('error', source, message, data); },
 	};
 }

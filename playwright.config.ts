@@ -6,9 +6,10 @@ const isCI = Boolean(process.env.CI);
 
 // Maximum number of retries for CI environment to handle network instabilities
 const CI_MAX_RETRIES = 3;
+const LOCAL_MAX_RETRIES = 1;
 
 // Generally increase number of retries to handle sporadic EPIPE errors
-const MAX_RETRIES = isCI ? CI_MAX_RETRIES : 0;
+const MAX_RETRIES = isCI ? CI_MAX_RETRIES : LOCAL_MAX_RETRIES;
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
