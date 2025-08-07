@@ -18,6 +18,7 @@ Die Dokumentation ist in mehrere domänenspezifische README-Dateien aufgeteilt:
 - [Release Management](./readme.release.md) – Versioning, Deployment und Release-Prozess
 - [Design System](./readme.design.md) – PrimeVue Theme, Zusammenarbeit mit Designern
 - [Wartung](./readme.maintenance.md) – Dependency Updates, Node-Aktualisierung, bekannte Issues
+- [Wartungsaufgaben](./readme.maintenance-todo.md) – Offene Wartungsaufgaben
 - [Testing](./readme.testing.md) – Teststrategie, E2E-Tests mit Playwright
 - [TypeScript-Richtlinien](./readme.typescript.md) – Best Practices für TypeScript im Projekt
 
