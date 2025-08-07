@@ -22,17 +22,16 @@
 		"@nuxt/eslint",
 		"@nuxtjs/google-fonts",
 		"@nuxtjs/i18n",
+		"@orc-hfg/madek-api-nuxt-layer",
 		"@primevue/nuxt-module",
 		"@vueuse/core",
 		"@vueuse/nuxt",
 		"ofetch",
 		"primeicons",
 		"tailwindcss-primeui",
+		"vue",
 		"vue-router",
 		"zod"
-	],
-	"ignoreUnresolved": [
-		"#app"
 	],
 	"paths": {
 		"@/*": [

@@ -24,7 +24,6 @@
 
 import { randomBytes } from 'node:crypto';
 import { AUTHENTICATION_MOCK_SESSION_PREFIX, AUTHENTICATION_MOCK_VALID_USER, AUTHENTICATION_MOCK_VALID_USER_PASSWORD } from '@@/shared/constants/test';
-import { ONE_DAY_IN_SECONDS } from '@orc-hfg/madek-api-nuxt-layer/shared/constants/time';
 import { StatusCodes } from 'http-status-codes';
 
 const config = useRuntimeConfig();
@@ -88,7 +87,6 @@ export default defineNitroPlugin((nitroApp) => {
 		setCookie(event, sessionCookieName, `${AUTHENTICATION_MOCK_SESSION_PREFIX}${AUTHENTICATION_MOCK_VALID_USER.id}`, {
 			path: '/',
 			httpOnly: true,
-			maxAge: ONE_DAY_IN_SECONDS,
 		});
 	}));
 
@@ -98,9 +96,12 @@ export default defineNitroPlugin((nitroApp) => {
 			httpOnly: true,
 		});
 
-		deleteCookie(event, csrfCookieName, {
-			path: '/',
-			httpOnly: false,
-		});
+		/*
+		 * TODO: Wird CSRF-Toke-Cookie auf dem echten Server gelöscht? Hier entsprechend angleichen!
+		 * deleteCookie(event, csrfCookieName, {
+		 * 	path: '/',
+		 * 	httpOnly: false,
+		 * });
+		 */
 	}));
 });
