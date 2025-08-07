@@ -11,8 +11,8 @@
 	},
 	"scripts": {
 		"build": "nuxt build",
-		"build:preview": "nuxt build && npm run preview",
-		"build:preview:sentry": "nuxt build && npm run preview:sentry",
+		"build:preview": "npm install && nuxt build && npm run preview",
+		"build:preview:sentry": "npm install && nuxt build && npm run preview:sentry",
 		"dev": "nuxt dev",
 		"link:dev": "npm run madek-api-nuxt-layer:link && echo '\n🔗 Main application successfully linked to development layer!' && echo '📋 Make sure the layer development server is running in parallel (run \"npm run link:dev\" in your madek-api-nuxt-layer repository folder).' && echo '⚠️  Both development servers need to run for live updates.\n' && npm run dev",
 		"staging": "nuxt dev --envName staging --dotenv .env.staging",
@@ -43,7 +43,6 @@
 		"check:updates": "npm-check-updates --interactive --format group",
 		"upgrade": "nuxt upgrade",
 		"madek-api-nuxt-layer:link": "npm link @orc-hfg/madek-api-nuxt-layer",
-		"madek-api-nuxt-layer:unlink": "npm unlink @orc-hfg/madek-api-nuxt-layer --no-save && npm install",
 		"release:patch": "node ./scripts/safe-release.mjs patch",
 		"release:minor": "node ./scripts/safe-release.mjs minor",
 		"release:major": "node ./scripts/safe-release.mjs major",
@@ -53,7 +52,7 @@
 	"dependencies": {
 		"@nuxtjs/google-fonts": "3.2.0",
 		"@nuxtjs/i18n": "10.0.3",
-		"@orc-hfg/madek-api-nuxt-layer": "1.6.11-dev.3",
+		"@orc-hfg/madek-api-nuxt-layer": "1.6.11-dev.4",
 		"@primeuix/themes": "1.2.3",
 		"@primevue/forms": "4.3.7",
 		"@sentry/nuxt": "10.1.0",

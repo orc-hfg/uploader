@@ -1,16 +1,10 @@
 import { AUTHENTICATION_MOCK_SESSION_PREFIX, AUTHENTICATION_MOCK_VALID_USER } from '@@/shared/constants/test';
 import { StatusCodes } from 'http-status-codes';
 
-const serverStartupLogger = createServerStartupLogger('Plugin: authentication-info-endpoint-mock');
-
 const config = useRuntimeConfig();
 const publicConfig = config.public;
 
 const isAuthenticationInfoEndpointMockEnabled = publicConfig.enableAuthenticationInfoEndpointMock;
-
-if (isAuthenticationInfoEndpointMockEnabled) {
-	serverStartupLogger.info('Authentication info endpoint mock is active.');
-}
 
 /*
  * Authentication Info Endpoint Mock Plugin

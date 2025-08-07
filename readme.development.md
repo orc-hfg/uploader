@@ -52,8 +52,7 @@ Jetzt wird der lokal verlinkte Nuxt-Layer (aus Schritt 1) anstelle der in der pa
 
 Wenn wieder die offizielle (z.B. auf npm oder Git referenzierte) Version verwenden werden soll:
 
-- im Hauptprojekt das Skript `npm run madek-api-nuxt-layer:unlink` ausführen
-- oder `npm install` im Hauptprojekt ausführen, dabei wird der Link automatisch aufgelöst
+- `npm install` im Hauptprojekt ausführen, dabei wird der Link automatisch aufgelöst und die Version aus der package.json verwendet
 
 ## Wichtige Entwicklungsprinzipien
 
