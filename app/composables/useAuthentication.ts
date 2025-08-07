@@ -194,6 +194,10 @@ export function useAuthentication(): UseAuthenticationReturn {
 			 * but about Nuxt's reactive cookie synchronization behavior.
 			 */
 
+			/*
+			 * TODO: Wird CSRF-Toke-Cookie auf dem echten Server serverseitig gelöscht? Wenn ja, kann das client-seitige Löschen entfallen.
+			 * TODO: Wird der Session Cookie auf dem echten Server wie angenommen serverseitig gelöscht oder muss er client-seitig gelöscht werden?
+			 */
 			removeCsrfToken();
 		}
 		catch (error: unknown) {

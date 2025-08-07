@@ -91,13 +91,14 @@ export default defineNitroPlugin((nitroApp) => {
 	}));
 
 	nitroApp.router.get(getSignOutPath, defineEventHandler((event) => {
+		// TODO: Auf dem echten Server wird der Session Cookie serverseitig gelöscht? Ansonsten hier im Mock das Verhalten entsprechend angleichen!
 		deleteCookie(event, sessionCookieName, {
 			path: '/',
 			httpOnly: true,
 		});
 
 		/*
-		 * TODO: Wird CSRF-Toke-Cookie auf dem echten Server gelöscht? Hier entsprechend angleichen!
+		 * TODO: Wird CSRF-Toke-Cookie auf dem echten Server gelöscht? Hier im Mock das Verhalten entsprechend angleichen!
 		 * deleteCookie(event, csrfCookieName, {
 		 * 	path: '/',
 		 * 	httpOnly: false,
