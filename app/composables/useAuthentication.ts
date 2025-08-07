@@ -17,7 +17,6 @@
  * maintainability.
  */
 
-import type { CookieRef } from '#app';
 import { StatusCodes } from 'http-status-codes';
 import { FetchError } from 'ofetch';
 
@@ -48,6 +47,8 @@ export function useAuthentication(): UseAuthenticationReturn {
 	const config = useRuntimeConfig();
 	const authenticationConfig = config.public.authentication;
 	const { csrfCookieName, csrfHeaderName } = authenticationConfig;
+
+	const csrfToken = useCookie(csrfCookieName);
 
 	function buildAuthenticationSessionUrl(emailOrLogin: string): string {
 		const pathSegments = [
@@ -93,17 +94,17 @@ export function useAuthentication(): UseAuthenticationReturn {
 			authenticationConfig.signOutPathName,
 		];
 
-		return pathSegments.join('');
-	}
+		const baseUrl = new URL(pathSegments.join(''));
 
-	function getCsrfToken(): CookieRef<string | null | undefined> {
-		return useCookie(csrfCookieName, { watch: false });
+		return baseUrl.toString();
 	}
 
 	function hasValidCsrfToken(): boolean {
-		const token = getCsrfToken().value;
+		return typeof csrfToken.value === 'string' && csrfToken.value.length > 0;
+	}
 
-		return typeof token === 'string' && token.length > 0;
+	function removeCsrfToken(): void {
+		csrfToken.value = undefined;
 	}
 
 	async function validateAuthentication(): Promise<boolean> {
@@ -135,10 +136,7 @@ export function useAuthentication(): UseAuthenticationReturn {
 	async function login(emailOrLogin: string, password: string): Promise<void> {
 		await initializeAuthenticationSession(emailOrLogin);
 
-		const csrfToken = getCsrfToken();
-		const csrfTokenValue = csrfToken.value ?? '';
-
-		if (!csrfTokenValue) {
+		if (!hasValidCsrfToken()) {
 			throw createError({
 				statusCode: StatusCodes.FORBIDDEN,
 				statusMessage: 'A valid CSRF token is required for authentication.',
@@ -150,7 +148,7 @@ export function useAuthentication(): UseAuthenticationReturn {
 		try {
 			await $fetch(signInEndpoint, {
 				headers: {
-					[csrfHeaderName]: csrfTokenValue,
+					[csrfHeaderName]: csrfToken.value ?? '',
 				},
 				method: 'POST',
 				body: {
@@ -168,18 +166,39 @@ export function useAuthentication(): UseAuthenticationReturn {
 
 		try {
 			await $fetch(signOutEndpoint, {
+				// TODO: Geht es später auch ohne spezielle Header?
 				headers: {
 					Accept: 'text/html',
 				},
 				method: 'GET',
 			});
+
+			/*
+			 * CSRF Token Cookie Deletion - ACTUAL SOLUTION!
+			 * =============================================
+			 *
+			 * PROBLEM WAS:
+			 * The `watch: false` option in useCookie() was preventing cookie deletion.
+			 * When watch is false, changes to the reactive ref do NOT sync to the browser cookie.
+			 *
+			 * SOLUTION:
+			 * Remove `watch: false` from useCookie() declaration (defaults to true).
+			 * With watch enabled, setting csrfToken.value = null properly deletes the browser cookie.
+			 *
+			 * KEY INSIGHT FROM NUXT DOCS:
+			 * - watch: true (default) → Ref changes automatically sync to browser cookie
+			 * - watch: false → Ref changes stay isolated, browser cookie unchanged
+			 * - watch: 'shallow' → Only shallow changes sync to browser cookie
+			 *
+			 * The issue was NOT about cookie options matching server/client,
+			 * but about Nuxt's reactive cookie synchronization behavior.
+			 */
+
+			removeCsrfToken();
 		}
 		catch (error: unknown) {
 			handleAuthenticationError(error, 'Logout');
 		}
-
-		const csrfToken = getCsrfToken();
-		csrfToken.value = undefined;
 	}
 
 	return {
