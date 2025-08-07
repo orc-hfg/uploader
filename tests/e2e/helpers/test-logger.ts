@@ -11,20 +11,11 @@ import { consola } from 'consola';
  * This E2E logger provides the same interface as the app and server loggers but
  * uses consola directly without Nuxt runtime configuration.
  */
-export interface Logger {
+interface Logger {
 	debug: (message: string, data?: unknown) => void;
 	info: (message: string, data?: unknown) => void;
 	warn: (message: string, data?: unknown) => void;
 	error: (message: string, data?: unknown) => void;
-}
-
-function log(level: 'debug' | 'info' | 'warn' | 'error', source: string, message: string, data?: unknown): void {
-	if (data === undefined) {
-		consola[level](`[${source}] ${message}`);
-	}
-	else {
-		consola[level](`[${source}] ${message}`, data);
-	}
 }
 
 /*
@@ -35,10 +26,21 @@ function log(level: 'debug' | 'info' | 'warn' | 'error', source: string, message
  * '@orc-hfg/madek-api-nuxt-layer/server/utils/server-logger' instead.
  */
 export function createTestLogger(source: string): Logger {
+	const loggerPrefix = `[E2E Test Logger] [${source}]`;
+
+	function log(level: 'debug' | 'info' | 'warn' | 'error', message: string, data?: unknown): void {
+		if (data === undefined) {
+			consola[level](loggerPrefix, message);
+		}
+		else {
+			consola[level](loggerPrefix, message, data);
+		}
+	}
+
 	return {
-		debug: (message: string, data?: unknown): void => { log('debug', source, message, data); },
-		info: (message: string, data?: unknown): void => { log('info', source, message, data); },
-		warn: (message: string, data?: unknown): void => { log('warn', source, message, data); },
-		error: (message: string, data?: unknown): void => { log('error', source, message, data); },
+		debug: (message: string, data?: unknown): void => { log('debug', message, data); },
+		info: (message: string, data?: unknown): void => { log('info', message, data); },
+		warn: (message: string, data?: unknown): void => { log('warn', message, data); },
+		error: (message: string, data?: unknown): void => { log('error', message, data); },
 	};
 }
