@@ -122,17 +122,17 @@ Playwright Browser
 # 4.2 Snippet: Playwright Test
 
 ```typescript
-test('should login successfully with valid credentials', async ({ page }) => {
-  await loginAsValidUser(page);
+test('should sign in successfully with valid credentials', async ({ page }) => {
+  await signInAsValidUser(page);
 
   await expect(page).toHaveURL('/uploader/de/projekte');
   await expect(page).toHaveTitle('Projekte – Uploader');
 });
 
 test('should show error with invalid credentials', async ({ page }) => {
-  await loginAsInvalidUser(page);
+  await signInAsInvalidUser(page);
 
-  const errorMessage = page.getByTestId('login-error');
+  const errorMessage = page.getByTestId('sign-in-error');
   await expect(errorMessage).toBeVisible();
   await expect(errorMessage).toHaveText('Die Anmeldedaten sind ungültig.');
 });
@@ -158,7 +158,7 @@ test('should show error with invalid credentials', async ({ page }) => {
 
 ```typescript
 // Playwright fördert Accessibility durch semantische Selektoren
-test('should have accessible login form', async ({ page, makeAxeBuilder }) => {
+test('should have accessible sign-in form', async ({ page, makeAxeBuilder }) => {
   await page.goto('/uploader/de/anmeldung');
 
   // Diese Selektoren ZWINGEN zu accessible Markup:
@@ -222,7 +222,7 @@ test('should support keyboard navigation', async ({ page, makeAxeBuilder }) => {
   await page.keyboard.press('Tab'); // Email-Feld
   await page.keyboard.press('Tab'); // Passwort-Feld
   await page.keyboard.press('Tab'); // Anmelden-Button
-  await page.keyboard.press('Enter'); // Login ausführen
+  await page.keyboard.press('Enter'); // Sign-in ausführen
 
   // Accessibility-Check nicht vergessen
   const results = await makeAxeBuilder().analyze();
@@ -393,7 +393,7 @@ jobs:
 
 **Ohne Tests**:
 - Manuelle Tests nach jeder Änderung
-- Risiko von Login-Problemen in Produktion
+- Risiko von Sign-in-Problemen in Produktion
 
 **Mit unseren Tests**:
 - Automatische Validierung bei jeder Änderung

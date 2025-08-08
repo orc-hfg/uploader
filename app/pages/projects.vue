@@ -24,18 +24,17 @@
 	const footerUIStore = useFooterUIStore();
 
 	const { t } = useI18n();
+	const { signOut } = useAuthentication();
 
-	async function handleLogout() {
-		const { logout } = useAuthentication();
-
+	async function handleSignOut() {
 		try {
-			await logout();
+			await signOut();
 
 			const localeRoute = useLocaleRoute();
 			await navigateTo(localeRoute('index'));
 		}
 		catch (error) {
-			appLogger.error('Logout failed', error);
+			appLogger.error('Sign-out failed', error);
 		}
 	}
 
@@ -43,9 +42,9 @@
 		left: {
 			component: Button,
 			props: {
-				label: 'Logout (Test)',
+				label: 'Abmelden (Test)',
 				type: 'button',
-				click: handleLogout,
+				click: handleSignOut,
 			},
 		},
 		right: {
@@ -77,7 +76,7 @@
 	<div>
 		<!--
 			<NuxtLinkLocale to="index">
-			Link: {{ $t('pages.title.login') }}
+			Link: {{ $t('pages.title.sign_in') }}
 			</NuxtLinkLocale>
 		-->
 	</div>
