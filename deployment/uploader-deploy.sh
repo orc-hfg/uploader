@@ -80,7 +80,7 @@ echo "🔍 Git checks..."
 abort_if_dirty
 abort_if_unpushed
 
-echo "🔨 Installing dependencies and building for $env..."
+echo "🔨 Installing dependencies and building for $env environment..."
 npm ci --no-audit --no-fund --loglevel=error --prefer-offline
 npm run build
 
