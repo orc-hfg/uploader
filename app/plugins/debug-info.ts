@@ -1,5 +1,3 @@
-import { isClientEnvironment } from '@orc-hfg/madek-api-nuxt-layer/shared/utils/environment';
-
 interface DebugInfoLogger {
 	info: (message: string) => void;
 }
@@ -24,10 +22,6 @@ function logDebugInfo(logger: DebugInfoLogger, publicConfig: PublicRuntimeConfig
 export default defineNuxtPlugin({
 	name: 'debug-info',
 	setup() {
-		if (!isClientEnvironment) {
-			return;
-		}
-
 		const config = useRuntimeConfig();
 		const publicConfig = config.public;
 		const isDebugLoggingEnabled = publicConfig.enableDebugLogging;
