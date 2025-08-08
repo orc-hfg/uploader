@@ -1,13 +1,6 @@
-interface DebugInfoLogger {
-	info: (message: string) => void;
-}
+import type { RuntimeConfig } from 'nuxt/schema';
 
-interface PublicRuntimeConfig {
-	enableAuthenticationMock: boolean;
-	enableAuthenticationInfoEndpointMock: boolean;
-}
-
-function logDebugInfo(logger: DebugInfoLogger, publicConfig: PublicRuntimeConfig): void {
+function logDebugInfo(logger: Logger, publicConfig: RuntimeConfig['public']): void {
 	const features = [
 		{ name: 'Authentication mock', isEnabled: publicConfig.enableAuthenticationMock },
 		{ name: 'Authentication info endpoint mock', isEnabled: publicConfig.enableAuthenticationInfoEndpointMock },
