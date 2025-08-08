@@ -22,6 +22,9 @@
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
+	const userSetsStore = useUserSetsStore();
+
+	await callOnce(() => userSetsStore.refreshData());
 
 	const { t } = useI18n();
 	const { signOut } = useAuthentication();
@@ -74,10 +77,16 @@
 
 <template>
 	<div>
-		<!--
+		<ul>
+			<li v-for="setTitle in userSetsStore.setTitles" :key="setTitle.id">
+				{{ setTitle.string }}
+			</li>
+		</ul>
+
+		<div class="mt-5">
 			<NuxtLinkLocale to="index">
-			Link: {{ $t('pages.title.sign_in') }}
+				Link: {{ $t('pages.title.sign_in') }}
 			</NuxtLinkLocale>
-		-->
+		</div>
 	</div>
 </template>
