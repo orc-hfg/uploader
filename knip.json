@@ -3,11 +3,12 @@
 	"entry": [
 		"app/app.vue",
 		"app/composables/*.ts",
+		"app/layouts/*.vue",
 		"app/middleware/*.ts",
 		"app/pages/**/*.vue",
+		"app/plugins/*.ts",
 		"app/stores/*.ts",
 		"app/theme/*.ts",
-		"app/layouts/*.vue",
 		"app/types/*.ts",
 		"tests/**/*.ts"
 	],
