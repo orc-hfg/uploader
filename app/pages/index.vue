@@ -6,7 +6,7 @@
 	import Button from 'primevue/button';
 	import { z } from 'zod';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.title.login';
+	const PAGE_TITLE_KEY_PATH = 'pages.title.sign_in';
 
 	definePageMeta({
 		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
@@ -19,7 +19,7 @@
 	defineI18nRoute({
 		paths: {
 			de: '/anmeldung',
-			en: '/login',
+			en: '/sign-in',
 		},
 	});
 
@@ -32,10 +32,10 @@
 		right: {
 			component: Button,
 			props: {
-				label: t('footer.actions.login'),
+				label: t('footer.actions.sign_in'),
 				icon: 'pi pi-sign-in',
 				type: 'submit',
-				form: 'loginForm',
+				form: 'signInForm',
 			},
 		},
 	};
@@ -57,14 +57,14 @@
 		password: '',
 	});
 
-	const loginFormSchema = z.object({
+	const signInFormSchema = z.object({
 		email_or_login: z.string().min(1, { message: t('forms.errors.email_or_login_required') }),
 		password: z.string().min(1, { message: t('forms.errors.password_required') }),
 	});
 
-	type LoginFormValues = z.infer<typeof loginFormSchema>;
+	type SignInFormValues = z.infer<typeof signInFormSchema>;
 
-	const resolver = ref(zodResolver(loginFormSchema));
+	const resolver = ref(zodResolver(signInFormSchema));
 
 	// Input field focus management
 	const emailOrLoginInput = useTemplateRef<{
@@ -77,11 +77,11 @@
 		}
 	});
 
-	const loginError = ref<string | undefined>(undefined);
+	const signInError = ref<string | undefined>(undefined);
 
-	function clearLoginError() {
-		if (loginError.value) {
-			loginError.value = undefined;
+	function clearSignInError() {
+		if (signInError.value) {
+			signInError.value = undefined;
 		}
 	}
 
@@ -94,34 +94,34 @@
 		 * Safe type assertion after zod validation and valid check.
 		 * Bridges PrimeVue's generic API with our typed form values.
 		 */
-		const formValues = event.values as LoginFormValues;
+		const signInFormValues = event.values as SignInFormValues;
 
-		const { login } = useAuthentication();
+		const { signIn } = useAuthentication();
 
 		try {
-			await login(formValues.email_or_login, formValues.password);
+			await signIn(signInFormValues.email_or_login, signInFormValues.password);
 
 			const localeRoute = useLocaleRoute();
 			await navigateTo(localeRoute('projects'));
 		}
 		catch (error) {
 			if (error && typeof error === 'object' && 'statusCode' in error) {
-				loginError.value = error.statusCode === StatusCodes.UNAUTHORIZED ? t('errors.invalid_credentials') : t('errors.login_failed');
+				signInError.value = error.statusCode === StatusCodes.UNAUTHORIZED ? t('errors.invalid_credentials') : t('errors.sign_in_failed');
 			}
 			else {
-				loginError.value = t('errors.login_failed');
+				signInError.value = t('errors.sign_in_failed');
 			}
 		}
 	}
 </script>
 
 <template>
-	<Form id="loginForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
+	<Form id="signInForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
 		<Fluid>
 			<div class="flex flex-col gap-6">
 				<div class="flex flex-col gap-1">
 					<FloatLabel variant="in">
-						<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" @update:model-value="clearLoginError" />
+						<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" @update:model-value="clearSignInError" />
 						<label for="email_or_login_label">{{ t('forms.labels.email_or_login') }}</label>
 					</FloatLabel>
 					<Message size="small" severity="secondary" variant="simple">
@@ -133,15 +133,15 @@
 				</div>
 				<div class="flex flex-col gap-1">
 					<FloatLabel variant="in">
-						<Password input-id="password_label" name="password" variant="filled" :feedback="false" @update:model-value="clearLoginError" />
+						<Password input-id="password_label" name="password" variant="filled" :feedback="false" @update:model-value="clearSignInError" />
 						<label for="password_label">{{ t('forms.labels.password') }}</label>
 					</FloatLabel>
 					<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
 						{{ $form.password.error?.message }}
 					</Message>
 				</div>
-				<Message v-if="loginError" severity="error" variant="outlined" data-testid="login-error">
-					{{ loginError }}
+				<Message v-if="signInError" severity="error" variant="outlined" data-testid="sign-in-error">
+					{{ signInError }}
 				</Message>
 			</div>
 		</Fluid>

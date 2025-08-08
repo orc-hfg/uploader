@@ -186,7 +186,7 @@
 			label: 'Aktionen',
 			items: [
 				{
-					label: 'Logout',
+					label: 'Sign-out',
 					icon: 'pi pi-sign-out',
 				},
 			],

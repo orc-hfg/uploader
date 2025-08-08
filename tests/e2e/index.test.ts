@@ -1,12 +1,12 @@
 import { expect, test } from './fixtures/accessibility';
-import { loginAsInvalidUser, loginAsValidUser } from './helpers/authentication';
+import { signInAsInvalidUser, signInAsValidUser } from './helpers/authentication';
 
 test.describe('Authentication flow', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/uploader/de/anmeldung');
 	});
 
-	test('should show login page correctly', async ({ page, makeAxeBuilder }) => {
+	test('should show sign-in page correctly', async ({ page, makeAxeBuilder }) => {
 		const loginInput = page.getByLabel('E-Mail-Adresse oder Login');
 		const passwordInput = page.getByLabel('Passwort');
 
@@ -17,14 +17,14 @@ test.describe('Authentication flow', () => {
 		await expect(page.getByRole('heading', { name: 'Anmeldung' })).toBeVisible();
 		await expect(page.getByRole('button', { name: 'Anmelden' })).toBeVisible();
 
-		// Test accessibility of login page (only once)
+		// Test accessibility of sign-in page (only once)
 		const results = await makeAxeBuilder().analyze();
 
 		expect(results.violations).toStrictEqual([]);
 	});
 
-	test('should login successfully with valid credentials', async ({ page, makeAxeBuilder }) => {
-		await loginAsValidUser(page);
+	test('should sign in successfully with valid credentials', async ({ page, makeAxeBuilder }) => {
+		await signInAsValidUser(page);
 
 		await expect(page).toHaveURL('/uploader/de/projekte');
 		await expect(page).toHaveTitle('Projekte – Uploader');
@@ -36,9 +36,9 @@ test.describe('Authentication flow', () => {
 	});
 
 	test('should show error with invalid credentials', async ({ page, makeAxeBuilder }) => {
-		await loginAsInvalidUser(page);
+		await signInAsInvalidUser(page);
 
-		const errorMessage = page.getByTestId('login-error');
+		const errorMessage = page.getByTestId('sign-in-error');
 
 		await expect(errorMessage).toBeVisible();
 		await expect(errorMessage).toHaveText('Die Anmeldedaten sind ungültig.');
@@ -50,7 +50,7 @@ test.describe('Authentication flow', () => {
 		expect(errorPageResults.violations).toStrictEqual([]);
 	});
 
-	test('should redirect to login when accessing protected route', async ({ page, context }) => {
+	test('should redirect to sign-in page when accessing protected route', async ({ page, context }) => {
 		await context.clearCookies();
 
 		await page.goto('/uploader/de/projekte');
@@ -58,6 +58,6 @@ test.describe('Authentication flow', () => {
 		await expect(page).toHaveURL('/uploader/de/anmeldung');
 		await expect(page).toHaveTitle('Anmeldung – Uploader');
 
-		// No accessibility check needed - same login page as first test
+		// No accessibility check needed - same sign-in page as first test
 	});
 });

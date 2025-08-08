@@ -4,12 +4,12 @@
 	},
 	"errors": {
 		"invalid_credentials": "Invalid credentials.",
-		"login_failed": "Login failed."
+		"sign_in_failed": "Sign-in failed."
 	},
 	"footer": {
 		"actions": {
-			"login": "Login",
-			"new_project": "New Project"
+			"new_project": "New Project",
+			"sign_in": "Sign in"
 		}
 	},
 	"forms": {
@@ -30,8 +30,8 @@
 	},
 	"pages": {
 		"title": {
-			"login": "Login",
-			"projects": "Projects"
+			"projects": "Projects",
+			"sign_in": "Sign-in"
 		}
 	}
 }

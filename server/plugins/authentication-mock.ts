@@ -17,7 +17,7 @@
  * Authentication Flow:
  * 1. Client requests session initialization (GET /auth/auth-systems)
  * 2. Plugin sets CSRF token cookie for security
- * 3. Client submits login credentials with CSRF token (POST /auth/auth-systems/password/password/sign-in)
+ * 3. Client submits sign-in credentials with CSRF token (POST /auth/auth-systems/password/password/sign-in)
  * 4. Plugin validates credentials and CSRF token
  * 5. On success, sets session cookie for subsequent requests
  */
@@ -48,21 +48,21 @@ export default defineNitroPlugin((nitroApp) => {
 		return;
 	}
 
-	const { emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
+	const { basePath, signInPathName, signOutPathName, systemPathName, defaultSystemName, emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
 
 	// Build authentication route paths
-	const getSystemPath = `/${authenticationConfig.basePath}${authenticationConfig.signInPathName}/${authenticationConfig.systemPathName}`;
-	const postSignInPath = `/${authenticationConfig.basePath}${authenticationConfig.signInPathName}/${authenticationConfig.systemPathName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.defaultSystemName}/${authenticationConfig.signInPathName}`;
-	const getSignOutPath = `/${authenticationConfig.basePath}${authenticationConfig.signOutPathName}`;
+	const authenticationSystemPath = `/${basePath}${signInPathName}/${systemPathName}`;
+	const signInPath = `/${basePath}${signInPathName}/${systemPathName}/${defaultSystemName}/${defaultSystemName}/${signInPathName}`;
+	const signOutPath = `/${basePath}${signOutPathName}`;
 
-	nitroApp.router.get(getSystemPath, defineEventHandler((event) => {
+	nitroApp.router.get(authenticationSystemPath, defineEventHandler((event) => {
 		setCookie(event, csrfCookieName, generateCsrfToken(), {
 			path: '/',
 			httpOnly: false,
 		});
 	}));
 
-	nitroApp.router.post(postSignInPath, defineEventHandler(async (event) => {
+	nitroApp.router.post(signInPath, defineEventHandler(async (event) => {
 		const body = await readBody<SignInRequestBody>(event);
 		const query = getQuery(event);
 		const loginValue = query[emailOrLoginParameter] ?? '';
@@ -90,7 +90,7 @@ export default defineNitroPlugin((nitroApp) => {
 		});
 	}));
 
-	nitroApp.router.get(getSignOutPath, defineEventHandler((event) => {
+	nitroApp.router.get(signOutPath, defineEventHandler((event) => {
 		// TODO: Auf dem echten Server wird der Session Cookie serverseitig gelöscht? Ansonsten hier im Mock das Verhalten entsprechend angleichen!
 		deleteCookie(event, sessionCookieName, {
 			path: '/',
