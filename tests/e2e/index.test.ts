@@ -50,6 +50,8 @@ test.describe('Authentication flow', () => {
 		expect(errorPageResults.violations).toStrictEqual([]);
 	});
 
+	// No accessibility check needed – same sign-in page as first test
+	// eslint-disable-next-line no-restricted-syntax
 	test('should redirect to sign-in page when accessing protected route', async ({ page, context }) => {
 		await context.clearCookies();
 
@@ -57,7 +59,5 @@ test.describe('Authentication flow', () => {
 
 		await expect(page).toHaveURL('/uploader/de/anmeldung');
 		await expect(page).toHaveTitle('Anmeldung – Uploader');
-
-		// No accessibility check needed - same sign-in page as first test
 	});
 });

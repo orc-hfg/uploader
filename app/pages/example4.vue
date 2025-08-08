@@ -25,6 +25,12 @@
 					{{ set.id }}
 				</li>
 			</ul>
+			<p>User Set Titles:</p>
+			<ul>
+				<li v-for="setTitle in userSetsStore.setTitles" :key="setTitle.id">
+					{{ setTitle.string }}
+				</li>
+			</ul>
 		</div>
 		<div>
 			<p>
