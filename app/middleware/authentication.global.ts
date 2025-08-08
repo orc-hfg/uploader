@@ -21,7 +21,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 	 * Skip authentication check for the index page and pages that explicitly disable authentication
 	 * This prevents infinite redirects and respects page-level auth configuration
 	 */
-	const isIndexPage = Boolean(to.name.includes('index'));
+	const isIndexPage = to.name.includes('index');
 	const isAuthenticationSkipped = Boolean(to.meta.skipAuthentication);
 
 	if (isIndexPage || isAuthenticationSkipped) {
