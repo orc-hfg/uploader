@@ -16,7 +16,6 @@ export function getRuntimeConfigMock(): RuntimeConfigMock {
 				signInPathName: 'sign-in',
 				signOutPathName: 'sign-out',
 				systemPathName: 'auth-systems',
-				systemPath: 'auth-systems/',
 				defaultSystemName: 'password',
 				emailOrLoginParameter: 'email-or-login',
 				returnToParameter: 'return-to',

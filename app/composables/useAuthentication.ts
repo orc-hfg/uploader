@@ -80,7 +80,7 @@ export function useAuthentication(): UseAuthenticationReturn {
 		return url.toString();
 	}
 
-	function hasValidCsrfToken(): boolean {
+	function hasNonEmptyCsrfToken(): boolean {
 		return typeof csrfToken.value === 'string' && csrfToken.value.length > 0;
 	}
 
@@ -89,7 +89,7 @@ export function useAuthentication(): UseAuthenticationReturn {
 	}
 
 	async function validateAuthentication(): Promise<boolean> {
-		if (!hasValidCsrfToken()) {
+		if (!hasNonEmptyCsrfToken()) {
 			return false;
 		}
 
@@ -117,7 +117,7 @@ export function useAuthentication(): UseAuthenticationReturn {
 	async function signIn(emailOrLogin: string, password: string): Promise<void> {
 		await prepareSignIn(emailOrLogin);
 
-		if (!hasValidCsrfToken()) {
+		if (!hasNonEmptyCsrfToken()) {
 			throw createError({
 				statusCode: StatusCodes.FORBIDDEN,
 				statusMessage: 'A valid CSRF token is required for authentication.',
