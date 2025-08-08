@@ -1,7 +1,7 @@
 /*
  * Authentication Composable
  *
- * Provides authentication functionality for login, logout, and session validation.
+ * Provides authentication functionality for sign-in, sign-out, and session validation.
  *
  * IMPORTANT: URL Structure Difference Between Environments
  * - Production: Authentication endpoints at root path (https://server/auth/*)
@@ -21,8 +21,8 @@ import { StatusCodes } from 'http-status-codes';
 import { FetchError } from 'ofetch';
 
 interface UseAuthenticationReturn {
-	login: (emailOrLogin: string, password: string) => Promise<void>;
-	logout: () => Promise<void>;
+	signIn: (emailOrLogin: string, password: string) => Promise<void>;
+	signOut: () => Promise<void>;
 	validateAuthentication: () => Promise<boolean>;
 }
 
@@ -46,57 +46,38 @@ function handleAuthenticationError(error: unknown, operationName: string): never
 export function useAuthentication(): UseAuthenticationReturn {
 	const config = useRuntimeConfig();
 	const authenticationConfig = config.public.authentication;
-	const { csrfCookieName, csrfHeaderName } = authenticationConfig;
+	const { basePath, signInPathName, signOutPathName, systemPathName, defaultSystemName, appPathName, emailOrLoginParameter, returnToParameter, csrfCookieName, csrfHeaderName } = authenticationConfig;
 
 	const csrfToken = useCookie(csrfCookieName);
 
-	function buildAuthenticationSessionUrl(emailOrLogin: string): string {
-		const pathSegments = [
-			config.public.serverUrl,
-			authenticationConfig.basePath,
-			authenticationConfig.signInPathName,
-			'/',
-			authenticationConfig.systemPathName,
-		];
+	function buildServerUrl(path: string): URL {
+		return new URL(path, config.public.serverUrl);
+	}
 
-		const baseUrl = new URL(pathSegments.join(''));
-		baseUrl.searchParams.set(authenticationConfig.emailOrLoginParameter, emailOrLogin);
+	function buildAuthenticationSystemUrl(emailOrLogin: string): string {
+		const path = `${basePath}${signInPathName}/${systemPathName}`;
+		const url = buildServerUrl(path);
 
-		return baseUrl.toString();
+		url.searchParams.set(emailOrLoginParameter, emailOrLogin);
+
+		return url.toString();
 	}
 
 	function buildSignInUrl(emailOrLogin: string): string {
-		const pathSegments = [
-			config.public.serverUrl,
-			authenticationConfig.basePath,
-			authenticationConfig.signInPathName,
-			'/',
-			authenticationConfig.systemPathName,
-			'/',
-			authenticationConfig.defaultSystemName,
-			'/',
-			authenticationConfig.defaultSystemName,
-			'/',
-			authenticationConfig.signInPathName,
-		];
+		const path = `${basePath}${signInPathName}/${systemPathName}/${defaultSystemName}/${defaultSystemName}/${signInPathName}`;
+		const url = buildServerUrl(path);
 
-		const baseUrl = new URL(pathSegments.join(''));
-		baseUrl.searchParams.set(authenticationConfig.emailOrLoginParameter, emailOrLogin);
-		baseUrl.searchParams.set(authenticationConfig.returnToParameter, authenticationConfig.appPathName);
+		url.searchParams.set(emailOrLoginParameter, emailOrLogin);
+		url.searchParams.set(returnToParameter, appPathName);
 
-		return baseUrl.toString();
+		return url.toString();
 	}
 
 	function buildSignOutUrl(): string {
-		const pathSegments = [
-			config.public.serverUrl,
-			authenticationConfig.basePath,
-			authenticationConfig.signOutPathName,
-		];
+		const path = `${basePath}${signOutPathName}`;
+		const url = buildServerUrl(path);
 
-		const baseUrl = new URL(pathSegments.join(''));
-
-		return baseUrl.toString();
+		return url.toString();
 	}
 
 	function hasValidCsrfToken(): boolean {
@@ -122,19 +103,19 @@ export function useAuthentication(): UseAuthenticationReturn {
 		}
 	}
 
-	async function initializeAuthenticationSession(emailOrLogin: string): Promise<void> {
-		const authenticationSessionEndpoint = buildAuthenticationSessionUrl(emailOrLogin);
+	async function prepareSignIn(emailOrLogin: string): Promise<void> {
+		const authenticationSystemEndpoint = buildAuthenticationSystemUrl(emailOrLogin);
 
 		try {
-			await $fetch(authenticationSessionEndpoint);
+			await $fetch(authenticationSystemEndpoint);
 		}
 		catch (error: unknown) {
 			handleAuthenticationError(error, 'Session initialization');
 		}
 	}
 
-	async function login(emailOrLogin: string, password: string): Promise<void> {
-		await initializeAuthenticationSession(emailOrLogin);
+	async function signIn(emailOrLogin: string, password: string): Promise<void> {
+		await prepareSignIn(emailOrLogin);
 
 		if (!hasValidCsrfToken()) {
 			throw createError({
@@ -157,11 +138,11 @@ export function useAuthentication(): UseAuthenticationReturn {
 			});
 		}
 		catch (error: unknown) {
-			handleAuthenticationError(error, 'Login');
+			handleAuthenticationError(error, 'Sign-in');
 		}
 	}
 
-	async function logout(): Promise<void> {
+	async function signOut(): Promise<void> {
 		const signOutEndpoint = buildSignOutUrl();
 
 		try {
@@ -201,13 +182,13 @@ export function useAuthentication(): UseAuthenticationReturn {
 			removeCsrfToken();
 		}
 		catch (error: unknown) {
-			handleAuthenticationError(error, 'Logout');
+			handleAuthenticationError(error, 'Sign-out');
 		}
 	}
 
 	return {
-		login,
-		logout,
+		signIn,
+		signOut,
 		validateAuthentication,
 	};
 }

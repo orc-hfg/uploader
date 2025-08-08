@@ -60,19 +60,19 @@ export default defineConfig({
 		 * https://www.checklyhq.com/blog/speed-up-playwright-tests-with-storage-state/
 		 */
 		{
-			// Only test the login page
-			name: 'login-page',
+			// Only test the sign-in page
+			name: 'sign-in-page',
 			use: { ...devices['Desktop Chrome'] },
 			testMatch: 'index.test.ts',
 		},
 		{
-			// Test valid login and then create the authentication session file
+			// Test valid sign-in and then create the authentication session file
 			name: 'authentication-setup',
 			use: { ...devices['Desktop Chrome'] },
 			testMatch: '**/*.setup.ts',
 		},
 		{
-			// Only test pages that require authentication (ignores login page)
+			// Only test pages that require authentication (ignores sign-in page)
 			name: 'authenticated-pages',
 			use: {
 				...devices['Desktop Chrome'],

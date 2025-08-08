@@ -4,15 +4,13 @@ export default defineNitroPlugin(() => {
 	const isAuthenticationMockEnabled = publicConfig.enableAuthenticationMock;
 	const isAuthenticationInfoEndpointMockEnabled = publicConfig.enableAuthenticationInfoEndpointMock;
 
-	if (isAuthenticationMockEnabled) {
-		const serverStartupLogger = createServerStartupLogger('Plugin: debug-info');
+	const serverStartupLogger = createServerStartupLogger('Plugin: debug-info');
 
+	if (isAuthenticationMockEnabled) {
 		serverStartupLogger.info('Authentication mock is active.');
 	}
 
 	if (isAuthenticationInfoEndpointMockEnabled) {
-		const serverStartupLogger = createServerStartupLogger('Plugin: debug-info');
-
 		serverStartupLogger.info('Authentication info endpoint mock is active.');
 	}
 });

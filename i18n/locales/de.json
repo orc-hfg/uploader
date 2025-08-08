@@ -4,12 +4,12 @@
 	},
 	"errors": {
 		"invalid_credentials": "Die Anmeldedaten sind ungültig.",
-		"login_failed": "Die Anmeldung ist fehlgeschlagen."
+		"sign_in_failed": "Die Anmeldung ist fehlgeschlagen."
 	},
 	"footer": {
 		"actions": {
-			"login": "Anmelden",
-			"new_project": "Neues Projekt"
+			"new_project": "Neues Projekt",
+			"sign_in": "Anmelden"
 		}
 	},
 	"forms": {
@@ -30,8 +30,8 @@
 	},
 	"pages": {
 		"title": {
-			"login": "Anmeldung",
-			"projects": "Projekte"
+			"projects": "Projekte",
+			"sign_in": "Anmeldung"
 		}
 	}
 }

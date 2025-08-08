@@ -23,9 +23,9 @@ describe('useAuthentication()', () => {
 
 	describe('validateAuthentication', () => {
 		it('should return true when CSRF token exists and getAuthInfo succeeds', async () => {
-			const authentication = useAuthentication();
+			const { validateAuthentication } = useAuthentication();
 
-			const result = await authentication.validateAuthentication();
+			const result = await validateAuthentication();
 
 			expect(result).toBe(true);
 		});
@@ -34,9 +34,9 @@ describe('useAuthentication()', () => {
 			// eslint-disable-next-line unicorn/no-null
 			vi.mocked(getCookieMock).mockReturnValue({ value: null });
 
-			const authentication = useAuthentication();
+			const { validateAuthentication } = useAuthentication();
 
-			const result = await authentication.validateAuthentication();
+			const result = await validateAuthentication();
 
 			expect(result).toBe(false);
 		});
@@ -44,9 +44,9 @@ describe('useAuthentication()', () => {
 		it('should return false when CSRF token is undefined', async () => {
 			vi.mocked(getCookieMock).mockReturnValue({ value: undefined });
 
-			const authentication = useAuthentication();
+			const { validateAuthentication } = useAuthentication();
 
-			const result = await authentication.validateAuthentication();
+			const result = await validateAuthentication();
 
 			expect(result).toBe(false);
 		});
@@ -54,9 +54,9 @@ describe('useAuthentication()', () => {
 		it('should return false when CSRF token is empty string', async () => {
 			vi.mocked(getCookieMock).mockReturnValue({ value: '' });
 
-			const authentication = useAuthentication();
+			const { validateAuthentication } = useAuthentication();
 
-			const result = await authentication.validateAuthentication();
+			const result = await validateAuthentication();
 
 			expect(result).toBe(false);
 		});
@@ -68,9 +68,9 @@ describe('useAuthentication()', () => {
 				getAuthInfo: mockGetAuthInfo,
 			});
 
-			const authentication = useAuthentication();
+			const { validateAuthentication } = useAuthentication();
 
-			const result = await authentication.validateAuthentication();
+			const result = await validateAuthentication();
 
 			expect(result).toBe(false);
 			expect(mockGetAuthInfo).toHaveBeenCalledTimes(1);
@@ -83,9 +83,9 @@ describe('useAuthentication()', () => {
 				getAuthInfo: mockGetAuthInfo,
 			});
 
-			const authentication = useAuthentication();
+			const { validateAuthentication } = useAuthentication();
 
-			const result = await authentication.validateAuthentication();
+			const result = await validateAuthentication();
 
 			expect(result).toBe(true);
 			expect(mockGetAuthInfo).toHaveBeenCalledTimes(1);
@@ -99,23 +99,23 @@ describe('useAuthentication()', () => {
 				getAuthInfo: mockGetAuthInfo,
 			});
 
-			const authentication = useAuthentication();
+			const { validateAuthentication } = useAuthentication();
 
-			await authentication.validateAuthentication();
+			await validateAuthentication();
 
 			expect(mockGetAuthInfo).not.toHaveBeenCalled();
 		});
 	});
 
-	it('should call login with correct parameters', async () => {
+	it('should call signIn with correct parameters', async () => {
 		vi.mocked(getCookieMock).mockReturnValue({ value: AUTHENTICATION_TEST_COOKIE });
 
-		const authentication = useAuthentication();
+		const { signIn } = useAuthentication();
 		const testEmail = 'test@example.com';
 		// eslint-disable-next-line sonarjs/no-hardcoded-passwords
 		const testPassword = 'test-password';
 
-		await authentication.login(testEmail, testPassword);
+		await signIn(testEmail, testPassword);
 
 		expect(fetchSpy).toHaveBeenCalledTimes(2);
 

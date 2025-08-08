@@ -18,7 +18,7 @@ export const test = base.extend<AccessibilityFixtures>({
 
 			/*
 			 * TODO: Remove this temporary exclusion after design fixes
-			 * Issue: Color contrast violations in login form labels
+			 * Issue: Color contrast violations in sign-in form labels
 			 */
 				.disableRules(['color-contrast']);
 		}

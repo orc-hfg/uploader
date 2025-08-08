@@ -19,7 +19,7 @@ const isAuthenticationInfoEndpointMockEnabled = publicConfig.enableAuthenticatio
  * - GET /api/auth-info - Returns user information based on session cookie
  *
  * AUTHENTICATION FLOW:
- * 1. Client has session cookie from previous login
+ * 1. Client has session cookie from previous sign-in
  * 2. Client requests user info from this endpoint
  * 3. Plugin validates session cookie and returns user data
  */
