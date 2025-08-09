@@ -2,7 +2,7 @@ import process from 'node:process';
 import { defineConfig, devices } from '@playwright/test';
 import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
-const isCI = Boolean(process.env.CI);
+const isCI = process.env.CI === 'true';
 
 // Maximum number of retries for CI environment to handle network instabilities
 const CI_MAX_RETRIES = 3;
