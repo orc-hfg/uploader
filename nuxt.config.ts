@@ -1,16 +1,8 @@
+import process from 'node:process';
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
-// Extend ImportMetaEnv interface to include CI property
-declare global {
-	// eslint-disable-next-line unicorn/prevent-abbreviations
-	interface ImportMetaEnv {
-		CI?: boolean | string;
-	}
-}
-
-// Recognize CI environment (e.g. GitHub Actions)
-const isCI = Boolean(import.meta.env.CI);
+const isCI = process.env.CI === 'true';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
