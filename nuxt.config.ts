@@ -193,7 +193,7 @@ export default defineNuxtConfig({
 		 */
 		mainApplication: true,
 		public: {
-			enableDebugLogging: false,
+			enableLogging: false,
 
 			// Enable authentication mock for development and testing (session-based authentication)
 			enableAuthenticationMock: false,
@@ -252,7 +252,7 @@ export default defineNuxtConfig({
 	$development: {
 		runtimeConfig: {
 			public: {
-				enableDebugLogging: true,
+				enableLogging: true,
 				enableAuthenticationMock: true,
 			},
 		},
