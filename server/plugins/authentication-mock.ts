@@ -91,7 +91,7 @@ export default defineNitroPlugin((nitroApp) => {
 	}));
 
 	nitroApp.router.get(signOutPath, defineEventHandler((event) => {
-		// TODO: Auf dem echten Server wird der Session Cookie serverseitig gelöscht? Ansonsten hier im Mock das Verhalten entsprechend angleichen!
+		// TODO: Is the session cookie deleted server-side on the real server? Otherwise adjust the behavior in this mock accordingly!
 		deleteCookie(event, sessionCookieName, {
 			path: '/',
 			httpOnly: true,

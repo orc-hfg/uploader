@@ -23,7 +23,7 @@ Folgende Dateien entsprechend anpassen:
 ## Externe Abhängigkeiten aktualisieren
 
 - `npm run upgrade` ausführen, um Nuxt zu updaten.
-- `npm run check-updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
+- `npm run check:updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
 
 ### Überprüfen der offenen Wartungsaufgaben
 
