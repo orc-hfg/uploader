@@ -98,7 +98,7 @@ export default defineNitroPlugin((nitroApp) => {
 		});
 
 		/*
-		 * TODO: Wird CSRF-Toke-Cookie auf dem echten Server gelöscht? Hier im Mock das Verhalten entsprechend angleichen!
+		 * TODO: Is the session cookie deleted server-side on the real server? Otherwise adjust the behavior in this mock accordingly!
 		 * deleteCookie(event, csrfCookieName, {
 		 * 	path: '/',
 		 * 	httpOnly: false,
