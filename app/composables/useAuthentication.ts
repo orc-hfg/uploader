@@ -147,7 +147,7 @@ export function useAuthentication(): UseAuthenticationReturn {
 
 		try {
 			await $fetch(signOutEndpoint, {
-				// TODO: Geht es später auch ohne spezielle Header?
+				// TODO: Will this work later without special headers?
 				headers: {
 					Accept: 'text/html',
 				},
@@ -176,8 +176,8 @@ export function useAuthentication(): UseAuthenticationReturn {
 			 */
 
 			/*
-			 * TODO: Wird CSRF-Toke-Cookie auf dem echten Server serverseitig gelöscht? Wenn ja, kann das client-seitige Löschen entfallen.
-			 * TODO: Wird der Session Cookie auf dem echten Server wie angenommen serverseitig gelöscht oder muss er client-seitig gelöscht werden?
+			 * TODO: Is the CSRF token cookie deleted server-side on the real server? If yes, client-side deletion can be omitted.
+			 * TODO: Is the session cookie deleted server-side on the real server as assumed, or must it be deleted client-side?
 			 */
 			removeCsrfToken();
 		}
