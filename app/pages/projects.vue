@@ -24,10 +24,14 @@
 	const footerUIStore = useFooterUIStore();
 	const userSetsStore = useUserSetsStore();
 
-	await callOnce(() => userSetsStore.refreshData());
-
-	const { t } = useI18n();
+	const { t, locale } = useI18n();
 	const { signOut } = useAuthentication();
+
+	/*
+	 * Load user sets data on initial load and on locale-based navigation
+	 * Navigation mode ensures data refreshes when switching between different routes
+	 */
+	await callOnce(() => userSetsStore.refreshData(locale.value), { mode: 'navigation' });
 
 	async function handleSignOut() {
 		try {

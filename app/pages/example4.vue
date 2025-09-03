@@ -9,7 +9,7 @@
 	const userSetsStore = useUserSetsStore();
 
 	// Refresh user sets on navigation
-	await callOnce(() => userSetsStore.refreshData(), { mode: 'navigation' });
+	await callOnce(() => userSetsStore.refreshData('de'), { mode: 'navigation' });
 
 	const { data: appSettings } = await useAsyncData(() => getSettingsRepository().getAppSettings());
 	const { data: contexts } = await useAsyncData(() => getContextsRepository().getContexts());
