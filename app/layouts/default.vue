@@ -157,12 +157,12 @@
 </template>
 
 <style lang="css" scoped>
-	.reduced-motion-enter-active,
-	.reduced-motion-leave-active {
+	.fade-transition-enter-active,
+	.fade-transition-leave-active {
 		transition: opacity 0.5s;
 	}
-	.reduced-motion-enter-from,
-	.reduced-motion-leave-to {
+	.fade-transition-enter-from,
+	.fade-transition-leave-to {
 		opacity: 0;
 	}
 

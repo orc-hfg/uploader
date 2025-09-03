@@ -67,8 +67,8 @@ export default defineNitroPlugin((nitroApp) => {
 		const query = getQuery(event);
 		const loginValue = query[emailOrLoginParameter] ?? '';
 
-		const csrfToken = (getCookie(event, csrfCookieName) ?? '').toLowerCase();
-		const csrfHeader = (getHeader(event, csrfHeaderName) ?? '').toLowerCase();
+		const csrfToken = (getCookie(event, csrfCookieName) ?? '').toLocaleLowerCase();
+		const csrfHeader = (getHeader(event, csrfHeaderName) ?? '').toLocaleLowerCase();
 
 		if (csrfToken !== csrfHeader) {
 			throw createError({

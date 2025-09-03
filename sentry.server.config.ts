@@ -14,7 +14,7 @@ function extractHostname(raw: string | undefined): string {
 	try {
 		const url = raw.includes('://') ? raw : `http://${raw}`;
 
-		return new URL(url).hostname.toLowerCase();
+		return new URL(url).hostname.toLocaleLowerCase();
 	}
 	catch {
 		return '';
