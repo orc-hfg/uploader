@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
+	import PageMessage from '@/components/PageMessage.vue';
+	import Set from '@/components/Set.vue';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.title.projects';
+	const PAGE_TITLE_KEY_PATH = 'pages.projects.title';
 
 	definePageMeta({
 		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
@@ -81,16 +83,25 @@
 
 <template>
 	<div>
-		<ul>
-			<li v-for="setTitle in userSetsStore.setTitles" :key="setTitle.id">
-				{{ setTitle.string }}
+		<ul v-if="userSetsStore.sets.length > 0">
+			<li
+				v-for="setTitle in userSetsStore.setTitles" :key="setTitle.id" class="
+      border-slate-300 pb-10
+      not-first:mt-10
+      not-last:border-b-1
+      last:pb-20
+    "
+			>
+				<Set :title="setTitle.string ?? undefined" />
 			</li>
 		</ul>
-
-		<div class="mt-5">
+		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
+		<!--
+			<div class="mt-5">
 			<NuxtLinkLocale to="index">
-				Link: {{ $t('pages.title.sign_in') }}
+			Link: {{ $t('pages.sign_in.title') }}
 			</NuxtLinkLocale>
-		</div>
+			</div>
+		-->
 	</div>
 </template>

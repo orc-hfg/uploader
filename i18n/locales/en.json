@@ -29,9 +29,14 @@
 		"description": "HfG Karlsruhe Uploader: a simple app that lets students quickly submit and share their projects."
 	},
 	"pages": {
-		"title": {
-			"projects": "Projects",
-			"sign_in": "Sign-in"
+		"projects": {
+			"messages": {
+				"no_sets": "No projects available yet."
+			},
+			"title": "Projects"
+		},
+		"sign_in": {
+			"title": "Sign-in"
 		}
 	}
 }

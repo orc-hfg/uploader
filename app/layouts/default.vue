@@ -126,11 +126,11 @@
         sm:h-[800px] sm:w-[600px]
       "
 					>
-						<header class="h-[75px]">
+						<header class="min-h-[75px]">
 							<Header />
 						</header>
 
-						<main class="grow px-10 pt-12">
+						<main class="grow overflow-y-auto px-10 pt-12">
 							<NuxtPage />
 						</main>
 

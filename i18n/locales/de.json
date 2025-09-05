@@ -29,9 +29,14 @@
 		"description": "Uploader der HfG Karlsruhe: eine einfache App, mit der Studierende ihre Projekte schnell bereitstellen können."
 	},
 	"pages": {
-		"title": {
-			"projects": "Projekte",
-			"sign_in": "Anmeldung"
+		"projects": {
+			"messages": {
+				"no_sets": "Noch keine Projekte vorhanden."
+			},
+			"title": "Projekte"
+		},
+		"sign_in": {
+			"title": "Anmeldung"
 		}
 	}
 }
