@@ -2,6 +2,11 @@
 	"app": {
 		"title": "Uploader"
 	},
+	"components": {
+		"responsive_image": {
+			"not_available": "Bild nicht verfügbar"
+		}
+	},
 	"errors": {
 		"invalid_credentials": "Die Anmeldedaten sind ungültig.",
 		"sign_in_failed": "Die Anmeldung ist fehlgeschlagen."
@@ -30,6 +35,7 @@
 	},
 	"pages": {
 		"projects": {
+			"image_alt": "Projektbild",
 			"messages": {
 				"no_sets": "Noch keine Projekte vorhanden."
 			},

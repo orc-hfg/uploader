@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
 	import PageMessage from '@/components/PageMessage.vue';
-	import Set from '@/components/Set.vue';
+	import Project from '@/components/Project.vue';
 
 	const PAGE_TITLE_KEY_PATH = 'pages.projects.title';
 
@@ -24,7 +24,7 @@
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
-	const userSetsStore = useUserSetsStore();
+	const setsStore = useSetsStore();
 
 	const { t, locale } = useI18n();
 	const { signOut } = useAuthentication();
@@ -33,7 +33,7 @@
 	 * Load user sets data on initial load and on locale-based navigation
 	 * Navigation mode ensures data refreshes when switching between different routes
 	 */
-	await callOnce(() => userSetsStore.refreshData(locale.value), { mode: 'navigation' });
+	await callOnce(() => setsStore.refreshData(locale.value), { mode: 'navigation' });
 
 	async function handleSignOut() {
 		try {
@@ -83,16 +83,16 @@
 
 <template>
 	<div>
-		<ul v-if="userSetsStore.sets.length > 0">
+		<ul v-if="setsStore.sets.length > 0">
 			<li
-				v-for="setTitle in userSetsStore.setTitles" :key="setTitle.id" class="
+				v-for="setsData in setsStore.setsData" :key="setsData.id" class="
       border-slate-300 pb-10
       not-first:mt-10
       not-last:border-b-1
       last:pb-20
     "
 			>
-				<Set :title="setTitle.string ?? undefined" />
+				<Project :title="setsData.title ?? undefined" :thumbnail-sources="setsData.coverImageThumbnailSources" />
 			</li>
 		</ul>
 		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
