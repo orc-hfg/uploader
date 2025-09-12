@@ -407,6 +407,8 @@ export default withNuxt(
 				'vue/require-macro-variable-name': 'error',
 				'vue/require-typed-ref': 'error',
 				'style/indent': 'off',
+				'style/lines-around-comment': 'off',
+				'style/multiline-comment-style': 'off',
 				'vue/script-indent': [
 					'error',
 					'tab',

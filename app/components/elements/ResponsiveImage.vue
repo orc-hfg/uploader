@@ -1,4 +1,6 @@
 <script setup lang="ts">
+	import Text from '@/components/elements/Text.vue';
+
 	const { imageSources, alt } = defineProps<{
 		imageSources?: ThumbnailSources;
 		alt: string;
@@ -51,10 +53,13 @@
 	>
 	<div
 		v-else class="
-    flex h-87 items-center justify-center bg-slate-100 text-4xl font-medium
-    text-surface-400
+    flex h-87 items-center justify-center bg-slate-100 text-surface-400
   "
 	>
-		{{ $t('components.responsive_image.not_available') }}
+		<Text
+			as="p" variant="display-small"
+		>
+			{{ $t('components.responsive_image.not_available') }}
+		</Text>
 	</div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-	import ResponsiveImage from '@/components/ResponsiveImage.vue';
+	import ResponsiveImage from '@/components/elements/ResponsiveImage.vue';
+	import Text from '@/components/elements/Text.vue';
 
 	const { title, coverImageSources } = defineProps<{
 		title?: string;
@@ -9,9 +10,9 @@
 
 <template>
 	<div>
-		<h2 v-if="title" class="text-3xl">
+		<Text v-if="title" as="h2" variant="headline-medium">
 			{{ title }}
-		</h2>
+		</Text>
 		<div class="mt-5">
 			<ResponsiveImage
 				:image-sources="coverImageSources"

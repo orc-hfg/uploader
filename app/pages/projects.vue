@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
-	import PageMessage from '@/components/PageMessage.vue';
-	import Project from '@/components/Project.vue';
+	import Project from '@/components/content/Project.vue';
+	import PageMessage from '@/components/elements/PageMessage.vue';
 
 	const PAGE_TITLE_KEY_PATH = 'pages.projects.title';
 

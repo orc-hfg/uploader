@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 	import type { MaybeElement } from '@vueuse/core';
 	import Logo from '@/components/brand/Logo.vue';
-	import Footer from '@/components/Footer.vue';
-	import Header from '@/components/Header.vue';
+	import Footer from '@/components/layout/Footer.vue';
+	import Header from '@/components/layout/Header.vue';
 
 	const appLogger = createAppLogger('Layout: default');
 
