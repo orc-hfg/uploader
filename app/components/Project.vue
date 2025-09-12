@@ -1,9 +1,9 @@
 <script setup lang="ts">
 	import ResponsiveImage from '@/components/ResponsiveImage.vue';
 
-	const { title, thumbnailSources } = defineProps<{
+	const { title, coverImageSources } = defineProps<{
 		title?: string;
-		thumbnailSources?: ThumbnailSources;
+		coverImageSources?: ThumbnailSources;
 	}>();
 </script>
 
@@ -14,7 +14,7 @@
 		</h2>
 		<div class="mt-5">
 			<ResponsiveImage
-				:thumbnail-sources="thumbnailSources"
+				:image-sources="coverImageSources"
 				:alt="$t('pages.projects.image_alt')"
 			/>
 		</div>

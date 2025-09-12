@@ -1,17 +1,17 @@
 <script setup lang="ts">
-	const { thumbnailSources, alt } = defineProps<{
-		thumbnailSources?: ThumbnailSources;
+	const { imageSources, alt } = defineProps<{
+		imageSources?: ThumbnailSources;
 		alt: string;
 	}>();
 
 	const sourceSet = computed(() => {
-		if (!thumbnailSources) {
+		if (!imageSources) {
 			return '';
 		}
 
 		const sources: string[] = [];
-		for (const thumbnailSource of Object.values(thumbnailSources).filter(Boolean)) {
-			const { url, width } = thumbnailSource;
+		for (const imageSource of Object.values(imageSources).filter(Boolean)) {
+			const { url, width } = imageSource;
 
 			if (url && typeof width === 'number') {
 				sources.push(`${url} ${width}w`);
@@ -22,14 +22,14 @@
 	});
 
 	const fallbackSource = computed(() => {
-		if (!thumbnailSources) {
+		if (!imageSources) {
 			return '';
 		}
 
 		const preferredSizes: (keyof ThumbnailSources)[] = ['large', 'medium', 'small'];
 		for (const preferredSize of preferredSizes) {
-			if (thumbnailSources[preferredSize]?.url) {
-				return thumbnailSources[preferredSize].url;
+			if (imageSources[preferredSize]?.url) {
+				return imageSources[preferredSize].url;
 			}
 		}
 

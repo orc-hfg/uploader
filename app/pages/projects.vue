@@ -92,7 +92,7 @@
       last:pb-20
     "
 			>
-				<Project :title="setsData.title ?? undefined" :thumbnail-sources="setsData.coverImageSources" />
+				<Project :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
 			</li>
 		</ul>
 		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
