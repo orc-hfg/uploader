@@ -103,7 +103,7 @@ export default defineConfig({
 		 * - CI uses preview (production-like build for testing)
 		 * - Local uses dev server (fast development)
 		 */
-		command: isCI ? 'npm run preview' : 'npm run dev',
+		command: isCI ? 'npm run preview' : 'npm run dev:e2e',
 
 		/*
 		 * Health endpoint for Playwright webServer readiness check

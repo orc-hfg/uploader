@@ -6,7 +6,7 @@ function logInfo(logger: Logger, publicConfig: PublicRuntimeConfig): void {
 		{ name: 'Authentication info endpoint mock', isEnabled: publicConfig.enableAuthenticationInfoEndpointMock },
 	];
 
-	logger.info('=== MOCKS ===');
+	logger.info('=== APP FEATURES ===');
 	for (const { name, isEnabled } of features) {
 		logger.info(`${name}: ${isEnabled ? 'enabled' : 'disabled'}`);
 	}

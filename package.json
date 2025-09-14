@@ -14,6 +14,7 @@
 		"build:preview": "npm install && nuxt build && npm run preview",
 		"build:preview:sentry": "npm install && nuxt build && npm run preview:sentry",
 		"dev": "nuxt dev",
+		"dev:e2e": "NUXT_PUBLIC_ENABLE_API_MOCK=true nuxt dev",
 		"link:dev": "npm run madek-api-nuxt-layer:link && echo '\n🔗 Main application successfully linked to development layer!' && echo '📋 Make sure the layer development server is running in parallel (run \"npm run link:dev\" in your madek-api-nuxt-layer repository folder).' && echo '⚠️  Both development servers need to run for live updates.\n' && npm run dev",
 		"staging": "nuxt dev --envName staging --dotenv .env.staging",
 		"generate": "nuxt generate",
