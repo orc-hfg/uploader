@@ -130,7 +130,7 @@
 							<Header />
 						</header>
 
-						<main class="grow overflow-y-auto px-10 pt-12">
+						<main class="grow overflow-y-auto px-10 pt-12" tabindex="0">
 							<NuxtPage />
 						</main>
 

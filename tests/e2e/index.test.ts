@@ -17,7 +17,7 @@ test.describe('Authentication flow', () => {
 		await expect(page.getByRole('heading', { name: 'Anmeldung' })).toBeVisible();
 		await expect(page.getByRole('button', { name: 'Anmelden' })).toBeVisible();
 
-		// Test accessibility of sign-in page (only once)
+		// Test accessibility of sign-in page
 		const results = await makeAxeBuilder().analyze();
 
 		expect(results.violations).toStrictEqual([]);
