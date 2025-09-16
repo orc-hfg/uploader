@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// This page shows PrimeVue components with the current theme.
+// It is used to test the PrimeVue Theme (see: app/theme/*).
+
 	import { zodResolver } from '@primevue/forms/resolvers/zod';
 	import { useConfirm } from 'primevue/useconfirm';
 	import { z } from 'zod';

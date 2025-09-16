@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// This is just a page for testing purposes (http://localhost:3000/uploader/example3).
+// Feel free to delete this file.
+
 	definePageMeta({
 		skipAuthentication: true,
 		layout: false,
