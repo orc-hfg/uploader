@@ -3,12 +3,15 @@ import { defineConfig, devices } from '@playwright/test';
 import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
 const isCI = process.env.CI === 'true';
+const isPlaywrightLoggingEnabled = process.env.ENABLE_PLAYWRIGHT_LOGGING === 'true';
+const isPlaywrightPreviewServerEnabled = process.env.ENABLE_PLAYWRIGHT_PREVIEW_SERVER === 'true';
 
 // Maximum number of retries for CI environment to handle network instabilities
 const CI_MAX_RETRIES = 3;
+const LOCAL_MAX_RETRIES = 1;
 
 // Generally increase number of retries to handle sporadic EPIPE errors
-const MAX_RETRIES = isCI ? CI_MAX_RETRIES : 0;
+const MAX_RETRIES = isCI ? CI_MAX_RETRIES : LOCAL_MAX_RETRIES;
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
@@ -23,6 +26,10 @@ export default defineConfig({
 	retries: MAX_RETRIES,
 
 	workers: isCI ? 1 : undefined,
+
+	expect: {
+		timeout: 10_000,
+	},
 
 	reporter: 'html',
 
@@ -95,25 +102,25 @@ export default defineConfig({
 	webServer: {
 		/*
 		 * Server commands for different environments:
-		 * - CI uses preview (production-like build for testing)
+		 * - CI uses preview server (production-like build for testing)
 		 * - Local uses dev server (fast development)
 		 */
-		command: isCI ? 'npm run preview' : 'npm run dev:e2e',
+		command: isCI || isPlaywrightPreviewServerEnabled ? 'npm run preview' : 'npm run dev:api-mock',
 
 		/*
 		 * Health endpoint for Playwright webServer readiness check
 		 * Bypasses authentication and i18n redirects, ensuring reliable server startup detection
 		 */
 		url: 'http://localhost:3000/health',
-		reuseExistingServer: !isCI,
+		reuseExistingServer: !isCI || !isPlaywrightPreviewServerEnabled,
 
 		/*
-		 * Pipe server output to test logs for debugging CI issues
+		 * Pipe server output to test logs for debugging CI and local issues
 		 * Allows viewing build process, startup logs, and error details
 		 */
-		...(isCI && {
+		...(isCI || isPlaywrightLoggingEnabled ? {
 			stdout: 'pipe',
 			stderr: 'pipe',
-		}),
+		} : {}),
 	},
 });

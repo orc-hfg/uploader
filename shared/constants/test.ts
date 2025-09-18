@@ -1,6 +1,8 @@
 interface AuthenticationMockUser {
 	id: string;
 	login: string;
+	first_name: string;
+	last_name: string;
 }
 
 export const AUTHENTICATION_MOCK_VALID_USER_LOGIN = 'test';
@@ -8,8 +10,10 @@ export const AUTHENTICATION_MOCK_VALID_USER_LOGIN = 'test';
 export const AUTHENTICATION_MOCK_VALID_USER_PASSWORD = '123';
 
 export const AUTHENTICATION_MOCK_VALID_USER: AuthenticationMockUser = {
-	login: AUTHENTICATION_MOCK_VALID_USER_LOGIN,
 	id: 'test-123',
+	login: AUTHENTICATION_MOCK_VALID_USER_LOGIN,
+	first_name: 'first_name',
+	last_name: 'last_name',
 };
 
 export const AUTHENTICATION_MOCK_SESSION_PREFIX = 'mock-session-';
