@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import Text from '@/components/elements/Text.vue';
 	import Fade from '@/components/transitions/Fade.vue';
 
 	/**
@@ -27,11 +28,11 @@
 			</ClientOnly>
 		</div>
 
-		<h1 class="text-center text-xl">
+		<Text as="h1" variant="headline-small" class="text-center">
 			<Fade>
 				<span :key="pageTitleTranslation">{{ pageTitleTranslation }}</span>
 			</Fade>
-		</h1>
+		</Text>
 
 		<div>
 			<ClientOnly>

@@ -2,6 +2,14 @@
 	"app": {
 		"title": "Uploader"
 	},
+	"components": {
+		"project": {
+			"open": "Open"
+		},
+		"responsive_image": {
+			"not_available": "Image not available"
+		}
+	},
 	"errors": {
 		"invalid_credentials": "Invalid credentials.",
 		"sign_in_failed": "Sign-in failed."
@@ -29,9 +37,15 @@
 		"description": "HfG Karlsruhe Uploader: a simple app that lets students quickly submit and share their projects."
 	},
 	"pages": {
-		"title": {
-			"projects": "Projects",
-			"sign_in": "Sign-in"
+		"projects": {
+			"image_alt": "Project image",
+			"messages": {
+				"no_sets": "No projects available yet."
+			},
+			"title": "Projects"
+		},
+		"sign_in": {
+			"title": "Sign-in"
 		}
 	}
 }

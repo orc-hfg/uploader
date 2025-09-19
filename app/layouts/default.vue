@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 	import type { MaybeElement } from '@vueuse/core';
 	import Logo from '@/components/brand/Logo.vue';
-	import Footer from '@/components/Footer.vue';
-	import Header from '@/components/Header.vue';
+	import Footer from '@/components/layout/Footer.vue';
+	import Header from '@/components/layout/Header.vue';
 
 	const appLogger = createAppLogger('Layout: default');
 
@@ -126,11 +126,11 @@
         sm:h-[800px] sm:w-[600px]
       "
 					>
-						<header class="h-[75px]">
+						<header class="min-h-[75px]">
 							<Header />
 						</header>
 
-						<main class="grow px-10 pt-12">
+						<main class="grow overflow-y-auto px-10 pt-12" tabindex="0">
 							<NuxtPage />
 						</main>
 
@@ -157,12 +157,12 @@
 </template>
 
 <style lang="css" scoped>
-	.reduced-motion-enter-active,
-	.reduced-motion-leave-active {
+	.fade-transition-enter-active,
+	.fade-transition-leave-active {
 		transition: opacity 0.5s;
 	}
-	.reduced-motion-enter-from,
-	.reduced-motion-leave-to {
+	.fade-transition-enter-from,
+	.fade-transition-leave-to {
 		opacity: 0;
 	}
 

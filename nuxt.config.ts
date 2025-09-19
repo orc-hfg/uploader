@@ -47,7 +47,7 @@ export default defineNuxtConfig({
 		dirs: ['stores'],
 	},
 
-	// Support knip which is used to check for unused imports
+	// Disable auto-import of components to better support knip (unused code detection)
 	components: {
 		dirs: [],
 	},
@@ -65,7 +65,7 @@ export default defineNuxtConfig({
 		display: 'swap',
 		families: {
 			// eslint-disable-next-line ts/no-magic-numbers
-			'Instrument+Sans': [400],
+			'Instrument+Sans': [400, 500],
 		},
 	},
 	i18n: {
@@ -197,9 +197,6 @@ export default defineNuxtConfig({
 
 			// Enable authentication mock for development and testing (session-based authentication)
 			enableAuthenticationMock: false,
-
-			// Enable authentication info endpoint mock for E2E testing with session-based authentication (used in preview mode)
-			enableAuthenticationInfoEndpointMock: false,
 
 			/*
 			 * Server URL for authentication endpoints

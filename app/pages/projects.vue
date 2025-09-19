@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 	import Button from 'primevue/button';
+	import Project from '@/components/content/Project.vue';
+	import PageMessage from '@/components/elements/PageMessage.vue';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.title.projects';
+	const PAGE_TITLE_KEY_PATH = 'pages.projects.title';
 
 	definePageMeta({
 		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
@@ -22,12 +24,16 @@
 
 	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
-	const userSetsStore = useUserSetsStore();
+	const setsStore = useSetsStore();
 
-	await callOnce(() => userSetsStore.refreshData());
-
-	const { t } = useI18n();
+	const { t, locale } = useI18n();
 	const { signOut } = useAuthentication();
+
+	/*
+	 * Load user sets data on initial load and on locale-based navigation
+	 * Navigation mode ensures data refreshes when switching between different routes
+	 */
+	await callOnce(() => setsStore.refreshData(locale.value), { mode: 'navigation' });
 
 	async function handleSignOut() {
 		try {
@@ -77,16 +83,25 @@
 
 <template>
 	<div>
-		<ul>
-			<li v-for="setTitle in userSetsStore.setTitles" :key="setTitle.id">
-				{{ setTitle.string }}
+		<ul v-if="setsStore.sets.length > 0">
+			<li
+				v-for="setsData in setsStore.setsData" :key="setsData.id" class="
+      border-slate-300 pb-10
+      not-first:mt-10
+      not-last:border-b-1
+      last:pb-20
+    "
+			>
+				<Project :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
 			</li>
 		</ul>
-
-		<div class="mt-5">
+		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
+		<!--
+			<div class="mt-5">
 			<NuxtLinkLocale to="index">
-				Link: {{ $t('pages.title.sign_in') }}
+			Link: {{ $t('pages.sign_in.title') }}
 			</NuxtLinkLocale>
-		</div>
+			</div>
+		-->
 	</div>
 </template>

@@ -6,7 +6,7 @@
 	import Button from 'primevue/button';
 	import { z } from 'zod';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.title.sign_in';
+	const PAGE_TITLE_KEY_PATH = 'pages.sign_in.title';
 
 	definePageMeta({
 		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,

@@ -1,3 +1,5 @@
+// This file defines the actual theme used in the application
+
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 

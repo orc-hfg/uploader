@@ -1,12 +1,9 @@
 import type { PublicRuntimeConfig } from 'nuxt/schema';
 
 function logInfo(logger: Logger, publicConfig: PublicRuntimeConfig): void {
-	const features = [
-		{ name: 'Authentication mock', isEnabled: publicConfig.enableAuthenticationMock },
-		{ name: 'Authentication info endpoint mock', isEnabled: publicConfig.enableAuthenticationInfoEndpointMock },
-	];
+	const features = [{ name: 'Authentication mock', isEnabled: publicConfig.enableAuthenticationMock }];
 
-	logger.info('=== MOCKS ===');
+	logger.info('=== APP FEATURES ===');
 	for (const { name, isEnabled } of features) {
 		logger.info(`${name}: ${isEnabled ? 'enabled' : 'disabled'}`);
 	}

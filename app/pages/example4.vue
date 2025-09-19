@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// This is just a page for testing purposes (http://localhost:3000/uploader/example4).
+// Feel free to delete this file.
+
 	definePageMeta({
 		skipAuthentication: true,
 		layout: false,
@@ -6,10 +9,10 @@
 
 	defineI18nRoute(false);
 
-	const userSetsStore = useUserSetsStore();
+	const setsStore = useSetsStore();
 
 	// Refresh user sets on navigation
-	await callOnce(() => userSetsStore.refreshData(), { mode: 'navigation' });
+	await callOnce(() => setsStore.refreshData('de'), { mode: 'navigation' });
 
 	const { data: appSettings } = await useAsyncData(() => getSettingsRepository().getAppSettings());
 	const { data: contexts } = await useAsyncData(() => getContextsRepository().getContexts());
@@ -21,14 +24,14 @@
 		<div>
 			<p>User Sets:</p>
 			<ul>
-				<li v-for="set in userSetsStore.sets" :key="set.id">
+				<li v-for="set in setsStore.sets" :key="set.id">
 					{{ set.id }}
 				</li>
 			</ul>
 			<p>User Set Titles:</p>
 			<ul>
-				<li v-for="setTitle in userSetsStore.setTitles" :key="setTitle.id">
-					{{ setTitle.string }}
+				<li v-for="setsData in setsStore.setsData" :key="setsData.id">
+					{{ setsData.title }}
 				</li>
 			</ul>
 		</div>
