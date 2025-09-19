@@ -24,9 +24,11 @@ test.describe('Projects page', () => {
 
 		await expect(page.getByRole('heading', { name: project1 })).toBeVisible();
 		await expect(page.getByRole('listitem').filter({ hasText: project1 }).getByRole('img')).toBeVisible();
+		await expect(page.getByRole('listitem').filter({ hasText: project1 }).getByRole('link', { name: 'Öffnen' })).toBeVisible();
 
 		await expect(page.getByRole('heading', { name: project3 })).toBeVisible();
 		await expect(page.getByRole('listitem').filter({ hasText: project3 }).getByRole('img')).toBeVisible();
+		await expect(page.getByRole('listitem').filter({ hasText: project3 }).getByRole('link', { name: 'Öffnen' })).toBeVisible();
 	});
 
 	// No accessibility check needed – same projects page as first test
@@ -36,6 +38,7 @@ test.describe('Projects page', () => {
 
 		await expect(page.getByRole('heading', { name: project2 })).toBeVisible();
 		await expect(page.getByRole('listitem').filter({ hasText: project2 }).getByText('Bild nicht verfügbar')).toBeVisible();
+		await expect(page.getByRole('listitem').filter({ hasText: project2 }).getByRole('link', { name: 'Öffnen' })).toBeVisible();
 	});
 });
 

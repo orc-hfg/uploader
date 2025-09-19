@@ -3,6 +3,9 @@
 		"title": "Uploader"
 	},
 	"components": {
+		"project": {
+			"open": "Open"
+		},
 		"responsive_image": {
 			"not_available": "Image not available"
 		}
