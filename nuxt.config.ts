@@ -198,9 +198,6 @@ export default defineNuxtConfig({
 			// Enable authentication mock for development and testing (session-based authentication)
 			enableAuthenticationMock: false,
 
-			// Enable authentication info endpoint mock for E2E testing with session-based authentication (used in preview mode)
-			enableAuthenticationInfoEndpointMock: false,
-
 			/*
 			 * Server URL for authentication endpoints
 			 *
