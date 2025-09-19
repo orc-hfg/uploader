@@ -38,6 +38,7 @@
 		"test:e2e:headed:slowmo": "SLOWMO=2000 playwright test --headed --workers=1",
 		"test:e2e:codegen": "playwright codegen localhost:3000",
 		"test:e2e:preview": "ENABLE_PLAYWRIGHT_PREVIEW_SERVER=true ENABLE_PLAYWRIGHT_LOGGING=true playwright test",
+		"test:e2e:preview:debug": "npm run test:e2e:preview -- --debug",
 		"check:eslint": "npx @eslint/config-inspector@latest",
 		"check:types": "nuxt prepare && vue-tsc -b --noEmit",
 		"check:unused": "knip",
@@ -55,7 +56,7 @@
 	"dependencies": {
 		"@nuxtjs/google-fonts": "3.2.0",
 		"@nuxtjs/i18n": "10.0.6",
-		"@orc-hfg/madek-api-nuxt-layer": "1.7.1",
+		"@orc-hfg/madek-api-nuxt-layer": "v1.8.1-dev.1",
 		"@primeuix/themes": "1.2.3",
 		"@sentry/nuxt": "10.8.0",
 		"@vueuse/nuxt": "13.9.0",
