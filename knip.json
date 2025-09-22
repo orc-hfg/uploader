@@ -18,23 +18,14 @@
 		"shared/**",
 		"tests/**"
 	],
-	"ignore": [
-		".github/**"
-	],
 	"ignoreDependencies": [
 		"@nuxt/devtools",
-		"@nuxt/eslint",
-		"@nuxtjs/google-fonts",
-		"@nuxtjs/i18n",
 		"@orc-hfg/madek-api-nuxt-layer",
 		"@primevue/forms",
-		"@primevue/nuxt-module",
 		"@vueuse/core",
-		"@vueuse/nuxt",
 		"ofetch",
 		"primeicons",
 		"tailwindcss-primeui",
-		"vue",
 		"vue-router",
 		"zod"
 	],
