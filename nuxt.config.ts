@@ -2,7 +2,7 @@ import process from 'node:process';
 import tailwindcss from '@tailwindcss/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 
-const isCI = process.env.CI === 'true';
+const isCIEnvironment = process.env.CI === 'true';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 	css: ['@/assets/css/main.css'],
 	vite: {
 		// See: https://github.com/ChromeDevTools/vite-plugin-devtools-json
-		plugins: [tailwindcss(), devtoolsJson()],
+		plugins: [tailwindcss(), ...(process.env.NODE_ENV === 'development' ? [devtoolsJson()] : [])],
 	},
 	modules: [
 		'@nuxt/eslint',
@@ -153,8 +153,8 @@ export default defineNuxtConfig({
 		 * Disable source maps in CI to prevent buffer overflow issues during E2E tests
 		 * Keep them enabled locally for debugging and in production for Sentry
 		 */
-		client: isCI ? false : 'hidden',
-		server: !isCI,
+		client: isCIEnvironment ? false : 'hidden',
+		server: !isCIEnvironment,
 	},
 	app: {
 		/*
