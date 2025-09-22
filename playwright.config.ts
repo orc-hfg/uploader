@@ -2,16 +2,17 @@ import process from 'node:process';
 import { defineConfig, devices } from '@playwright/test';
 import { AUTHENTICATION_SESSION_FILE } from './shared/constants/test';
 
-const isCI = process.env.CI === 'true';
+const isCIEnvironment = process.env.CI === 'true';
 const isPlaywrightLoggingEnabled = process.env.ENABLE_PLAYWRIGHT_LOGGING === 'true';
 const isPlaywrightPreviewServerEnabled = process.env.ENABLE_PLAYWRIGHT_PREVIEW_SERVER === 'true';
+const slowMoValue = process.env.SLOWMO !== undefined && process.env.SLOWMO !== '' ? Number(process.env.SLOWMO) : undefined;
 
 // Maximum number of retries for CI environment to handle network instabilities
 const CI_MAX_RETRIES = 3;
 const LOCAL_MAX_RETRIES = 0;
 
 // Generally increase number of retries to handle sporadic EPIPE errors
-const MAX_RETRIES = isCI ? CI_MAX_RETRIES : LOCAL_MAX_RETRIES;
+const MAX_RETRIES = isCIEnvironment ? CI_MAX_RETRIES : LOCAL_MAX_RETRIES;
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
@@ -21,11 +22,11 @@ export default defineConfig({
 	fullyParallel: true,
 
 	// Fail the build on CI if you accidentally left test.only in the source code.
-	forbidOnly: isCI,
+	forbidOnly: isCIEnvironment,
 
 	retries: MAX_RETRIES,
 
-	workers: isCI ? 1 : undefined,
+	workers: isCIEnvironment ? 1 : undefined,
 
 	expect: {
 		timeout: 10_000,
@@ -51,7 +52,7 @@ export default defineConfig({
 		// Collect trace when retrying the failed test.
 		trace: 'on-first-retry',
 		launchOptions: {
-			slowMo: process.env.SLOWMO !== undefined && process.env.SLOWMO !== '' ? Number(process.env.SLOWMO) : undefined,
+			slowMo: slowMoValue,
 		},
 	},
 
@@ -105,7 +106,7 @@ export default defineConfig({
 		 * - CI uses preview server (production-like build for testing)
 		 * - Local uses dev server (fast development)
 		 */
-		command: isCI || isPlaywrightPreviewServerEnabled ? 'npm run preview' : 'npm run dev:api-mock',
+		command: isCIEnvironment || isPlaywrightPreviewServerEnabled ? 'npm run preview' : 'npm run dev:api-mock',
 
 		/*
 		 * Health endpoint for Playwright webServer readiness check
@@ -118,7 +119,7 @@ export default defineConfig({
 		 * Pipe server output to test logs for debugging CI and local issues
 		 * Allows viewing build process, startup logs, and error details
 		 */
-		...(isCI || isPlaywrightLoggingEnabled ? {
+		...(isCIEnvironment || isPlaywrightLoggingEnabled ? {
 			stdout: 'pipe',
 			stderr: 'pipe',
 		} : {}),

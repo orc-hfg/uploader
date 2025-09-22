@@ -26,9 +26,9 @@ function loadEnvironmentFile() {
 		}
 	}
 	catch (error) {
-		const isCI = process.env.CI === 'true';
+		const isCIEnvironment = process.env.CI === 'true';
 
-		if (isCI) {
+		if (isCIEnvironment) {
 			console.info('No .env file found (expected in CI), using environment variables');
 		}
 		else {
