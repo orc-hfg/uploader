@@ -3,10 +3,7 @@
 	import Project from '@/components/content/Project.vue';
 	import PageMessage from '@/components/elements/PageMessage.vue';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.projects.title';
-
 	definePageMeta({
-		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
 		pageTransition: {
 			name: 'middleware-controlled',
 		},
@@ -33,7 +30,7 @@
 	 * Load user sets data on initial load and on locale-based navigation
 	 * Navigation mode ensures data refreshes when switching between different routes
 	 */
-	await callOnce(() => setsStore.refreshData(locale.value), { mode: 'navigation' });
+	await callOnce(() => setsStore.refresh(locale.value), { mode: 'navigation' });
 
 	async function handleSignOut() {
 		try {
@@ -67,7 +64,7 @@
 	};
 
 	onMounted(() => {
-		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
+		headerUIStore.setPageTitleByKeyPath('pages.projects.title');
 
 		footerUIStore.leftActionComponent = footerConfig.left.component;
 		footerUIStore.leftActionProps = footerConfig.left.props;
@@ -82,7 +79,7 @@
 </script>
 
 <template>
-	<div>
+	<div class="px-10">
 		<ul v-if="setsStore.sets.length > 0">
 			<li
 				v-for="setsData in setsStore.setsData" :key="setsData.id" class="
@@ -92,16 +89,9 @@
       last:pb-20
     "
 			>
-				<Project :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
+				<Project :id="setsData.id" :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
 			</li>
 		</ul>
 		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
-		<!--
-			<div class="mt-5">
-			<NuxtLinkLocale to="index">
-			Link: {{ $t('pages.sign_in.title') }}
-			</NuxtLinkLocale>
-			</div>
-		-->
 	</div>
 </template>

@@ -6,10 +6,7 @@
 	import Button from 'primevue/button';
 	import { z } from 'zod';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.sign_in.title';
-
 	definePageMeta({
-		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
 		pageTransition: {
 			name: 'middleware-controlled',
 		},
@@ -41,7 +38,7 @@
 	};
 
 	onMounted(() => {
-		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
+		headerUIStore.setPageTitleByKeyPath('pages.sign_in.title');
 
 		footerUIStore.rightActionComponent = footerConfig.right.component;
 		footerUIStore.rightActionProps = footerConfig.right.props;
@@ -116,34 +113,36 @@
 </script>
 
 <template>
-	<Form id="signInForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
-		<Fluid>
-			<div class="flex flex-col gap-6">
-				<div class="flex flex-col gap-1">
-					<FloatLabel variant="in">
-						<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" @update:model-value="clearSignInError" />
-						<label for="email_or_login_label">{{ t('forms.labels.email_or_login') }}</label>
-					</FloatLabel>
-					<Message size="small" severity="secondary" variant="simple">
-						{{ t('forms.help_texts.hfg_email') }}
-					</Message>
-					<Message v-if="$form.email_or_login?.invalid" severity="error" size="small" variant="simple">
-						{{ $form.email_or_login.error?.message }}
+	<div class="px-10">
+		<Form id="signInForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
+			<Fluid>
+				<div class="flex flex-col gap-6">
+					<div class="flex flex-col gap-1">
+						<FloatLabel variant="in">
+							<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" @update:model-value="clearSignInError" />
+							<label for="email_or_login_label">{{ t('forms.labels.email_or_login') }}</label>
+						</FloatLabel>
+						<Message size="small" severity="secondary" variant="simple">
+							{{ t('forms.help_texts.hfg_email') }}
+						</Message>
+						<Message v-if="$form.email_or_login?.invalid" severity="error" size="small" variant="simple">
+							{{ $form.email_or_login.error?.message }}
+						</Message>
+					</div>
+					<div class="flex flex-col gap-1">
+						<FloatLabel variant="in">
+							<Password input-id="password_label" name="password" variant="filled" :feedback="false" @update:model-value="clearSignInError" />
+							<label for="password_label">{{ t('forms.labels.password') }}</label>
+						</FloatLabel>
+						<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
+							{{ $form.password.error?.message }}
+						</Message>
+					</div>
+					<Message v-if="signInError" severity="error" variant="outlined" data-testid="sign-in-error">
+						{{ signInError }}
 					</Message>
 				</div>
-				<div class="flex flex-col gap-1">
-					<FloatLabel variant="in">
-						<Password input-id="password_label" name="password" variant="filled" :feedback="false" @update:model-value="clearSignInError" />
-						<label for="password_label">{{ t('forms.labels.password') }}</label>
-					</FloatLabel>
-					<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
-						{{ $form.password.error?.message }}
-					</Message>
-				</div>
-				<Message v-if="signInError" severity="error" variant="outlined" data-testid="sign-in-error">
-					{{ signInError }}
-				</Message>
-			</div>
-		</Fluid>
-	</Form>
+			</Fluid>
+		</Form>
+	</div>
 </template>

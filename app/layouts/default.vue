@@ -8,6 +8,7 @@
 
 	const route = useRoute();
 	const { t } = useI18n();
+	const headerUIStore = useHeaderUIStore();
 
 	const metaTitle = computed(() => {
 		const appTitle = t('app.title');
@@ -16,17 +17,11 @@
 			return '';
 		}
 
-		const { pageTitleKeyPath } = route.meta;
-
-		if (!pageTitleKeyPath) {
-			appLogger.warn('[i18n] No pageTitleKeyPath defined for route', route.path);
-
-			return appTitle;
-		}
-
-		const pageTitle = t(pageTitleKeyPath);
+		const pageTitle = headerUIStore.pageTitleDisplay;
 
 		if (!pageTitle?.trim()) {
+			appLogger.warn('[i18n] No pageTitle defined for route', route.path);
+
 			return appTitle;
 		}
 
@@ -130,7 +125,7 @@
 							<Header />
 						</header>
 
-						<main class="grow overflow-y-auto px-10 pt-12" tabindex="0">
+						<main class="grow overflow-y-auto pt-12" tabindex="0">
 							<NuxtPage />
 						</main>
 
@@ -172,13 +167,13 @@
 	.slide-right-leave-active {
 		position: absolute;
 		width: 100%;
-		animation-duration: 0.5s;
-		animation-fill-mode: forwards;
+		animation-duration: 2.5s;
 		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
 	}
 
 	.slide-left-enter-active {
 		animation-name: slideInFromRight;
+		animation-delay: 0.1s;
 	}
 
 	.slide-left-leave-active {
@@ -187,6 +182,7 @@
 
 	.slide-right-enter-active {
 		animation-name: slideInFromLeft;
+		animation-delay: 0.1s;
 	}
 
 	.slide-right-leave-active {

@@ -1,9 +1,11 @@
 <script setup lang="ts">
+	import { NuxtLinkLocale } from '#components';
 	import Button from 'primevue/button';
 	import ResponsiveImage from '@/components/elements/ResponsiveImage.vue';
 	import Text from '@/components/elements/Text.vue';
 
-	const { title, coverImageSources } = defineProps<{
+	const { id, title, coverImageSources } = defineProps<{
+		id: string;
 		title?: string;
 		coverImageSources?: ThumbnailSources;
 	}>();
@@ -18,10 +20,11 @@
 			<ResponsiveImage
 				:image-sources="coverImageSources"
 				:alt="$t('pages.projects.image_alt')"
+				class="w-[520px]"
 			/>
 			<Button
-				as="a"
-				href="https://vuejs.org/"
+				:as="NuxtLinkLocale"
+				:to="{ name: 'project-id', params: { id } }"
 				icon="pi pi-arrow-right"
 				:label="$t('components.project.open')"
 				severity="contrast"

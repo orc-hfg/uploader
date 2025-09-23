@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 		return;
 	}
 
-	const PAGE_ORDER = ['index', 'projects'];
+	const PAGE_ORDER = ['index', 'projects', 'project-id'];
 
 	const { $routeBaseName } = useNuxtApp();
 	const toBaseName = $routeBaseName(to);

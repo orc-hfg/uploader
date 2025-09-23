@@ -1,25 +1,38 @@
 import type { PageTitleKeyPath } from '@/types/i18n-keys';
 
 export const useHeaderUIStore = defineStore('header-ui', () => {
+	const pageTitle = shallowRef<string>();
 	const pageTitleKeyPath = shallowRef<PageTitleKeyPath>();
 
 	const { t } = useI18n();
-	const pageTitleTranslation = computed(() => {
-		if (!pageTitleKeyPath.value) {
-			return '';
+	const pageTitleDisplay = computed(() => {
+		if (pageTitle.value !== undefined) {
+			return pageTitle.value;
 		}
 
-		return t(pageTitleKeyPath.value);
+		if (pageTitleKeyPath.value !== undefined) {
+			return t(pageTitleKeyPath.value);
+		}
+
+		return '';
 	});
 
-	function setPageTitleKeyPath(newPageTitleKeyPath: PageTitleKeyPath): void {
-		pageTitleKeyPath.value = newPageTitleKeyPath;
+	function setPageTitle(title: string): void {
+		pageTitle.value = title;
+		pageTitleKeyPath.value = undefined;
+	}
+
+	function setPageTitleByKeyPath(keyPath: PageTitleKeyPath): void {
+		pageTitleKeyPath.value = keyPath;
+		pageTitle.value = undefined;
 	}
 
 	return {
+		pageTitle,
 		pageTitleKeyPath,
-		pageTitleTranslation,
-		setPageTitleKeyPath,
+		pageTitleDisplay,
+		setPageTitle,
+		setPageTitleByKeyPath,
 	};
 });
 

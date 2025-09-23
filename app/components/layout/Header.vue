@@ -15,7 +15,7 @@
 	 */
 
 	const headerUIStore = useHeaderUIStore();
-	const { pageTitleTranslation } = storeToRefs(headerUIStore);
+	const { pageTitleDisplay } = storeToRefs(headerUIStore);
 </script>
 
 <template>
@@ -28,9 +28,9 @@
 			</ClientOnly>
 		</div>
 
-		<Text as="h1" variant="headline-small" class="text-center">
+		<Text as="h1" variant="headline-small" class="truncate px-4 text-center">
 			<Fade>
-				<span :key="pageTitleTranslation">{{ pageTitleTranslation }}</span>
+				<span :key="pageTitleDisplay">{{ pageTitleDisplay }}</span>
 			</Fade>
 		</Text>
 
