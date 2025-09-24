@@ -1,8 +1,6 @@
 <script setup lang="ts">
 	import Fade from '@/components/transitions/Fade.vue';
 
-	const fadeDuration = 1;
-
 	const footerUIStore = useFooterUIStore();
 	const { leftActionComponent, leftActionProps, rightActionComponent, rightActionProps } = storeToRefs(footerUIStore);
 
@@ -25,7 +23,7 @@
 
 <template>
 	<div class="flex h-full items-center justify-between">
-		<Fade :duration="fadeDuration">
+		<Fade>
 			<div :key="leftKey">
 				<component
 					:is="leftActionComponent"
@@ -35,7 +33,7 @@
 				/>
 			</div>
 		</Fade>
-		<Fade :duration="fadeDuration">
+		<Fade>
 			<div :key="rightKey">
 				<component
 					:is="rightActionComponent"

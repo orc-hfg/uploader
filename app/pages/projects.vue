@@ -2,6 +2,7 @@
 	import Button from 'primevue/button';
 	import Project from '@/components/content/Project.vue';
 	import PageMessage from '@/components/elements/PageMessage.vue';
+	import Content from '@/components/layout/Content.vue';
 
 	definePageMeta({
 		pageTransition: {
@@ -79,7 +80,7 @@
 </script>
 
 <template>
-	<div class="px-10">
+	<Content>
 		<ul v-if="setsStore.sets.length > 0">
 			<li
 				v-for="setsData in setsStore.setsData" :key="setsData.id" class="
@@ -93,5 +94,5 @@
 			</li>
 		</ul>
 		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
-	</div>
+	</Content>
 </template>

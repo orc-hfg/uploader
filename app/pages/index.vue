@@ -5,6 +5,7 @@
 	import { StatusCodes } from 'http-status-codes';
 	import Button from 'primevue/button';
 	import { z } from 'zod';
+	import Content from '@/components/layout/Content.vue';
 
 	definePageMeta({
 		pageTransition: {
@@ -113,7 +114,7 @@
 </script>
 
 <template>
-	<div class="px-10">
+	<Content>
 		<Form id="signInForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
 			<Fluid>
 				<div class="flex flex-col gap-6">
@@ -144,5 +145,5 @@
 				</div>
 			</Fluid>
 		</Form>
-	</div>
+	</Content>
 </template>

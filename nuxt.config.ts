@@ -195,6 +195,9 @@ export default defineNuxtConfig({
 		public: {
 			enableLogging: false,
 
+			// Force fade transition for all page changes (fallback for slide animation issues)
+			enableFadeTransitionFallback: false,
+
 			// Enable authentication mock for development and testing (session-based authentication)
 			enableAuthenticationMock: false,
 

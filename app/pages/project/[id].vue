@@ -1,4 +1,6 @@
 <script setup lang="ts">
+	import Content from '@/components/layout/Content.vue';
+
 	definePageMeta({
 		pageTransition: {
 			name: 'middleware-controlled',
@@ -28,7 +30,7 @@
 </script>
 
 <template>
-	<div class="px-10">
+	<Content>
 		{{ projectId }}
 		<div class="mt-5">
 			<NuxtLinkLocale to="index">
@@ -40,5 +42,5 @@
 				Link: {{ $t('pages.projects.title') }}
 			</NuxtLinkLocale>
 		</div>
-	</div>
+	</Content>
 </template>
