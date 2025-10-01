@@ -5,7 +5,6 @@
 	import { StatusCodes } from 'http-status-codes';
 	import Button from 'primevue/button';
 	import { z } from 'zod';
-	import Content from '@/components/layout/Content.vue';
 
 	definePageMeta({
 		pageTransition: {
@@ -114,36 +113,55 @@
 </script>
 
 <template>
-	<Content>
-		<Form id="signInForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
-			<Fluid>
-				<div class="flex flex-col gap-6">
-					<div class="flex flex-col gap-1">
-						<FloatLabel variant="in">
-							<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" @update:model-value="clearSignInError" />
-							<label for="email_or_login_label">{{ t('forms.labels.email_or_login') }}</label>
-						</FloatLabel>
-						<Message size="small" severity="secondary" variant="simple">
-							{{ t('forms.help_texts.hfg_email') }}
-						</Message>
-						<Message v-if="$form.email_or_login?.invalid" severity="error" size="small" variant="simple">
-							{{ $form.email_or_login.error?.message }}
-						</Message>
-					</div>
-					<div class="flex flex-col gap-1">
-						<FloatLabel variant="in">
-							<Password input-id="password_label" name="password" variant="filled" :feedback="false" @update:model-value="clearSignInError" />
-							<label for="password_label">{{ t('forms.labels.password') }}</label>
-						</FloatLabel>
-						<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
-							{{ $form.password.error?.message }}
-						</Message>
-					</div>
-					<Message v-if="signInError" severity="error" variant="outlined" data-testid="sign-in-error">
-						{{ signInError }}
+	<Form id="signInForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
+		<!--
+			Disable wcag/h32 rule due to architectural design decision.
+			This application uses a separated footer pattern where action buttons (including submit buttons)
+			are rendered in the footer component, not within form elements.
+			The submit button is correctly connected via the form="signInForm" attribute and is fully functional.
+		-->
+		<!-- [html-validate-disable wcag/h32] -->
+
+		<!--
+			Disable element-permitted-content due to PrimeVue FloatLabel implementation.
+			FloatLabel renders a <span> but Password component renders a <div>,
+			which violates HTML nesting rules. This follows official PrimeVue documentation.
+			See: https://primevue.org/inputtext/#floatlabel
+		-->
+		<!-- [html-validate-disable element-permitted-content] -->
+
+		<!--
+			Disable no-missing-references due to PrimeVue Password component bug.
+			When feedback={false}, the overlay is not rendered but aria-controls attribute remains.
+		-->
+		<!-- [html-validate-disable no-missing-references] -->
+		<Fluid>
+			<div class="flex flex-col gap-6">
+				<div class="flex flex-col gap-1">
+					<FloatLabel variant="in">
+						<InputText id="email_or_login_label" ref="emailOrLoginInput" name="email_or_login" variant="filled" @update:model-value="clearSignInError" />
+						<label for="email_or_login_label">{{ t('forms.labels.email_or_login') }}</label>
+					</FloatLabel>
+					<Message size="small" severity="secondary" variant="simple">
+						{{ t('forms.help_texts.hfg_email') }}
+					</Message>
+					<Message v-if="$form.email_or_login?.invalid" severity="error" size="small" variant="simple">
+						{{ $form.email_or_login.error?.message }}
 					</Message>
 				</div>
-			</Fluid>
-		</Form>
-	</Content>
+				<div class="flex flex-col gap-1">
+					<FloatLabel variant="in">
+						<Password input-id="password_label" name="password" variant="filled" :feedback="false" @update:model-value="clearSignInError" />
+						<label for="password_label">{{ t('forms.labels.password') }}</label>
+					</FloatLabel>
+					<Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
+						{{ $form.password.error?.message }}
+					</Message>
+				</div>
+				<Message v-if="signInError" severity="error" variant="outlined" data-testid="sign-in-error">
+					{{ signInError }}
+				</Message>
+			</div>
+		</Fluid>
+	</Form>
 </template>

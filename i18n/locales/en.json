@@ -1,5 +1,8 @@
 {
 	"app": {
+		"messages": {
+			"loading": "Loading..."
+		},
 		"title": "Uploader"
 	},
 	"components": {
@@ -33,10 +36,28 @@
 			"password": "Password"
 		}
 	},
+	"header": {
+		"previous_page": "Previous page"
+	},
 	"meta": {
 		"description": "HfG Karlsruhe Uploader: a simple app that lets students quickly submit and share their projects."
 	},
 	"pages": {
+		"error": {
+			"actions": {
+				"back_to_projects": "Back to projects"
+			},
+			"messages": {
+				"error_message": "Please try again or return to the project overview.",
+				"error_title": "An error occurred."
+			},
+			"title": "Error"
+		},
+		"project_id": {
+			"actions": {
+				"show_all_data": "Show all data"
+			}
+		},
 		"projects": {
 			"image_alt": "Project image",
 			"messages": {

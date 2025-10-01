@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 	import type { MaybeElement } from '@vueuse/core';
 	import Logo from '@/components/brand/Logo.vue';
+	import Content from '@/components/layout/Content.vue';
 	import Footer from '@/components/layout/Footer.vue';
 	import Header from '@/components/layout/Header.vue';
 
@@ -102,7 +103,11 @@
 	<div>
 		<Html>
 			<Head>
-				<Title>{{ metaTitle }}</Title>
+				<slot name="metaTitle">
+					<Title>
+						{{ metaTitle }}
+					</Title>
+				</slot>
 				<Meta name="description" :content="t('meta.description')" />
 			</Head>
 			<Body>
@@ -117,11 +122,17 @@
       "
 					>
 						<header class="min-h-[75px]">
-							<Header />
+							<Header>
+								<slot name="pageTitle" />
+							</Header>
 						</header>
 
 						<main class="grow overflow-y-auto pt-12" tabindex="0">
-							<NuxtPage />
+							<Content>
+								<slot name="main">
+									<NuxtPage />
+								</slot>
+							</Content>
 						</main>
 
 						<footer
@@ -130,7 +141,9 @@
          sm:w-[600px]
        "
 						>
-							<Footer />
+							<Footer>
+								<slot name="footer" />
+							</Footer>
 						</footer>
 					</div>
 				</div>

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-	import Content from '@/components/layout/Content.vue';
-
 	definePageMeta({
 		pageTransition: {
 			name: 'middleware-controlled',
@@ -15,32 +13,53 @@
 		},
 	});
 
-	const projectId = useRouteParameter('id');
-
-	const headerUIStore = useHeaderUIStore();
-	const setsStore = useSetsStore();
-
 	const { locale } = useI18n();
 
-	await callOnce(() => setsStore.refresh(locale.value), { mode: 'navigation' });
+	const headerUIStore = useHeaderUIStore();
+	const footerUIStore = useFooterUIStore();
+	const setStore = useSetStore();
+
+	const projectId = useRouteParameter('id');
+
+	await callOnce(() => setStore.refresh(projectId.value!, locale.value), { mode: 'navigation' });
 
 	onMounted(() => {
-		headerUIStore.setPageTitle(setsStore.getSetTitleById(projectId.value) ?? '');
+		const projectTitle = setStore.setData?.title.value;
+
+		headerUIStore.setPageTitle(projectTitle!);
+	});
+
+	onBeforeUnmount(() => {
+		footerUIStore.reset();
 	});
 </script>
 
 <template>
-	<Content>
-		{{ projectId }}
+	<div>
+		<p>
+			{{ setStore.setData?.title.label }}: {{ setStore.setData?.title.value }}
+		</p>
+
+		<p>
+			{{ setStore.setData?.subtitle.label }}: {{ setStore.setData?.subtitle.value }}
+		</p>
+
+		<p>
+			{{ setStore.setData?.description.label }}: {{ setStore.setData?.description.value }}
+		</p>
+
+		<Button :label="$t('pages.project_id.actions.show_all_data')" severity="secondary" variant="outlined" rounded icon="pi pi-angle-down" />
+
 		<div class="mt-5">
 			<NuxtLinkLocale to="index">
 				Link: {{ $t('pages.sign_in.title') }}
 			</NuxtLinkLocale>
 		</div>
+
 		<div class="mt-5">
 			<NuxtLinkLocale to="projects">
 				Link: {{ $t('pages.projects.title') }}
 			</NuxtLinkLocale>
 		</div>
-	</Content>
+	</div>
 </template>

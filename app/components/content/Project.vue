@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import { NuxtLinkLocale } from '#components';
 	import Button from 'primevue/button';
 	import ResponsiveImage from '@/components/elements/ResponsiveImage.vue';
 	import Text from '@/components/elements/Text.vue';
@@ -8,10 +9,6 @@
 		title?: string;
 		coverImageSources?: ThumbnailSources;
 	}>();
-
-	// When imported via #components, knip would mark it as an unresolved import
-	// See: https://nuxt.com/docs/4.x/guide/directory-structure/app/components#dynamic-components
-	const NuxtLinkLocaleComponent = resolveComponent('NuxtLinkLocale');
 </script>
 
 <template>
@@ -26,7 +23,7 @@
 				class="w-[520px]"
 			/>
 			<Button
-				:as="NuxtLinkLocaleComponent"
+				:as="NuxtLinkLocale"
 				:to="{ name: 'project-id', params: { id } }"
 				icon="pi pi-arrow-right"
 				:label="$t('components.project.open')"

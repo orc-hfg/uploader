@@ -48,6 +48,8 @@ export default defineNitroPlugin((nitroApp) => {
 		return;
 	}
 
+	const serverStartupLogger = createServerStartupLogger('Plugin: Authentication Mock');
+
 	const { basePath, signInPathName, signOutPathName, systemPathName, defaultSystemName, emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
 
 	// Build authentication route paths
@@ -56,10 +58,21 @@ export default defineNitroPlugin((nitroApp) => {
 	const signOutPath = `/${basePath}${signOutPathName}`;
 
 	nitroApp.router.get(authenticationSystemPath, defineEventHandler((event) => {
-		setCookie(event, csrfCookieName, generateCsrfToken(), {
-			path: '/',
-			httpOnly: false,
-		});
+		const existingToken = getCookie(event, csrfCookieName);
+
+		// Only generate new token if none exists
+		if (existingToken === undefined) {
+			const newToken = generateCsrfToken();
+			serverStartupLogger.info('Session initialization - Generating new token:', newToken);
+
+			setCookie(event, csrfCookieName, newToken, {
+				path: '/',
+				httpOnly: false,
+			});
+		}
+		else {
+			serverStartupLogger.info('Session initialization - Reusing existing token:', existingToken);
+		}
 	}));
 
 	nitroApp.router.post(signInPath, defineEventHandler(async (event) => {
@@ -71,6 +84,8 @@ export default defineNitroPlugin((nitroApp) => {
 		const csrfHeader = (getHeader(event, csrfHeaderName) ?? '').toLocaleLowerCase();
 
 		if (csrfToken !== csrfHeader) {
+			serverStartupLogger.info('Invalid CSRF token provided.', { csrfToken, csrfHeader });
+
 			throw createError({
 				statusCode: StatusCodes.FORBIDDEN,
 				statusMessage: 'The CSRF token does not match.',
@@ -78,6 +93,8 @@ export default defineNitroPlugin((nitroApp) => {
 		}
 
 		if (loginValue !== AUTHENTICATION_MOCK_VALID_USER.login || body.password !== AUTHENTICATION_MOCK_VALID_USER_PASSWORD) {
+			serverStartupLogger.info('Invalid credentials provided.', { login: loginValue, password: body.password });
+
 			throw createError({
 				statusCode: StatusCodes.UNAUTHORIZED,
 				statusMessage: 'The provided credentials are invalid.',

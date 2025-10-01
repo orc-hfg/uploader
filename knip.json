@@ -2,6 +2,7 @@
 	"$schema": "https://unpkg.com/knip@5/schema.json",
 	"entry": [
 		"app/app.vue",
+		"app/error.vue",
 		"app/composables/*.ts",
 		"app/layouts/*.vue",
 		"app/middleware/*.ts",
@@ -20,6 +21,7 @@
 	],
 	"ignoreDependencies": [
 		"@nuxt/devtools",
+		"@nuxtjs/html-validator",
 		"@orc-hfg/madek-api-nuxt-layer",
 		"@primevue/forms",
 		"@vueuse/core",
@@ -28,6 +30,10 @@
 		"tailwindcss-primeui",
 		"vue-router",
 		"zod"
+	],
+	"ignoreUnresolved": [
+		"#app",
+		"#components"
 	],
 	"paths": {
 		"@/*": [

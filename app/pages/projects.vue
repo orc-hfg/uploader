@@ -2,7 +2,6 @@
 	import Button from 'primevue/button';
 	import Project from '@/components/content/Project.vue';
 	import PageMessage from '@/components/elements/PageMessage.vue';
-	import Content from '@/components/layout/Content.vue';
 
 	definePageMeta({
 		pageTransition: {
@@ -80,19 +79,17 @@
 </script>
 
 <template>
-	<Content>
-		<ul v-if="setsStore.sets.length > 0">
-			<li
-				v-for="setsData in setsStore.setsData" :key="setsData.id" class="
-      border-slate-300 pb-10
-      not-first:mt-10
-      not-last:border-b-1
-      last:pb-20
-    "
-			>
-				<Project :id="setsData.id" :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
-			</li>
-		</ul>
-		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
-	</Content>
+	<ul v-if="setsStore.sets.length > 0">
+		<li
+			v-for="setsData in setsStore.setsData" :key="setsData.id" class="
+     border-slate-300 pb-10
+     not-first:mt-10
+     not-last:border-b-1
+     last:pb-20
+   "
+		>
+			<Project :id="setsData.id" :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
+		</li>
+	</ul>
+	<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
 </template>

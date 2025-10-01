@@ -14,7 +14,7 @@ export const useHeaderUIStore = defineStore('header-ui', () => {
 			return t(pageTitleKeyPath.value);
 		}
 
-		return '';
+		return t('app.messages.loading');
 	});
 
 	function setPageTitle(title: string): void {
