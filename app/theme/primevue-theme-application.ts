@@ -235,6 +235,7 @@ const preset = definePreset(Aura, {
 			colorScheme: {
 				light: {
 					root: {
+						background: '{surface.0}',
 						color: '{surface.900}',
 					},
 					icon: {

@@ -14,27 +14,23 @@
 	const { $routeBaseName } = useNuxtApp();
 
 	const previousRouteBaseName = computed(() => {
-		/* eslint-disable consistent-return */
 		const currentRouteBaseName = $routeBaseName(route);
 
 		if (currentRouteBaseName === undefined || typeof currentRouteBaseName !== 'string') {
-			return;
+			// Explicit undefined required to satisfy consistent-return rule while using early returns
+			// eslint-disable-next-line unicorn/no-useless-undefined
+			return undefined;
 		}
 
 		const currentRouteBaseNameIndex = ROUTE_BASE_NAME_ORDER.indexOf(currentRouteBaseName as RouteBaseName);
 
 		if (currentRouteBaseNameIndex <= 0) {
-			return;
+			// Explicit undefined required to satisfy consistent-return rule while using early returns
+			// eslint-disable-next-line unicorn/no-useless-undefined
+			return undefined;
 		}
 
-		const targetRouteBaseName = ROUTE_BASE_NAME_ORDER[currentRouteBaseNameIndex - 1];
-
-		if (!targetRouteBaseName) {
-			return;
-		}
-
-		return targetRouteBaseName;
-		/* eslint-enable consistent-return */
+		return ROUTE_BASE_NAME_ORDER[currentRouteBaseNameIndex - 1];
 	});
 </script>
 

@@ -2,17 +2,36 @@
 @import "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
 
-html {
-	font-family: "Instrument Sans", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 400;
-	font-style: normal;
-	font-variation-settings: "wdth" 100;
-}
+/*
+* CSS Snippets from Jeremy Keith, Chris Coyier and Andy Bell:
+* https://adactio.com/journal/21896
+* https://piccalil.li/links/the-coyier-css-starter/
+* https://andy bell.co.uk/notes/css-starter/
+*/
 
 /* See `app/theme/primevue-theme-application.ts` for PrimeVue layers */
-/* CSS Snippets from Jeremy Keith: https://adactio.com/journal/21896 */
 @layer core {
+	html {
+		font-family: "Instrument Sans", sans-serif;
+		font-optical-sizing: auto;
+		font-weight: 400;
+		font-style: normal;
+		font-variation-settings: "wdth" 100;
+		hanging-punctuation: first allow-end last;
+		word-break: break-word;
+
+		/* See: https://www.zachleat.com/web/stable-scrollbar-gutters */
+		overflow-y: scroll;
+		@supports (scrollbar-gutter: stable) {
+			overflow-y: auto;
+			scrollbar-gutter: stable;
+		}
+
+		&:focus-within {
+			scroll-behavior: smooth;
+		}
+	}
+
 	figcaption {
 		max-inline-size: max-content;
 		margin-inline: auto;
@@ -35,6 +54,9 @@ html {
 		hanging-punctuation: first last;
 		text-wrap: pretty;
 	}
+	pre {
+		white-space: pre-wrap;
+	}
 }
 
 /* Default theme overrides */
@@ -49,5 +71,5 @@ html {
 	--ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
 	/* Animation durations */
-	--duration-fast: 0.25s;
+	--duration-fast: 0.3s;
 }

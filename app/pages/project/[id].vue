@@ -1,4 +1,8 @@
 <script setup lang="ts">
+	import ExpandableContent from '@/components/content/ExpandableContent.vue';
+	import LabeledChipList from '@/components/elements/LabeledChipList.vue';
+	import LabeledInputText from '@/components/elements/LabeledInputText.vue';
+
 	definePageMeta({
 		pageTransition: {
 			name: 'middleware-controlled',
@@ -20,8 +24,18 @@
 	const setStore = useSetStore();
 
 	const projectId = useRouteParameter('id');
+	const isContentExpanded = shallowRef<boolean>(false);
+	const showExpandContentButton = shallowRef<boolean>(false);
 
 	await callOnce(() => setStore.refresh(projectId.value!, locale.value), { mode: 'navigation' });
+
+	function toggleContentExpansion(): void {
+		isContentExpanded.value = !isContentExpanded.value;
+	}
+
+	function handleContentNeedsExpansionStateChange(contentNeedsExpansion: boolean): void {
+		showExpandContentButton.value = contentNeedsExpansion;
+	}
 
 	onMounted(() => {
 		const projectTitle = setStore.setData?.title.value;
@@ -36,30 +50,104 @@
 
 <template>
 	<div>
-		<p>
-			{{ setStore.setData?.title.label }}: {{ setStore.setData?.title.value }}
-		</p>
-
-		<p>
-			{{ setStore.setData?.subtitle.label }}: {{ setStore.setData?.subtitle.value }}
-		</p>
-
-		<p>
-			{{ setStore.setData?.description.label }}: {{ setStore.setData?.description.value }}
-		</p>
-
-		<Button :label="$t('pages.project_id.actions.show_all_data')" severity="secondary" variant="outlined" rounded icon="pi pi-angle-down" />
-
-		<div class="mt-5">
-			<NuxtLinkLocale to="index">
-				Link: {{ $t('pages.sign_in.title') }}
-			</NuxtLinkLocale>
+		<div
+			v-if="showExpandContentButton" class="flex justify-end"
+		>
+			<Button
+				:label="$t('pages.project_id.actions.show_all_data')"
+				variant="outlined"
+				severity="secondary"
+				:aria-expanded="isContentExpanded"
+				aria-controls="expandable-content"
+				rounded
+				@click="toggleContentExpansion"
+			>
+				<template #icon>
+					<i
+						class="
+        pi pi-angle-down transition-transform duration-(--duration-fast)
+        ease-(--ease-smooth)
+        motion-reduce:transition-none
+      "
+						:class="{ 'rotate-180': isContentExpanded }"
+					/>
+				</template>
+			</Button>
 		</div>
 
-		<div class="mt-5">
-			<NuxtLinkLocale to="projects">
-				Link: {{ $t('pages.projects.title') }}
-			</NuxtLinkLocale>
-		</div>
+		<ExpandableContent
+			id="expandable-content"
+			class="mt-5"
+			:is-expanded="isContentExpanded"
+			@content-needs-expansion-state-change="handleContentNeedsExpansionStateChange"
+		>
+			<div
+				class="content-block"
+			>
+				<LabeledChipList
+					:label="setStore.setData?.authors.label"
+					:items="setStore.setData?.authors.value?.map(author => `${author.first_name} ${author.last_name}`)"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.title.label"
+					:value="setStore.setData?.title.value"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.subtitle.label"
+					:value="setStore.setData?.subtitle.value"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.description.label"
+					:value="setStore.setData?.description.value"
+				/>
+			</div>
+			<div
+				class="content-block mt-12"
+			>
+				<LabeledInputText
+					:label="setStore.setData?.titleAlternativeLocale.label"
+					:value="setStore.setData?.titleAlternativeLocale.value"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.subtitleAlternativeLocale.label"
+					:value="setStore.setData?.subtitleAlternativeLocale.value"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.descriptionAlternativeLocale.label"
+					:value="setStore.setData?.descriptionAlternativeLocale.value"
+				/>
+			</div>
+			<div
+				class="content-block mt-12"
+			>
+				<LabeledInputText
+					:label="setStore.setData?.portrayedObjectDate.label"
+					:value="setStore.setData?.portrayedObjectDate.value"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.dimension.label"
+					:value="setStore.setData?.dimension.value"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.duration.label"
+					:value="setStore.setData?.duration.value"
+				/>
+				<LabeledInputText
+					:label="setStore.setData?.format.label"
+					:value="setStore.setData?.format.value"
+				/>
+			</div>
+		</ExpandableContent>
 	</div>
 </template>
+
+<style lang="css" scoped>
+	/* See:
+		- https://tailwindcss.com/docs/functions-and-directives#reference-directive
+		- https://github.com/tailwindlabs/tailwindcss/issues/15717 */
+	@reference "@/assets/css/main.css";
+
+	.content-block {
+		@apply flex flex-col divide-y divide-surface-300 [&>*]:py-3 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0;
+	}
+</style>

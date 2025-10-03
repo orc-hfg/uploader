@@ -50,8 +50,6 @@ export function useAuthentication(): UseAuthenticationReturn {
 
 	const csrfToken = useCookie(csrfCookieName);
 
-	const appLogger = createAppLogger('Composable: Authentication');
-
 	function buildServerUrl(path: string): URL {
 		return new URL(path, config.public.serverUrl);
 	}
@@ -106,14 +104,10 @@ export function useAuthentication(): UseAuthenticationReturn {
 	}
 
 	async function prepareSignIn(emailOrLogin: string): Promise<void> {
-		appLogger.debug('Current CSRF token before request:', csrfToken.value);
-
 		const authenticationSystemEndpoint = buildAuthenticationSystemUrl(emailOrLogin);
 
 		try {
 			await $fetch(authenticationSystemEndpoint);
-
-			appLogger.debug('New CSRF token after request:', csrfToken.value);
 		}
 		catch (error: unknown) {
 			handleAuthenticationError(error, 'Session initialization');
@@ -123,8 +117,6 @@ export function useAuthentication(): UseAuthenticationReturn {
 	async function signIn(emailOrLogin: string, password: string): Promise<void> {
 		await prepareSignIn(emailOrLogin);
 
-		appLogger.debug('CSRF token before validation:', csrfToken.value);
-
 		if (!hasNonEmptyCsrfToken()) {
 			throw createError({
 				statusCode: StatusCodes.FORBIDDEN,
@@ -133,9 +125,6 @@ export function useAuthentication(): UseAuthenticationReturn {
 		}
 
 		const signInEndpoint = buildSignInUrl(emailOrLogin);
-
-		const tokenToSend = csrfToken.value;
-		appLogger.debug('Sending sign-in request with CSRF token:', tokenToSend);
 
 		try {
 			await $fetch(signInEndpoint, {
