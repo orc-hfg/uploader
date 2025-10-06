@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import ExpandableContent from '@/components/content/ExpandableContent.vue';
+	import DescriptionList from '@/components/elements/DescriptionList.vue';
 	import LabeledChipList from '@/components/elements/LabeledChipList.vue';
 	import LabeledInputText from '@/components/elements/LabeledInputText.vue';
 
@@ -81,9 +82,7 @@
 			:is-expanded="isContentExpanded"
 			@content-needs-expansion-state-change="handleContentNeedsExpansionStateChange"
 		>
-			<div
-				class="content-block"
-			>
+			<DescriptionList class="content-block">
 				<LabeledChipList
 					:label="setStore.setData?.authors.label"
 					:items="setStore.setData?.authors.value?.map(author => `${author.first_name} ${author.last_name}`)"
@@ -100,10 +99,8 @@
 					:label="setStore.setData?.description.label"
 					:value="setStore.setData?.description.value"
 				/>
-			</div>
-			<div
-				class="content-block mt-12"
-			>
+			</DescriptionList>
+			<DescriptionList class="content-block mt-12">
 				<LabeledInputText
 					:label="setStore.setData?.titleAlternativeLocale.label"
 					:value="setStore.setData?.titleAlternativeLocale.value"
@@ -116,10 +113,8 @@
 					:label="setStore.setData?.descriptionAlternativeLocale.label"
 					:value="setStore.setData?.descriptionAlternativeLocale.value"
 				/>
-			</div>
-			<div
-				class="content-block mt-12"
-			>
+			</DescriptionList>
+			<DescriptionList class="content-block mt-12">
 				<LabeledInputText
 					:label="setStore.setData?.portrayedObjectDate.label"
 					:value="setStore.setData?.portrayedObjectDate.value"
@@ -136,7 +131,7 @@
 					:label="setStore.setData?.format.label"
 					:value="setStore.setData?.format.value"
 				/>
-			</div>
+			</DescriptionList>
 		</ExpandableContent>
 	</div>
 </template>
