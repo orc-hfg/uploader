@@ -119,6 +119,22 @@
 					:label="setStore.setData?.portrayedObjectDate.label"
 					:value="setStore.setData?.portrayedObjectDate.value"
 				/>
+				<LabeledChipList
+					:label="setStore.setData?.keywords.label"
+					:items="setStore.setData?.keywords.value?.map(keyword => keyword.term)"
+				/>
+				<LabeledChipList
+					:label="setStore.setData?.semester.label"
+					:items="setStore.setData?.semester.value?.map(keyword => keyword.term)"
+				/>
+				<LabeledChipList
+					:label="setStore.setData?.programOfStudy.label"
+					:items="setStore.setData?.programOfStudy.value?.map(keyword => keyword.term)"
+				/>
+				<LabeledChipList
+					:label="setStore.setData?.material.label"
+					:items="setStore.setData?.material.value?.map(keyword => keyword.term)"
+				/>
 				<LabeledInputText
 					:label="setStore.setData?.dimension.label"
 					:value="setStore.setData?.dimension.value"
