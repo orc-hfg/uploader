@@ -1084,7 +1084,7 @@
 	</div>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
 	/* See:
 		- https://tailwindcss.com/docs/functions-and-directives#reference-directive
 		- https://github.com/tailwindlabs/tailwindcss/issues/15717 */

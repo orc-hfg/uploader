@@ -26,7 +26,7 @@
 
 	Reference: https://vuejs.org/guide/built-ins/transition#reusable-transitions
 -->
-<style lang="css">
+<style>
 	.fade-enter-active,
 	.fade-leave-active {
 		transition: opacity v-bind(animationDuration) var(--ease-smooth);

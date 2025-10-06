@@ -159,7 +159,7 @@
 	</div>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
 	/* General page content transitions */
 
 	/* Fade transition (reduce motion or forced fallback) */

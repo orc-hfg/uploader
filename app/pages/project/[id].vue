@@ -82,7 +82,7 @@
 			:is-expanded="isContentExpanded"
 			@content-needs-expansion-state-change="handleContentNeedsExpansionStateChange"
 		>
-			<DescriptionList class="content-block">
+			<DescriptionList>
 				<LabeledChipList
 					:label="setStore.setData?.authors.label"
 					:items="setStore.setData?.authors.value?.map(author => `${author.first_name} ${author.last_name}`)"
@@ -100,7 +100,7 @@
 					:value="setStore.setData?.description.value"
 				/>
 			</DescriptionList>
-			<DescriptionList class="content-block mt-12">
+			<DescriptionList class="mt-12">
 				<LabeledInputText
 					:label="setStore.setData?.titleAlternativeLocale.label"
 					:value="setStore.setData?.titleAlternativeLocale.value"
@@ -114,7 +114,7 @@
 					:value="setStore.setData?.descriptionAlternativeLocale.value"
 				/>
 			</DescriptionList>
-			<DescriptionList class="content-block mt-12">
+			<DescriptionList class="mt-12">
 				<LabeledInputText
 					:label="setStore.setData?.portrayedObjectDate.label"
 					:value="setStore.setData?.portrayedObjectDate.value"
@@ -135,14 +135,3 @@
 		</ExpandableContent>
 	</div>
 </template>
-
-<style lang="css" scoped>
-	/* See:
-		- https://tailwindcss.com/docs/functions-and-directives#reference-directive
-		- https://github.com/tailwindlabs/tailwindcss/issues/15717 */
-	@reference "@/assets/css/main.css";
-
-	.content-block {
-		@apply flex flex-col divide-y divide-surface-300 [&>*]:py-3 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0;
-	}
-</style>
