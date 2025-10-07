@@ -1,8 +1,5 @@
 {
 	"app": {
-		"messages": {
-			"loading": "Lädt ..."
-		},
 		"title": "Uploader"
 	},
 	"components": {

@@ -21,7 +21,6 @@
 
 	const { locale } = useI18n();
 
-	const headerUIStore = useHeaderUIStore();
 	const footerUIStore = useFooterUIStore();
 	const setStore = useSetStore();
 
@@ -40,6 +39,8 @@
 
 	await callOnce(() => setStore.refresh(currentProjectId, locale.value), { mode: 'navigation' });
 
+	useRouteTitle(() => setStore.setData?.title.value ?? '');
+
 	function toggleContentExpansion(): void {
 		isContentExpanded.value = !isContentExpanded.value;
 	}
@@ -47,14 +48,6 @@
 	function handleContentNeedsExpansionStateChange(contentNeedsExpansion: boolean): void {
 		showExpandContentButton.value = contentNeedsExpansion;
 	}
-
-	watchEffect(() => {
-		const projectTitle = setStore.setData?.title.value;
-
-		if (typeof projectTitle === 'string' && projectTitle.trim().length > 0) {
-			headerUIStore.setPageTitle(projectTitle);
-		}
-	});
 
 	onBeforeUnmount(() => {
 		footerUIStore.reset();

@@ -94,7 +94,6 @@
 		"npm-check-updates": "18.3.0",
 		"playwright-core": "1.55.0",
 		"tailwindcss": "4.1.13",
-		"type-fest": "5.0.1",
 		"typescript": "5.9.2",
 		"vite-plugin-devtools-json": "1.0.0",
 		"vitest": "3.2.4",

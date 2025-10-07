@@ -6,7 +6,7 @@
 	import Header from '@/components/layout/Header.vue';
 
 	const { t } = useI18n();
-	const headerUIStore = useHeaderUIStore();
+	const route = useRoute();
 
 	const metaTitle = computed(() => {
 		const appTitle = t('app.title');
@@ -15,7 +15,7 @@
 			return '';
 		}
 
-		const pageTitle = headerUIStore.pageTitleDisplay;
+		const { pageTitle } = route.meta;
 
 		if (!pageTitle?.trim()) {
 			return appTitle;

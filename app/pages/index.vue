@@ -19,10 +19,11 @@
 		},
 	});
 
-	const headerUIStore = useHeaderUIStore();
-	const footerUIStore = useFooterUIStore();
-
 	const { t } = useI18n();
+
+	useRouteTitle(() => t('pages.sign_in.title'));
+
+	const footerUIStore = useFooterUIStore();
 
 	const footerConfig = {
 		right: {
@@ -37,8 +38,6 @@
 	};
 
 	onMounted(() => {
-		headerUIStore.setPageTitleByKeyPath('pages.sign_in.title');
-
 		footerUIStore.rightActionComponent = footerConfig.right.component;
 		footerUIStore.rightActionProps = footerConfig.right.props;
 	});

@@ -19,11 +19,13 @@
 
 	const appLogger = createAppLogger('Page: projects');
 
-	const headerUIStore = useHeaderUIStore();
+	const { t, locale } = useI18n();
+
+	useRouteTitle(() => t('pages.projects.title'));
+
 	const footerUIStore = useFooterUIStore();
 	const setsStore = useSetsStore();
 
-	const { t, locale } = useI18n();
 	const { signOut } = useAuthentication();
 
 	/*
@@ -64,8 +66,6 @@
 	};
 
 	onMounted(() => {
-		headerUIStore.setPageTitleByKeyPath('pages.projects.title');
-
 		footerUIStore.leftActionComponent = footerConfig.left.component;
 		footerUIStore.leftActionProps = footerConfig.left.props;
 

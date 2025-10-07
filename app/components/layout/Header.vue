@@ -6,8 +6,6 @@
 	import Fade from '@/components/transitions/Fade.vue';
 	import { ROUTE_BASE_NAME_ORDER } from '@/constants/routes';
 
-	const headerUIStore = useHeaderUIStore();
-
 	const switchLocalePath = useSwitchLocalePath();
 
 	const route = useRoute();
@@ -55,17 +53,27 @@
 			/>
 		</div>
 		<div class="flex justify-center">
-			<Text
-				v-if="headerUIStore.pageTitleDisplay" as="h1" variant="headline-small" class="
-      truncate px-4 text-center
-    "
-			>
-				<slot>
+			<!--
+				ClientOnly wrapper prevents hydration mismatch and HTML validation errors:
+				- The layout (including header) renders before the page setup runs
+				- Server: Renders visually hidden <h1> with app title to satisfy HTML validation
+				- Page setup: Sets the route-specific title via useRouteTitle()
+				- Client: Replaces with visible page title, avoiding hydration mismatch
+				- This approach ensures valid HTML (non-empty h1) without server/client content conflicts
+				- SEO is unaffected as the page title is set in <Head><Title> in the layout
+			-->
+			<ClientOnly>
+				<Text as="h1" variant="headline-small" class="truncate px-4 text-center">
 					<Fade>
-						<span :key="headerUIStore.pageTitleDisplay">{{ headerUIStore.pageTitleDisplay }}</span>
+						<span :key="$route.meta.pageTitle">{{ $route.meta.pageTitle }}</span>
 					</Fade>
-				</slot>
-			</Text>
+				</Text>
+				<template #fallback>
+					<Text as="h1" variant="headline-small" class="sr-only">
+						{{ $t('app.title') }}
+					</Text>
+				</template>
+			</ClientOnly>
 		</div>
 		<div class="flex justify-end">
 			<!--
