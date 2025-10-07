@@ -33,7 +33,7 @@
 	if (!currentProjectId) {
 		throw createError({
 			statusCode: StatusCodes.NOT_FOUND,
-			statusMessage: 'Project not found',
+			statusMessage: 'Project not found. The project ID is missing.',
 		});
 	}
 
@@ -90,7 +90,7 @@
 			<DescriptionList>
 				<LabeledChipList
 					:label="setStore.setData?.authors.label"
-					:items="setStore.setData?.authors.value?.map(author => `${author.first_name} ${author.last_name}`)"
+					:items="setStore.setData?.authors.value?.map(author => `${author.first_name} ${author.last_name}`.trim()) ?? []"
 				/>
 				<LabeledInputText
 					:label="setStore.setData?.title.label"
@@ -126,19 +126,19 @@
 				/>
 				<LabeledChipList
 					:label="setStore.setData?.keywords.label"
-					:items="setStore.setData?.keywords.value?.map(keyword => keyword.term)"
+					:items="setStore.setData?.keywords.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledChipList
 					:label="setStore.setData?.semester.label"
-					:items="setStore.setData?.semester.value?.map(keyword => keyword.term)"
+					:items="setStore.setData?.semester.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledChipList
 					:label="setStore.setData?.programOfStudy.label"
-					:items="setStore.setData?.programOfStudy.value?.map(keyword => keyword.term)"
+					:items="setStore.setData?.programOfStudy.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledChipList
 					:label="setStore.setData?.material.label"
-					:items="setStore.setData?.material.value?.map(keyword => keyword.term)"
+					:items="setStore.setData?.material.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledInputText
 					:label="setStore.setData?.dimension.label"
