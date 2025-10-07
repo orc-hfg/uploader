@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import { StatusCodes } from 'http-status-codes';
 	import ExpandableContent from '@/components/content/ExpandableContent.vue';
 	import DescriptionList from '@/components/elements/DescriptionList.vue';
 	import LabeledChipList from '@/components/elements/LabeledChipList.vue';
@@ -28,7 +29,16 @@
 	const isContentExpanded = shallowRef<boolean>(false);
 	const showExpandContentButton = shallowRef<boolean>(false);
 
-	await callOnce(() => setStore.refresh(projectId.value!, locale.value), { mode: 'navigation' });
+	const currentProjectId = projectId.value;
+
+	if (!currentProjectId) {
+		throw createError({
+			statusCode: StatusCodes.NOT_FOUND,
+			statusMessage: 'Project not found',
+		});
+	}
+
+	await callOnce(() => setStore.refresh(currentProjectId, locale.value), { mode: 'navigation' });
 
 	function toggleContentExpansion(): void {
 		isContentExpanded.value = !isContentExpanded.value;
@@ -38,10 +48,12 @@
 		showExpandContentButton.value = contentNeedsExpansion;
 	}
 
-	onMounted(() => {
+	watchEffect(() => {
 		const projectTitle = setStore.setData?.title.value;
 
-		headerUIStore.setPageTitle(projectTitle!);
+		if (typeof projectTitle === 'string' && projectTitle.trim().length > 0) {
+			headerUIStore.setPageTitle(projectTitle);
+		}
 	});
 
 	onBeforeUnmount(() => {

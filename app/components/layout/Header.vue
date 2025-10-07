@@ -46,7 +46,7 @@
 			<Button
 				v-if="previousRouteBaseName"
 				:as="NuxtLinkLocale"
-				:to="previousRouteBaseName"
+				:to="{ name: previousRouteBaseName }"
 				:aria-label="$t('header.previous_page')"
 				icon="pi pi-arrow-left"
 				severity="contrast"
