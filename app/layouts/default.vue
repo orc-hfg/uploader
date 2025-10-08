@@ -103,11 +103,9 @@
 	<div>
 		<Html>
 			<Head>
-				<slot name="metaTitle">
-					<Title>
-						{{ metaTitle }}
-					</Title>
-				</slot>
+				<Title>
+					{{ metaTitle }}
+				</Title>
 				<Meta name="description" :content="t('meta.description')" />
 			</Head>
 			<Body>
@@ -122,9 +120,7 @@
       "
 					>
 						<header class="min-h-[75px]">
-							<Header>
-								<slot name="pageTitle" />
-							</Header>
+							<Header />
 						</header>
 
 						<main class="grow overflow-y-auto pt-12" tabindex="0">
@@ -141,9 +137,7 @@
          sm:w-[600px]
        "
 						>
-							<Footer>
-								<slot name="footer" />
-							</Footer>
+							<Footer />
 						</footer>
 					</div>
 				</div>

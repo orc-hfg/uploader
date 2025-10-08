@@ -24,8 +24,8 @@
 	const setStore = useSetStore();
 
 	const projectId = useRouteParameter('id');
-	const isContentExpanded = shallowRef<boolean>(false);
-	const showExpandContentButton = shallowRef<boolean>(false);
+	const isContentExpanded = shallowRef<boolean>();
+	const showExpandContentButton = shallowRef<boolean>();
 
 	const currentProjectId = projectId.value;
 
@@ -38,7 +38,7 @@
 
 	await callOnce(() => setStore.refresh(currentProjectId, locale.value), { mode: 'navigation' });
 
-	useRouteTitle(setStore.setData?.title.value ?? '');
+	useRouteTitle(() => setStore.setData?.title.value ?? '');
 
 	function toggleContentExpansion(): void {
 		isContentExpanded.value = !isContentExpanded.value;
@@ -87,7 +87,12 @@
 			<DescriptionList>
 				<LabeledChipList
 					:label="setStore.setData?.authors.label"
-					:items="setStore.setData?.authors.value?.map(author => `${author.first_name} ${author.last_name}`.trim()) ?? []"
+					:items="setStore.setData?.authors.value?.map(author =>
+						[author.first_name, author.last_name]
+							.filter(Boolean)
+							.map(name => name.trim())
+							.join(' '),
+					) ?? []"
 				/>
 				<LabeledInputText
 					:label="setStore.setData?.title.label"

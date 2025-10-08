@@ -21,7 +21,7 @@
 
 	const { t, locale } = useI18n();
 
-	useRouteTitle(t('pages.projects.title'));
+	useRouteTitle(() => t('pages.projects.title'));
 
 	const setsStore = useSetsStore();
 
@@ -50,6 +50,7 @@
 			component: Button,
 			props: {
 				label: 'Abmelden (Test)',
+				type: 'button',
 				click: handleSignOut,
 			},
 		},
@@ -57,6 +58,7 @@
 			component: Button,
 			props: {
 				label: t('footer.actions.new_project'),
+				type: 'button',
 				icon: 'pi pi-plus',
 			},
 		},

@@ -21,7 +21,7 @@
 
 	const { t } = useI18n();
 
-	useRouteTitle(t('pages.sign_in.title'));
+	useRouteTitle(() => t('pages.sign_in.title'));
 
 	useFooterActions({
 		right: {
@@ -61,7 +61,7 @@
 		}
 	});
 
-	const signInError = ref<string | undefined>(undefined);
+	const signInError = shallowRef<string | undefined>();
 
 	function clearSignInError() {
 		if (signInError.value) {

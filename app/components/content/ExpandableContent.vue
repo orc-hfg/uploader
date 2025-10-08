@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	const { id, isExpanded, collapsedHeight = 150, expansionThreshold = 50 } = defineProps<{
+	const { id, isExpanded, collapsedHeight = 250, expansionThreshold = 50 } = defineProps<{
 		id?: string;
 		isExpanded?: boolean;
 		collapsedHeight?: number;
