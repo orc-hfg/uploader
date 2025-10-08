@@ -21,11 +21,9 @@
 
 	const { t } = useI18n();
 
-	useRouteTitle(() => t('pages.sign_in.title'));
+	useRouteTitle(t('pages.sign_in.title'));
 
-	const footerUIStore = useFooterUIStore();
-
-	const footerConfig = {
+	useFooterActions({
 		right: {
 			component: Button,
 			props: {
@@ -35,15 +33,6 @@
 				form: 'signInForm',
 			},
 		},
-	};
-
-	onMounted(() => {
-		footerUIStore.rightActionComponent = footerConfig.right.component;
-		footerUIStore.rightActionProps = footerConfig.right.props;
-	});
-
-	onBeforeUnmount(() => {
-		footerUIStore.reset();
 	});
 
 	// Form schema and validation setup

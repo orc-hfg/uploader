@@ -43,9 +43,9 @@
 				class="flex flex-wrap gap-2"
 			>
 				<Chip
-					v-for="(item, index) in filteredItems"
+					v-for="(filteredItem, index) in filteredItems"
 					:key="index"
-					:label="item"
+					:label="filteredItem"
 					:aria-label="undefined"
 					class="border border-surface-400"
 				/>

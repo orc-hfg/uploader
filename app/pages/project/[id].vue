@@ -21,7 +21,6 @@
 
 	const { locale } = useI18n();
 
-	const footerUIStore = useFooterUIStore();
 	const setStore = useSetStore();
 
 	const projectId = useRouteParameter('id');
@@ -39,7 +38,7 @@
 
 	await callOnce(() => setStore.refresh(currentProjectId, locale.value), { mode: 'navigation' });
 
-	useRouteTitle(() => setStore.setData?.title.value ?? '');
+	useRouteTitle(setStore.setData?.title.value ?? '');
 
 	function toggleContentExpansion(): void {
 		isContentExpanded.value = !isContentExpanded.value;
@@ -49,9 +48,7 @@
 		showExpandContentButton.value = contentNeedsExpansion;
 	}
 
-	onBeforeUnmount(() => {
-		footerUIStore.reset();
-	});
+	useFooterActions();
 </script>
 
 <template>

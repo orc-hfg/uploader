@@ -21,9 +21,8 @@
 
 	const { t, locale } = useI18n();
 
-	useRouteTitle(() => t('pages.projects.title'));
+	useRouteTitle(t('pages.projects.title'));
 
-	const footerUIStore = useFooterUIStore();
 	const setsStore = useSetsStore();
 
 	const { signOut } = useAuthentication();
@@ -46,12 +45,11 @@
 		}
 	}
 
-	const footerConfig = {
+	useFooterActions({
 		left: {
 			component: Button,
 			props: {
 				label: 'Abmelden (Test)',
-				type: 'button',
 				click: handleSignOut,
 			},
 		},
@@ -60,21 +58,8 @@
 			props: {
 				label: t('footer.actions.new_project'),
 				icon: 'pi pi-plus',
-				type: 'button',
 			},
 		},
-	};
-
-	onMounted(() => {
-		footerUIStore.leftActionComponent = footerConfig.left.component;
-		footerUIStore.leftActionProps = footerConfig.left.props;
-
-		footerUIStore.rightActionComponent = footerConfig.right.component;
-		footerUIStore.rightActionProps = footerConfig.right.props;
-	});
-
-	onBeforeUnmount(() => {
-		footerUIStore.reset();
 	});
 </script>
 
