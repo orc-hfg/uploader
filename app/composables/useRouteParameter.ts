@@ -1,21 +1,17 @@
 /*
- * Composable for safe route parameter extraction with i18n support
+ * Composable for safe route parameter extraction
  *
- * This composable is necessary because Nuxt i18n modifies route names by adding locale suffixes.
- * Instead of 'project-id', we get 'project-id___de' and 'project-id___en', which breaks
- * the direct typed route approach: useRoute('project-id').
+ * This composable encapsulates the TypeScript type casting required to access route.params
+ * without type errors. TypeScript sees route.params as a union type that includes
+ * Record<never, never> (empty object), which prevents direct property access.
  *
- * Without i18n, we could use Nuxt's experimental typed pages feature:
- * const route = useRoute('project-id') // Would work without i18n
+ * Without this composable, you would need to write:
+ * const id = (route.params as { id?: string }).id;
  *
- * With i18n, route names become:
- * - 'project-id___de' for German routes
- * - 'project-id___en' for English routes
+ * With this composable:
+ * const id = useRouteParameter('id');
  *
- * This composable handles the TypeScript union type issues and provides
- * a clean API for accessing route parameters regardless of locale.
- *
- * See: https://github.com/nuxt/nuxt/issues/21048
+ * This provides a cleaner API and centralizes the type casting logic in one place.
  */
 export function useRouteParameter(parameter: string): ComputedRef<string | undefined> {
 	const route = useRoute();

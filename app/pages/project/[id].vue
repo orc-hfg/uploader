@@ -24,10 +24,10 @@
 	const setStore = useSetStore();
 
 	const projectId = useRouteParameter('id');
+	const currentProjectId = projectId.value;
+
 	const isContentExpanded = shallowRef<boolean>();
 	const showExpandContentButton = shallowRef<boolean>();
-
-	const currentProjectId = projectId.value;
 
 	if (!currentProjectId) {
 		throw createError({
