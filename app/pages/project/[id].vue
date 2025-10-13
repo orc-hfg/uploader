@@ -90,7 +90,6 @@
 					:items="setStore.setData?.authors.value?.map(author =>
 						[author.first_name, author.last_name]
 							.filter(Boolean)
-							.map(name => name.trim())
 							.join(' '),
 					) ?? []"
 				/>
@@ -137,6 +136,14 @@
 				<LabeledChipList
 					:label="setStore.setData?.programOfStudy.label"
 					:items="setStore.setData?.programOfStudy.value?.map(keyword => keyword.term) ?? []"
+				/>
+				<LabeledChipList
+					:label="setStore.setData?.otherCreativeParticipants.label"
+					:items="setStore.setData?.otherCreativeParticipants.value?.map(participant =>
+						`${participant.roleName}: ${[participant.person.first_name, participant.person.last_name]
+							.filter(Boolean)
+							.join(' ')}`,
+					) ?? []"
 				/>
 				<LabeledChipList
 					:label="setStore.setData?.material.label"

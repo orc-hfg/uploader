@@ -13,20 +13,21 @@
 </template>
 
 <!-- eslint-disable vue/enforce-style-attribute -->
-<!--
-	IMPORTANT: Do not use <style scoped> for transition components!
-
-	Problem: Vue applies transition classes (like .fade-enter-active) to the slot content,
-	but scoped styles generate selectors with data-v-* attributes that only match the
-	component where they're defined. Since slot content comes from parent components
-	with different data-v-* attributes, the CSS rules won't apply.
-
-	Result: Transitions won't work or behave unexpectedly.
-	Solution: Use global styles for transition classes.
-
-	Reference: https://vuejs.org/guide/built-ins/transition#reusable-transitions
--->
 <style>
+	/*
+	* This style block is necessary despite the project's preference for Tailwind-only styling because:
+	* 1. Transition classes must apply to slot content from parent components
+	*    - Vue applies transition classes (like .fade-enter-active) to slot content
+	*    - Scoped styles only match elements with the same data-v-* attribute
+	*    - Slot content has different data-v-* attributes from parent components
+	*    - Result: Scoped styles won't match and transitions won't work
+	* 2. Dynamic CSS variables via v-bind() are used (see line 37)
+	*    - v-bind(animationDuration) injects runtime-reactive CSS custom properties
+	*    - This allows prop-driven animation timing
+	*
+	* Reference: https://vuejs.org/guide/built-ins/transition#reusable-transitions
+	*/
+
 	.fade-enter-active,
 	.fade-leave-active {
 		transition: opacity v-bind(animationDuration) var(--ease-smooth);

@@ -154,6 +154,14 @@
 </template>
 
 <style scoped>
+	/*
+	* This style block is necessary despite the project's preference for Tailwind-only styling because:
+	* 1. Vue's <Transition> component requires CSS classes with specific lifecycle suffixes
+	*    (-enter-active, -enter-from, -enter-to, -leave-active, -leave-from, -leave-to)
+	* 2. Tailwind cannot dynamically generate these Vue-specific transition classes
+	* 3. CSS custom properties (--duration-fast, --ease-smooth) provide centralized timing values
+	*/
+
 	/* General page content transitions */
 
 	/* Fade transition (reduce motion or forced fallback) */

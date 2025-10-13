@@ -15,6 +15,8 @@ export default withNuxt(
 				'sentry.client.config.ts',
 				'playwright.config.ts',
 				'vitest.config.ts',
+				'app/pages/design-lab.vue',
+				'app/pages/sentry-example-page.vue',
 			],
 			typescript: {
 				// Enables type-aware linting
@@ -71,6 +73,7 @@ export default withNuxt(
 				'func-style': ['error', 'declaration'],
 				'grouped-accessor-pairs': 'error',
 				'guard-for-in': 'error',
+				'logical-assignment-operators': 'error',
 				'no-await-in-loop': 'error',
 				'no-bitwise': 'error',
 				'no-console': [
@@ -80,9 +83,6 @@ export default withNuxt(
 					},
 				],
 				'no-continue': 'error',
-				'no-implicit-coercion': 'error',
-				'no-multi-assign': 'error',
-				'logical-assignment-operators': 'error',
 				'no-constant-binary-expression': 'error',
 				'no-constant-condition': 'error',
 				'no-div-regex': 'error',
@@ -95,8 +95,10 @@ export default withNuxt(
 				],
 				'no-empty-static-block': 'error',
 				'no-extra-label': 'error',
-				'no-nonoctal-decimal-escape': 'error',
+				'no-implicit-coercion': 'error',
 				'no-lonely-if': 'error',
+				'no-multi-assign': 'error',
+				'no-nonoctal-decimal-escape': 'error',
 				'no-param-reassign': 'error',
 				'no-plusplus': [
 					'error',
@@ -105,6 +107,17 @@ export default withNuxt(
 					},
 				],
 				'no-promise-executor-return': 'error',
+				'no-restricted-syntax': [
+					'error',
+					{
+						selector: 'CallExpression[callee.name="$fetch"]',
+						message: 'Direct $fetch calls are not allowed. Use the repository/service layer pattern instead.',
+					},
+					{
+						selector: 'CallExpression[callee.name="useFetch"]',
+						message: 'Direct useFetch calls are not allowed. Use composables that wrap the repository layer instead.',
+					},
+				],
 				'no-return-assign': ['error', 'always'],
 				'no-script-url': 'error',
 				'no-shadow': 'error',
@@ -383,6 +396,13 @@ export default withNuxt(
 				'vue/no-implicit-coercion': 'error',
 				'vue/no-multiple-objects-in-class': 'error',
 				'vue/no-ref-object-reactivity-loss': 'error',
+				'vue/no-restricted-block': [
+					'warn',
+					{
+						element: 'style',
+						message: 'Prefer Tailwind CSS syntax over <style> blocks. Only use <style> blocks when well-justified.',
+					},
+				],
 				'vue/no-root-v-if': 'error',
 				'vue/no-static-inline-styles': 'error',
 				'vue/no-template-target-blank': 'error',
