@@ -2,7 +2,7 @@
 	import Value from './Value.vue';
 
 	const { label, value } = defineProps<{
-		label?: string;
+		label: string;
 		value?: string;
 	}>();
 
@@ -16,15 +16,10 @@
 </script>
 
 <template>
-	<template v-if="label">
-		<dt class="text-surface-500">
-			{{ label }}
-		</dt>
-		<dd class="mt-0.5">
-			<Value :value="value" />
-		</dd>
-	</template>
-	<template v-else>
-		<!-- Empty: no label provided -->
-	</template>
+	<dt class="text-surface-500">
+		{{ label }}
+	</dt>
+	<dd class="mt-0.5">
+		<Value :value="value" />
+	</dd>
 </template>

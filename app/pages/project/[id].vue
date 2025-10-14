@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import type { ChipItem } from '@/components/elements/LabeledChipList.vue';
 	import { StatusCodes } from 'http-status-codes';
 	import ExpandableContent from '@/components/content/ExpandableContent.vue';
 	import DescriptionList from '@/components/elements/DescriptionList.vue';
@@ -86,80 +87,97 @@
 		>
 			<DescriptionList>
 				<LabeledChipList
-					:label="setStore.setData?.authors.label"
-					:items="setStore.setData?.authors.value?.map(author =>
+					v-if="setStore.setData?.authors"
+					:label="setStore.setData.authors.label"
+					:items="setStore.setData.authors.value?.map(author =>
 						[author.first_name, author.last_name]
 							.filter(Boolean)
 							.join(' '),
 					) ?? []"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.title.label"
-					:value="setStore.setData?.title.value"
+					v-if="setStore.setData?.title"
+					:label="setStore.setData.title.label"
+					:value="setStore.setData.title.value"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.subtitle.label"
-					:value="setStore.setData?.subtitle.value"
+					v-if="setStore.setData?.subtitle"
+					:label="setStore.setData.subtitle.label"
+					:value="setStore.setData.subtitle.value"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.description.label"
-					:value="setStore.setData?.description.value"
+					v-if="setStore.setData?.description"
+					:label="setStore.setData.description.label"
+					:value="setStore.setData.description.value"
 				/>
 			</DescriptionList>
 			<DescriptionList class="mt-12">
 				<LabeledInputText
-					:label="setStore.setData?.titleAlternativeLocale.label"
-					:value="setStore.setData?.titleAlternativeLocale.value"
+					v-if="setStore.setData?.titleAlternativeLocale"
+					:label="setStore.setData.titleAlternativeLocale.label"
+					:value="setStore.setData.titleAlternativeLocale.value"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.subtitleAlternativeLocale.label"
-					:value="setStore.setData?.subtitleAlternativeLocale.value"
+					v-if="setStore.setData?.subtitleAlternativeLocale"
+					:label="setStore.setData.subtitleAlternativeLocale.label"
+					:value="setStore.setData.subtitleAlternativeLocale.value"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.descriptionAlternativeLocale.label"
-					:value="setStore.setData?.descriptionAlternativeLocale.value"
+					v-if="setStore.setData?.descriptionAlternativeLocale"
+					:label="setStore.setData.descriptionAlternativeLocale.label"
+					:value="setStore.setData.descriptionAlternativeLocale.value"
 				/>
 			</DescriptionList>
 			<DescriptionList class="mt-12">
 				<LabeledInputText
-					:label="setStore.setData?.portrayedObjectDate.label"
-					:value="setStore.setData?.portrayedObjectDate.value"
+					v-if="setStore.setData?.portrayedObjectDate"
+					:label="setStore.setData.portrayedObjectDate.label"
+					:value="setStore.setData.portrayedObjectDate.value"
 				/>
 				<LabeledChipList
-					:label="setStore.setData?.keywords.label"
-					:items="setStore.setData?.keywords.value?.map(keyword => keyword.term) ?? []"
+					v-if="setStore.setData?.keywords"
+					:label="setStore.setData.keywords.label"
+					:items="setStore.setData.keywords.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledChipList
-					:label="setStore.setData?.semester.label"
-					:items="setStore.setData?.semester.value?.map(keyword => keyword.term) ?? []"
+					v-if="setStore.setData?.semester"
+					:label="setStore.setData.semester.label"
+					:items="setStore.setData.semester.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledChipList
-					:label="setStore.setData?.programOfStudy.label"
-					:items="setStore.setData?.programOfStudy.value?.map(keyword => keyword.term) ?? []"
+					v-if="setStore.setData?.programOfStudy"
+					:label="setStore.setData.programOfStudy.label"
+					:items="setStore.setData.programOfStudy.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledChipList
-					:label="setStore.setData?.otherCreativeParticipants.label"
-					:items="setStore.setData?.otherCreativeParticipants.value?.map(participant =>
-						`${participant.roleName}: ${[participant.person.first_name, participant.person.last_name]
+					v-if="setStore.setData?.otherCreativeParticipants"
+					:label="setStore.setData.otherCreativeParticipants.label"
+					:items="setStore.setData.otherCreativeParticipants.value?.map((participant): ChipItem => ({
+						label: [participant.person.first_name, participant.person.last_name]
 							.filter(Boolean)
-							.join(' ')}`,
-					) ?? []"
+							.join(' '),
+						secondaryLabel: participant.roleName,
+					})) ?? []"
 				/>
 				<LabeledChipList
-					:label="setStore.setData?.material.label"
-					:items="setStore.setData?.material.value?.map(keyword => keyword.term) ?? []"
+					v-if="setStore.setData?.material"
+					:label="setStore.setData.material.label"
+					:items="setStore.setData.material.value?.map(keyword => keyword.term) ?? []"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.dimension.label"
-					:value="setStore.setData?.dimension.value"
+					v-if="setStore.setData?.dimension"
+					:label="setStore.setData.dimension.label"
+					:value="setStore.setData.dimension.value"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.duration.label"
-					:value="setStore.setData?.duration.value"
+					v-if="setStore.setData?.duration"
+					:label="setStore.setData.duration.label"
+					:value="setStore.setData.duration.value"
 				/>
 				<LabeledInputText
-					:label="setStore.setData?.format.label"
-					:value="setStore.setData?.format.value"
+					v-if="setStore.setData?.format"
+					:label="setStore.setData.format.label"
+					:value="setStore.setData.format.value"
 				/>
 			</DescriptionList>
 		</ExpandableContent>
