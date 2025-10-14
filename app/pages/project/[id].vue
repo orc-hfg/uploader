@@ -49,6 +49,10 @@
 		showExpandContentButton.value = contentNeedsExpansion;
 	}
 
+	function extractTerms(items: Array<{ term: string }> | undefined): string[] {
+		return items?.map(item => item.term) ?? [];
+	}
+
 	useFooterActions();
 </script>
 
@@ -137,17 +141,17 @@
 				<LabeledChipList
 					v-if="setStore.setData?.keywords"
 					:label="setStore.setData.keywords.label"
-					:items="setStore.setData.keywords.value?.map(keyword => keyword.term) ?? []"
+					:items="extractTerms(setStore.setData.keywords.value)"
 				/>
 				<LabeledChipList
 					v-if="setStore.setData?.semester"
 					:label="setStore.setData.semester.label"
-					:items="setStore.setData.semester.value?.map(keyword => keyword.term) ?? []"
+					:items="extractTerms(setStore.setData.semester.value)"
 				/>
 				<LabeledChipList
 					v-if="setStore.setData?.programOfStudy"
 					:label="setStore.setData.programOfStudy.label"
-					:items="setStore.setData.programOfStudy.value?.map(keyword => keyword.term) ?? []"
+					:items="extractTerms(setStore.setData.programOfStudy.value)"
 				/>
 				<LabeledChipList
 					v-if="setStore.setData?.otherCreativeParticipants"
@@ -162,7 +166,7 @@
 				<LabeledChipList
 					v-if="setStore.setData?.material"
 					:label="setStore.setData.material.label"
-					:items="setStore.setData.material.value?.map(keyword => keyword.term) ?? []"
+					:items="extractTerms(setStore.setData.material.value)"
 				/>
 				<LabeledInputText
 					v-if="setStore.setData?.dimension"

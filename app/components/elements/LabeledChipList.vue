@@ -26,7 +26,9 @@
 		.filter(Boolean)
 		.map((item) => {
 			if (typeof item === 'string') {
-				return { label: item };
+				return {
+					label: item,
+				};
 			}
 
 			return item;

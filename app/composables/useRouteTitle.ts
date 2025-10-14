@@ -1,8 +1,8 @@
-export function useRouteTitle(titleOrGetter: MaybeRefOrGetter<string>): void {
+export function useRouteTitle(titleGetter: () => string): void {
 	const route = useRoute();
 
 	watchEffect(() => {
-		const title = toValue(titleOrGetter);
+		const title = titleGetter();
 
 		if (typeof title === 'string' && title.trim().length > 0) {
 			route.meta.pageTitle = title;

@@ -78,7 +78,7 @@
 		<div class="flex justify-end">
 			<!--
 				TODO: Language switchers are temporary for testing purposes.
-				This feature will be integrated into a proper menu component in the future.
+				They will be integrated into a proper header menu component in the future.
 			-->
 			<ClientOnly>
 				<div class="flex items-center">

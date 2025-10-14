@@ -46,6 +46,10 @@
 	}
 
 	useFooterActions({
+		/*
+		 * TODO: Sign-out button is temporary for testing purposes.
+		 * It will be integrated into a proper header menu component in the future.
+		 */
 		left: {
 			component: Button,
 			props: {

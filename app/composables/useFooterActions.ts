@@ -3,9 +3,10 @@ interface FooterActionConfig {
 	props?: {
 		label?: string;
 		icon?: string;
+		class?: string;
 		type?: string;
+		form?: string;
 		click?: () => void;
-		[key: string]: unknown;
 	};
 }
 
