@@ -30,6 +30,7 @@
 		"test": "vitest run",
 		"test:watch": "vitest watch",
 		"test:e2e": "echo '\n⚠️ Using API mock (see playwright.config.ts for details).\n' && playwright test",
+		"test:e2e:logging": "echo '\n⚠️ Using API mock (see playwright.config.ts for details).\n' && ENABLE_PLAYWRIGHT_LOGGING=true playwright test",
 		"test:e2e:changed": "echo '\n⚠️ Using API mock (see playwright.config.ts for details).\n' && playwright test --only-changed=main",
 		"test:e2e:failed": "echo '\n⚠️ Using API mock (see playwright.config.ts for details).\n' && playwright test --last-failed",
 		"test:e2e:debug": "echo '\n⚠️ Using API mock (see playwright.config.ts for details).\n' && playwright test --debug",
