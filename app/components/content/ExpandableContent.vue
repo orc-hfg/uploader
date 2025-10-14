@@ -73,14 +73,17 @@
 	</div>
 </template>
 
+<!--
+	This style block is necessary despite the project's preference for Tailwind-only styling because:
+
+	1. Dynamic CSS variables via v-bind() are used (see lines 78, 81)
+	- v-bind(maxHeight) and v-bind(expandedHeight) inject runtime-reactive values
+	- These values change based on actual content height measured by ResizeObserver
+
+	2. Tailwind cannot handle dynamically calculated pixel values at runtime
+-->
+<!-- eslint-disable-next-line vue/no-restricted-block -->
 <style scoped>
-	/*
-	* This style block is necessary despite the project's preference for Tailwind-only styling because:
-	* 1. Dynamic CSS variables via v-bind() are used (see lines 78, 81)
-	*    - v-bind(maxHeight) and v-bind(expandedHeight) inject runtime-reactive values
-	*    - These values change based on actual content height measured by ResizeObserver
-	* 2. Tailwind cannot handle dynamically calculated pixel values at runtime
-	*/
 	.wrapper {
 		max-height: v-bind(maxHeight);
 

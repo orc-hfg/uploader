@@ -13,12 +13,15 @@
 	</dl>
 </template>
 
+<!--
+	This style block is necessary despite the project's preference for Tailwind-only styling because:
+
+	1. Vue's :deep() pseudo-class is required to style slot content (dt/dd elements)
+
+	2. Complex selectors like "dd + dt" cannot be expressed with inline Tailwind classes
+-->
+<!-- eslint-disable-next-line vue/no-restricted-block -->
 <style scoped>
-	/*
-	* This style block is necessary despite the project's preference for Tailwind-only styling because:
-	* 1. Vue's :deep() pseudo-class is required to style slot content (dt/dd elements)
-	* 2. Complex selectors like "dd + dt" cannot be expressed with inline Tailwind classes
-	*/
 	@reference "@/assets/css/main.css";
 
 	dl {
