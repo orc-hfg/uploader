@@ -69,12 +69,9 @@
 			>
 				<span class="flex items-center gap-2">
 					<span>{{ item.label }}</span>
-					<span v-if="item.secondaryLabel" class="text-surface-500">|</span>
-					<span
-						v-if="item.secondaryLabel"
-						class="text-surface-500"
-					>
-						{{ item.secondaryLabel }}
+					<span v-if="item.secondaryLabel" class="text-surface-500" aria-hidden="true">|</span>
+					<span v-if="item.secondaryLabel" class="text-surface-500">
+						<span class="sr-only">{{ $t('components.labeled_chip_list.secondary_label') }}</span>{{ item.secondaryLabel }}
 					</span>
 				</span>
 			</Chip>

@@ -3,6 +3,9 @@
 		"title": "Uploader"
 	},
 	"components": {
+		"labeled_chip_list": {
+			"secondary_label": "Additional information"
+		},
 		"project": {
 			"open": "Open"
 		},
