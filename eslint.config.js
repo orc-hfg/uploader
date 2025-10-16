@@ -552,6 +552,8 @@ export default withNuxt(
 				'ts/explicit-function-return-type': 'off',
 				'ts/naming-convention': 'off',
 				'ts/no-magic-numbers': 'off',
+				'ts/no-unnecessary-type-assertion': 'off',
+				'unicorn/no-null': 'off',
 				'unicorn/no-useless-undefined': 'off',
 			},
 		},

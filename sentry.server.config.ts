@@ -40,7 +40,6 @@ if (sentry.enabled === true) {
 			const isHostAllowed = extractHostname(event.request?.headers?.host) === sentry.allowHostname;
 
 			if (!event.request || !isHostAllowed) {
-				// eslint-disable-next-line unicorn/no-null
 				return null;
 			}
 
