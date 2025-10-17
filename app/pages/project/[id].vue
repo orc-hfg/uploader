@@ -139,6 +139,11 @@
 					:value="setStore.setData.portrayedObjectDate.value"
 				/>
 				<LabeledChipList
+					v-if="setStore.setData?.projectCategory"
+					:label="setStore.setData.projectCategory.label"
+					:items="extractTerms(setStore.setData.projectCategory.value)"
+				/>
+				<LabeledChipList
 					v-if="setStore.setData?.keywords"
 					:label="setStore.setData.keywords.label"
 					:items="extractTerms(setStore.setData.keywords.value)"
