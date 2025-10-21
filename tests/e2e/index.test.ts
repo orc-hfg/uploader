@@ -7,42 +7,39 @@ test.describe('Authentication flow', () => {
 	});
 
 	test('should show sign-in page correctly', async ({ page, makeAxeBuilder }) => {
+		await expect(page).toHaveTitle('Anmeldung – Uploader');
+		await expect(page.getByRole('heading', { name: 'Anmeldung' })).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Anmelden' })).toBeVisible();
+
 		const loginInput = page.getByLabel('E-Mail-Adresse oder Login');
 		const passwordInput = page.getByLabel('Passwort');
 
 		await expect(loginInput).toBeVisible();
 		await expect(passwordInput).toBeVisible();
 
-		await expect(page).toHaveTitle('Anmeldung – Uploader');
-		await expect(page.getByRole('heading', { name: 'Anmeldung' })).toBeVisible();
-		await expect(page.getByRole('button', { name: 'Anmelden' })).toBeVisible();
-
-		// Test accessibility of sign-in page
 		const results = await makeAxeBuilder().analyze();
 
 		expect(results.violations).toStrictEqual([]);
 	});
 
-	test('should sign in successfully with valid credentials', async ({ page, makeAxeBuilder }) => {
-		await signInAsValidUser(page);
+	// No accessibility check needed – testing authentication, not projects page
+	// eslint-disable-next-line no-restricted-syntax
+	test('should sign in successfully with valid credentials', async ({ page }) => {
+		await signInAsValidUser(page, 'de');
 
+		// Verify successful redirect to projects page
 		await expect(page).toHaveURL('/uploader/de/projekte');
 		await expect(page).toHaveTitle('Projekte – Uploader');
-
-		// Test accessibility of projects page (different page)
-		const projectsPageResults = await makeAxeBuilder().analyze();
-
-		expect(projectsPageResults.violations).toStrictEqual([]);
 	});
 
 	test('should show error with invalid credentials', async ({ page, makeAxeBuilder }) => {
-		await signInAsInvalidUser(page);
+		await signInAsInvalidUser(page, 'de');
 
 		const errorMessage = page.getByTestId('sign-in-error');
 
 		await expect(errorMessage).toBeVisible();
 		await expect(errorMessage).toHaveText('Die Anmeldedaten sind ungültig.');
-		await expect(errorMessage).toHaveClass(/p-message-error/u);
+		await expect(errorMessage).toHaveAttribute('role', 'alert');
 
 		// Test accessibility with error message (different state)
 		const errorPageResults = await makeAxeBuilder().analyze();
@@ -59,5 +56,37 @@ test.describe('Authentication flow', () => {
 
 		await expect(page).toHaveURL('/uploader/de/anmeldung');
 		await expect(page).toHaveTitle('Anmeldung – Uploader');
+	});
+});
+
+test.describe('Authentication flow (English locale)', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/uploader/en/sign-in');
+	});
+
+	// No accessibility check needed – same sign-in page as German locale test
+	// eslint-disable-next-line no-restricted-syntax
+	test('should show sign-in page with English locale', async ({ page }) => {
+		await expect(page).toHaveTitle('Sign-in – Uploader');
+		await expect(page.getByRole('heading', { name: 'Sign-in' })).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
+
+		const loginInput = page.getByLabel('Email or login');
+		const passwordInput = page.getByLabel('Password');
+
+		await expect(loginInput).toBeVisible();
+		await expect(passwordInput).toBeVisible();
+	});
+
+	// No accessibility check needed – same error state
+	// eslint-disable-next-line no-restricted-syntax
+	test('should show error with invalid credentials in English', async ({ page }) => {
+		await signInAsInvalidUser(page, 'en');
+
+		const errorMessage = page.getByTestId('sign-in-error');
+
+		await expect(errorMessage).toBeVisible();
+		await expect(errorMessage).toHaveText('Invalid credentials.');
+		await expect(errorMessage).toHaveAttribute('role', 'alert');
 	});
 });

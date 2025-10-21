@@ -10,7 +10,6 @@ test.describe('Projects page', () => {
 		await expect(page.getByRole('heading', { name: 'Projekte' })).toBeVisible();
 		await expect(page.getByRole('button', { name: 'Neues Projekt' })).toBeVisible();
 
-		// Test accessibility of projects page
 		const results = await makeAxeBuilder().analyze();
 
 		expect(results.violations).toStrictEqual([]);
@@ -43,15 +42,13 @@ test.describe('Projects page', () => {
 });
 
 test.describe('Projects page (English locale)', () => {
-	// No accessibility check needed – tests different API data, not different UI
-	// eslint-disable-next-line no-restricted-syntax
-	test('should load different project titles for English locale', async ({ page }) => {
+	test.beforeEach(async ({ page }) => {
 		await page.goto('/uploader/en/projects');
+	});
 
-		/*
-		 * Verify that different project data is loaded (different metaKeyIds)
-		 * These should be different from the German titles due to locale-specific API queries
-		 */
+	// No accessibility check needed – same projects page as first test
+	// eslint-disable-next-line no-restricted-syntax
+	test('should show projects list with English locale', async ({ page }) => {
 		const project1 = 'Test collectionId collection-id-1 / metaKeyId creative_work:title_en Content';
 
 		await expect(page.getByRole('listitem').filter({ hasText: project1 }).getByRole('img')).toBeVisible();

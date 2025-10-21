@@ -6,7 +6,7 @@ import { signInAsValidUser } from './helpers/authentication';
 setup('authentication', async ({ page }) => {
 	await page.goto('/uploader/de/anmeldung');
 
-	await signInAsValidUser(page);
+	await signInAsValidUser(page, 'de');
 
 	// Wait for successful sign-in redirect
 	await expect(page).toHaveURL('/uploader/de/projekte');
