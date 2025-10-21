@@ -48,7 +48,7 @@
 </script>
 
 <template>
-	<div class="relative">
+	<div class="relative overflow-hidden">
 		<div
 			:id="id"
 			class="
