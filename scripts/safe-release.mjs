@@ -77,6 +77,33 @@ function pullLatestChanges() {
 }
 
 /*
+ * Runs local quality assurance tests before pushing
+ * This ensures code quality and prevents pushing failing code to main
+ */
+function runLocalTests() {
+	console.log('');
+	console.log('🧪 Running local quality assurance tests...');
+	console.log('   This ensures code quality before pushing to main branch');
+	console.log('   Tests include: linting, type checking, unused code detection, unit tests, and E2E tests');
+	console.log('');
+
+	try {
+		// Note: Using npm command is safe in this development script context
+		// eslint-disable-next-line sonarjs/no-os-command-from-path
+		execSync('npm run check:issues', { stdio: 'inherit' });
+		console.log('');
+		console.log('✅ All local quality assurance tests passed');
+	}
+	catch {
+		console.log('');
+		console.error('❌ Error: Local quality assurance tests failed');
+		console.error('   Please fix the issues above before creating a release');
+		console.error('   The release has been cancelled and no changes were pushed');
+		exit(1);
+	}
+}
+
+/*
  * Creates and pushes the release
  */
 function createRelease(releaseType) {
@@ -125,6 +152,10 @@ function main() {
 	checkCurrentBranch();
 	checkWorkingDirectory();
 	pullLatestChanges();
+
+	// Run local quality assurance tests before creating release
+	// This prevents pushing failing code to main branch
+	runLocalTests();
 
 	// Create and push the release
 	createRelease(releaseType);

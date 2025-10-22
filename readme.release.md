@@ -58,11 +58,29 @@ npm run release:major
 
 Diese Skripte führen automatisch folgende Aktionen aus:
 
-1. ✅ **Version erhöhen**: Versionsnummer in package.json wird inkrementiert
-2. ✅ **Git-Commit**: Commit mit Nachricht `chore: release X.X.X` wird erstellt
-3. ✅ **Git-Tag**: Tag mit neuer Versionsnummer wird erstellt
-4. ✅ **Push**: Commit und Tag werden zum Remote-Repository gepusht
-5. ✅ **GitHub Actions**: Quality Assurance und E2E Tests laufen automatisch
+1. ✅ **Pre-Flight Checks**: Branch-Prüfung, Working Directory Check, Git Pull
+2. ✅ **Lokale Quality Assurance Tests**: Komplette Test-Suite läuft lokal (~4 Minuten)
+   - Linting (ESLint)
+   - Type Checking (TypeScript)
+   - Unused Code Detection (Knip)
+   - Unit Tests (Vitest)
+   - E2E Tests (Playwright)
+3. ✅ **Version erhöhen**: Versionsnummer in package.json wird inkrementiert
+4. ✅ **Git-Commit**: Commit mit Nachricht `chore: release X.X.X` wird erstellt
+5. ✅ **Git-Tag**: Tag mit neuer Versionsnummer wird erstellt
+6. ✅ **Push**: Commit und Tag werden zum Remote-Repository gepusht
+7. ⚡ **GitHub Actions**: Workflow läuft, aber überspringt Tests (bereits lokal durchgeführt)
+
+### Warum lokale Tests vor dem Push?
+
+**Sicherheit**: Die lokalen Tests stellen sicher, dass kein ungetesteter Code in den main Branch gepusht wird:
+- ❌ Wenn Tests fehlschlagen → Kein Push, kein Tag, keine Änderung
+- ✅ Wenn Tests erfolgreich → Release wird erstellt und gepusht
+
+**Effizienz**: CI-Tests werden bei Release-Commits übersprungen, weil sie bereits lokal liefen:
+- Lokale Tests: ~4 Minuten (VOR dem Push)
+- CI bei Release: ~30 Sekunden (nur Commit-Erkennung)
+- Normale Commits/PRs: ~4 Minuten (volle CI-Test-Suite)
 
 ### Was passiert NICHT?
 
