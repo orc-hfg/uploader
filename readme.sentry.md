@@ -61,7 +61,7 @@ In `nuxt.config.ts` folgende Werte an den eigenen Sentry-Account anpassen:
 ### Schritt 2: Environment-Variablen einrichten
 
 **1. Auth Token generieren:**
-- Anleitung: [Sentry Auth Tokens](https://docs.sentry.io/account/auth-tokens/)
+- Anleitung: [Sentry Auth Tokens](https://docs.sentry.io/account/auth-tokens/#organization-tokens)
 - Benötigte Permissions: Source Maps Upload
 
 **2. `.env` Datei erstellen/erweitern:**
