@@ -1,5 +1,6 @@
 import { expect, test } from './fixtures/accessibility';
-import { expectPageHeadingAndTitle, expectRedirectToSignIn } from './helpers/authentication';
+import { expectRedirectToSignIn } from './helpers/authentication';
+import { expectPageLoadedWithHeadingAndTitle } from './helpers/page-assertions';
 import { getChip } from './helpers/ui-components';
 
 const SECTIONS = {
@@ -40,7 +41,7 @@ test.describe('Project page (Full data)', () => {
 	});
 
 	test('should show project page correctly', async ({ page, makeAxeBuilder }) => {
-		await expectPageHeadingAndTitle(
+		await expectPageLoadedWithHeadingAndTitle(
 			page,
 			'Test collectionId collection-id-3 / metaKeyId madek_core:title Content',
 			'Test collectionId collection-id-3 / metaKeyId madek_core:title Content – Uploader',
@@ -274,7 +275,7 @@ test.describe('Project page (Fallbacks)', () => {
 	test('should display fallbacks correctly for missing data', async ({ page }) => {
 		const projectTitle = 'Test collectionId collection-id-1 / metaKeyId madek_core:title Content';
 
-		await expectPageHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
+		await expectPageLoadedWithHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
 
 		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
 
@@ -320,7 +321,7 @@ test.describe('Project page (English locale)', () => {
 		 */
 		const projectTitle = 'Test collectionId collection-id-3 / metaKeyId creative_work:title_en Content';
 
-		await expectPageHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
+		await expectPageLoadedWithHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
 
 		await page.getByRole('button', { name: 'Show all data' }).click();
 
