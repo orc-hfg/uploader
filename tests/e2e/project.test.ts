@@ -1,4 +1,5 @@
 import { expect, test } from './fixtures/accessibility';
+import { expectRedirectToSignIn } from './helpers/authentication';
 import { getChip } from './helpers/ui-components';
 
 const SECTIONS = {
@@ -47,6 +48,12 @@ test.describe('Project page (Full data)', () => {
 		const results = await makeAxeBuilder().analyze();
 
 		expect(results.violations).toStrictEqual([]);
+	});
+
+	// No accessibility check needed – same projects page as first test
+	// eslint-disable-next-line no-restricted-syntax
+	test('should require authentication to access project page', async ({ page, context }) => {
+		await expectRedirectToSignIn(page, context, '/uploader/de/projekt/collection-id-3', 'de');
 	});
 
 	// No accessibility check needed – same projects page as first test

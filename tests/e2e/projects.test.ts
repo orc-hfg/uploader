@@ -1,4 +1,5 @@
 import { expect, test } from './fixtures/accessibility';
+import { expectRedirectToSignIn } from './helpers/authentication';
 
 test.describe('Projects page', () => {
 	test.beforeEach(async ({ page }) => {
@@ -13,6 +14,12 @@ test.describe('Projects page', () => {
 		const results = await makeAxeBuilder().analyze();
 
 		expect(results.violations).toStrictEqual([]);
+	});
+
+	// No accessibility check needed – same projects page as first test
+	// eslint-disable-next-line no-restricted-syntax
+	test('should require authentication to access projects page', async ({ page, context }) => {
+		await expectRedirectToSignIn(page, context, '/uploader/de/projekte', 'de');
 	});
 
 	// No accessibility check needed – same projects page as first test
