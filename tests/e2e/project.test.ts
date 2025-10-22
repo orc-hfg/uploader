@@ -1,5 +1,5 @@
 import { expect, test } from './fixtures/accessibility';
-import { expectRedirectToSignIn } from './helpers/authentication';
+import { expectPageHeadingAndTitle, expectRedirectToSignIn } from './helpers/authentication';
 import { getChip } from './helpers/ui-components';
 
 const SECTIONS = {
@@ -40,8 +40,12 @@ test.describe('Project page (Full data)', () => {
 	});
 
 	test('should show project page correctly', async ({ page, makeAxeBuilder }) => {
-		await expect(page).toHaveTitle('Test collectionId collection-id-3 / metaKeyId madek_core:title Content – Uploader');
-		await expect(page.getByRole('heading', { name: 'Test collectionId collection-id-3 / metaKeyId madek_core:title Content' })).toBeVisible();
+		await expectPageHeadingAndTitle(
+			page,
+			'Test collectionId collection-id-3 / metaKeyId madek_core:title Content',
+			'Test collectionId collection-id-3 / metaKeyId madek_core:title Content – Uploader',
+		);
+
 		await expect(page.getByRole('button', { name: 'Alle Daten anzeigen' })).toBeVisible();
 
 		// Test accessibility of projects page
@@ -270,8 +274,7 @@ test.describe('Project page (Fallbacks)', () => {
 	test('should display fallbacks correctly for missing data', async ({ page }) => {
 		const projectTitle = 'Test collectionId collection-id-1 / metaKeyId madek_core:title Content';
 
-		await expect(page).toHaveTitle(`${projectTitle} – Uploader`);
-		await expect(page.getByRole('heading', { name: projectTitle })).toBeVisible();
+		await expectPageHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
 
 		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
 
@@ -317,8 +320,7 @@ test.describe('Project page (English locale)', () => {
 		 */
 		const projectTitle = 'Test collectionId collection-id-3 / metaKeyId creative_work:title_en Content';
 
-		await expect(page).toHaveTitle(`${projectTitle} – Uploader`);
-		await expect(page.getByRole('heading', { name: projectTitle })).toBeVisible();
+		await expectPageHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
 
 		await page.getByRole('button', { name: 'Show all data' }).click();
 

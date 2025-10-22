@@ -1,5 +1,5 @@
 import { expect, test } from './fixtures/accessibility';
-import { expectRedirectToSignIn, signInAsInvalidUser, signInAsValidUser } from './helpers/authentication';
+import { expectPageHeadingAndTitle, expectRedirectToSignIn, signInAsInvalidUser, signInAsValidUser } from './helpers/authentication';
 
 test.describe('Authentication flow', () => {
 	test.beforeEach(async ({ page }) => {
@@ -7,8 +7,8 @@ test.describe('Authentication flow', () => {
 	});
 
 	test('should show sign-in page correctly', async ({ page, makeAxeBuilder }) => {
-		await expect(page).toHaveTitle('Anmeldung – Uploader');
-		await expect(page.getByRole('heading', { name: 'Anmeldung' })).toBeVisible();
+		await expectPageHeadingAndTitle(page, 'Anmeldung', 'Anmeldung – Uploader');
+
 		await expect(page.getByRole('button', { name: 'Anmelden' })).toBeVisible();
 
 		const loginInput = page.getByLabel('E-Mail-Adresse oder Login');
@@ -29,7 +29,8 @@ test.describe('Authentication flow', () => {
 
 		// Verify successful redirect to projects page
 		await expect(page).toHaveURL('/uploader/de/projekte');
-		await expect(page).toHaveTitle('Projekte – Uploader');
+
+		await expectPageHeadingAndTitle(page, 'Projekte', 'Projekte – Uploader');
 	});
 
 	test('should show error with invalid credentials', async ({ page, makeAxeBuilder }) => {
@@ -62,8 +63,8 @@ test.describe('Authentication flow (English locale)', () => {
 	// No accessibility check needed – same sign-in page as German locale test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should show sign-in page with English locale', async ({ page }) => {
-		await expect(page).toHaveTitle('Sign-in – Uploader');
-		await expect(page.getByRole('heading', { name: 'Sign-in' })).toBeVisible();
+		await expectPageHeadingAndTitle(page, 'Sign-in', 'Sign-in – Uploader');
+
 		await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
 
 		const loginInput = page.getByLabel('Email or login');

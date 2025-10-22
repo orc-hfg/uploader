@@ -1,5 +1,5 @@
 import { expect, test } from './fixtures/accessibility';
-import { expectRedirectToSignIn } from './helpers/authentication';
+import { expectPageHeadingAndTitle, expectRedirectToSignIn } from './helpers/authentication';
 
 test.describe('Projects page', () => {
 	test.beforeEach(async ({ page }) => {
@@ -7,8 +7,8 @@ test.describe('Projects page', () => {
 	});
 
 	test('should show projects page correctly', async ({ page, makeAxeBuilder }) => {
-		await expect(page).toHaveTitle('Projekte – Uploader');
-		await expect(page.getByRole('heading', { name: 'Projekte' })).toBeVisible();
+		await expectPageHeadingAndTitle(page, 'Projekte', 'Projekte – Uploader');
+
 		await expect(page.getByRole('button', { name: 'Neues Projekt' })).toBeVisible();
 
 		const results = await makeAxeBuilder().analyze();

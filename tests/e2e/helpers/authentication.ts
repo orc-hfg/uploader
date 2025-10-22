@@ -48,14 +48,25 @@ export async function signInAsInvalidUser(page: Page, locale: AppLocale): Promis
 	await signInAs(page, AUTHENTICATION_INVALID_USER_LOGIN, AUTHENTICATION_INVALID_USER_PASSWORD, locale);
 }
 
+/*
+ * Helper to assert page is fully loaded
+ * Waits for heading first (proves data is loaded), then checks document title
+ * This prevents race conditions in dev server where title might be set asynchronously
+ */
+export async function expectPageHeadingAndTitle(page: Page, expectedHeading: string, expectedTitle: string): Promise<void> {
+	await expect(page.getByRole('heading', { name: expectedHeading })).toBeVisible();
+	await expect(page).toHaveTitle(expectedTitle);
+}
+
 export async function expectRedirectToSignIn(page: Page, context: BrowserContext, protectedRoute: string, locale: AppLocale): Promise<void> {
 	await context.clearCookies();
 
 	await page.goto(protectedRoute);
 
 	const signInPath = locale === 'de' ? '/uploader/de/anmeldung' : '/uploader/en/sign-in';
+	const expectedHeading = locale === 'de' ? 'Anmeldung' : 'Sign In';
 	const expectedTitle = locale === 'de' ? 'Anmeldung – Uploader' : 'Sign In – Uploader';
 
 	await expect(page).toHaveURL(signInPath);
-	await expect(page).toHaveTitle(expectedTitle);
+	await expectPageHeadingAndTitle(page, expectedHeading, expectedTitle);
 }
