@@ -24,6 +24,7 @@ Folgende Dateien entsprechend anpassen:
 
 - `npm run upgrade` ausführen, um Nuxt zu updaten.
 - `npm run check:updates` verwenden, Updates installieren und währenddessen immer wieder die Funktionalität testen.
+- Nuxt compatibility date in `nuxt.config.ts` aktualisieren (https://nuxt.com/docs/4.x/api/nuxt-config#compatibilitydate)
 
 ### Überprüfen der offenen Wartungsaufgaben
 

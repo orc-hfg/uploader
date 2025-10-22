@@ -21,6 +21,7 @@ Die Dokumentation ist in mehrere domänenspezifische README-Dateien aufgeteilt:
 - [Wartungsaufgaben](./readme.maintenance-todo.md) – Offene Wartungsaufgaben
 - [Testing](./readme.testing.md) – Teststrategie, E2E-Tests mit Playwright
 - [TypeScript-Richtlinien](./readme.typescript.md) – Best Practices für TypeScript im Projekt
+- [Sentry Error Tracking](./readme.sentry.md) – Fehlerüberwachung, Konfiguration und Datenscrubbing
 
 ## Externe Dokumentation
 

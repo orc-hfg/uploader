@@ -1,7 +1,35 @@
 /*
  * Authentication Mock Plugin for Local Development
  *
- * Provides functional authentication endpoints for local development and testing.
+ * WHY THIS EXISTS:
+ * In production, the application relies on an external authentication system running
+ * on the server. This system handles user login, session management, and CSRF protection.
+ *
+ * Problem: During local development and automated testing, this external system is not
+ * available. Without it, developers cannot:
+ * - Test authentication flows
+ * - Access protected pages
+ * - Develop features that require authenticated users
+ * - Run E2E tests that need authentication
+ *
+ * Solution: This mock plugin replicates the essential authentication endpoints locally,
+ * allowing development and testing to proceed independently of the production server.
+ *
+ * WHEN THIS IS USED:
+ * - ✅ Local development (npm run dev) - enabled via nuxt.config.ts
+ * - ✅ E2E tests (npm run test:e2e) - enabled via test environment config
+ * - ✅ Preview environments - enabled for testing without production dependencies
+ * - ❌ Production - disabled, uses real authentication system
+ *
+ * WHAT IT PROVIDES:
+ * - Mock sign-in endpoint with credential validation
+ * - CSRF token generation and validation
+ * - Session cookie management
+ * - Compatible API responses that match production behavior
+ *
+ * SECURITY NOTE:
+ * This mock uses hardcoded test credentials (see shared/constants/test.ts) and should
+ * NEVER be enabled in production. The enableAuthenticationMock (see nuxt.config.ts) flag ensures this.
  *
  * IMPORTANT: URL Structure Difference
  * - Production: Authentication runs at root path (https://server/auth/*)
@@ -48,6 +76,8 @@ export default defineNitroPlugin((nitroApp) => {
 		return;
 	}
 
+	const serverStartupLogger = createServerStartupLogger('Plugin: Authentication Mock');
+
 	const { basePath, signInPathName, signOutPathName, systemPathName, defaultSystemName, emailOrLoginParameter, csrfCookieName, csrfHeaderName, sessionCookieName } = authenticationConfig;
 
 	// Build authentication route paths
@@ -56,10 +86,21 @@ export default defineNitroPlugin((nitroApp) => {
 	const signOutPath = `/${basePath}${signOutPathName}`;
 
 	nitroApp.router.get(authenticationSystemPath, defineEventHandler((event) => {
-		setCookie(event, csrfCookieName, generateCsrfToken(), {
-			path: '/',
-			httpOnly: false,
-		});
+		const existingToken = getCookie(event, csrfCookieName);
+
+		// Only generate new token if none exists
+		if (existingToken === undefined) {
+			const newToken = generateCsrfToken();
+			serverStartupLogger.info('Session initialization - Generating new token:', newToken);
+
+			setCookie(event, csrfCookieName, newToken, {
+				path: '/',
+				httpOnly: false,
+			});
+		}
+		else {
+			serverStartupLogger.info('Session initialization - Reusing existing token:', existingToken);
+		}
 	}));
 
 	nitroApp.router.post(signInPath, defineEventHandler(async (event) => {
@@ -71,6 +112,8 @@ export default defineNitroPlugin((nitroApp) => {
 		const csrfHeader = (getHeader(event, csrfHeaderName) ?? '').toLocaleLowerCase();
 
 		if (csrfToken !== csrfHeader) {
+			serverStartupLogger.info('Invalid CSRF token provided.', { csrfToken, csrfHeader });
+
 			throw createError({
 				statusCode: StatusCodes.FORBIDDEN,
 				statusMessage: 'The CSRF token does not match.',
@@ -78,6 +121,8 @@ export default defineNitroPlugin((nitroApp) => {
 		}
 
 		if (loginValue !== AUTHENTICATION_MOCK_VALID_USER.login || body.password !== AUTHENTICATION_MOCK_VALID_USER_PASSWORD) {
+			serverStartupLogger.info('Invalid credentials provided.', { login: loginValue, password: body.password });
+
 			throw createError({
 				statusCode: StatusCodes.UNAUTHORIZED,
 				statusMessage: 'The provided credentials are invalid.',

@@ -32,23 +32,6 @@ return defaultBehavior();
 
 ## TypeScript mit ESLint und Nuxt
 
-### Nuxt Auto-Imports und Konfigurationsdateien
-
-Bei Nuxt-Konfigurationsdateien (wie Sentry), die nicht in der Haupt-tsconfig.json definiert sind:
-
-**Pragmatische Lösung:**
-- **Lokale Typdeklarationen** für Auto-Imports hinzufügen:
-  ```typescript
-  // Für useRuntimeConfig
-  declare function useRuntimeConfig(): {
-    public: {
-      // Relevante Eigenschaften hier definieren
-    }
-  };
-  ```
-- **Keine expliziten Imports** verwenden - weder aus '#imports' noch aus 'nuxt/app'
-- Konfigurationsdateien in der **ESLint-Ignore-Liste** belassen
-
 ### Nuxt 4 TypeScript-Konfiguration
 
 Das Projekt nutzt Nuxt 4's TypeScript-Konfiguration-Splitting mit separaten tsconfig-Dateien für verschiedene Kontexte:

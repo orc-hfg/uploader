@@ -3,6 +3,9 @@
 		"title": "Uploader"
 	},
 	"components": {
+		"labeled_chip_list": {
+			"secondary_label": "Zusatzinformation"
+		},
 		"project": {
 			"open": "Öffnen"
 		},
@@ -33,10 +36,28 @@
 			"password": "Passwort"
 		}
 	},
+	"header": {
+		"previous_page": "Vorherige Seite"
+	},
 	"meta": {
 		"description": "Uploader der HfG Karlsruhe: eine einfache App, mit der Studierende ihre Projekte schnell bereitstellen können."
 	},
 	"pages": {
+		"error": {
+			"actions": {
+				"back_to_projects": "Zur Projektübersicht"
+			},
+			"messages": {
+				"error_message": "Bitte versuchen Sie es erneut oder kehren Sie zur Projektübersicht zurück.",
+				"error_title": "Es ist ein Fehler aufgetreten."
+			},
+			"title": "Fehler"
+		},
+		"project_id": {
+			"actions": {
+				"show_all_data": "Alle Daten anzeigen"
+			}
+		},
 		"projects": {
 			"image_alt": "Projektbild",
 			"messages": {

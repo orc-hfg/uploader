@@ -17,8 +17,7 @@ describe('useAuthentication()', () => {
 	});
 
 	afterEach(() => {
-		vi.resetAllMocks();
-		vi.clearAllMocks();
+		vi.restoreAllMocks();
 	});
 
 	describe('validateAuthentication', () => {
@@ -31,7 +30,6 @@ describe('useAuthentication()', () => {
 		});
 
 		it('should return false when CSRF token is null', async () => {
-			// eslint-disable-next-line unicorn/no-null
 			vi.mocked(getCookieMock).mockReturnValue({ value: null });
 
 			const { validateAuthentication } = useAuthentication();
@@ -93,7 +91,7 @@ describe('useAuthentication()', () => {
 
 		it('should not call getUserRepository.getAuthInfo when CSRF token is invalid', async () => {
 			const mockGetAuthInfo = vi.fn();
-			// eslint-disable-next-line unicorn/no-null
+
 			vi.mocked(getCookieMock).mockReturnValue({ value: null });
 			vi.mocked(getUserRepositoryMock).mockReturnValue({
 				getAuthInfo: mockGetAuthInfo,

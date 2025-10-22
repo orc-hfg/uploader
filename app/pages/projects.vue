@@ -3,10 +3,7 @@
 	import Project from '@/components/content/Project.vue';
 	import PageMessage from '@/components/elements/PageMessage.vue';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.projects.title';
-
 	definePageMeta({
-		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
 		pageTransition: {
 			name: 'middleware-controlled',
 		},
@@ -22,18 +19,19 @@
 
 	const appLogger = createAppLogger('Page: projects');
 
-	const headerUIStore = useHeaderUIStore();
-	const footerUIStore = useFooterUIStore();
+	const { t, locale } = useI18n();
+
+	useRouteTitle(() => t('pages.projects.title'));
+
 	const setsStore = useSetsStore();
 
-	const { t, locale } = useI18n();
 	const { signOut } = useAuthentication();
 
 	/*
 	 * Load user sets data on initial load and on locale-based navigation
 	 * Navigation mode ensures data refreshes when switching between different routes
 	 */
-	await callOnce(() => setsStore.refreshData(locale.value), { mode: 'navigation' });
+	await callOnce(() => setsStore.refresh(locale.value), { mode: 'navigation' });
 
 	async function handleSignOut() {
 		try {
@@ -47,7 +45,11 @@
 		}
 	}
 
-	const footerConfig = {
+	useFooterActions({
+		/*
+		 * TODO: Sign-out button is temporary for testing purposes.
+		 * It will be integrated into a proper header menu component in the future.
+		 */
 		left: {
 			component: Button,
 			props: {
@@ -60,48 +62,25 @@
 			component: Button,
 			props: {
 				label: t('footer.actions.new_project'),
-				icon: 'pi pi-plus',
 				type: 'button',
+				icon: 'pi pi-plus',
 			},
 		},
-	};
-
-	onMounted(() => {
-		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
-
-		footerUIStore.leftActionComponent = footerConfig.left.component;
-		footerUIStore.leftActionProps = footerConfig.left.props;
-
-		footerUIStore.rightActionComponent = footerConfig.right.component;
-		footerUIStore.rightActionProps = footerConfig.right.props;
-	});
-
-	onBeforeUnmount(() => {
-		footerUIStore.reset();
 	});
 </script>
 
 <template>
-	<div>
-		<ul v-if="setsStore.sets.length > 0">
-			<li
-				v-for="setsData in setsStore.setsData" :key="setsData.id" class="
-      border-slate-300 pb-10
-      not-first:mt-10
-      not-last:border-b-1
-      last:pb-20
-    "
-			>
-				<Project :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
-			</li>
-		</ul>
-		<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
-		<!--
-			<div class="mt-5">
-			<NuxtLinkLocale to="index">
-			Link: {{ $t('pages.sign_in.title') }}
-			</NuxtLinkLocale>
-			</div>
-		-->
-	</div>
+	<ul v-if="setsStore.sets.length > 0">
+		<li
+			v-for="setsData in setsStore.setsData" :key="setsData.id" class="
+     border-slate-300 pb-10
+     not-first:mt-10
+     not-last:border-b-1
+     last:pb-20
+   "
+		>
+			<Project :id="setsData.id" :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
+		</li>
+	</ul>
+	<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
 </template>

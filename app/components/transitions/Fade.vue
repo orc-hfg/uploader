@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	const { duration = 0.5 } = defineProps<{
+	const { duration = 0.25 } = defineProps<{
 		duration?: number;
 	}>();
 
@@ -12,32 +12,36 @@
 	</Transition>
 </template>
 
+<!--
+	This style block is necessary despite the project's preference for Tailwind-only styling because:
+
+	1. Transition classes must apply to slot content from parent components
+	- Vue applies transition classes (like .fade-enter-active) to slot content
+	- Scoped styles only match elements with the same data-v-* attribute
+	- Slot content has different data-v-* attributes from parent components
+	- Result: Scoped styles won't match and transitions won't work
+
+	2. Dynamic CSS variables via v-bind() are used (see line 37)
+	- v-bind(animationDuration) injects runtime-reactive CSS custom properties
+	- This allows prop-driven animation timing
+
+	Reference: https://vuejs.org/guide/built-ins/transition#reusable-transitions
+-->
 <!-- eslint-disable vue/enforce-style-attribute -->
-<!-- Note: avoid using <style scoped> here since it does not apply to slot content. -->
-<!-- https://vuejs.org/guide/built-ins/transition#reusable-transitions -->
-<style lang="css">
+<!-- eslint-disable-next-line vue/no-restricted-block -->
+<style>
 	.fade-enter-active,
 	.fade-leave-active {
-		animation-duration: v-bind(animationDuration);
-		animation-fill-mode: forwards;
-		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
+		transition: opacity v-bind(animationDuration) var(--ease-smooth);
 	}
 
-	.fade-enter-active {
-		animation-name: fadeIn;
+	.fade-enter-from,
+	.fade-leave-to {
+		opacity: 0;
 	}
 
-	.fade-leave-active {
-		animation-name: fadeOut;
-	}
-
-	@keyframes fadeIn {
-		from { opacity: 0; }
-		to { opacity: 1; }
-	}
-
-	@keyframes fadeOut {
-		from { opacity: 1; }
-		to { opacity: 0; }
+	.fade-enter-to,
+	.fade-leave-from {
+		opacity: 1;
 	}
 </style>

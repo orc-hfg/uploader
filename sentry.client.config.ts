@@ -23,6 +23,7 @@ if (sentry.enabled === true && isHostAllowed) {
 		/*
 		 * This sets the sample rate to be 10%. You may want this to be 100% while
 		 * In development and sample at a lower rate in production
+		 * See: https://docs.sentry.io/platforms/javascript/session-replay/
 		 */
 		replaysSessionSampleRate: 0.1,
 

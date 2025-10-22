@@ -25,6 +25,24 @@
 2. Nach erfolgreichem Sign-in wird **Session-Cookie** gesetzt
 3. **Session-Validierung**: Auth-Info-Endpoint validiert Session-Cookies für jeden nachfolgenden Request
 
+## Test-Zugangsdaten für Authentication Mock
+
+### Wo finde ich die Zugangsdaten?
+
+Alle Test-Credentials sind zentral definiert in: **`shared/constants/test.ts`**
+
+**Verwendung**:
+- Lokale Entwicklung: Manuelles Sign-in über das Sign-in-Formular
+- E2E-Tests: Automatisches Sign-in via `signInAsValidUser()` Helper
+- Playwright Setup: Erstellt authentifizierte Session in `authentication.setup.ts`
+
+### Wichtige Hinweise
+
+⚠️ **Diese Credentials sind nur für Mock/Development**:
+- Funktionieren **nur**, wenn `enableAuthenticationMock: true` in `nuxt.config.ts`
+- Werden **nie** in Production verwendet
+- Sind einfach gehalten für schnelle lokale Entwicklung
+
 ## URL-Strukturen und Umgebungsunterschiede
 
 ### Lokale Entwicklung vs. Produktion

@@ -1,15 +1,11 @@
 <script lang="ts" setup>
 	import type { FormSubmitEvent } from '@primevue/forms';
 	import { zodResolver } from '@primevue/forms/resolvers/zod';
-	import { onStartTyping } from '@vueuse/core';
 	import { StatusCodes } from 'http-status-codes';
 	import Button from 'primevue/button';
 	import { z } from 'zod';
 
-	const PAGE_TITLE_KEY_PATH = 'pages.sign_in.title';
-
 	definePageMeta({
-		pageTitleKeyPath: PAGE_TITLE_KEY_PATH,
 		pageTransition: {
 			name: 'middleware-controlled',
 		},
@@ -23,12 +19,11 @@
 		},
 	});
 
-	const headerUIStore = useHeaderUIStore();
-	const footerUIStore = useFooterUIStore();
-
 	const { t } = useI18n();
 
-	const footerConfig = {
+	useRouteTitle(() => t('pages.sign_in.title'));
+
+	useFooterActions({
 		right: {
 			component: Button,
 			props: {
@@ -38,17 +33,6 @@
 				form: 'signInForm',
 			},
 		},
-	};
-
-	onMounted(() => {
-		headerUIStore.setPageTitleKeyPath(PAGE_TITLE_KEY_PATH);
-
-		footerUIStore.rightActionComponent = footerConfig.right.component;
-		footerUIStore.rightActionProps = footerConfig.right.props;
-	});
-
-	onBeforeUnmount(() => {
-		footerUIStore.reset();
 	});
 
 	// Form schema and validation setup
@@ -77,7 +61,7 @@
 		}
 	});
 
-	const signInError = ref<string | undefined>(undefined);
+	const signInError = shallowRef<string | undefined>();
 
 	function clearSignInError() {
 		if (signInError.value) {
@@ -117,6 +101,27 @@
 
 <template>
 	<Form id="signInForm" v-slot="$form" :initial-values="initialValues" :resolver="resolver" @submit="onFormSubmit">
+		<!--
+			Disable wcag/h32 rule due to architectural design decision.
+			This application uses a separated footer pattern where action buttons (including submit buttons)
+			are rendered in the footer component, not within form elements.
+			The submit button is correctly connected via the form="signInForm" attribute and is fully functional.
+		-->
+		<!-- [html-validate-disable wcag/h32] -->
+
+		<!--
+			Disable element-permitted-content due to PrimeVue FloatLabel implementation.
+			FloatLabel renders a <span> but Password component renders a <div>,
+			which violates HTML nesting rules. This follows official PrimeVue documentation.
+			See: https://primevue.org/inputtext/#floatlabel
+		-->
+		<!-- [html-validate-disable element-permitted-content] -->
+
+		<!--
+			Disable no-missing-references due to PrimeVue Password component bug.
+			When feedback={false}, the overlay is not rendered but aria-controls attribute remains.
+		-->
+		<!-- [html-validate-disable no-missing-references] -->
 		<Fluid>
 			<div class="flex flex-col gap-6">
 				<div class="flex flex-col gap-1">

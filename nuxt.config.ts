@@ -195,6 +195,9 @@ export default defineNuxtConfig({
 		public: {
 			enableLogging: false,
 
+			// Force fade transition for all page changes (fallback for slide animation issues)
+			enableFadeTransitionFallback: false,
+
 			// Enable authentication mock for development and testing (session-based authentication)
 			enableAuthenticationMock: false,
 
@@ -247,6 +250,28 @@ export default defineNuxtConfig({
 		},
 	},
 	$development: {
+		modules: [
+			[
+				'@nuxtjs/html-validator',
+				{
+					options: {
+						rules: {
+							'element-case': [
+								'error',
+								{
+								/*
+								 * PrimeVue components unfortunately output uppercase element names on the server (e.g., <BUTTON />),
+								 * which conflicts with the html-validator "element-case" rule that enforces lowercase.
+								 * Disable this rule in development to avoid false positives when using PrimeVue components.
+								 */
+									style: ['lowercase', 'uppercase'],
+								},
+							],
+						},
+					},
+				},
+			],
+		],
 		runtimeConfig: {
 			public: {
 				enableLogging: true,

@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 	import type { MaybeElement } from '@vueuse/core';
 	import Logo from '@/components/brand/Logo.vue';
+	import Content from '@/components/layout/Content.vue';
 	import Footer from '@/components/layout/Footer.vue';
 	import Header from '@/components/layout/Header.vue';
 
-	const appLogger = createAppLogger('Layout: default');
-
-	const route = useRoute();
 	const { t } = useI18n();
+	const route = useRoute();
 
 	const metaTitle = computed(() => {
 		const appTitle = t('app.title');
@@ -16,15 +15,7 @@
 			return '';
 		}
 
-		const { pageTitleKeyPath } = route.meta;
-
-		if (!pageTitleKeyPath) {
-			appLogger.warn('[i18n] No pageTitleKeyPath defined for route', route.path);
-
-			return appTitle;
-		}
-
-		const pageTitle = t(pageTitleKeyPath);
+		const { pageTitle } = route.meta;
 
 		if (!pageTitle?.trim()) {
 			return appTitle;
@@ -112,7 +103,9 @@
 	<div>
 		<Html>
 			<Head>
-				<Title>{{ metaTitle }}</Title>
+				<Title>
+					{{ metaTitle }}
+				</Title>
 				<Meta name="description" :content="t('meta.description')" />
 			</Head>
 			<Body>
@@ -130,8 +123,12 @@
 							<Header />
 						</header>
 
-						<main class="grow overflow-y-auto px-10 pt-12" tabindex="0">
-							<NuxtPage />
+						<main class="grow overflow-y-auto pt-12" tabindex="0">
+							<Content>
+								<slot name="main">
+									<NuxtPage />
+								</slot>
+							</Content>
 						</main>
 
 						<footer
@@ -156,60 +153,87 @@
 	</div>
 </template>
 
-<style lang="css" scoped>
+<!--
+	This style block is necessary despite the project's preference for Tailwind-only styling because:
+
+	1. Vue's <Transition> component requires CSS classes with specific lifecycle suffixes
+	(-enter-active, -enter-from, -enter-to, -leave-active, -leave-from, -leave-to)
+
+	2. Tailwind cannot dynamically generate these Vue-specific transition classes
+
+	3. CSS custom properties (--duration-fast, --ease-smooth) provide centralized timing values
+-->
+<!-- eslint-disable-next-line vue/no-restricted-block -->
+<style scoped>
+	/* General page content transitions */
+
+	/* Fade transition (reduce motion or forced fallback) */
 	.fade-transition-enter-active,
 	.fade-transition-leave-active {
-		transition: opacity 0.5s;
+		transition: opacity var(--duration-fast);
 	}
 	.fade-transition-enter-from,
 	.fade-transition-leave-to {
 		opacity: 0;
 	}
 
+	/*
+	* Slide transitions
+	* Note: Left/right slide animations can occasionally exhibit buggy behavior
+	* where pages slide in the wrong direction. The root cause is unclear.
+	* If issues persist, consider enabling the fade transition fallback by setting
+	* enableFadeTransitionFallback to true in nuxt.config.ts
+	*/
 	.slide-left-enter-active,
 	.slide-left-leave-active,
 	.slide-right-enter-active,
 	.slide-right-leave-active {
 		position: absolute;
 		width: 100%;
-		animation-duration: 0.5s;
-		animation-fill-mode: forwards;
-		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
+		transition:
+			transform var(--duration-fast) var(--ease-smooth),
+			opacity var(--duration-fast) var(--ease-smooth);
 	}
 
-	.slide-left-enter-active {
-		animation-name: slideInFromRight;
+	/* Slide left transition (forward navigation) */
+	.slide-left-enter-from {
+		transform: translateX(100%);
+		opacity: 0;
 	}
 
-	.slide-left-leave-active {
-		animation-name: slideOutToRight;
+	.slide-left-enter-to {
+		transform: translateX(0);
+		opacity: 1;
 	}
 
-	.slide-right-enter-active {
-		animation-name: slideInFromLeft;
+	.slide-left-leave-from {
+		transform: translateX(0);
+		opacity: 1;
 	}
 
-	.slide-right-leave-active {
-		animation-name: slideOutToLeft;
+	.slide-left-leave-to {
+		transform: translateX(-100%);
+		opacity: 0;
 	}
 
-	@keyframes slideInFromRight {
-		from { transform: translateX(100%); }
-		to { transform: translateX(0); }
+	/* Slide right transition (backward navigation) */
+	.slide-right-enter-from {
+		transform: translateX(-100%);
+		opacity: 0;
 	}
 
-	@keyframes slideOutToRight {
-		from { transform: translateX(0); }
-		to { transform: translateX(100%); }
+	.slide-right-enter-to {
+		transform: translateX(0);
+		opacity: 1;
 	}
 
-	@keyframes slideInFromLeft {
-		from { transform: translateX(-100%); }
-		to { transform: translateX(0); }
+	.slide-right-leave-from {
+		transform: translateX(0);
+		opacity: 1;
 	}
 
-	@keyframes slideOutToLeft {
-		from { transform: translateX(0); }
-		to { transform: translateX(-100%); }
+	.slide-right-leave-to {
+		transform: translateX(100%);
+		opacity: 0;
 	}
 </style>

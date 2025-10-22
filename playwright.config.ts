@@ -56,14 +56,40 @@ export default defineConfig({
 		},
 	},
 
-	// Configure projects for major browsers.
+	/*
+	* THREE-PROJECT TEST ARCHITECTURE
+	*
+	* This configuration splits E2E tests into three separate projects to optimize
+	* test execution and authentication handling:
+	*
+	* 1. "sign-in-page": Tests authentication functionality WITHOUT being authenticated
+	*    - Runs index.test.ts (sign-in page tests)
+	*    - No storageState (starts unauthenticated)
+	*    - Tests sign-in flow, validation, error handling
+	*
+	* 2. "authentication-setup": Creates reusable authentication session
+	*    - Runs authentication.setup.ts once
+	*    - Performs real sign-in and saves session to file
+	*    - Other projects depend on this
+	*    - See tests/e2e/authentication.setup.ts for detailed explanation
+	*
+	* 3. "authenticated-pages": Tests all protected pages WITH authentication
+	*    - Runs all tests EXCEPT index.test.ts
+	*    - Loads storageState from authentication-setup
+	*    - Starts already authenticated
+	*    - Depends on authentication-setup completing first
+	*
+	* EXECUTION ORDER:
+	* 1. sign-in-page (parallel with authentication-setup)
+	* 2. authentication-setup (creates session file)
+	* 3. authenticated-pages (waits for session file, then runs)
+	*
+	* REFERENCES:
+	* - Blog post: https://www.checklyhq.com/blog/speed-up-playwright-tests-with-storage-state/
+	* - Playwright Storage State: https://playwright.dev/docs/auth#reuse-signed-in-state
+	*/
 	projects: [
-		/*
-		 * Speedup tests by reusing the authentication session:
-		 * https://www.checklyhq.com/blog/speed-up-playwright-tests-with-storage-state/
-		 */
 		{
-			// Only test the sign-in page
 			name: 'sign-in-page',
 			use: { ...devices['Desktop Chrome'] },
 			testMatch: 'index.test.ts',

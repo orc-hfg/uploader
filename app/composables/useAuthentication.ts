@@ -107,6 +107,13 @@ export function useAuthentication(): UseAuthenticationReturn {
 		const authenticationSystemEndpoint = buildAuthenticationSystemUrl(emailOrLogin);
 
 		try {
+			/*
+			 * Direct $fetch call is intentionally allowed here.
+			 * The Nuxt Layer provides repositories for MADEK API access,
+			 * but authentication is NOT part of the MADEK API - it's a separate system.
+			 * Therefore, no repository/service layer exists for authentication endpoints.
+			 */
+			// eslint-disable-next-line no-restricted-syntax
 			await $fetch(authenticationSystemEndpoint);
 		}
 		catch (error: unknown) {
@@ -127,6 +134,13 @@ export function useAuthentication(): UseAuthenticationReturn {
 		const signInEndpoint = buildSignInUrl(emailOrLogin);
 
 		try {
+			/*
+			 * Direct $fetch call is intentionally allowed here.
+			 * The Nuxt Layer provides repositories for MADEK API access,
+			 * but authentication is NOT part of the MADEK API - it's a separate system.
+			 * Therefore, no repository/service layer exists for authentication endpoints.
+			 */
+			// eslint-disable-next-line no-restricted-syntax
 			await $fetch(signInEndpoint, {
 				headers: {
 					[csrfHeaderName]: csrfToken.value ?? '',
@@ -146,6 +160,13 @@ export function useAuthentication(): UseAuthenticationReturn {
 		const signOutEndpoint = buildSignOutUrl();
 
 		try {
+			/*
+			 * Direct $fetch call is intentionally allowed here.
+			 * The Nuxt Layer provides repositories for MADEK API access,
+			 * but authentication is NOT part of the MADEK API - it's a separate system.
+			 * Therefore, no repository/service layer exists for authentication endpoints.
+			 */
+			// eslint-disable-next-line no-restricted-syntax
 			await $fetch(signOutEndpoint, {
 				// TODO: Will this work later without special headers?
 				headers: {

@@ -1,37 +1,42 @@
+import type { RouteBaseName } from '@/constants/routes';
+import { ROUTE_BASE_NAME_ORDER } from '@/constants/routes';
+
 export default defineNuxtRouteMiddleware((to, from) => {
+	const config = useRuntimeConfig();
+	const publicConfig = config.public;
+	const isFadeTransitionFallbackEnabled = publicConfig.enableFadeTransitionFallback;
+
 	if (typeof to.meta.pageTransition !== 'object' || typeof to.meta.pageTransition === 'boolean') {
 		return;
 	}
 
-	const motion = usePreferredReducedMotion();
-	if (motion.value === 'reduce') {
-		// Use fade transition for reduced motion: https://css-tricks.com/nuking-motion-with-prefers-reduced-motion/
+	const preferredReducedMotion = usePreferredReducedMotion();
+	if (preferredReducedMotion.value === 'reduce' || isFadeTransitionFallbackEnabled) {
+		// Use fade transition for reduced motion or when forced: https://css-tricks.com/nuking-motion-with-prefers-reduced-motion/
 		to.meta.pageTransition.name = 'fade-transition';
 		to.meta.pageTransition.mode = 'out-in';
 
 		return;
 	}
 
-	const PAGE_ORDER = ['index', 'projects'];
-
 	const { $routeBaseName } = useNuxtApp();
-	const toBaseName = $routeBaseName(to);
-	const fromBaseName = $routeBaseName(from);
+	const toRouteBaseName = $routeBaseName(to);
+	const fromRouteBaseName = $routeBaseName(from);
 
-	let transitionName = 'no-transition';
+	let pageTransitionName = 'no-transition';
 
 	if (
-		typeof toBaseName === 'string'
-		&& typeof fromBaseName === 'string'
-		&& toBaseName !== fromBaseName
+		typeof toRouteBaseName === 'string'
+		&& typeof fromRouteBaseName === 'string'
+		&& toRouteBaseName !== fromRouteBaseName
 	) {
-		const toIndex = PAGE_ORDER.indexOf(toBaseName);
-		const fromIndex = PAGE_ORDER.indexOf(fromBaseName);
+		const toRouteBaseNameIndex = ROUTE_BASE_NAME_ORDER.indexOf(toRouteBaseName as RouteBaseName);
+		const fromRouteBaseNameIndex = ROUTE_BASE_NAME_ORDER.indexOf(fromRouteBaseName as RouteBaseName);
 
-		if (toIndex !== -1 && fromIndex !== -1) {
-			transitionName = toIndex > fromIndex ? 'slide-left' : 'slide-right';
+		if (toRouteBaseNameIndex !== -1 && fromRouteBaseNameIndex !== -1) {
+			pageTransitionName = toRouteBaseNameIndex > fromRouteBaseNameIndex ? 'slide-left' : 'slide-right';
 		}
 	}
 
-	to.meta.pageTransition.name = transitionName;
+	to.meta.pageTransition.name = pageTransitionName;
 });

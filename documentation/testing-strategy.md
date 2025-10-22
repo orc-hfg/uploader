@@ -130,7 +130,7 @@ test('should sign in successfully with valid credentials', async ({ page }) => {
 });
 
 test('should show error with invalid credentials', async ({ page }) => {
-  await signInAsInvalidUser(page);
+  await signInAsInvalidUser(page, 'de');
 
   const errorMessage = page.getByTestId('sign-in-error');
   await expect(errorMessage).toBeVisible();
