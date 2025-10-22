@@ -1,31 +1,24 @@
 # Quality assurance & end-to-end tests workflow
 #
-# This workflow runs comprehensive testing for all commits and PRs, with optimized
-# handling for release commits to balance security and efficiency.
+# This workflow runs comprehensive testing for all commits and PRs, including release commits.
 #
 # Design decisions:
-# 1. **Job-gate pattern**: A dedicated job (is-release-commit) checks if the current
-#    commit is a release commit. Subsequent jobs only run if it's NOT a release commit.
+# 1. **Always test**: Every commit to main branch is tested, including release commits.
+#    This ensures that even if admins bypass branch protection, code is always validated.
 #
-# 2. **Resource optimization**:
-#    - For NORMAL commits and PRs: Full quality assurance suite runs (~4 minutes)
-#    - For RELEASE commits: All quality assurance jobs are completely skipped (~30 seconds)
-#
-# 3. **Performance improvements**:
+# 2. **Performance improvements**:
 #    - Optimized npm flags (--no-audit --no-fund --loglevel=error)
 #    - Playwright browser caching
-#    - Job-level conditional execution (not just step-level)
 #    - Composite actions for reusable steps
 #
-# 4. **Modular structure**:
-#    - Reusable workflows for shared logic (detect-release-commit)
+# 3. **Modular structure**:
 #    - Composite actions for repeatable tasks (setup-npmrc, setup-node-dependencies, setup-playwright, quality-assurance)
 #    - Improved maintainability through centralized definition of common steps
 #
-# 5. **Artifact preservation**: Uploads Playwright reports for debugging failed tests,
+# 4. **Artifact preservation**: Uploads Playwright reports for debugging failed tests,
 #    even when the workflow fails (but not when cancelled).
 #
-# 6. **Concurrency control**: Prevents parallel runs for the same PR/branch to save
+# 5. **Concurrency control**: Prevents parallel runs for the same PR/branch to save
 #    CI resources. Main branch pushes run independently as they represent deployment stages.
 
 name: Quality assurance & end-to-end tests
@@ -41,13 +34,8 @@ on:
     branches: [main]
 
 jobs:
-  detect-release-commit:
-    name: Detect release commit
-    uses: ./.github/workflows/_reusable-detect-release-commit.yml
   quality-assurance:
     name: Quality assurance
-    needs: detect-release-commit
-    if: needs.detect-release-commit.outputs.is_release_commit == 'false'
     runs-on: ubuntu-latest
 
     steps:
@@ -72,8 +60,6 @@ jobs:
 
   end-to-end-tests:
     name: End-to-end tests
-    needs: detect-release-commit
-    if: needs.detect-release-commit.outputs.is_release_commit == 'false'
     runs-on: ubuntu-latest
 
     steps:

@@ -1,12 +1,47 @@
 # Release Management
 
+## Überblick: Git-Tags vs. GitHub Releases
+
+**Wichtig zu verstehen:** In diesem Projekt (Uploader) erstellen die Release-Skripte **Git-Tags**, aber **keine GitHub Releases** (wie im dazugehörigen Nuxt-Layer-Projekt).
+
+### Was wird automatisch erstellt?
+
+✅ **Git-Tags** (über `npm run release:*`)
+- Versionsnummer in package.json wird erhöht
+- Git-Commit wird erstellt
+- Git-Tag wird erstellt und gepusht
+- Versionierung im Repository ist sichtbar
+
+❌ **Keine GitHub Releases**
+- Keine automatische Release-Erstellung in GitHub
+- Kein Package Publishing
+- Keine automatischen Release Notes
+
+### Unterschied zum Nuxt-Layer-Projekt (https://github.com/orc-hfg/madek-api-nuxt-layer)
+
+Im **Nuxt-Layer**-Projekt sieht der Prozess anders aus:
+- Git-Tags triggern automatisch GitHub Actions
+- GitHub Releases werden automatisch erstellt
+- Package wird zu GitHub Packages publiziert
+- Release Notes werden generiert
+
+**Warum dieser Unterschied?**
+- **Nuxt-Layer**: Wird als Package konsumiert → braucht Distribution-Mechanismus
+- **Uploader**: Interne Anwendung → Git-Tags sind ausreichend für Versionierung
+
+### Optionale manuelle GitHub Releases
+
+GitHub Releases können bei Bedarf manuell erstellt werden (siehe Abschnitt weiter unten), sind aber nicht Teil des Standard-Workflows.
+
+---
+
 ## Semantische Versionierung
 
-Das Projekt verwendet semantische Versionierung und bietet sichere Skripte für die automatisierte Erstellung von Releases.
+Das Projekt verwendet semantische Versionierung und bietet sichere Skripte für die automatisierte Erstellung von Git-Tags.
 
 ## Release-Skripte
 
-Für die automatisierte Erstellung von Releases stehen folgende npm-Skripte zur Verfügung:
+Für die Erstellung von versionierten Git-Tags stehen folgende npm-Skripte zur Verfügung:
 
 ```bash
 # Patch-Release (1.0.0 -> 1.0.1): Bugfixes und kleine Änderungen
@@ -19,11 +54,20 @@ npm run release:minor
 npm run release:major
 ```
 
+### Was passiert bei `npm run release:*`?
+
 Diese Skripte führen automatisch folgende Aktionen aus:
-1. Inkrementieren der Versionsnummer in package.json
-2. Erstellen eines Git-Commits mit der neuen Version
-3. Erstellen eines Git-Tags für die neue Version
-4. Pushen der Änderungen zum Remote-Repository
+
+1. ✅ **Version erhöhen**: Versionsnummer in package.json wird inkrementiert
+2. ✅ **Git-Commit**: Commit mit Nachricht `chore: release X.X.X` wird erstellt
+3. ✅ **Git-Tag**: Tag mit neuer Versionsnummer wird erstellt
+4. ✅ **Push**: Commit und Tag werden zum Remote-Repository gepusht
+5. ✅ **GitHub Actions**: Quality Assurance und E2E Tests laufen automatisch
+
+### Was passiert NICHT?
+
+❌ **Keine GitHub Release-Erstellung**: Kein automatischer GitHub Release
+❌ **Kein Package Publishing**: Kein Upload zu Package Registry
 
 ## Berechtigungen und Branch-Protection
 
@@ -41,9 +85,11 @@ Diese Skripte führen automatisch folgende Aktionen aus:
 - **Batch-Releases**: Mehrere kleine Änderungen in einem Release
 - **Bewusste Entscheidungen**: Überlegen, ob der aktuelle Stand deployment-ready ist
 
-## Manuelles Release über GitHub
+## Optionale GitHub Releases (manuell)
 
-Zusätzlich zur automatisierten Erstellung kann ein Release auch manuell über die GitHub-Oberfläche erstellt werden:
+**Hinweis:** GitHub Releases sind für dieses Projekt optional und nicht Teil des Standard-Workflows.
+
+Falls du trotzdem einen GitHub Release erstellen möchtest (z.B. für bessere Sichtbarkeit oder Release Notes), kannst du dies manuell tun:
 
 1. **Release-Sektion aufrufen**
    Gehe im Repository in den Abschnitt **„Releases"**.
@@ -52,13 +98,15 @@ Zusätzlich zur automatisierten Erstellung kann ein Release auch manuell über d
    Klicke auf **„Draft a new release"**
 
 3. **Tag auswählen**
-   Wähle den vorher erstellten Tag (z.B. `1.1.0`) aus der Dropdown-Liste aus.
+   Wähle den vorher erstellten Git-Tag (z.B. `v1.1.0`) aus der Dropdown-Liste aus.
 
 4. **Release Details**
    Gib einen Titel (z.B. `1.1.0`) ein und ergänze bei Bedarf Release Notes.
 
 5. **Veröffentlichen**
    Klicke auf **„Publish release"**.
+
+**Wichtig:** Dies ist ein rein optionaler Schritt für bessere Dokumentation. Die Versionierung funktioniert auch ohne GitHub Releases über Git-Tags.
 
 ## Deployment
 
@@ -96,14 +144,36 @@ Das Deployment-Skript führt folgende Schritte aus:
 - Deployments sollten nur von getesteten Code-Ständen durchgeführt werden
 - Alle CI/CD-Tests müssen erfolgreich durchgelaufen sein
 
-## Entscheidung gegen automatisierte GitHub Releases
+## Warum Git-Tags statt automatisierte GitHub Releases?
 
-In diesem Projekt werden bewusst keine automatisierten GitHub Releases verwendet, sondern primär Git-Tags und npm-Skripte für das Release-Management. Die Gründe hierfür sind:
+Dieses Projekt nutzt **Git-Tags für Versionierung**, aber **keine automatischen GitHub Releases**. Die Gründe hierfür sind:
 
-1. **Einfachheit und Kontrolle**: Git-Tags bieten eine einfache, robuste Möglichkeit der Versionierung ohne zusätzliche Abhängigkeiten oder Workflows
-2. **Workflow-Integration**: Die npm-Release-Skripte integrieren sich nahtlos in den vorhandenen Entwicklungsworkflow
-3. **Reduzierte Komplexität**: Kein Bedarf an zusätzlichen GitHub Actions oder anderen CI/CD-Mechanismen für Release-Erstellung
-4. **Direktes Deployment**: Das Deployment erfolgt manuell und gezielt per Skript, nicht automatisch bei Release-Erstellung
-5. **Team-Größe**: Bei der aktuellen Teamgröße und Projektstruktur bieten automatisierte GitHub Releases keinen signifikanten Mehrwert
+### Git-Tags sind ausreichend für dieses Projekt
 
-GitHub Releases können weiterhin manuell erstellt werden, wie im Abschnitt "Manuelles Release über GitHub" beschrieben, sind aber optional und nicht Teil des Standardprozesses.
+1. **Versionierung**: Git-Tags erfüllen alle Anforderungen für Versionsnachverfolgung
+2. **Einfachheit**: Keine zusätzlichen GitHub Actions oder Workflows erforderlich
+3. **Integration**: npm-Release-Skripte funktionieren direkt mit Git
+4. **Sichtbarkeit**: Versionen sind in Git-History und package.json klar erkennbar
+
+### GitHub Releases wären Overhead
+
+1. **Kein Package Publishing**: Die Anwendung wird nicht als Package konsumiert
+2. **Deployment ist unabhängig**: Deployment erfolgt manuell über separate Skripte
+3. **Keine externe Distribution**: Keine Release Notes für externe Konsumenten erforderlich
+
+### Vergleich mit dem Nuxt-Layer-Projekt
+
+Im **Nuxt-Layer-Projekt** sind automatische GitHub Releases notwendig, weil:
+- Das Package zu GitHub Packages publiziert wird
+- Externe Projekte (wie dieser Uploader) das Package konsumieren
+- Release Notes für Konsumenten wichtig sind
+- Versionskommunikation nach außen erforderlich ist
+
+Im **Uploader** sind Git-Tags ausreichend, weil:
+- Nur interne Nutzung
+- Deployment ist manuell und unabhängig von Versionen
+- Versionierung dient nur der internen Organisation
+
+### Fazit
+
+Git-Tags bieten für dieses Projekt eine gute Balance zwischen Einfachheit und Funktionalität. GitHub Releases können bei Bedarf manuell erstellt werden (siehe vorheriger Abschnitt), sind aber nicht Teil des Standard-Workflows.
