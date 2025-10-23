@@ -1,7 +1,5 @@
 import * as Sentry from '@sentry/nuxt';
 
-// Tell TypeScript to ignore the next line since useRuntimeConfig is provided by Nuxt auto-imports
-// @ts-expect-error: useRuntimeConfig is provided by Nuxt auto-imports at runtime
 const config = useRuntimeConfig();
 const { serverUrl, sentry } = config.public;
 
@@ -37,7 +35,6 @@ if (sentry.enabled === true && isHostAllowed) {
 		 * If you don't want to use Session Replay, just remove the entry below:
 		 * integrations: [Sentry.replayIntegration(), Sentry.piniaIntegration(usePinia())],
 		 */
-		// @ts-expect-error: usePinia is provided by Nuxt auto-imports at runtime
 		integrations: [Sentry.piniaIntegration(usePinia())],
 
 		// Setting this option to true will print useful information to the console while you're setting up Sentry.
