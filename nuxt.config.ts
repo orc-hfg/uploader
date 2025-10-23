@@ -17,7 +17,7 @@ export default defineNuxtConfig({
 		 */
 		typedPages: true,
 	},
-	compatibilityDate: '2025-07-31',
+	compatibilityDate: '2025-10-23',
 	devtools: { enabled: true },
 	typescript: {
 		typeCheck: true,

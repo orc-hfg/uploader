@@ -1,32 +1,72 @@
 #!/usr/bin/env node
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import https from 'node:https';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
-import { StatusCodes } from 'http-status-codes';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
+// File paths
+const NVMRC_PATH = path.resolve(path.dirname(__filename), '..', '.nvmrc');
+const PACKAGE_JSON_PATH = path.resolve(path.dirname(__filename), '..', 'package.json');
 
 // Check if .nvmrc exists
-function checkNvmInstalled() {
-	const nvmrcPath = path.resolve(__dirname, '..', '.nvmrc');
+function checkNvmrcExists() {
 	try {
-		readFileSync(nvmrcPath);
-		return true;
+		readFileSync(NVMRC_PATH);
 	}
 	catch {
 		throw new Error('.nvmrc file is missing. This script requires nvm to manage Node.js versions.');
 	}
 }
 
+// Update .nvmrc file
+function updateNvmrc(version) {
+	try {
+		writeFileSync(NVMRC_PATH, `${version}\n`, 'utf8');
+		console.info(`✅ Updated .nvmrc to version ${version}`);
+	}
+	catch (error) {
+		throw new Error(`Could not update .nvmrc: ${error.message}`);
+	}
+}
+
+// Update package.json engines.node field
+function updatePackageJson(version) {
+	try {
+		const rawContent = readFileSync(PACKAGE_JSON_PATH, 'utf8');
+		const packageJson = JSON.parse(rawContent);
+
+		// Detect indentation by finding first indented line in JSON
+		const indentationPattern = /\n(\t+| +)"/;
+		const matchResult = rawContent.match(indentationPattern);
+
+		// Extract indentation characters (captured in first group)
+		const defaultIndentation = '\t';
+		const detectedIndentation = matchResult ? matchResult[1] : undefined;
+		const indent = detectedIndentation || defaultIndentation;
+
+		if (!packageJson.engines) {
+			packageJson.engines = {};
+		}
+
+		packageJson.engines.node = version;
+
+		// Preserve original indentation
+		writeFileSync(PACKAGE_JSON_PATH, `${JSON.stringify(packageJson, undefined, indent)}\n`, 'utf8');
+		console.info(`✅ Updated package.json engines.node to ${version}`);
+	}
+	catch (error) {
+		throw new Error(`Could not update package.json: ${error.message}`);
+	}
+}
+
 // Read current version from .nvmrc
 function getCurrentVersion() {
 	try {
-		const nvmrcPath = path.resolve(__dirname, '..', '.nvmrc');
-		return readFileSync(nvmrcPath, 'utf8').trim();
+		return readFileSync(NVMRC_PATH, 'utf8').trim();
 	}
 	catch {
 		throw new Error('Could not read current Node.js version from .nvmrc.');
@@ -43,14 +83,14 @@ async function getLatestLtsVersion() {
 
 		// Parse JSON data and find the latest LTS version
 		const versions = JSON.parse(data);
-		const latestLTS = versions.find(v => v.lts);
+		const latestLts = versions.find(version => version.lts);
 
-		if (!latestLTS) {
+		if (!latestLts) {
 			throw new Error('No LTS version found');
 		}
 
 		// Version without 'v' prefix (e.g. 22.14.0)
-		const version = latestLTS.version.replace('v', '');
+		const version = latestLts.version.replace('v', '');
 		return version;
 	}
 	catch (error) {
@@ -61,26 +101,24 @@ async function getLatestLtsVersion() {
 // Helper function for HTTP request
 function fetchNodeVersions() {
 	return new Promise((resolve, reject) => {
-		https
-			.get('https://nodejs.org/dist/index.json', (response) => {
-				if (response.statusCode !== StatusCodes.OK) {
-					reject(new Error(`HTTP error ${response.statusCode}`));
-					return;
-				}
+		https.get('https://nodejs.org/dist/index.json', (response) => {
+			if (response.statusCode !== 200) {
+				reject(new Error(`HTTP error ${response.statusCode}`));
+				return;
+			}
 
-				let data = '';
-				response.on('data', chunk => (data += chunk));
-				response.on('end', () => resolve(data));
-			})
-			.on('error', reject);
+			let data = '';
+			response.on('data', chunk => data += chunk);
+			response.on('end', () => resolve(data));
+		}).on('error', reject);
 	});
 }
 
 // Main function with central error handling
 async function checkNodeVersion() {
 	try {
-		// Check if nvm is installed
-		checkNvmInstalled();
+		// Check if .nvmrc exists
+		checkNvmrcExists();
 
 		// Get current version
 		const currentVersion = getCurrentVersion();
@@ -100,18 +138,24 @@ async function checkNodeVersion() {
 			console.info('');
 			console.info('🔔 NOTICE: A newer Node.js version is available!');
 			console.info('');
-			console.info('To update to the new version, follow these steps:');
+			console.info('Updating files automatically...');
 			console.info('');
-			console.info('1. Update .nvmrc:');
-			console.info(`   echo "${latestLts}" > .nvmrc`);
+
+			// Update .nvmrc
+			updateNvmrc(latestLts);
+
+			// Update package.json
+			updatePackageJson(latestLts);
+
 			console.info('');
-			console.info('2. Update package.json (engines.node):');
-			console.info(`   Open package.json and change the Node.js version to ${latestLts}`);
+			console.info('✅ Files updated successfully!');
 			console.info('');
-			console.info('3. Install and activate the new version:');
-			console.info('   nvm use && npm install');
+			console.info('Next steps:');
+			console.info('1. Review the changes in .nvmrc and package.json');
+			console.info('2. Install and activate the new version:');
+			console.info('   nvm install && nvm use && npm install');
 			console.info('');
-			process.exit(1);
+			process.exit(0);
 		}
 	}
 	catch (error) {

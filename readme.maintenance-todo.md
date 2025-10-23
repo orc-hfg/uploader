@@ -1,17 +1,6 @@
 # Aufgaben für den neuen Stand nach dem Dependency Update
 
+- Wenn ein neues Update von `@nuxt/test-utils` vorhanden ist, sind dann auch folgende Updates möglich?
+  - Update von `happy-dom` auf Version > 18
+  - Update von `vitest` auf Version > 4
 - Kann `"vitest": false` aus `knip.json` wieder entfernt werden? Läuft dann `npm run check:unused` fehlerfrei?
-- `@nuxtjs/i18n > v10.0.6`: Gibt es weiterhin die Hydration Mismatches bei Verwendung von `SwitchLocalePathLink` (`app/components/Header.vue`) ohne Verwendung von ClientOnly?
-	```vue
-			<ClientOnly>
-				<SwitchLocalePathLink locale="de">
-					Deutsch
-				</SwitchLocalePathLink>
-			</ClientOnly>
-
-			vs.
-
-			<SwitchLocalePathLink locale="de">
-				Deutsch
-			</SwitchLocalePathLink>
-	```

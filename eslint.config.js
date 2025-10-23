@@ -21,6 +21,7 @@ export default withNuxt(
 			typescript: {
 				// Enables type-aware linting
 				tsconfigPath: 'tsconfig.json',
+				erasableOnly: true,
 			},
 			vue: {
 				a11y: true,

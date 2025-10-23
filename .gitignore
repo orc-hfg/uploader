@@ -12,6 +12,9 @@ dist
 # Typescript dev/build outputs
 *.tsbuildinfo
 
+# Tool caches
+.eslintcache
+
 # Node dependencies
 node_modules
 
@@ -34,7 +37,7 @@ logs
 # Sentry Config File
 .env.sentry-build-plugin
 
-# Playwright
+# Playwright files
 .authentication/session.json
 playwright-report
 test-results
