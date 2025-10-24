@@ -32,6 +32,18 @@ Das Projekt benötigt verschiedene Environment-Variablen für den korrekten Betr
 
 **Hinweis:** Die Datei `.npmrc` ist ebenfalls in `.gitignore` aufgeführt.
 
+#### GitHub Actions Secret konfigurieren (erforderlich für CI/CD)
+
+Damit die GitHub Actions Workflows (CI/CD Pipeline) funktionieren, muss der GitHub PAT auch als Repository Secret hinterlegt werden:
+
+1. Im GitHub Repository zu **Settings** → **Secrets and variables** → **Actions** navigieren
+2. Unter **Repository secrets** auf **New repository secret** klicken
+3. Als **Name** `GH_PAT` eingeben
+4. Als **Secret** den gleichen Token-Wert wie in der `.env`-Datei eintragen
+5. Mit **Add secret** speichern
+
+**Hinweis:** Ohne dieses Secret schlagen die GitHub Actions Workflows fehl, da sie keinen Zugriff auf die @orc-hfg GitHub Packages haben.
+
 #### NUXT_MADEK_API_TOKEN (erforderlich für Development)
 
 **Zweck:** Token für den Zugriff auf die Madek API im Development-Modus
