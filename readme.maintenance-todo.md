@@ -1,5 +1,7 @@
 # Aufgaben für den neuen Stand nach dem Dependency Update
 
+- Update von `@vueuse/nuxt` auf Version > 14.0.0
+  - funktioniert `npm run build` nun fehlerfrei ohne RollupError (useMediaQuery)?
 - Accessibility-Probleme mit PrimeVue:
   - https://github.com/primefaces/primevue/issues/8210
   - https://github.com/primefaces/primevue/issues/8178
