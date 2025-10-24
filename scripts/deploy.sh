@@ -32,6 +32,15 @@ else
 fi
 : "${MADEK_SSH_USER:?MADEK_SSH_USER missing in .env}"
 
+# Check server connectivity before proceeding
+echo "🔌 Checking connection to $HOST..."
+if ! ssh -o ConnectTimeout=10 "$MADEK_SSH_USER@$HOST" "exit" 2>/dev/null; then
+  echo "❌ Cannot connect to $HOST"
+  exit 1
+fi
+echo "✅ Connection successful"
+echo ""
+
 confirm() {
   local prompt=$1
   local success_msg=${2:-"Proceeding..."}

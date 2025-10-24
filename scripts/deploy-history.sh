@@ -38,6 +38,15 @@ else
 fi
 : "${MADEK_SSH_USER:?MADEK_SSH_USER missing in .env}"
 
+# Check server connectivity before proceeding
+echo "🔌 Checking connection to $HOST..."
+if ! ssh -o ConnectTimeout=10 "$MADEK_SSH_USER@$HOST" "exit" 2>/dev/null; then
+  echo "❌ Cannot connect to $HOST"
+  exit 1
+fi
+echo "✅ Connection successful"
+echo ""
+
 LOG_FILE="$TARGET_DIR/deploy-history.jsonl"
 
 echo "📜 Deployment History for $env environment"
@@ -103,6 +112,12 @@ else
 fi
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Count total deployments
+TOTAL_DEPLOYMENTS=$(ssh "$MADEK_SSH_USER@$HOST" "wc -l < $LOG_FILE" 2>/dev/null | tr -d ' ')
+
 if [[ "$limit" != "all" ]]; then
-  echo "💡 Showing last $limit deployments. Use 'all' to see complete history."
+  echo "💡 Showing last $limit of $TOTAL_DEPLOYMENTS total deployments. Use 'all' to see complete history."
+else
+  echo "📊 Total deployments: $TOTAL_DEPLOYMENTS"
 fi
