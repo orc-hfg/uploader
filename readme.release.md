@@ -179,6 +179,10 @@ Das Deployment-Skript führt folgende Schritte aus:
 - Deployments sollten nur von getesteten Code-Ständen durchgeführt werden
 - Alle CI/CD-Tests müssen erfolgreich durchgelaufen sein
 
+⚠️ **WICHTIG: Immer über npm-Skripte deployen!**
+
+Deployments **müssen** über die npm-Skripte (`npm run deploy:development` / `npm run deploy:staging`) durchgeführt werden, da nur diese das automatische Deployment-Tracking gewährleisten. Manuelle Deployments (z.B. direkt mit rsync) umgehen das Logging und führen zu unvollständiger Deployment-Historie.
+
 ### Deployment-Tracking
 
 Jedes Deployment wird automatisch protokolliert, um Nachvollziehbarkeit zu gewährleisten:
@@ -209,16 +213,21 @@ npm run deploy:history staging 20
 npm run deploy:history development all
 ```
 
-#### Deployment-Info auf dem Server
+#### Deployment-Info auf dem Server (Health Endpoint)
 
 Die aktuelle Deployment-Version ist über den Health-Endpoint verfügbar:
 
 ```bash
-# Development
-curl https://dev.madek.hfg-karlsruhe.de/uploader/health
+# Mit npm-Scripts (empfohlen - formatierte Ausgabe)
+npm run health:development
+npm run health:staging
 
-# Staging
+# Direkt mit curl
+curl https://dev.madek.hfg-karlsruhe.de/uploader/health
 curl https://staging.madek.hfg-karlsruhe.de/uploader/health
+
+# Mit jq für formatierte Ausgabe
+curl -s https://dev.madek.hfg-karlsruhe.de/uploader/health | jq
 ```
 
 Response enthält Deployment-Informationen:

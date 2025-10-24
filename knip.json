@@ -35,6 +35,9 @@
 		"#app",
 		"#components"
 	],
+	"ignoreBinaries": [
+		"jq"
+	],
 	"paths": {
 		"@/*": [
 			"app/*"
