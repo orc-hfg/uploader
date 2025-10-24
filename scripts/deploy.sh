@@ -149,7 +149,11 @@ ssh "$MADEK_SSH_USER@$HOST" "mkdir -p $TARGET_DIR"
 rsync -avz --delete .output "$MADEK_SSH_USER@$HOST:$TARGET_DIR/"
 
 echo "📝 Logging deployment to server..."
-ssh "$MADEK_SSH_USER@$HOST" "cat >> $TARGET_DIR/deploy-history.jsonl" < deploy-info.json
+# Prepend new entry at the beginning of the log file (newest first)
+# 1. Write new entry to .new file
+# 2. Append existing log if present
+# 3. Move .new to replace log
+ssh "$MADEK_SSH_USER@$HOST" "cat > $TARGET_DIR/deploy-history.jsonl.new && cat $TARGET_DIR/deploy-history.jsonl >> $TARGET_DIR/deploy-history.jsonl.new 2>/dev/null; mv $TARGET_DIR/deploy-history.jsonl.new $TARGET_DIR/deploy-history.jsonl" < deploy-info.json
 
 echo "🔄 Restarting service $SERVICE ..."
 ssh -t "$MADEK_SSH_USER@$HOST" "sudo systemctl restart $SERVICE"
