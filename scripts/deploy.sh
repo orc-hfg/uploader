@@ -26,8 +26,6 @@ esac
 
 PROJECT_ROOT="$(cd -- "$(dirname "$0")/.." && pwd)"
 if [[ -f "$PROJECT_ROOT/.env" ]]; then
-  # Ignore shellcheck warning about not being able to follow dynamic source paths
-  # shellcheck disable=SC1090
   source "$PROJECT_ROOT/.env"
 else
   echo ".env not found in $PROJECT_ROOT" && exit 1
@@ -80,9 +78,37 @@ echo "🔍 Git checks..."
 abort_if_dirty
 abort_if_unpushed
 
+echo "📝 Generating deployment info..."
+VERSION=$(node -p "require('./package.json').version")
+PACKAGE_NAME=$(node -p "require('./package.json').name")
+COMMIT=$(git rev-parse HEAD)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+USER=$(whoami)
+
+cat > deploy-info.json <<EOF
+{
+  "timestamp": "$TIMESTAMP",
+  "environment": "$env",
+  "version": "$VERSION",
+  "commit": "$COMMIT",
+  "branch": "$BRANCH",
+  "user": "$USER",
+  "package": "$PACKAGE_NAME@$VERSION"
+}
+EOF
+
+echo "Deployment Info:"
+cat deploy-info.json
+echo ""
+
 echo "🔨 Installing dependencies and building for $env environment..."
 npm ci --no-audit --no-fund --loglevel=error --prefer-offline
 npm run build
+
+echo "📋 Adding deploy-info.json to build output..."
+mkdir -p .output/public
+cp deploy-info.json .output/public/deploy-info.json
 
 echo "🚀 Uploading to $HOST:$TARGET_DIR..."
 ssh "$MADEK_SSH_USER@$HOST" "mkdir -p $TARGET_DIR"
@@ -92,7 +118,19 @@ ssh "$MADEK_SSH_USER@$HOST" "mkdir -p $TARGET_DIR"
 # The service expects files at .output/server/index.mjs relative to TARGET_DIR
 rsync -avz --delete .output "$MADEK_SSH_USER@$HOST:$TARGET_DIR/"
 
+echo "📝 Logging deployment to server..."
+# Append deployment info to server-side log (JSONL format: one JSON object per line)
+ssh "$MADEK_SSH_USER@$HOST" "cat >> $TARGET_DIR/deploy-history.jsonl" < deploy-info.json
+
 echo "🔄 Restarting service $SERVICE ..."
 ssh -t "$MADEK_SSH_USER@$HOST" "sudo systemctl restart $SERVICE"
 
 echo "✅ Deploy to $env complete."
+echo "📦 Version: $VERSION"
+echo "📌 Commit: $COMMIT"
+echo "🌿 Branch: $BRANCH"
+echo ""
+echo "💡 View deployment history: npm run deploy:history $env"
+
+# Clean up local deploy-info.json
+rm -f deploy-info.json

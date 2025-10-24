@@ -135,6 +135,23 @@ Der GitHub Actions Workflow in diesem Projekt ist für Qualitätssicherung und T
 3. E2E-Tests mit Playwright
 4. Build-Verifizierung
 
+### Systemvoraussetzungen für Deployment
+
+Die Deployment-Skripte sind als **Bash-Scripts** implementiert und benötigen:
+
+- **Bash Shell** (sh/bash)
+- **SSH-Client** für Server-Zugriff
+- **rsync** für Datei-Synchronisation
+- **Git** für Repository-Operationen
+
+#### Plattformspezifische Hinweise
+
+**macOS / Linux:**
+✅ Alle Tools sind standardmäßig verfügbar
+
+**Windows:**
+⚠️ **WSL2 (Windows Subsystem for Linux) ist erforderlich**
+
 ### Deployment-Skripte
 
 Für das manuelle Deployment stehen separate Skripte zur Verfügung:
@@ -161,6 +178,79 @@ Das Deployment-Skript führt folgende Schritte aus:
 
 - Deployments sollten nur von getesteten Code-Ständen durchgeführt werden
 - Alle CI/CD-Tests müssen erfolgreich durchgelaufen sein
+
+### Deployment-Tracking
+
+Jedes Deployment wird automatisch protokolliert, um Nachvollziehbarkeit zu gewährleisten:
+
+#### Automatische Protokollierung
+
+Bei jedem Deployment wird folgendes dokumentiert:
+
+- **Zeitstempel**: Wann wurde deployed?
+- **Version**: Welche Version wurde deployed? (aus package.json)
+- **Git-Commit**: Exakter Commit-Hash
+- **Branch**: Von welchem Branch wurde deployed?
+- **User**: Wer hat deployed?
+- **Environment**: development oder staging
+
+#### Deployment-History abrufen
+
+Die Deployment-History kann jederzeit abgerufen werden:
+
+```bash
+# Letzte 10 Deployments für development anzeigen
+npm run deploy:history development
+
+# Letzte 20 Deployments für staging anzeigen
+npm run deploy:history staging 20
+
+# Alle Deployments anzeigen
+npm run deploy:history development all
+```
+
+#### Deployment-Info auf dem Server
+
+Die aktuelle Deployment-Version ist über den Health-Endpoint verfügbar:
+
+```bash
+# Development
+curl https://dev.madek.hfg-karlsruhe.de/uploader/health
+
+# Staging
+curl https://staging.madek.hfg-karlsruhe.de/uploader/health
+```
+
+Response enthält Deployment-Informationen:
+```json
+{
+  "status": "healthy",
+  "service": "uploader",
+  "timestamp": "2025-01-24T14:30:00.000Z",
+  "deploymentInfo": {
+    "timestamp": "2025-01-24T14:25:00Z",
+    "environment": "development",
+    "version": "0.2.4",
+    "commit": "abc123def456...",
+    "branch": "main",
+    "user": "rzschoch",
+    "package": "@orc-hfg/uploader@0.2.4"
+  }
+}
+```
+
+**Hinweis**: Die Deployment-Info ist nur auf deployed Servern verfügbar, nicht in der lokalen Entwicklungsumgebung.
+
+#### Wo werden die Logs gespeichert?
+
+- **Server-seitig**: `/srv/{env}/uploader/deploy-history.jsonl` (JSONL-Format)
+- **Lokal**: Keine lokalen Logs (Team-Transparenz: Alle sehen alle Deployments)
+
+#### Vorteile des Deployment-Trackings
+
+1. **Nachvollziehbarkeit**: Jederzeit wissen, welche Version auf welchem Server läuft
+2. **Team-Transparenz**: Alle Deployer sehen alle Deployments
+3. **Debugging**: Bei Problemen schnell den exakten deployed Stand identifizieren
 
 ## Warum Git-Tags statt automatisierte GitHub Releases?
 

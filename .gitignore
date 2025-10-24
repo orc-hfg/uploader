@@ -41,3 +41,6 @@ logs
 .authentication/session.json
 playwright-report
 test-results
+
+# Deployment files (temporary, created during deployment process)
+deploy-info.json
