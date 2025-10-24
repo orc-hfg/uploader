@@ -1,5 +1,6 @@
 import { expect, test } from './fixtures/accessibility';
-import { expectPageHeadingAndTitle, expectRedirectToSignIn } from './helpers/authentication';
+import { expectRedirectToSignIn } from './helpers/authentication';
+import { expectPageLoadedWithHeadingAndTitle } from './helpers/page-assertions';
 
 test.describe('Projects page', () => {
 	test.beforeEach(async ({ page }) => {
@@ -7,7 +8,7 @@ test.describe('Projects page', () => {
 	});
 
 	test('should show projects page correctly', async ({ page, makeAxeBuilder }) => {
-		await expectPageHeadingAndTitle(page, 'Projekte', 'Projekte – Uploader');
+		await expectPageLoadedWithHeadingAndTitle(page, 'Projekte', 'Projekte – Uploader');
 
 		await expect(page.getByRole('button', { name: 'Neues Projekt' })).toBeVisible();
 

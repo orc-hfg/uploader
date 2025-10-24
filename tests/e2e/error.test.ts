@@ -1,5 +1,5 @@
 import { expect, test } from './fixtures/accessibility';
-import { expectPageHeadingAndTitle } from './helpers/authentication';
+import { expectPageLoadedWithHeadingAndTitle } from './helpers/page-assertions';
 
 test.describe('Error page', () => {
 	test.beforeEach(async ({ page }) => {
@@ -7,7 +7,7 @@ test.describe('Error page', () => {
 	});
 
 	test('should display error page correctly', async ({ page, makeAxeBuilder }) => {
-		await expectPageHeadingAndTitle(page, 'Fehler', 'Fehler – Uploader');
+		await expectPageLoadedWithHeadingAndTitle(page, 'Fehler', 'Fehler – Uploader');
 
 		// Verify error messages
 		await expect(page.getByText('Es ist ein Fehler aufgetreten.')).toBeVisible();
@@ -33,7 +33,7 @@ test.describe('Error page', () => {
 		// Verify redirect to projects page
 		await expect(page).toHaveURL('/uploader/de/projekte');
 
-		await expectPageHeadingAndTitle(page, 'Projekte', 'Projekte – Uploader');
+		await expectPageLoadedWithHeadingAndTitle(page, 'Projekte', 'Projekte – Uploader');
 	});
 });
 
@@ -45,7 +45,7 @@ test.describe('Error page (English locale)', () => {
 	// No accessibility check needed – same error page as German locale test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should show error page with English locale', async ({ page }) => {
-		await expectPageHeadingAndTitle(page, 'Error', 'Error – Uploader');
+		await expectPageLoadedWithHeadingAndTitle(page, 'Error', 'Error – Uploader');
 
 		// Verify English error messages
 		await expect(page.getByText('An error occurred.')).toBeVisible();
@@ -65,6 +65,6 @@ test.describe('Error page (English locale)', () => {
 		// Verify redirect to English projects page
 		await expect(page).toHaveURL('/uploader/en/projects');
 
-		await expectPageHeadingAndTitle(page, 'Projects', 'Projects – Uploader');
+		await expectPageLoadedWithHeadingAndTitle(page, 'Projects', 'Projects – Uploader');
 	});
 });

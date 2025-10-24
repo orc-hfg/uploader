@@ -2,6 +2,7 @@ import type { AppLocale } from '@@/app/types/locale';
 import type { BrowserContext, Page } from '@playwright/test';
 import { AUTHENTICATION_INVALID_USER_LOGIN, AUTHENTICATION_INVALID_USER_PASSWORD, AUTHENTICATION_MOCK_VALID_USER_LOGIN, AUTHENTICATION_MOCK_VALID_USER_PASSWORD } from '@@/shared/constants/test';
 import { expect } from '@playwright/test';
+import { expectPageLoadedWithHeadingAndTitle } from './page-assertions';
 
 interface SignInLabels {
 	emailOrLogin: string;
@@ -48,16 +49,6 @@ export async function signInAsInvalidUser(page: Page, locale: AppLocale): Promis
 	await signInAs(page, AUTHENTICATION_INVALID_USER_LOGIN, AUTHENTICATION_INVALID_USER_PASSWORD, locale);
 }
 
-/*
- * Helper to assert page is fully loaded
- * Waits for heading first (proves data is loaded), then checks document title
- * This prevents race conditions in dev server where title might be set asynchronously
- */
-export async function expectPageHeadingAndTitle(page: Page, expectedHeading: string, expectedTitle: string): Promise<void> {
-	await expect(page.getByRole('heading', { name: expectedHeading })).toBeVisible();
-	await expect(page).toHaveTitle(expectedTitle);
-}
-
 export async function expectRedirectToSignIn(page: Page, context: BrowserContext, protectedRoute: string, locale: AppLocale): Promise<void> {
 	await context.clearCookies();
 
@@ -68,5 +59,5 @@ export async function expectRedirectToSignIn(page: Page, context: BrowserContext
 	const expectedTitle = locale === 'de' ? 'Anmeldung – Uploader' : 'Sign In – Uploader';
 
 	await expect(page).toHaveURL(signInPath);
-	await expectPageHeadingAndTitle(page, expectedHeading, expectedTitle);
+	await expectPageLoadedWithHeadingAndTitle(page, expectedHeading, expectedTitle);
 }

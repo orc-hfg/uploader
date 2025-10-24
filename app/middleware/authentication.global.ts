@@ -30,8 +30,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
 	const isAuthenticationValid = await useAuthentication().validateAuthentication();
 
-	const localeRoute = useLocaleRoute();
-
 	if (!isAuthenticationValid) {
 		/*
 		 * ESLint 'consistent-return' rule disabled: Nuxt middleware uses return values for flow control.
@@ -44,7 +42,14 @@ export default defineNuxtRouteMiddleware(async (to) => {
 		 * https://nuxt.com/docs/guide/directory-structure/middleware
 		 */
 
+		/*
+		 * Use useLocalePath to get a string path instead of a route object
+		 * This provides better type safety and avoids the error-typed return value from useLocaleRoute
+		 */
+		const localePath = useLocalePath();
+		const indexPath = localePath('index');
+
 		// eslint-disable-next-line consistent-return
-		return navigateTo(localeRoute('index'));
+		return navigateTo(indexPath);
 	}
 });
