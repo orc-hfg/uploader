@@ -36,9 +36,12 @@ export default defineEventHandler(async (event) => {
 	/*
 	 * Try to read deployment info from public folder
 	 * This file is only present in deployed environments, not in local development
+	 * In production: .output/server/index.mjs runs from .output/server/
+	 * and deploy-info.json is in .output/public/deploy-info.json
 	 */
 	try {
-		const publicDirectory = path.join(process.cwd(), 'public');
+		// In Nuxt build, server runs from .output/server/, public files are in ../public/
+		const publicDirectory = path.join(process.cwd(), '..', 'public');
 		const deploymentInfoPath = path.join(publicDirectory, 'deploy-info.json');
 		const deploymentInfoContent = await fileSystemPromises.readFile(deploymentInfoPath, 'utf8');
 		const deploymentInfo = JSON.parse(deploymentInfoContent) as DeploymentInfo;
