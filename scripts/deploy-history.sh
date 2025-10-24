@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
+
+# Exit on errors, treat unset variables as errors, fail on pipe errors
 set -euo pipefail
 
+# Get first argument (environment), default to empty if not provided
 env="${1:-}"
+
 case "$env" in
-  development|staging) ;;
+  development|staging)
+    ;;
   *)
+    # Invalid or missing environment - show usage
     echo "Usage: $0 {development|staging} [limit]"
     echo ""
     echo "Examples:"
@@ -15,6 +21,7 @@ case "$env" in
     ;;
 esac
 
+# Get second argument (limit), default to 10 if not provided
 limit="${2:-10}"
 
 case "$env" in
@@ -28,17 +35,17 @@ case "$env" in
     ;;
 esac
 
+# Find project root directory and load environment variables
 PROJECT_ROOT="$(cd -- "$(dirname "$0")/.." && pwd)"
 if [[ -f "$PROJECT_ROOT/.env" ]]; then
-  # Ignore shellcheck warning about not being able to follow dynamic source paths
-  # shellcheck disable=SC1090
-  source "$PROJECT_ROOT/.env"
+  source "$PROJECT_ROOT/.env"  # Load .env file into current shell
 else
   echo ".env not found in $PROJECT_ROOT" && exit 1
 fi
+
+# Verify required environment variable is set
 : "${MADEK_SSH_USER:?MADEK_SSH_USER missing in .env}"
 
-# Check server connectivity before proceeding
 echo "🔌 Checking connection to $HOST..."
 if ! ssh -o ConnectTimeout=10 "$MADEK_SSH_USER@$HOST" "exit" 2>/dev/null; then
   echo "❌ Cannot connect to $HOST"
@@ -51,69 +58,105 @@ LOG_FILE="$TARGET_DIR/deploy-history.jsonl"
 
 echo "📜 Deployment History for $env environment"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🌍 Times displayed in Europe/Berlin timezone (converted from UTC)"
 echo ""
 
-# Check if log file exists on server
+# Check if deployment log file exists on server
+# test -f: Check if file exists and is a regular file
 if ! ssh "$MADEK_SSH_USER@$HOST" "test -f $LOG_FILE" 2>/dev/null; then
   echo "⚠️  No deployment history found on $HOST"
   echo "    Log file: $LOG_FILE"
-  echo ""
-  echo "    This is expected if:"
-  echo "    - No deployments have been made yet"
-  echo "    - This is the first deployment with the new logging system"
-  exit 0
+  exit 0  # Exit successfully (not an error)
 fi
 
-# Retrieve and format deployment history
+# Function: Format and display a single deployment entry
+format_entry() {
+  local json="$1"
+
+  # Extract fields from JSON using jq (JSON processor)
+  # -r: Raw output (no quotes)
+  # .field: Access JSON field
+  # [:7]: Get first 7 characters (for commit hash)
+  local version=$(echo "$json" | jq -r '.version')
+  local commit=$(echo "$json" | jq -r '.commit[:7]')
+  local timestamp=$(echo "$json" | jq -r '.timestamp')
+  local user=$(echo "$json" | jq -r '.user')
+  local environment=$(echo "$json" | jq -r '.environment')
+  local branch=$(echo "$json" | jq -r '.branch')
+
+  # Format timestamp (ISO to readable format in Europe/Berlin timezone)
+  # Different implementations for Linux (GNU date) vs macOS (BSD date)
+
+  # Detect which date command is available
+  # GNU date has --version flag, BSD date doesn't
+  if date --version >/dev/null 2>&1; then
+    # GNU date (Linux) - supports TZ variable directly
+    # -d: Parse input date
+    # TZ: Set timezone for output
+    local date=$(TZ='Europe/Berlin' date -d "$timestamp" '+%m/%d/%Y, %I:%M %p')
+  else
+    # BSD date (macOS) - different syntax
+    # -j: Don't set system time
+    # -u: Parse input as UTC
+    # -f: Input format
+    # +%s: Output as Unix timestamp (seconds since 1970)
+    local epoch=$(date -ju -f '%Y-%m-%dT%H:%M:%SZ' "$timestamp" '+%s' 2>/dev/null)
+
+    # Convert timestamp to Berlin timezone
+    export TZ='Europe/Berlin'
+    # -r: Read time from timestamp instead of string
+    local date=$(date -r "$epoch" '+%m/%d/%Y, %I:%M %p' 2>/dev/null)
+    unset TZ  # Clean up environment variable
+  fi
+
+  echo "📦 $version ($commit)"
+  echo "   🕐 $date"
+  echo "   👤 $user → $environment"
+  echo "   🌿 $branch"
+  echo ""
+}
+
+# Retrieve and format deployment history from server
 if [[ "$limit" == "all" ]]; then
-  # Show all entries
-  ssh "$MADEK_SSH_USER@$HOST" "cat $LOG_FILE" | while IFS= read -r line; do
-    echo "$line" | node -e '
-      const line = require("fs").readFileSync(0, "utf-8").trim();
-      if (!line) process.exit(0);
-      const entry = JSON.parse(line);
-      const date = new Date(entry.timestamp).toLocaleString("en-US", {
-        timeZone: "Europe/Berlin",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-      console.log(`📦 ${entry.version} (${entry.commit.substring(0, 7)})`);
-      console.log(`   🕐 ${date}`);
-      console.log(`   👤 ${entry.user} → ${entry.environment}`);
-      console.log(`   🌿 ${entry.branch}`);
-      console.log("");
-    '
+  # Show all entries in the log file
+  # -o LogLevel=ERROR: Suppress SSH informational messages
+  # cat: Output entire file
+  # | (pipe): Send output to next command
+  # while read: Process line by line
+  ssh -o LogLevel=ERROR "$MADEK_SSH_USER@$HOST" "cat $LOG_FILE" 2>/dev/null | while IFS= read -r line; do
+    # Skip empty lines or lines not starting with { (invalid JSON)
+    # [[ ]]: Extended test command
+    # -z: Test if string is empty
+    # ${line:0:1}: Get first character
+    # &&: If previous command succeeds, run next
+    # continue: Skip to next iteration
+    [[ -z "$line" || "${line:0:1}" != "{" ]] && continue
+
+    # Validate JSON with jq before processing
+    # jq -e: Exit with error code if invalid JSON
+    if echo "$line" | jq -e . >/dev/null 2>&1; then
+      format_entry "$line"
+    fi
   done
 else
-  # Show last N entries
-  ssh "$MADEK_SSH_USER@$HOST" "tail -n $limit $LOG_FILE" | while IFS= read -r line; do
-    echo "$line" | node -e '
-      const line = require("fs").readFileSync(0, "utf-8").trim();
-      if (!line) process.exit(0);
-      const entry = JSON.parse(line);
-      const date = new Date(entry.timestamp).toLocaleString("en-US", {
-        timeZone: "Europe/Berlin",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-      console.log(`📦 ${entry.version} (${entry.commit.substring(0, 7)})`);
-      console.log(`   🕐 ${date}`);
-      console.log(`   👤 ${entry.user} → ${entry.environment}`);
-      console.log(`   🌿 ${entry.branch}`);
-      console.log("");
-    '
+  # Show last N entries only
+  # tail -n $limit: Get last N lines from file
+  ssh -o LogLevel=ERROR "$MADEK_SSH_USER@$HOST" "tail -n $limit $LOG_FILE" 2>/dev/null | while IFS= read -r line; do
+    # Same validation as above
+    [[ -z "$line" || "${line:0:1}" != "{" ]] && continue
+
+    if echo "$line" | jq -e . >/dev/null 2>&1; then
+      format_entry "$line"
+    fi
   done
 fi
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Count total deployments
+# Count total number of deployments
+# wc -l: Count lines (each line = one deployment in JSONL)
+# <: Redirect file as input
+# tr -d ' ': Delete spaces from output
 TOTAL_DEPLOYMENTS=$(ssh "$MADEK_SSH_USER@$HOST" "wc -l < $LOG_FILE" 2>/dev/null | tr -d ' ')
 
 if [[ "$limit" != "all" ]]; then
