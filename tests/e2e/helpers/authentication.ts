@@ -14,7 +14,27 @@ export async function signInAs(page: Page, user: string, password: string, local
 	const content = page.getByTestId('content');
 
 	await expect(content).toBeVisible();
-	await expect(content).toHaveCSS('opacity', '1');
+
+	/*
+	 * Wait for layout animation to complete before interacting with form.
+	 * The layout has an animation sequence that fades in the content.
+	 * Without this wait, input fields are technically editable but not visually ready,
+	 * causing form values to not be set correctly.
+	 */
+	await page.waitForFunction(
+		() => {
+			const element = document.querySelector('[data-testid="content"]');
+
+			if (!element) {
+				return false;
+			}
+
+			return globalThis.getComputedStyle(element).opacity === '1';
+		},
+		{
+			timeout: 5000,
+		},
+	);
 
 	const labels: Record<AppLocale, SignInLabels> = {
 		de: {
