@@ -78,7 +78,7 @@
 			v-for="setsData in setsStore.setsData" :key="setsData.id" class="
      border-slate-300 pb-10
      not-first:mt-10
-     not-last:border-b-1
+     not-last:border-b
      last:pb-20
    "
 		>
