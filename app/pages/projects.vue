@@ -27,11 +27,14 @@
 
 	const { signOut } = useAuthentication();
 
+	// Read mock scenario for E2E testing
+	const mockScenario = useMockScenario();
+
 	/*
 	 * Load user sets data on initial load and on locale-based navigation
 	 * Navigation mode ensures data refreshes when switching between different routes
 	 */
-	await callOnce(() => setsStore.refresh(locale.value), { mode: 'navigation' });
+	await callOnce(() => setsStore.refresh(locale.value, mockScenario), { mode: 'navigation' });
 
 	async function handleSignOut() {
 		try {

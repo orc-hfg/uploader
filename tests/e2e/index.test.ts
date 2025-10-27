@@ -73,33 +73,27 @@ test.describe('Authentication flow', () => {
 });
 
 test.describe('Authentication flow (English locale)', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/uploader/en/sign-in');
-	});
-
-	// No accessibility check needed – same sign-in page as German locale test
+	/*
+	 * Smoke test for English locale
+	 * Business logic and edge cases (error handling, redirects) are tested in German locale
+	 * This test only verifies that routing and translations work correctly
+	 */
+	// No accessibility check needed – same authentication flow as German locale test
 	// eslint-disable-next-line no-restricted-syntax
-	test('should show sign-in page with English locale', async ({ page }) => {
+	test('should authenticate with English translations and routing', async ({ page }) => {
+		await page.goto('/uploader/en/sign-in');
+
 		await expectPageLoadedWithHeadingAndTitle(page, 'Sign-in', 'Sign-in – Uploader');
 
 		await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
+		await expect(page.getByLabel('Email or login')).toBeVisible();
+		await expect(page.getByLabel('Password')).toBeVisible();
 
-		const loginInput = page.getByLabel('Email or login');
-		const passwordInput = page.getByLabel('Password');
+		await signInAsValidUser(page, 'en');
 
-		await expect(loginInput).toBeVisible();
-		await expect(passwordInput).toBeVisible();
-	});
+		// Verify successful redirect to English projects page
+		await expect(page).toHaveURL('/uploader/en/projects');
 
-	// No accessibility check needed – same error state
-	// eslint-disable-next-line no-restricted-syntax
-	test('should show error with invalid credentials in English', async ({ page }) => {
-		await signInAsInvalidUser(page, 'en');
-
-		const errorMessage = page.getByTestId('sign-in-error');
-
-		await expect(errorMessage).toBeVisible();
-		await expect(errorMessage).toHaveText('Invalid credentials.');
-		await expect(errorMessage).toHaveAttribute('role', 'alert');
+		await expectPageLoadedWithHeadingAndTitle(page, 'Projects', 'Projects – Uploader');
 	});
 });

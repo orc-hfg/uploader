@@ -38,27 +38,26 @@ test.describe('Error page', () => {
 });
 
 test.describe('Error page (English locale)', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/uploader/en/non-existent-route');
-	});
-
+	/*
+	 * Smoke test for English locale
+	 * Business logic and navigation functionality are tested in German locale
+	 * This test only verifies that routing and translations work correctly
+	 */
 	// No accessibility check needed – same error page as German locale test
 	// eslint-disable-next-line no-restricted-syntax
-	test('should show error page with English locale', async ({ page }) => {
+	test('should show error page with English translations and navigation', async ({ page }) => {
+		await page.goto('/uploader/en/non-existent-route');
+
 		await expectPageLoadedWithHeadingAndTitle(page, 'Error', 'Error – Uploader');
 
 		// Verify English error messages
 		await expect(page.getByText('An error occurred.')).toBeVisible();
 		await expect(page.getByText('Please try again or return to the project overview.')).toBeVisible();
 
-		// Verify "back to projects" button with English label
-		await expect(page.getByRole('button', { name: 'Back to projects' })).toBeVisible();
-	});
-
-	// No accessibility check needed – same error page functionality
-	// eslint-disable-next-line no-restricted-syntax
-	test('should navigate back to projects page', async ({ page }) => {
+		// Verify navigation button and functionality
 		const backButton = page.getByRole('button', { name: 'Back to projects' });
+
+		await expect(backButton).toBeVisible();
 
 		await backButton.click();
 

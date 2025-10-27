@@ -47,18 +47,38 @@ test.describe('Projects page', () => {
 		await expect(page.getByRole('listitem').filter({ hasText: project2 }).getByText('Bild nicht verfügbar')).toBeVisible();
 		await expect(page.getByRole('listitem').filter({ hasText: project2 }).getByRole('link', { name: 'Öffnen' })).toBeVisible();
 	});
+
+	test('should show empty state message when no projects exist', async ({ page, makeAxeBuilder }) => {
+		await page.goto('/uploader/de/projekte?mock_scenario=empty');
+
+		await expectPageLoadedWithHeadingAndTitle(page, 'Projekte', 'Projekte – Uploader');
+
+		await expect(page.getByText('Noch keine Projekte vorhanden.')).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Neues Projekt' })).toBeVisible();
+		await expect(page.getByRole('listitem')).not.toBeVisible();
+
+		const results = await makeAxeBuilder().analyze();
+
+		expect(results.violations).toStrictEqual([]);
+	});
 });
 
 test.describe('Projects page (English locale)', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/uploader/en/projects');
-	});
-
-	// No accessibility check needed – same projects page as first test
+	/*
+	 * Smoke test for English locale
+	 * Business logic and edge cases (empty state, fallback messages) are tested in German locale
+	 * This test only verifies that routing and translations work correctly
+	 */
+	// No accessibility check needed – same projects page as German locale test
 	// eslint-disable-next-line no-restricted-syntax
-	test('should show projects list with English locale', async ({ page }) => {
+	test('should show projects with English translations and routing', async ({ page }) => {
+		await page.goto('/uploader/en/projects');
+
+		await expectPageLoadedWithHeadingAndTitle(page, 'Projects', 'Projects – Uploader');
+
 		const project1 = 'Test collectionId collection-id-1 / metaKeyId creative_work:title_en Content';
 
 		await expect(page.getByRole('listitem').filter({ hasText: project1 }).getByRole('img')).toBeVisible();
+		await expect(page.getByRole('button', { name: 'New Project' })).toBeVisible();
 	});
 });
