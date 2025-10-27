@@ -15,7 +15,8 @@ Die Dokumentation ist in mehrere domänenspezifische README-Dateien aufgeteilt:
 - [Setup und Installation](./readme.setup.md) – Projekt einrichten, GitHub PAT konfigurieren
 - [Entwicklung](./readme.development.md) – Entwicklungsworkflow, lokales Linking mit madek-api-nuxt-layer
 - [Authentifizierung](./readme.authentication.md) – Authentifizierungsstrategien für verschiedene Umgebungen
-- [Release Management](./readme.release.md) – Versioning, Deployment und Release-Prozess
+- [Release Management](./readme.release.md) – Versionierung, Git-Tags und Release-Prozess
+- [Deployment](./readme.deployment.md) – Server-Deployment, Monitoring und Tracking
 - [Design System](./readme.design.md) – PrimeVue Theme, Zusammenarbeit mit Designern
 - [Wartung](./readme.maintenance.md) – Dependency Updates, Node-Aktualisierung, bekannte Issues
 - [Wartungsaufgaben](./readme.maintenance-todo.md) – Offene Wartungsaufgaben

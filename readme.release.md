@@ -1,35 +1,27 @@
 # Release Management
 
-## Überblick: Git-Tags vs. GitHub Releases
+## Überblick
 
-**Wichtig zu verstehen:** In diesem Projekt (Uploader) erstellen die Release-Skripte **Git-Tags**, aber **keine GitHub Releases** (wie im dazugehörigen Nuxt-Layer-Projekt).
+Das Release-Management in diesem Projekt basiert auf **Git-Tags** zur Versionierung. Im Gegensatz zum dazugehörigen [Nuxt-Layer-Projekt](https://github.com/orc-hfg/madek-api-nuxt-layer) werden **keine automatischen GitHub Releases** erstellt.
 
-### Was wird automatisch erstellt?
+**Wichtig:** Release-Management (Versionierung) und Deployment sind getrennte Prozesse. Siehe [Deployment](./readme.deployment.md) für Informationen zum Server-Deployment.
 
-✅ **Git-Tags** (über `npm run release:*`)
+### Git-Tags vs. GitHub Releases
+
+✅ **Was wird automatisch erstellt:**
 - Versionsnummer in package.json wird erhöht
 - Git-Commit wird erstellt
 - Git-Tag wird erstellt und gepusht
 - Versionierung im Repository ist sichtbar
 
-❌ **Keine GitHub Releases**
+❌ **Was nicht automatisch erstellt wird:**
 - Keine automatische Release-Erstellung in GitHub
 - Kein Package Publishing
 - Keine automatischen Release Notes
 
-### Unterschied zum Nuxt-Layer-Projekt (https://github.com/orc-hfg/madek-api-nuxt-layer)
-
-Im **Nuxt-Layer**-Projekt sieht der Prozess anders aus:
-- Git-Tags triggern automatisch GitHub Actions
-- GitHub Releases werden automatisch erstellt
-- Package wird zu GitHub Packages publiziert
-- Release Notes werden generiert
-
-**Warum dieser Unterschied?**
+**Warum Git-Tags ausreichend sind:**
+- **Uploader**: Interne Anwendung → Git-Tags genügen für Versionierung
 - **Nuxt-Layer**: Wird als Package konsumiert → braucht Distribution-Mechanismus
-- **Uploader**: Interne Anwendung → Git-Tags sind ausreichend für Versionierung
-
-### Optionale manuelle GitHub Releases
 
 GitHub Releases können bei Bedarf manuell erstellt werden (siehe Abschnitt weiter unten), sind aber nicht Teil des Standard-Workflows.
 
@@ -126,171 +118,8 @@ Falls du trotzdem einen GitHub Release erstellen möchtest (z.B. für bessere Si
 
 **Wichtig:** Dies ist ein rein optionaler Schritt für bessere Dokumentation. Die Versionierung funktioniert auch ohne GitHub Releases über Git-Tags.
 
-## Deployment
+## Nächste Schritte
 
-Der GitHub Actions Workflow in diesem Projekt ist für Qualitätssicherung und Testing konzipiert, nicht für Deployment. Die CI-Pipeline führt folgende Schritte aus:
+Nach einem erfolgreichen Release kann das Deployment durchgeführt werden:
 
-1. Code-Qualitätsprüfungen (Linting, Type-Checking, Erkennung ungenutzten Codes)
-2. Unit-Tests
-3. E2E-Tests mit Playwright
-4. Build-Verifizierung
-
-### Systemvoraussetzungen für Deployment
-
-Die Deployment-Skripte sind als **Bash-Scripts** implementiert und benötigen:
-
-- **Bash Shell** (sh/bash)
-- **SSH-Client** für Server-Zugriff
-- **rsync** für Datei-Synchronisation
-- **Git** für Repository-Operationen
-
-#### Plattformspezifische Hinweise
-
-**macOS / Linux:**
-✅ Alle Tools sind standardmäßig verfügbar
-
-**Windows:**
-⚠️ **WSL2 (Windows Subsystem for Linux) ist erforderlich**
-
-### Deployment-Skripte
-
-Für das manuelle Deployment stehen separate Skripte zur Verfügung:
-
-```bash
-# Deployment in die Entwicklungsumgebung
-npm run deploy:development
-
-# Deployment in die Staging-Umgebung
-npm run deploy:staging
-```
-
-### Was passiert beim Deployment?
-
-Das Deployment-Skript führt folgende Schritte aus:
-
-1. Überprüfung der erforderlichen Umgebungsvariablen
-2. Bereinigung und Installation der Abhängigkeiten (`npm ci`)
-3. Build der Anwendung (`npm run build`)
-4. Übertragung der Build-Artefakte auf den entsprechenden Server via rsync
-5. Neustart des jeweiligen Services auf dem Server
-
-**Wichtige Hinweise:**
-
-- Deployments sollten nur von getesteten Code-Ständen durchgeführt werden
-- Alle CI/CD-Tests müssen erfolgreich durchgelaufen sein
-
-⚠️ **WICHTIG: Immer über npm-Skripte deployen!**
-
-Deployments **müssen** über die npm-Skripte (`npm run deploy:development` / `npm run deploy:staging`) durchgeführt werden, da nur diese das automatische Deployment-Tracking gewährleisten. Manuelle Deployments (z.B. direkt mit rsync) umgehen das Logging und führen zu unvollständiger Deployment-Historie.
-
-### Deployment-Tracking
-
-Jedes Deployment wird automatisch protokolliert, um Nachvollziehbarkeit zu gewährleisten:
-
-#### Automatische Protokollierung
-
-Bei jedem Deployment wird folgendes dokumentiert:
-
-- **Zeitstempel**: Wann wurde deployed?
-- **Version**: Welche Version wurde deployed? (aus package.json)
-- **Git-Commit**: Exakter Commit-Hash
-- **Branch**: Von welchem Branch wurde deployed?
-- **User**: Wer hat deployed?
-- **Environment**: development oder staging
-
-#### Deployment-History abrufen
-
-Die Deployment-History kann jederzeit abgerufen werden:
-
-```bash
-# Letzte 10 Deployments für development anzeigen
-npm run deploy:history development
-
-# Letzte 20 Deployments für staging anzeigen
-npm run deploy:history staging 20
-
-# Alle Deployments anzeigen
-npm run deploy:history development all
-```
-
-#### Deployment-Info auf dem Server (Health Endpoint)
-
-Die aktuelle Deployment-Version ist über den Health-Endpoint verfügbar:
-
-```bash
-# Mit npm-Scripts (empfohlen - formatierte Ausgabe)
-npm run health:development
-npm run health:staging
-
-# Direkt mit curl
-curl https://dev.madek.hfg-karlsruhe.de/uploader/health
-curl https://staging.madek.hfg-karlsruhe.de/uploader/health
-
-# Mit jq für formatierte Ausgabe
-curl -s https://dev.madek.hfg-karlsruhe.de/uploader/health | jq
-```
-
-Response enthält Deployment-Informationen:
-```json
-{
-  "status": "healthy",
-  "service": "uploader",
-  "timestamp": "2025-01-24T14:30:00.000Z",
-  "deploymentInfo": {
-    "timestamp": "2025-01-24T14:25:00Z",
-    "environment": "development",
-    "version": "0.2.4",
-    "commit": "abc123def456...",
-    "branch": "main",
-    "user": "rzschoch",
-    "package": "@orc-hfg/uploader@0.2.4"
-  }
-}
-```
-
-**Hinweis**: Die Deployment-Info ist nur auf deployed Servern verfügbar, nicht in der lokalen Entwicklungsumgebung.
-
-#### Wo werden die Logs gespeichert?
-
-- **Server-seitig**: `/srv/{env}/uploader/deploy-history.jsonl` (JSONL-Format)
-- **Lokal**: Keine lokalen Logs (Team-Transparenz: Alle sehen alle Deployments)
-
-#### Vorteile des Deployment-Trackings
-
-1. **Nachvollziehbarkeit**: Jederzeit wissen, welche Version auf welchem Server läuft
-2. **Team-Transparenz**: Alle Deployer sehen alle Deployments
-3. **Debugging**: Bei Problemen schnell den exakten deployed Stand identifizieren
-
-## Warum Git-Tags statt automatisierte GitHub Releases?
-
-Dieses Projekt nutzt **Git-Tags für Versionierung**, aber **keine automatischen GitHub Releases**. Die Gründe hierfür sind:
-
-### Git-Tags sind ausreichend für dieses Projekt
-
-1. **Versionierung**: Git-Tags erfüllen alle Anforderungen für Versionsnachverfolgung
-2. **Einfachheit**: Keine zusätzlichen GitHub Actions oder Workflows erforderlich
-3. **Integration**: npm-Release-Skripte funktionieren direkt mit Git
-4. **Sichtbarkeit**: Versionen sind in Git-History und package.json klar erkennbar
-
-### GitHub Releases wären Overhead
-
-1. **Kein Package Publishing**: Die Anwendung wird nicht als Package konsumiert
-2. **Deployment ist unabhängig**: Deployment erfolgt manuell über separate Skripte
-3. **Keine externe Distribution**: Keine Release Notes für externe Konsumenten erforderlich
-
-### Vergleich mit dem Nuxt-Layer-Projekt
-
-Im **Nuxt-Layer-Projekt** sind automatische GitHub Releases notwendig, weil:
-- Das Package zu GitHub Packages publiziert wird
-- Externe Projekte (wie dieser Uploader) das Package konsumieren
-- Release Notes für Konsumenten wichtig sind
-- Versionskommunikation nach außen erforderlich ist
-
-Im **Uploader** sind Git-Tags ausreichend, weil:
-- Nur interne Nutzung
-- Deployment ist manuell und unabhängig von Versionen
-- Versionierung dient nur der internen Organisation
-
-### Fazit
-
-Git-Tags bieten für dieses Projekt eine gute Balance zwischen Einfachheit und Funktionalität. GitHub Releases können bei Bedarf manuell erstellt werden (siehe vorheriger Abschnitt), sind aber nicht Teil des Standard-Workflows.
+- [Deployment-Dokumentation](./readme.deployment.md) – Server-Deployment, Monitoring und Tracking

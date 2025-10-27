@@ -22,6 +22,8 @@
 		"deploy:development": "sh ./scripts/deploy.sh development",
 		"deploy:staging": "sh ./scripts/deploy.sh staging",
 		"deploy:history": "sh ./scripts/deploy-history.sh",
+		"version:development": "curl -s https://dev.madek.hfg-karlsruhe.de/uploader/health | jq -r '.deploymentInfo.version'",
+		"version:staging": "curl -s https://staging.madek.hfg-karlsruhe.de/uploader/health | jq -r '.deploymentInfo.version'",
 		"health:development": "curl -s https://dev.madek.hfg-karlsruhe.de/uploader/health | jq",
 		"health:staging": "curl -s https://staging.madek.hfg-karlsruhe.de/uploader/health | jq",
 		"preview": "nuxt preview --dotenv .env.preview",
