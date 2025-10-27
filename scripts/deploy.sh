@@ -11,6 +11,10 @@ trap 'echo "❌ Deployment aborted."; exit 130' INT
 # Get first argument passed to script, default to empty string if none provided
 env="${1:-}"
 
+# Validate environment argument
+# Pattern matching: development|staging = accept both values
+# Empty ;; = no action needed for valid values, just continue
+# * = catch-all pattern for any other value (invalid input)
 case "$env" in
   development|staging)
     ;;
@@ -20,6 +24,8 @@ case "$env" in
     ;;
 esac
 
+# Configure environment-specific variables
+# Separate case statement ensures we only reach here with valid environment
 case "$env" in
   development)
     HOST="dev.madek.hfg-karlsruhe.de"
@@ -56,17 +62,30 @@ fi
 echo "✅ Connection successful"
 echo ""
 
+# Function: Ask user for confirmation before proceeding with potentially risky operations
+# Parameters:
+#   $1 (required): Prompt message to display to user
+#   $2 (optional): Success message to show if user confirms (default: "Proceeding...")
+# Returns: 0 if user confirms (y/Y), exits script (exit 1) if user declines
 confirm() {
   local prompt=$1
+  # ${2:-default} syntax: Use $2 if provided, otherwise use "Proceeding..."
   local success_msg=${2:-"Proceeding..."}
+  
+  # read -r: Don't interpret backslashes
+  # read -n 1: Read only one character (immediate response)
+  # read -p: Display prompt before reading input
   read -r -n 1 -p "$prompt (y/N): " answer
-  echo
+  echo  # Print newline after single-character input
+  
+  # Convert answer to lowercase to accept both 'y' and 'Y'
+  # tr '[:upper:]' '[:lower:]': Translate all uppercase to lowercase
   if [[ "$(echo "$answer" | tr '[:upper:]' '[:lower:]')" == y ]]; then
     echo "$success_msg"
-    return 0
+    return 0  # Success: Continue with script execution
   else
     echo "Deployment cancelled."
-    exit 1
+    exit 1  # Exit entire script (not just function) to stop deployment
   fi
 }
 
