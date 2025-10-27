@@ -14,7 +14,12 @@ export async function signInAs(page: Page, user: string, password: string, local
 	const content = page.getByTestId('content');
 
 	await expect(content).toBeVisible();
-	await expect(content).toHaveCSS('opacity', '1');
+
+	/*
+	 * Wait for the layout animation sequence to complete.
+	 * Timeout set to 30s to handle potential animation delays in CI environment.
+	 */
+	await expect(content).toHaveCSS('opacity', '1', { timeout: 30_000 });
 
 	const labels: Record<AppLocale, SignInLabels> = {
 		de: {
