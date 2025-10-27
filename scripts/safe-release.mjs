@@ -84,14 +84,28 @@ function runLocalTests() {
 	console.log('');
 	console.log('🧪 Running local quality assurance tests...');
 	console.log('   This ensures code quality before pushing to main branch');
-	console.log('   Tests include: linting, type checking, unused code detection, unit tests, and E2E tests');
+	console.log('   Tests include: linting, type checking, unused code detection, unit tests, build, and E2E tests');
 	console.log('');
 
 	try {
+		// Run linting, type checking, unused code detection, and unit tests
 		// Note: Using npm command is safe in this development script context
 		// eslint-disable-next-line sonarjs/no-os-command-from-path
-		execSync('npm run check:issues', { stdio: 'inherit' });
+		execSync('npm run lint && npm run check:types && npm run check:unused && npm run test', { stdio: 'inherit' });
 		console.log('');
+
+		// Build the project for preview mode testing
+		console.log('📦 Building project for E2E testing...');
+		// eslint-disable-next-line sonarjs/no-os-command-from-path
+		execSync('npm run build', { stdio: 'inherit' });
+		console.log('');
+
+		// Run E2E tests with preview server for stable, production-like testing
+		console.log('🎭 Running E2E tests with preview server...');
+		// eslint-disable-next-line sonarjs/no-os-command-from-path
+		execSync('npm run test:e2e:preview', { stdio: 'inherit' });
+		console.log('');
+
 		console.log('✅ All local quality assurance tests passed');
 	}
 	catch {
