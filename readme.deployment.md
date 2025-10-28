@@ -143,10 +143,43 @@ npm run deploy:history staging 20
 npm run deploy:history development all
 ```
 
-### Wo werden die Logs gespeichert?
+### Deployment-Daten Architektur
 
-- **Server-seitig**: `/srv/{env}/uploader/deploy-history.jsonl` (JSONL-Format)
-- **Lokal**: Keine lokalen Logs (Team-Transparenz: Alle sehen alle Deployments)
+Das System verwendet zwei komplementäre Dateien für unterschiedliche Zugriffsmuster:
+
+#### 1. Öffentlich: `deploy-info.json` (HTTP)
+- **Zugriff**: Via `/health` Endpoint (kein SSH erforderlich)
+- **Inhalt**: Aktuelles Deployment
+- **Verwendung**: 
+  - Schnelle Version-Checks (`npm run version:development`)
+  - Monitoring-Systeme
+  - CI/CD Post-Deployment-Verifikation
+  - Pre-Deployment Version-Vergleich
+- **Vorteil**: Schneller Zugriff ohne Credentials
+
+#### 2. Intern: `deploy-history.jsonl` (SSH)
+- **Zugriff**: Via SSH (erfordert Authentifizierung)
+- **Inhalt**: Vollständige Deployment-Historie (JSONL-Format)
+- **Verwendung**: 
+  - Deployment-History (`npm run deploy:history`)
+  - Audit-Trail
+  - Rollback-Entscheidungen
+- **Vorteil**: Geschützte, vollständige Historie
+
+**Speicherorte auf dem Server**:
+- `deploy-info.json`: `/srv/{env}/uploader/.output/public/deploy-info.json` (Teil des Builds)
+- `deploy-history.jsonl`: `/srv/{env}/uploader/deploy-history.jsonl` (External log)
+
+**Design-Prinzip**: *Security by Design* – Öffentlich nur das Nötigste (aktuelle Version), sensible History-Daten geschützt durch SSH-Authentifizierung.
+
+**Technische Gründe für die Trennung**:
+1. **Self-contained Build**: `deploy-info.json` ist Teil des Build-Outputs und wird mit deployed – der Build bringt seine Deployment-Info mit
+2. **Atomic Deployment**: Deployment-Info gehört fest zum Build-Artefakt
+3. **Performance**: HTTP-Endpoint liest kleine, einzelne Datei (schnell) statt gesamter History
+4. **Sicherheit**: HTTP-Endpoint bleibt im Build-Directory, kein Zugriff auf Parent-Directories nötig
+5. **Unabhängigkeit**: Build funktioniert auch, wenn History-Datei fehlt oder gelöscht wird
+
+**Hinweis**: Alle Zeitstempel sind in UTC (ISO 8601 Format) für Konsistenz und plattformübergreifende Kompatibilität.
 
 ### Vorteile des Deployment-Trackings
 
