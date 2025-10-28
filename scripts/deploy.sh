@@ -134,14 +134,14 @@ abort_if_unpushed() {
 check_version_increment() {
   echo "🔍 Checking version increment..."
   
-  # Get last deployed version from server's public deploy-info.json endpoint
+  # Get last deployed version from server's health endpoint
   # curl -sf: silent mode, fail on HTTP errors
-  # jq -r '.version': Extract version field from JSON
-  local deploy_info_url="https://$HOST/uploader/deploy-info.json"
+  # jq -r '.deploymentInfo.version': Extract version from deploymentInfo object
+  local health_url="https://$HOST/uploader/health"
   local last_deployed_version
-  last_deployed_version=$(curl -sf "$deploy_info_url" 2>/dev/null | jq -r '.version' 2>/dev/null || echo "")
+  last_deployed_version=$(curl -sf "$health_url" 2>/dev/null | jq -r '.deploymentInfo.version' 2>/dev/null || echo "")
   
-  if [[ -z "$last_deployed_version" ]]; then
+  if [[ -z "$last_deployed_version" || "$last_deployed_version" == "null" ]]; then
     echo "No previous deployment found, skipping version check."
     return 0
   fi
@@ -155,6 +155,15 @@ check_version_increment() {
   fi
 }
 
+echo "📝 Reading deployment info..."
+
+VERSION=$(node -p "require('./package.json').version")  # Read from package.json
+PACKAGE_NAME=$(node -p "require('./package.json').name")
+COMMIT=$(git rev-parse HEAD)  # Get full commit hash
+BRANCH=$(git rev-parse --abbrev-ref HEAD)  # Get branch name
+TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")  # UTC timestamp (ISO 8601 format)
+USER=$(whoami)  # Get current username
+
 echo "🔍 Git checks..."
 abort_if_dirty
 abort_if_unpushed
@@ -165,14 +174,7 @@ if [[ "$env" == "staging" ]]; then
   check_version_increment
 fi
 
-echo "📝 Generating deployment info..."
-
-VERSION=$(node -p "require('./package.json').version")  # Read from package.json
-PACKAGE_NAME=$(node -p "require('./package.json').name")
-COMMIT=$(git rev-parse HEAD)  # Get full commit hash
-BRANCH=$(git rev-parse --abbrev-ref HEAD)  # Get branch name
-TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")  # UTC timestamp (ISO 8601 format)
-USER=$(whoami)  # Get current username
+echo "📝 Generating deployment info file..."
 
 # Generate compact JSON (single line for JSONL compatibility)
 echo "{\"timestamp\":\"$TIMESTAMP\",\"environment\":\"$env\",\"version\":\"$VERSION\",\"commit\":\"$COMMIT\",\"branch\":\"$BRANCH\",\"user\":\"$USER\",\"package\":\"$PACKAGE_NAME@$VERSION\"}" > deploy-info.json
