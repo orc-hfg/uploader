@@ -12,7 +12,7 @@
 	const userStore = useUserStore();
 
 	// Executed once on every page visit
-	await callOnce(() => userStore.refresh(), { mode: 'navigation' });
+	await callOnce('user-example', () => userStore.refresh(), { mode: 'navigation' });
 
 	const { data: authInfo } = await useAsyncData(() => getUserRepository().getAuthInfo());
 

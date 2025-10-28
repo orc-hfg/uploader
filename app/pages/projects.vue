@@ -31,10 +31,18 @@
 	const mockScenario = useMockScenario();
 
 	/*
+	 * Initialize Nuxt context before callOnce
+	 * This ensures useRuntimeConfig() and other composables used by the Layer are available
+	 * Without this, the Layer's internal useRuntimeConfig() calls fail with "composable called outside of context"
+	 */
+	useNuxtApp();
+
+	/*
 	 * Load user sets data on initial load and on locale-based navigation
 	 * Navigation mode ensures data refreshes when switching between different routes
+	 * Key includes locale and mockScenario to ensure proper cache invalidation when these change
 	 */
-	await callOnce(() => setsStore.refresh(locale.value, mockScenario), { mode: 'navigation' });
+	await callOnce(`sets-${locale.value}-${mockScenario}`, () => setsStore.refresh(locale.value, mockScenario), { mode: 'navigation' });
 
 	async function handleSignOut() {
 		try {

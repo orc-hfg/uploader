@@ -37,7 +37,7 @@
 		});
 	}
 
-	await callOnce(() => setStore.refresh(currentProjectId, locale.value), { mode: 'navigation' });
+	await callOnce(`set-${currentProjectId}-${locale.value}`, () => setStore.refresh(currentProjectId, locale.value), { mode: 'navigation' });
 
 	useRouteTitle(() => setStore.setData?.title.value ?? '');
 
