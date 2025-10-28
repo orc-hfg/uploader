@@ -58,33 +58,38 @@ Die Deployment-Skripte sind als **Bash-Scripts** implementiert und benötigen:
 
 Nach dem Deployment kannst du die deployed Version und den System-Status überprüfen:
 
-### Schneller Version-Check
+### Deployment-Info abrufen
 
-Empfohlen für Post-Deployment-Verifikation:
+Empfohlen für schnelle Post-Deployment-Verifikation (formatierte, menschenlesbare Ausgabe):
 
 ```bash
-# Version auf Development-Server prüfen
+# Deployment-Info vom Development-Server abrufen
 npm run version:development
 
-# Version auf Staging-Server prüfen
+# Deployment-Info vom Staging-Server abrufen
 npm run version:staging
 ```
 
 **Output:**
-```bash
-$ npm run version:development
-0.2.4
+```
+Environment: development
+Version:     0.2.7
+Commit:      473ee56b5ffbf1a6f04b80ad0a33365f279ce22f
+Branch:      main
+Timestamp:   2025-10-27T17:49:54Z
+User:        rzschoch
+Package:     @orc-hfg/uploader@0.2.7
 ```
 
 ### Vollständiger Health-Check
 
-Empfohlen für Debugging und umfassende System-Informationen:
+Empfohlen für Monitoring-Systeme und JSON-Verarbeitung (enthält zusätzlich Server-Status):
 
 ```bash
-# Health-Status von Development-Server abrufen
+# Health-Status vom Development-Server abrufen
 npm run health:development
 
-# Health-Status von Staging-Server abrufen
+# Health-Status vom Staging-Server abrufen
 npm run health:staging
 ```
 
@@ -93,15 +98,15 @@ npm run health:staging
 {
   "status": "healthy",
   "service": "uploader",
-  "timestamp": "2025-01-24T14:30:00.000Z",
+  "timestamp": "2025-10-28T13:07:45.599Z",
   "deploymentInfo": {
-    "timestamp": "2025-01-24T14:25:00Z",
+    "timestamp": "2025-10-27T17:49:54Z",
     "environment": "development",
-    "version": "0.2.4",
-    "commit": "abc123def456...",
+    "version": "0.2.7",
+    "commit": "473ee56b5ffbf1a6f04b80ad0a33365f279ce22f",
     "branch": "main",
     "user": "rzschoch",
-    "package": "@orc-hfg/uploader@0.2.4"
+    "package": "@orc-hfg/uploader@0.2.7"
   }
 }
 ```
