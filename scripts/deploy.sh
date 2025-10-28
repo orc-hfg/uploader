@@ -129,9 +129,41 @@ abort_if_unpushed() {
   fi
 }
 
+# Function: Check if version was incremented since last deployment
+# Helps identify if a new release was created before deployment
+check_version_increment() {
+  echo "🔍 Checking version increment..."
+  
+  # Get last deployed version from server's public deploy-info.json endpoint
+  # curl -sf: silent mode, fail on HTTP errors
+  # jq -r '.version': Extract version field from JSON
+  local deploy_info_url="https://$HOST/uploader/deploy-info.json"
+  local last_deployed_version
+  last_deployed_version=$(curl -sf "$deploy_info_url" 2>/dev/null | jq -r '.version' 2>/dev/null || echo "")
+  
+  if [[ -z "$last_deployed_version" ]]; then
+    echo "No previous deployment found, skipping version check."
+    return 0
+  fi
+  
+  if [[ "$VERSION" == "$last_deployed_version" ]]; then
+    # Version unchanged means package.json wasn't updated, making it harder
+    # to identify this deployment in logs and communicate about specific versions
+    confirm "Version $VERSION unchanged (no release created). Continue anyway?" "Proceeding without release..."
+  else
+    echo "Version incremented from $last_deployed_version to $VERSION ✓"
+  fi
+}
+
 echo "🔍 Git checks..."
 abort_if_dirty
 abort_if_unpushed
+
+# Check version increment for staging deployments
+# Development allows same version for quick testing deployments
+if [[ "$env" == "staging" ]]; then
+  check_version_increment
+fi
 
 echo "📝 Generating deployment info..."
 
