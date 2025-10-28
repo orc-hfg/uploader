@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// This is just a page for testing purposes (http://localhost:3000/uploader/example2).
+// TODO: This is just a page for testing purposes (http://localhost:3000/uploader/example2).
 // Feel free to delete this file.
 
 	definePageMeta({

@@ -11,3 +11,8 @@
   - Update von `vitest` auf Version > 4
   - https://github.com/nuxt/test-utils/issues/1452
 - Kann `"vitest": false` aus `knip.json` wieder entfernt werden? Läuft dann `npm run check:unused` fehlerfrei?
+- Nuxt i18n Route-Definition:
+  - Bei Upgrade `@nuxtjs/i18n` auf Version > 10 prüfen, ob die Kompatibilitätsprobleme mit `definePageMeta({ i18n: { paths: {...} } })` behoben wurden
+  - Wenn ja, von der klassischen `defineI18nRoute`-Methode zur neuen Methode wechseln
+  - Siehe Kommentar in `nuxt.config.ts` (Zeilen 72-92) für Details
+  - Betroffene Dateien: Alle Pages mit lokalisierten Routen

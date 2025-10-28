@@ -168,7 +168,10 @@ export function useAuthentication(): UseAuthenticationReturn {
 			 */
 			// eslint-disable-next-line no-restricted-syntax
 			await $fetch(signOutEndpoint, {
-				// TODO: Will this work later without special headers?
+				/*
+				 * TODO: Will this work later without special headers?
+				 * Remove Accept header if not needed
+				 */
 				headers: {
 					Accept: 'text/html',
 				},

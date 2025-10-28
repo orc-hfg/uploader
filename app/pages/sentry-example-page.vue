@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// This is just a simple page with a button to throw an example error (http://localhost:3000/uploader/sentry-example-page).
+// TODO: This is just a simple page with a button to throw an example error (http://localhost:3000/uploader/sentry-example-page).
 // Feel free to delete this file.
 
 	import * as Sentry from '@sentry/nuxt';
