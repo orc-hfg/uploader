@@ -171,7 +171,7 @@ VERSION=$(node -p "require('./package.json').version")  # Read from package.json
 PACKAGE_NAME=$(node -p "require('./package.json').name")
 COMMIT=$(git rev-parse HEAD)  # Get full commit hash
 BRANCH=$(git rev-parse --abbrev-ref HEAD)  # Get branch name
-TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")  # Current time in ISO 8601 UTC
+TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")  # UTC timestamp (ISO 8601 format)
 USER=$(whoami)  # Get current username
 
 # Generate compact JSON (single line for JSONL compatibility)

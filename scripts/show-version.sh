@@ -28,4 +28,4 @@ if ! echo "$RESPONSE" | jq -e '.deploymentInfo' >/dev/null 2>&1; then
 fi
 
 # Extract and format deployment info from health response
-echo "$RESPONSE" | jq -r '.deploymentInfo | "Environment: \(.environment)\nVersion:     \(.version)\nCommit:      \(.commit)\nBranch:      \(.branch)\nTimestamp:   \(.timestamp)\nUser:        \(.user)\nPackage:     \(.package)"'
+echo "$RESPONSE" | jq -r '.deploymentInfo | "Environment: \(.environment)\nVersion:     \(.version)\nCommit:      \(.commit)\nBranch:      \(.branch)\nTimestamp:   \(.timestamp) (UTC)\nUser:        \(.user)\nPackage:     \(.package)"'

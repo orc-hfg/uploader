@@ -58,7 +58,7 @@ LOG_FILE="$TARGET_DIR/deploy-history.jsonl"
 
 echo "📜 Deployment History for $env environment"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🌍 Times displayed in Europe/Berlin timezone (converted from UTC)"
+echo "🕐 All times shown in UTC"
 echo ""
 
 # Check if deployment log file exists on server
@@ -84,33 +84,8 @@ format_entry() {
   local environment=$(echo "$json" | jq -r '.environment')
   local branch=$(echo "$json" | jq -r '.branch')
 
-  # Format timestamp (ISO to readable format in Europe/Berlin timezone)
-  # Different implementations for Linux (GNU date) vs macOS (BSD date)
-
-  # Detect which date command is available
-  # GNU date has --version flag, BSD date doesn't
-  if date --version >/dev/null 2>&1; then
-    # GNU date (Linux) - supports TZ variable directly
-    # -d: Parse input date
-    # TZ: Set timezone for output
-    local date=$(TZ='Europe/Berlin' date -d "$timestamp" '+%m/%d/%Y, %I:%M %p')
-  else
-    # BSD date (macOS) - different syntax
-    # -j: Don't set system time
-    # -u: Parse input as UTC
-    # -f: Input format
-    # +%s: Output as Unix timestamp (seconds since 1970)
-    local epoch=$(date -ju -f '%Y-%m-%dT%H:%M:%SZ' "$timestamp" '+%s' 2>/dev/null)
-
-    # Convert timestamp to Berlin timezone
-    export TZ='Europe/Berlin'
-    # -r: Read time from timestamp instead of string
-    local date=$(date -r "$epoch" '+%m/%d/%Y, %I:%M %p' 2>/dev/null)
-    unset TZ  # Clean up environment variable
-  fi
-
   echo "📦 $version ($commit)"
-  echo "   🕐 $date"
+  echo "   🕐 $timestamp"
   echo "   👤 $user → $environment"
   echo "   🌿 $branch"
   echo ""

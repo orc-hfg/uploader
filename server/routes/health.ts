@@ -30,6 +30,8 @@ export default defineEventHandler(async (event) => {
 	const baseResponse = {
 		status: 'healthy',
 		service: 'uploader',
+
+		// UTC timestamp (ISO 8601 format)
 		timestamp: new Date().toISOString(),
 	};
 
