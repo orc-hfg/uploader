@@ -13,8 +13,6 @@
 
 	// Refresh user sets on navigation
 	await callOnce('sets-de-example', () => setsStore.refresh('de'), { mode: 'navigation' });
-
-	const { data: appSettings } = await useAsyncData(() => getSettingsRepository().getAppSettings());
 </script>
 
 <template>
@@ -32,12 +30,6 @@
 					{{ setsData.title }}
 				</li>
 			</ul>
-		</div>
-		<div>
-			<p>
-				App Settings:<br>
-				{{ appSettings?.default_locale }}
-			</p>
 		</div>
 		<p>
 			<small>Madek API Nuxt Layer Version:<br>{{ $config.public.version }}</small>

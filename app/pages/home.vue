@@ -8,18 +8,10 @@
 	});
 
 	defineI18nRoute(false);
-
-	const { data: appSettings } = await useAsyncData(() => getSettingsRepository().getAppSettings());
 </script>
 
 <template>
 	<div>
-		<div>
-			<p>
-				App Settings:<br>
-				{{ appSettings?.default_locale }}
-			</p>
-		</div>
 		<p>
 			<small>Madek API Nuxt Layer Version:<br>{{ $config.public.version }}</small>
 		</p>
