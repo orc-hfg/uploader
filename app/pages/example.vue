@@ -15,8 +15,6 @@
 	await callOnce('user-example', () => userStore.refresh(), { mode: 'navigation' });
 
 	const { data: authInfo } = await useAsyncData(() => getUserRepository().getAuthInfo());
-
-	const { data: placeholderData } = await useAsyncData(() => getPlaceholderUserRepository().getUsers());
 </script>
 
 <template>
@@ -29,12 +27,6 @@
 			User Repository (id):<br>
 			{{ authInfo?.id }}
 		</p>
-		Placeholder User Repository (to demonstrate usage of different API):<br>
-		<ul>
-			<li v-for="user in placeholderData" :key="user.id">
-				{{ user.name }}
-			</li>
-		</ul>
 		<NuxtLink to="/">
 			Home
 		</NuxtLink>
