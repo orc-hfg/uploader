@@ -83,14 +83,14 @@
 <template>
 	<ul v-if="setsStore.sets.length > 0">
 		<li
-			v-for="setsData in setsStore.setsData" :key="setsData.id" class="
+			v-for="setsDisplayData in setsStore.setsDisplayData" :key="setsDisplayData.id" class="
      border-slate-300 pb-10
      not-first:mt-10
      not-last:border-b
      last:pb-20
    "
 		>
-			<Project :id="setsData.id" :title="setsData.title ?? undefined" :cover-image-sources="setsData.coverImageSources" />
+			<Project :id="setsDisplayData.id" :title="setsDisplayData.title ?? undefined" :cover-image-sources="setsDisplayData.coverImageSources" />
 		</li>
 	</ul>
 	<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />

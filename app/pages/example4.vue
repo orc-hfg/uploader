@@ -26,8 +26,8 @@
 			</ul>
 			<p>User Set Titles:</p>
 			<ul>
-				<li v-for="setsData in setsStore.setsData" :key="setsData.id">
-					{{ setsData.title }}
+				<li v-for="setsDisplayData in setsStore.setsDisplayData" :key="setsDisplayData.id">
+					{{ setsDisplayData.title }}
 				</li>
 			</ul>
 		</div>
