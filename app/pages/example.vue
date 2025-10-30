@@ -21,7 +21,7 @@
 	<div>
 		<p>
 			User Store Getter (displayName):<br>
-			{{ userStore.displayName }}
+			{{ userStore.userDisplayData?.displayName }}
 		</p>
 		<p>
 			User Repository (id):<br>
