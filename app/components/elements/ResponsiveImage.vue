@@ -46,6 +46,11 @@
 
 		if (fixedWidth) {
 			styles.width = `${fixedWidth}px`;
+			/*
+			 * Max-width prevents browser from enlarging the image width
+			 * based on intrinsic aspect ratio when height is constrained
+			 */
+			styles.maxWidth = `${fixedWidth}px`;
 		}
 
 		if (fixedHeight) {
@@ -71,12 +76,15 @@
 		loading="lazy"
 	>
 	<div
-		v-else class="
-    flex h-87 items-center justify-center bg-surface-100 text-surface-400
+		v-else
+		class="
+    flex aspect-3/2 items-center justify-center bg-surface-100 text-surface-400
   "
+		:style="imageStyles"
 	>
 		<Text
-			as="p" variant="display-small"
+			as="p"
+			variant="display-small"
 		>
 			{{ $t('components.responsive_image.not_available') }}
 		</Text>

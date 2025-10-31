@@ -23,10 +23,27 @@
 
 	const appLogger = createAppLogger('Component: MediaEntries');
 
+	const THUMBNAIL_CONFIG = {
+		width: 85,
+		height: 57,
+	} as const;
+
+	/*
+	 * Z-Index must be higher than PrimeVue BlockUI mask (1101)
+	 * to ensure spinner appears above the overlay
+	 */
+	const SPINNER_Z_INDEX = 1102;
+
 	const entries = shallowRef([...mediaEntries]);
 
+	/*
+	 * Watch for prop changes and update local state
+	 * Guard prevents updates during reordering to avoid overwriting user's drag-and-drop action
+	 */
 	watch(() => mediaEntries, (newEntries) => {
-		entries.value = [...newEntries];
+		if (!isReordering) {
+			entries.value = [...newEntries];
+		}
 	});
 
 	function onRowReorder(event: { value: typeof mediaEntries }) {
@@ -36,6 +53,20 @@
 		emit('reorder', orderedIds);
 	}
 
+	/*
+	 * TODO: Implement edit functionality as direct link navigation
+	 * Implementation approach:
+	 * 1. Add projectId as required prop
+	 * 2. Replace Button with Button using :as="NuxtLinkLocale" and :to
+	 * 3. Dynamically compose route path with projectId and mediaEntryId
+	 * Example in template:
+	 *   <Button
+	 *     :as="NuxtLinkLocale"
+	 *     :to="`/project/${projectId}/media-entry/${data.mediaEntryId}/edit`"
+	 *     ...
+	 *   />
+	 * This approach follows KISS principle and provides better UX (real link with browser features)
+	 */
 	function onEdit(mediaEntryId: string) {
 		appLogger.info('Edit media entry:', { mediaEntryId });
 	}
@@ -46,7 +77,7 @@
 		<BlockUI
 			:blocked="isReordering"
 			:pt="{
-				mask: { class: 'rounded-2xl media-entries-mask' },
+				mask: { class: 'rounded-2xl' },
 			}"
 		>
 			<div
@@ -87,9 +118,9 @@
 							<ResponsiveImage
 								:image-sources="data.thumbnailSources"
 								:alt="data.title"
-								sizes="85px"
-								:fixed-width="85"
-								:fixed-height="57"
+								:sizes="`${THUMBNAIL_CONFIG.width}px`"
+								:fixed-width="THUMBNAIL_CONFIG.width"
+								:fixed-height="THUMBNAIL_CONFIG.height"
 								class="rounded-sm"
 							/>
 						</template>
@@ -113,7 +144,7 @@
 						header=""
 						:pt="{
 							headerCell: { scope: 'col', role: undefined },
-							bodyCell: { role: undefined, class: 'border-b border-surface-300' },
+							bodyCell: { role: undefined, class: 'border-b border-surface-300 text-right' },
 						}"
 					>
 						<template #body="{ data }">
@@ -132,29 +163,13 @@
 		</BlockUI>
 		<div
 			v-if="isReordering"
-			class="
-     media-entries-spinner absolute inset-0 flex items-center justify-center
-   "
+			:class="`
+     absolute inset-0
+     z-${SPINNER_Z_INDEX}
+     flex items-center justify-center
+   `"
 		>
 			<ProgressSpinner :aria-label="$t('components.media_entries.reordering_aria_label')" />
 		</div>
 	</div>
 </template>
-
-<!--
-	Custom style block is required to override PrimeVue BlockUI mask opacity.
-	- PrimeVue sets inline styles that cannot be overridden with Tailwind utility classes
-	- :deep() selector is needed to penetrate Vue scoped styles and reach dynamically generated PrimeVue elements
-	- !important is necessary to override PrimeVue's inline styles
-	- Spinner is positioned outside BlockUI and uses higher z-index (1101) to appear above mask (1100)
--->
-<!-- eslint-disable-next-line -->
-<style scoped>
-	:deep(.media-entries-mask) {
-		background-color: rgba(0, 0, 0, 0.1) !important;
-	}
-
-	.media-entries-spinner {
-		z-index: 1101;
-	}
-</style>

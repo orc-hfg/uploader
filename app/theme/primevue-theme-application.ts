@@ -94,6 +94,9 @@ const preset = definePreset(Aura, {
 					color: '{primary.contrast}',
 					focusColor: '{primary.50}',
 				},
+				mask: {
+					background: 'rgba(0,0,0,0.1)',
+				},
 				formField: {
 					background: '{surface.50}',
 					borderColor: '{surface.50}',

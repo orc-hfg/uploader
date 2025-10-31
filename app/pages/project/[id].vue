@@ -69,6 +69,15 @@
 		});
 
 		try {
+			/*
+			 * TODO: Replace with actual API call to persist the new order
+			 * Implementation approach:
+			 * 1. Use Store method (not Repository) for optimistic update
+			 * 2. Store should immediately update local state
+			 * 3. Store sends update to API in parallel
+			 * 4. On API error, Store should rollback to original order
+			 * Example: await setStore.updateMediaEntriesOrder(currentProjectId, mediaEntryIds);
+			 */
 			await new Promise<void>((resolve) => {
 				setTimeout(() => {
 					resolve();
