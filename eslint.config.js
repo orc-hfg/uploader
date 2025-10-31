@@ -204,9 +204,9 @@ export default withNuxt(
 		{
 			files: ['**/*.ts'],
 			rules: {
+				'camelcase': 'off',
 				'no-useless-assignment': 'error',
 				'ts/explicit-function-return-type': 'error',
-				'camelcase': 'off',
 				'ts/naming-convention': [
 					'error',
 					// 1) All types (classes, interfaces, enums, type aliases, etc.) => PascalCase
@@ -265,6 +265,7 @@ export default withNuxt(
 						format: ['camelCase'],
 					},
 				],
+				'ts/no-explicit-any': 'error',
 				'ts/no-floating-promises': 'error',
 				'no-magic-numbers': 'off',
 				'ts/no-magic-numbers': [
