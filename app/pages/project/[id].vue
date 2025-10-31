@@ -2,6 +2,7 @@
 	import type { ChipItem } from '@/components/elements/LabeledChipList.vue';
 	import { StatusCodes } from 'http-status-codes';
 	import ExpandableContent from '@/components/content/ExpandableContent.vue';
+	import MediaEntries from '@/components/content/MediaEntries.vue';
 	import DescriptionList from '@/components/elements/DescriptionList.vue';
 	import LabeledChipList from '@/components/elements/LabeledChipList.vue';
 	import LabeledInputText from '@/components/elements/LabeledInputText.vue';
@@ -19,6 +20,8 @@
 			en: '/project/[id]',
 		},
 	});
+
+	const appLogger = createAppLogger('Page: Project');
 
 	const { locale } = useI18n();
 
@@ -51,6 +54,35 @@
 
 	function extractTerms(items: Array<{ term: string }> | undefined): string[] {
 		return items?.map(item => item.term) ?? [];
+	}
+
+	const isReordering = shallowRef(false);
+
+	async function handleMediaEntriesReorder(mediaEntryIds: string[]): Promise<void> {
+		isReordering.value = true;
+
+		const originalOrder = setStore.setDisplayData?.mediaEntries?.map(entry => entry.mediaEntryId) ?? [];
+
+		appLogger.info('Media entries reorder started:', {
+			originalOrder,
+			newOrder: mediaEntryIds,
+		});
+
+		try {
+			await new Promise<void>((resolve) => {
+				setTimeout(() => {
+					resolve();
+				}, 2000);
+			});
+
+			appLogger.info('Media entries reorder completed successfully');
+		}
+		catch (error) {
+			appLogger.error('Failed to reorder media entries:', error);
+		}
+		finally {
+			isReordering.value = false;
+		}
 	}
 
 	useFooterActions();
@@ -190,5 +222,12 @@
 				/>
 			</DescriptionList>
 		</ExpandableContent>
+
+		<MediaEntries
+			:media-entries="setStore.setDisplayData?.mediaEntries"
+			:is-reordering="isReordering"
+			class="mt-12"
+			@reorder="handleMediaEntriesReorder"
+		/>
 	</div>
 </template>

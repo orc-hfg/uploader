@@ -84,7 +84,7 @@
 	<ul v-if="setsStore.sets.length > 0">
 		<li
 			v-for="setsDisplayData in setsStore.setsDisplayData" :key="setsDisplayData.id" class="
-     border-slate-300 pb-10
+     border-surface-300 pb-10
      not-first:mt-10
      not-last:border-b
      last:pb-20

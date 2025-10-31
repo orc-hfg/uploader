@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import Text from '@/components/elements/Text.vue';
+	import Value from '@/components/elements/Value.vue';
 
 	const { title, message } = defineProps<{
 		title?: string;
@@ -21,7 +22,7 @@
 			as="p"
 			variant="display-small"
 		>
-			{{ message }}
+			<Value :value="message" />
 		</Text>
 	</div>
 </template>

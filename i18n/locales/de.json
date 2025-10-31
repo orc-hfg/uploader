@@ -6,6 +6,10 @@
 		"labeled_chip_list": {
 			"secondary_label": "Zusatzinformation"
 		},
+		"media_entries": {
+			"edit_media_entry_aria_label": "Mediendatei bearbeiten",
+			"reordering_aria_label": "Reihenfolge wird gespeichert"
+		},
 		"project": {
 			"open": "Öffnen"
 		},
@@ -37,7 +41,7 @@
 		}
 	},
 	"header": {
-		"previous_page": "Vorherige Seite"
+		"previous_page_aria_label": "Vorherige Seite"
 	},
 	"meta": {
 		"description": "Uploader der HfG Karlsruhe: eine einfache App, mit der Studierende ihre Projekte schnell bereitstellen können."

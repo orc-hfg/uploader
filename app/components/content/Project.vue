@@ -20,6 +20,7 @@
 			<ResponsiveImage
 				:image-sources="coverImageSources"
 				:alt="$t('pages.projects.image_alt')"
+				sizes="(max-width: 520px) 100vw, 520px"
 				class="w-[520px]"
 			/>
 			<Button

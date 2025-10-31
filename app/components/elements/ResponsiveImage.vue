@@ -1,9 +1,12 @@
 <script setup lang="ts">
 	import Text from '@/components/elements/Text.vue';
 
-	const { imageSources, alt } = defineProps<{
+	const { imageSources, alt, sizes, fixedWidth, fixedHeight } = defineProps<{
 		imageSources?: ThumbnailSources;
 		alt: string;
+		sizes: string;
+		fixedWidth?: number;
+		fixedHeight?: number;
 	}>();
 
 	const sourceSet = computed(() => {
@@ -38,8 +41,23 @@
 		return '';
 	});
 
-	// Default sizes definition for responsive images (adjust if needed)
-	const sizes = '(max-width: 520px) 100vw, 520px';
+	const imageStyles = computed(() => {
+		const styles: Record<string, string> = {};
+
+		if (fixedWidth) {
+			styles.width = `${fixedWidth}px`;
+		}
+
+		if (fixedHeight) {
+			styles.height = `${fixedHeight}px`;
+		}
+
+		if (fixedWidth || fixedHeight) {
+			styles.objectFit = 'cover';
+		}
+
+		return styles;
+	});
 </script>
 
 <template>
@@ -49,11 +67,12 @@
 		:srcset="sourceSet"
 		:sizes="sizes"
 		:alt="alt"
+		:style="imageStyles"
 		loading="lazy"
 	>
 	<div
 		v-else class="
-    flex h-87 items-center justify-center bg-slate-100 text-surface-400
+    flex h-87 items-center justify-center bg-surface-100 text-surface-400
   "
 	>
 		<Text
