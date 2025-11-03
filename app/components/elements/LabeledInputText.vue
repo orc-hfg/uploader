@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import Text from './Text.vue';
 	import Value from './Value.vue';
 
 	const { label, value } = defineProps<{
@@ -20,6 +21,8 @@
 		{{ label }}
 	</dt>
 	<dd class="mt-0.5">
-		<Value :value="value" />
+		<Text as="p" variant="body-medium">
+			<Value :value="value" />
+		</Text>
 	</dd>
 </template>

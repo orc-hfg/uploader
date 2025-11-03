@@ -35,12 +35,10 @@ const ADDITIONAL_METADATA = {
 	FORMAT: 9,
 } as const;
 
-test.describe('Project page (Full data)', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/uploader/de/projekt/collection-id-3');
-	});
-
+test.describe('Project page', () => {
 	test('should show project page correctly', async ({ page, makeAxeBuilder }) => {
+		await page.goto('/uploader/de/projekt/collection-id-3');
+
 		await expectPageLoadedWithHeadingAndTitle(
 			page,
 			'Test collectionId collection-id-3 / metaKeyId madek_core:title Content',
@@ -64,6 +62,8 @@ test.describe('Project page (Full data)', () => {
 	// No accessibility check needed – same projects page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display project in collapsed state correctly', async ({ page }) => {
+		await page.goto('/uploader/de/projekt/collection-id-3');
+
 		/*
 		 * Note: Using toBeInViewport() instead of toBeVisible() because:
 		 * - The container has overflow: hidden with max-height
@@ -71,7 +71,10 @@ test.describe('Project page (Full data)', () => {
 		 * - toBeInViewport() respects overflow clipping and checks actual user visibility
 		 */
 
-		// Verify collapsed state: some data visible, some hidden
+		/*
+		 * Verify collapsed state: some data visible, some hidden
+		 * Note: Not testing section assignment here - that's covered in expanded state tests
+		 */
 		await expect(getChip(page, 'author_1_first_name author_1_last_name')).toBeInViewport();
 		await expect(getChip(page, 'author_2_first_name author_2_last_name')).toBeInViewport();
 		await expect(page.getByRole('term').filter({ hasText: /^Titel$/u })).toBeInViewport();
@@ -85,6 +88,7 @@ test.describe('Project page (Full data)', () => {
 	// No accessibility check needed – same projects page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display first section (basic metadata) in expanded state correctly', async ({ page }) => {
+		await page.goto('/uploader/de/projekt/collection-id-3');
 		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
 
 		// Select first section by position (content validation below ensures it's the correct section)
@@ -131,6 +135,7 @@ test.describe('Project page (Full data)', () => {
 	// No accessibility check needed – same projects page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display second section (alternative locale metadata) in expanded state correctly', async ({ page }) => {
+		await page.goto('/uploader/de/projekt/collection-id-3');
 		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
 
 		// Select second section by position (content validation below ensures it's the correct section)
@@ -168,6 +173,7 @@ test.describe('Project page (Full data)', () => {
 	// No accessibility check needed – same projects page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display third section (additional metadata) in expanded state correctly', async ({ page }) => {
+		await page.goto('/uploader/de/projekt/collection-id-3');
 		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
 
 		// Select third section by position (content validation below ensures it's the correct section)
@@ -263,16 +269,11 @@ test.describe('Project page (Full data)', () => {
 		await expect(additionalMetadataSection.getByRole('term')).toHaveCount(10);
 		await expect(additionalMetadataSection.getByRole('definition')).toHaveCount(10);
 	});
-});
-
-test.describe('Project page (Fallbacks)', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/uploader/de/projekt/collection-id-1');
-	});
 
 	// No accessibility check needed – testing fallback behavior for missing data
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display fallbacks correctly for missing data', async ({ page }) => {
+		await page.goto('/uploader/de/projekt/collection-id-1');
 		const projectTitle = 'Test collectionId collection-id-1 / metaKeyId madek_core:title Content';
 
 		await expectPageLoadedWithHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
@@ -305,20 +306,82 @@ test.describe('Project page (Fallbacks)', () => {
 
 		await expect(categoryDefinitionElement).toHaveText('–');
 	});
+
+	test('should display no entries message correctly', async ({ page, makeAxeBuilder }) => {
+		await page.goto('/uploader/de/projekt/collection-id-2');
+
+		/*
+		 * Verify that empty state displays correctly when no media entries exist
+		 * Testing: empty state message visibility
+		 */
+
+		await expect(page.getByText('Es sind noch keine Medien vorhanden.')).toBeVisible();
+
+		// Test accessibility of empty state
+		const results = await makeAxeBuilder().analyze();
+
+		expect(results.violations).toStrictEqual([]);
+
+		const mediaEntryRows = page.getByRole('row');
+
+		await expect(mediaEntryRows).toHaveCount(0);
+
+		const editButtons = page.getByRole('button', { name: 'Mediendatei bearbeiten' });
+
+		await expect(editButtons).toHaveCount(0);
+	});
+
+	// No accessibility check needed – same projects page as first test
+	// eslint-disable-next-line no-restricted-syntax
+	test('should display two media entries correctly', async ({ page }) => {
+		await page.goto('/uploader/de/projekt/collection-id-1');
+
+		const mediaEntryRows = page.getByRole('row');
+
+		await expect(mediaEntryRows).toHaveCount(2);
+
+		await expect(mediaEntryRows.getByRole('img', { name: 'Test mediaEntryId entry-id-1 / metaKeyId madek_core:title Content' })).toBeVisible();
+		await expect(mediaEntryRows.getByRole('img', { name: 'Test mediaEntryId entry-id-2 / metaKeyId madek_core:title Content' })).toBeVisible();
+
+		await expect(mediaEntryRows.getByText('Test mediaEntryId entry-id-1 / metaKeyId madek_core:title Content')).toBeVisible();
+		await expect(mediaEntryRows.getByText('Test mediaEntryId entry-id-2 / metaKeyId madek_core:title Content')).toBeVisible();
+
+		const editButtons = mediaEntryRows.getByRole('button', { name: 'Mediendatei bearbeiten' });
+
+		await expect(editButtons).toHaveCount(2);
+	});
+
+	// No accessibility check needed – testing fallback behavior for missing media entry title
+	// eslint-disable-next-line no-restricted-syntax
+	test('should display placeholder for media entry without title', async ({ page }) => {
+		await page.goto('/uploader/de/projekt/collection-id-3');
+
+		/*
+		 * Verify that media entries without a title display the en-dash placeholder
+		 * This tests the fallback behavior when madek_core:title is empty
+		 */
+
+		const mediaEntryRows = page.getByRole('row');
+
+		await expect(mediaEntryRows).toHaveCount(1);
+
+		await expect(mediaEntryRows.getByText('–')).toBeVisible();
+
+		await expect(mediaEntryRows.getByRole('button', { name: 'Mediendatei bearbeiten' })).toBeVisible();
+	});
 });
 
 test.describe('Project page (English locale)', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/uploader/en/project/collection-id-3');
-	});
-
-	// No accessibility check needed – same project page as first test
+	/*
+	 * Smoke test for English locale
+	 * Business logic and edge cases are tested in German locale
+	 * These tests only verify that routing and translations work correctly
+	 */
+	// No accessibility check needed – same project page as German locale test
 	// eslint-disable-next-line no-restricted-syntax
-	test('should show project page with English locale', async ({ page }) => {
-		/*
-		 * Verify that English locale loads different metaKeyIds
-		 * Testing a representative sample of fields (not all fields)
-		 */
+	test('should show project page with English translations and routing', async ({ page }) => {
+		await page.goto('/uploader/en/project/collection-id-3');
+
 		const projectTitle = 'Test collectionId collection-id-3 / metaKeyId creative_work:title_en Content';
 
 		await expectPageLoadedWithHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
@@ -342,5 +405,25 @@ test.describe('Project page (English locale)', () => {
 		const keywordsDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.KEYWORDS);
 
 		await expect(getChip(page, 'keyword_1', undefined, keywordsDefinitionElement)).toBeVisible();
+	});
+
+	// No accessibility check needed – testing translations only
+	// eslint-disable-next-line no-restricted-syntax
+	test('should display media entries with English translations', async ({ page }) => {
+		await page.goto('/uploader/en/project/collection-id-3');
+
+		const mediaEntryRows = page.getByRole('row');
+
+		await expect(mediaEntryRows).toHaveCount(1);
+
+		await expect(mediaEntryRows.getByRole('button', { name: 'Edit media entry' })).toBeVisible();
+	});
+
+	// No accessibility check needed – testing empty state translation
+	// eslint-disable-next-line no-restricted-syntax
+	test('should display empty state with English translation', async ({ page }) => {
+		await page.goto('/uploader/en/project/collection-id-2');
+
+		await expect(page.getByText('No media available yet.')).toBeVisible();
 	});
 });

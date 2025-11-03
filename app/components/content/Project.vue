@@ -20,7 +20,8 @@
 			<ResponsiveImage
 				:image-sources="coverImageSources"
 				:alt="$t('pages.projects.image_alt')"
-				class="w-[520px]"
+				sizes="(max-width: 520px) 100vw, 520px"
+				class="w-full"
 			/>
 			<Button
 				:as="NuxtLinkLocale"

@@ -6,6 +6,11 @@
 		"labeled_chip_list": {
 			"secondary_label": "Additional information"
 		},
+		"media_entries": {
+			"edit_media_entry_aria_label": "Edit media entry",
+			"no_entries": "No media available yet.",
+			"reordering_aria_label": "Saving order"
+		},
 		"project": {
 			"open": "Open"
 		},
@@ -37,7 +42,7 @@
 		}
 	},
 	"header": {
-		"previous_page": "Previous page"
+		"previous_page_aria_label": "Previous page"
 	},
 	"meta": {
 		"description": "HfG Karlsruhe Uploader: a simple app that lets students quickly submit and share their projects."

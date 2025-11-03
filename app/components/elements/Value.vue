@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	const { value, emptyPlaceholder = '–' } = defineProps<{
-		value?: string | number | undefined;
+		value?: string;
 		emptyPlaceholder?: string;
 	}>();
 

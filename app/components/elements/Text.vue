@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// Type scale based on Material UI: https://m3.material.io/styles/typography/type-scale-tokens
-// Additional variants can be added as needed.
-	type Variant = 'display-small' | 'headline-medium' | 'headline-small';
+	// Type scale based on Material UI: https://m3.material.io/styles/typography/type-scale-tokens
+	// Additional variants can be added as needed.
+	type Variant = 'display-small' | 'headline-medium' | 'headline-small' | 'body-medium';
 
 	type HtmlTag = 'h1' | 'h2' | 'p';
 
@@ -15,6 +15,7 @@
 		'display-small': 'text-4xl font-medium',
 		'headline-medium': 'text-3xl',
 		'headline-small': 'text-xl',
+		'body-medium': 'text-base',
 	};
 
 	const classes = computed(() => {

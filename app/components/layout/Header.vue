@@ -45,7 +45,7 @@
 				v-if="previousRouteBaseName"
 				:as="NuxtLinkLocale"
 				:to="{ name: previousRouteBaseName }"
-				:aria-label="$t('header.previous_page')"
+				:aria-label="$t('header.previous_page_aria_label')"
 				icon="pi pi-arrow-left"
 				severity="contrast"
 				variant="text"
