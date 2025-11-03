@@ -4,6 +4,7 @@
 	import Column from 'primevue/column';
 	import DataTable from 'primevue/datatable';
 	import ProgressSpinner from 'primevue/progressspinner';
+	import ContainerMessage from '@/components/elements/ContainerMessage.vue';
 	import ResponsiveImage from '@/components/elements/ResponsiveImage.vue';
 	import Text from '@/components/elements/Text.vue';
 	import Value from '@/components/elements/Value.vue';
@@ -80,7 +81,9 @@
 				mask: { class: 'rounded-2xl' },
 			}"
 		>
+			<ContainerMessage v-if="entries.length === 0" :message="$t('components.media_entries.no_entries')" is-rounded />
 			<div
+				v-else
 				class="
       rounded-2xl bg-surface-100 p-4
       [&_tbody>tr:last-child>td]:border-b-0

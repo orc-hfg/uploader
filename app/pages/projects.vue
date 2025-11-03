@@ -81,7 +81,8 @@
 </script>
 
 <template>
-	<ul v-if="setsStore.sets.length > 0">
+	<PageMessage v-if="setsStore.sets.length === 0" :message="t('pages.projects.messages.no_sets')" />
+	<ul v-else>
 		<li
 			v-for="setsDisplayData in setsStore.setsDisplayData" :key="setsDisplayData.id" class="
      border-surface-300 pb-10
@@ -93,5 +94,4 @@
 			<Project :id="setsDisplayData.id" :title="setsDisplayData.title ?? undefined" :cover-image-sources="setsDisplayData.coverImageSources" />
 		</li>
 	</ul>
-	<PageMessage v-else :message="t('pages.projects.messages.no_sets')" />
 </template>

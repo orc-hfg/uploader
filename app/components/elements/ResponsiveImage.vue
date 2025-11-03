@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import Text from '@/components/elements/Text.vue';
+	import ContainerMessage from '@/components/elements/ContainerMessage.vue';
 
 	const { imageSources, alt, sizes, fixedWidth, fixedHeight } = defineProps<{
 		imageSources?: ThumbnailSources;
@@ -75,18 +75,5 @@
 		:style="imageStyles"
 		loading="lazy"
 	>
-	<div
-		v-else
-		class="
-    flex aspect-3/2 items-center justify-center bg-surface-100 text-surface-400
-  "
-		:style="imageStyles"
-	>
-		<Text
-			as="p"
-			variant="display-small"
-		>
-			{{ $t('components.responsive_image.not_available') }}
-		</Text>
-	</div>
+	<ContainerMessage v-else :message="$t('components.responsive_image.not_available')" :container-styles="imageStyles" />
 </template>

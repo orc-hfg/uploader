@@ -8,6 +8,7 @@
 		},
 		"media_entries": {
 			"edit_media_entry_aria_label": "Mediendatei bearbeiten",
+			"no_entries": "Es sind noch keine Medien vorhanden.",
 			"reordering_aria_label": "Reihenfolge wird gespeichert"
 		},
 		"project": {

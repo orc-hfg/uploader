@@ -8,6 +8,7 @@
 		},
 		"media_entries": {
 			"edit_media_entry_aria_label": "Edit media entry",
+			"no_entries": "No media available yet.",
 			"reordering_aria_label": "Saving order"
 		},
 		"project": {
