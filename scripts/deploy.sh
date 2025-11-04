@@ -71,13 +71,13 @@ confirm() {
   local prompt=$1
   # ${2:-default} syntax: Use $2 if provided, otherwise use "Proceeding..."
   local success_msg=${2:-"Proceeding..."}
-  
+
   # read -r: Don't interpret backslashes
   # read -n 1: Read only one character (immediate response)
   # read -p: Display prompt before reading input
   read -r -n 1 -p "$prompt (y/N): " answer
   echo  # Print newline after single-character input
-  
+
   # Convert answer to lowercase to accept both 'y' and 'Y'
   # tr '[:upper:]' '[:lower:]': Translate all uppercase to lowercase
   if [[ "$(echo "$answer" | tr '[:upper:]' '[:lower:]')" == y ]]; then
@@ -129,29 +129,85 @@ abort_if_unpushed() {
   fi
 }
 
-# Function: Check if version was incremented since last deployment
-# Helps identify if a new release was created before deployment
-check_version_increment() {
-  echo "🔍 Checking version increment..."
-  
-  # Get last deployed version from server's health endpoint
+# Function: Get last deployed version from server
+# Returns the version string, or empty string if no deployment exists
+get_last_deployed_version() {
   # curl -sf: silent mode, fail on HTTP errors
   # jq -r '.deploymentInfo.version': Extract version from deploymentInfo object
   local health_url="https://$HOST/uploader/health"
+  curl -sf "$health_url" 2>/dev/null | jq -r '.deploymentInfo.version' 2>/dev/null || echo ""
+}
+
+# Function: Require version increment for staging deployments
+# Ensures a new release was created before staging deployment
+require_version_increment() {
+  echo "🔍 Checking version increment..."
+
   local last_deployed_version
-  last_deployed_version=$(curl -sf "$health_url" 2>/dev/null | jq -r '.deploymentInfo.version' 2>/dev/null || echo "")
-  
+  last_deployed_version=$(get_last_deployed_version)
+
   if [[ -z "$last_deployed_version" || "$last_deployed_version" == "null" ]]; then
-    echo "No previous deployment found, skipping version check."
+    echo "No previous deployment found, proceeding..."
     return 0
   fi
-  
+
   if [[ "$VERSION" == "$last_deployed_version" ]]; then
-    # Version unchanged means package.json wasn't updated, making it harder
-    # to identify this deployment in logs and communicate about specific versions
-    confirm "Version $VERSION unchanged (no release created). Continue anyway?" "Proceeding without release..."
+    # For staging, version increment is mandatory to ensure proper release workflow
+    # This guarantees that safe-release.mjs tests were run before deployment
+    echo ""
+    echo "❌ Error: Version must be incremented for staging deployment."
+    echo "   Current version: $VERSION"
+    echo "   Last deployed: $last_deployed_version"
+    echo ""
+    echo "   Create a new release first:"
+    echo "   - npm run release:patch (bug fixes)"
+    echo "   - npm run release:minor (new features)"
+    echo "   - npm run release:major (breaking changes)"
+    echo ""
+    exit 1
   else
     echo "Version incremented from $last_deployed_version to $VERSION ✓"
+  fi
+}
+
+# Function: Run E2E tests before deployment
+# Ensures code quality and prevents deploying broken code
+run_e2e_tests() {
+  echo ""
+  echo "🧪 Running E2E tests before deployment..."
+  echo "   This ensures the build works correctly before deploying to staging."
+  echo ""
+
+  if npm run test:e2e; then
+    echo ""
+    echo "✅ E2E tests passed"
+  else
+    echo ""
+    echo "❌ Error: E2E tests failed."
+    echo "   Deployment cancelled to prevent deploying broken code."
+    echo "   Please fix the test failures and try again."
+    echo ""
+    exit 1
+  fi
+}
+
+# Function: Warn if version unchanged for development deployments
+# Provides awareness without blocking fast iteration
+warn_if_version_unchanged() {
+  echo "🔍 Checking version..."
+
+  local last_deployed_version
+  last_deployed_version=$(get_last_deployed_version)
+
+  if [[ -z "$last_deployed_version" || "$last_deployed_version" == "null" ]]; then
+    echo "No previous deployment found, proceeding..."
+    return 0
+  fi
+
+  if [[ "$VERSION" == "$last_deployed_version" ]]; then
+    confirm "Version $VERSION unchanged (same as last deployment). Deploy anyway?" "Proceeding with same version..."
+  else
+    echo "Version changed from $last_deployed_version to $VERSION ✓"
   fi
 }
 
@@ -168,10 +224,14 @@ echo "🔍 Git checks..."
 abort_if_dirty
 abort_if_unpushed
 
-# Check version increment for staging deployments
-# Development allows same version for quick testing deployments
+# Environment-specific quality checks
 if [[ "$env" == "staging" ]]; then
-  check_version_increment
+  # Staging: Strict checks to ensure proper release workflow
+  require_version_increment
+  run_e2e_tests
+elif [[ "$env" == "development" ]]; then
+  # Development: Warning only to maintain awareness while allowing fast iteration
+  warn_if_version_unchanged
 fi
 
 echo "📝 Generating deployment info file..."
