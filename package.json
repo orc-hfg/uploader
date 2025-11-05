@@ -58,7 +58,7 @@
 		"release:minor": "node ./scripts/safe-release.mjs minor",
 		"release:major": "node ./scripts/safe-release.mjs major",
 		"prepare": "husky",
-		"reinstall": "rm -rf node_modules package-lock.json && npm install"
+		"reinstall": "rm -rf .nuxt node_modules package-lock.json && npm install"
 	},
 	"dependencies": {
 		"@nuxtjs/google-fonts": "3.2.0",
