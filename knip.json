@@ -32,11 +32,13 @@
 		"zod"
 	],
 	"ignoreUnresolved": [
-		"#app",
 		"#components"
 	],
 	"ignoreBinaries": [
 		"jq"
+	],
+	"ignoreFiles": [
+		"app/assets/**"
 	],
 	"paths": {
 		"@/*": [
@@ -45,6 +47,5 @@
 		"@@/*": [
 			"./*"
 		]
-	},
-	"vitest": false
+	}
 }

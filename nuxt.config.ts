@@ -16,8 +16,9 @@ export default defineNuxtConfig({
 		 * https://www.youtube.com/watch?v=SXk-L19gTZk
 		 */
 		typedPages: true,
+		typescriptPlugin: true,
 	},
-	compatibilityDate: '2025-10-23',
+	compatibilityDate: '2025-11-04',
 	devtools: { enabled: true },
 	typescript: {
 		typeCheck: true,

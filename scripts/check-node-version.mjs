@@ -81,16 +81,20 @@ async function getLatestLtsVersion() {
 		// Use Promise-API for HTTP request
 		const data = await fetchNodeVersions();
 
-		// Parse JSON data and find the latest LTS version
+		// Parse JSON data and filter for LTS versions only
 		const versions = JSON.parse(data);
-		const latestLts = versions.find(version => version.lts);
+		const ltsVersions = versions.filter(version => version.lts !== false);
 
-		if (!latestLts) {
+		if (ltsVersions.length === 0) {
 			throw new Error('No LTS version found');
 		}
 
+		// First element is the latest LTS (versions are sorted newest to oldest)
+		const latestLts = ltsVersions[0];
+
 		// Version without 'v' prefix (e.g. 22.14.0)
 		const version = latestLts.version.replace('v', '');
+		console.info(`Found LTS version: ${version} (${latestLts.lts})`);
 		return version;
 	}
 	catch (error) {

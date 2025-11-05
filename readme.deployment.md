@@ -22,21 +22,6 @@ npm run deploy:staging
 
 Deployments **müssen** über die npm-Skripte durchgeführt werden, da nur diese das automatische Deployment-Tracking gewährleisten. Manuelle Deployments (z.B. direkt mit rsync) umgehen das Logging und führen zu unvollständiger Deployment-Historie.
 
-## Was passiert beim Deployment?
-
-Das Deployment-Skript führt folgende Schritte aus:
-
-1. Überprüfung der erforderlichen Umgebungsvariablen
-2. Bereinigung und Installation der Abhängigkeiten (`npm ci`)
-3. Build der Anwendung (`npm run build`)
-4. Übertragung der Build-Artefakte auf den entsprechenden Server via rsync
-5. Neustart des jeweiligen Services auf dem Server
-
-**Wichtige Hinweise:**
-
-- Deployments sollten nur von getesteten Code-Ständen durchgeführt werden
-- Alle CI/CD-Tests müssen erfolgreich durchgelaufen sein
-
 ## Systemvoraussetzungen
 
 Die Deployment-Skripte sind als **Bash-Scripts** implementiert und benötigen:
@@ -45,14 +30,119 @@ Die Deployment-Skripte sind als **Bash-Scripts** implementiert und benötigen:
 - **SSH-Client** für Server-Zugriff
 - **rsync** für Datei-Synchronisation
 - **Git** für Repository-Operationen
+- **jq** für JSON-Verarbeitung (Version-Checks)
+- **curl** für Health-Endpoint-Abfragen (Version-Checks)
 
 ### Plattformspezifische Hinweise
 
-**macOS / Linux:**
-✅ Alle Tools sind standardmäßig verfügbar
+**macOS:**
+- ✅ Bash, SSH, rsync, Git, curl sind vorinstalliert
+- ⚠️ jq muss installiert werden: `brew install jq`
+
+**Linux:**
+- ✅ Bash, SSH, rsync, Git, curl sind vorinstalliert
+- ⚠️ jq eventuell nachinstallieren: `apt install jq` oder `yum install jq`
 
 **Windows:**
-⚠️ **WSL2 (Windows Subsystem for Linux) ist erforderlich**
+- ⚠️ **WSL2 (Windows Subsystem for Linux) ist erforderlich**
+- Nach WSL2-Installation: `sudo apt install jq`
+
+## Deployment-Workflows
+
+Das Deployment-System unterscheidet zwischen zwei Umgebungen mit unterschiedlichen Quality-Gates:
+
+### 🚀 Development Deployment
+
+**Verwendung**: Schnelle Iteration und Testing während der Entwicklung
+
+**Quality-Checks**:
+
+1. **Git-Status-Prüfung**
+   - ⚠️ Warnung bei uncommitted changes (kann fortgesetzt werden)
+   - ⚠️ Warnung bei unpushed commits (kann fortgesetzt werden)
+
+2. **Version-Prüfung**
+   - ⚠️ Warnung wenn Version unverändert (kann fortgesetzt werden)
+
+3. **Build & Deployment**
+   - `npm ci` - Dependency Installation
+   - `npm run build` - Application Build
+   - rsync Upload zum Server
+   - Service Restart
+
+**Philosophie**: Awareness ohne Blockierung für schnelle Entwicklungs-Iterationen
+
+### 📦 Staging Deployment
+
+**Verwendung**: Production-like Deployment für finale Tests
+
+**Quality-Gates (PFLICHT)**:
+
+1. **Git-Status-Prüfung**
+   - ⚠️ Warnung bei uncommitted changes (kann fortgesetzt werden)
+   - ⚠️ Warnung bei unpushed commits (kann fortgesetzt werden)
+
+2. **Version-Increment (ZWINGEND)**
+   - ❌ Version MUSS inkrementiert sein vs. letztem Deployment
+   - ✅ Garantiert dass ein Release erstellt wurde
+   - ❌ Bei fehlender Version: Deployment wird abgebrochen
+   - 💡 Fehlermeldung zeigt Release-Befehle (`npm run release:patch/minor/major`)
+
+3. **E2E-Tests (ZWINGEND)**
+   - ❌ Vollständige E2E-Test-Suite wird ausgeführt (`npm run test:e2e`)
+   - ❌ Bei Test-Fehlern: Deployment wird abgebrochen
+   - ✅ Verhindert Deployment von gebrochenem Code
+
+4. **Build & Deployment**
+   - `npm ci` - Dependency Installation
+   - `npm run build` - Application Build
+   - rsync Upload zum Server
+   - Service Restart
+
+**Philosophie**: Maximale Sicherheit - nur getesteter, versionierter Code
+
+### Empfohlener Staging-Workflow
+
+**Für sichere Staging-Deployments**:
+
+```bash
+# 1. Release erstellen (führt alle Quality-Checks aus)
+npm run release:patch  # oder minor/major
+
+# 2. Staging deployen (prüft Version + führt E2E-Tests aus)
+npm run deploy:staging
+```
+
+**Detaillierter Ablauf**:
+
+```bash
+# Safe-Release führt aus:
+npm run release:patch
+  ├─ Branch-Check (nur main erlaubt)
+  ├─ Working-Directory-Check (muss clean sein)
+  ├─ Linting + Type-Checking + Unused-Code-Detection
+  ├─ Unit-Tests
+  ├─ Build
+  ├─ E2E-Tests (preview mode)
+  ├─ Version-Bump + Git-Tag
+  └─ Push zu GitHub
+
+# Staging-Deployment verifiziert:
+npm run deploy:staging
+  ├─ Git-Checks
+  ├─ Version-Check ✅ (garantiert: Release wurde erstellt)
+  ├─ E2E-Tests ✅ (zusätzliche Absicherung)
+  └─ Deploy
+```
+
+**Sicherheitsprinzip**: Staging-Deployments ohne vorherigen Release sind nicht möglich.
+
+**Dies garantiert**:
+- ✅ Alle Tests wurden ausgeführt (Linting, Type-Check, Unit-Tests, E2E-Tests via Release)
+- ✅ Version wurde inkrementiert und git-tagged
+- ✅ Code ist committed und zu GitHub gepusht
+- ✅ Zusätzliche E2E-Test-Verifikation direkt vor Deployment
+- ✅ Keine nachträglichen Code-Änderungen nach Release möglich
 
 ## Version und Health Monitoring
 
@@ -153,8 +243,8 @@ Das System verwendet zwei komplementäre Dateien für unterschiedliche Zugriffsm
 - **Verwendung**: 
   - Schnelle Version-Checks (`npm run version:development`)
   - Monitoring-Systeme
-  - CI/CD Post-Deployment-Verifikation
-  - Pre-Deployment Version-Vergleich
+  - Post-Deployment-Verifikation
+  - Automatischer Version-Vergleich im Deployment-Skript
 - **Vorteil**: Schneller Zugriff ohne Credentials
 
 #### 2. Intern: `deploy-history.jsonl` (SSH)
@@ -186,8 +276,9 @@ Das System verwendet zwei komplementäre Dateien für unterschiedliche Zugriffsm
 1. **Nachvollziehbarkeit**: Jederzeit wissen, welche Version auf welchem Server läuft
 2. **Team-Transparenz**: Alle Deployer sehen alle Deployments
 3. **Debugging**: Bei Problemen schnell den exakten deployed Stand identifizieren
+4. **Automatische Version-Prüfung**: Deployment-Skript nutzt deploy-info.json für Version-Vergleich
 
-## CI/CD Pipeline
+## GitHub Actions Workflow
 
 Der GitHub Actions Workflow führt bei jedem Push folgende Schritte aus:
 
@@ -196,4 +287,4 @@ Der GitHub Actions Workflow führt bei jedem Push folgende Schritte aus:
 3. E2E-Tests mit Playwright
 4. Build-Verifizierung
 
-**Wichtig:** Der CI/CD Workflow führt kein automatisches Deployment durch. Deployment erfolgt manuell über die npm-Skripte.
+**Wichtig:** Der GitHub Actions Workflow führt **kein automatisches Deployment** durch. Deployment erfolgt manuell über die npm-Skripte nach erfolgreichem Release.
