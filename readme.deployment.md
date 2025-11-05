@@ -89,13 +89,14 @@ Das Deployment-System unterscheidet zwischen zwei Umgebungen mit unterschiedlich
    - 💡 Fehlermeldung zeigt Release-Befehle (`npm run release:patch/minor/major`)
 
 3. **E2E-Tests (ZWINGEND)**
-   - ❌ Vollständige E2E-Test-Suite wird ausgeführt (`npm run test:e2e`)
-   - ❌ Bei Test-Fehlern: Deployment wird abgebrochen
-   - ✅ Verhindert Deployment von gebrochenem Code
+   - 📦 Build des Projekts (`npm run build`)
+   - 🎭 E2E-Test-Suite mit Preview-Server (`npm run test:e2e:preview`)
+   - ❌ Bei Build- oder Test-Fehlern: Deployment wird abgebrochen
+   - ✅ Garantiert production-like Testing vor Deployment
 
-4. **Build & Deployment**
+4. **Deployment**
    - `npm ci` - Dependency Installation
-   - `npm run build` - Application Build
+   - `npm run build` - Application Build (erneut für Deployment)
    - rsync Upload zum Server
    - Service Restart
 
@@ -131,8 +132,9 @@ npm run release:patch
 npm run deploy:staging
   ├─ Git-Checks
   ├─ Version-Check ✅ (garantiert: Release wurde erstellt)
-  ├─ E2E-Tests ✅ (zusätzliche Absicherung)
-  └─ Deploy
+  ├─ Build (für E2E-Testing)
+  ├─ E2E-Tests mit Preview-Server ✅ (production-like Testing)
+  └─ Deploy (Build + rsync + Service Restart)
 ```
 
 **Sicherheitsprinzip**: Staging-Deployments ohne vorherigen Release sind nicht möglich.
@@ -141,7 +143,8 @@ npm run deploy:staging
 - ✅ Alle Tests wurden ausgeführt (Linting, Type-Check, Unit-Tests, E2E-Tests via Release)
 - ✅ Version wurde inkrementiert und git-tagged
 - ✅ Code ist committed und zu GitHub gepusht
-- ✅ Zusätzliche E2E-Test-Verifikation direkt vor Deployment
+- ✅ Zusätzliche E2E-Test-Verifikation mit Preview-Server direkt vor Deployment
+- ✅ Production-like Testing garantiert funktionierende Build-Artefakte
 - ✅ Keine nachträglichen Code-Änderungen nach Release möglich
 
 ## Version und Health Monitoring

@@ -174,11 +174,22 @@ require_version_increment() {
 # Ensures code quality and prevents deploying broken code
 run_e2e_tests() {
   echo ""
-  echo "🧪 Running E2E tests before deployment..."
-  echo "   This ensures the build works correctly before deploying to staging."
+  echo "📦 Building project for E2E testing..."
+
+  if ! npm run build; then
+    echo ""
+    echo "❌ Error: Build failed."
+    echo "   Deployment cancelled."
+    echo ""
+    exit 1
+  fi
+
+  echo ""
+  echo "🎭 Running E2E tests with preview server..."
+  echo "   This ensures production-like testing before deploying to staging."
   echo ""
 
-  if npm run test:e2e; then
+  if npm run test:e2e:preview; then
     echo ""
     echo "✅ E2E tests passed"
   else
