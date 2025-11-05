@@ -71,6 +71,6 @@ Alle Test-Credentials sind zentral definiert in: **`shared/constants/test.ts`**
 
 Die Authentifizierungsmiddleware verwendet eine sichere Implementierung mit Seiten-Level-Authentifizierungskontrolle:
 
-- Seiten, die keine Authentifizierung benötigen: `definePageMeta({ skipAuthentication: true })`
-- Middleware prüft: `to.meta.skipAuthentication === true`
+- Seiten, die keine Authentifizierung benötigen: `definePageMeta({ skipAuthenticationCheck: true })`
+- Middleware prüft: `to.meta.skipAuthenticationCheck === true`
 - Vermeidet unsichere Substring-Matching-Methoden

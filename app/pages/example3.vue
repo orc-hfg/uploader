@@ -3,7 +3,7 @@
 // Feel free to delete this file.
 
 	definePageMeta({
-		skipAuthentication: true,
+		skipAuthenticationCheck: true,
 		layout: false,
 	});
 

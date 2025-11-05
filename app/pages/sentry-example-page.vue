@@ -5,7 +5,7 @@
 	import * as Sentry from '@sentry/nuxt';
 
 	definePageMeta({
-		skipAuthentication: true,
+		skipAuthenticationCheck: true,
 		layout: false,
 	});
 
