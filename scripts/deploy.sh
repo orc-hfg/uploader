@@ -172,18 +172,8 @@ require_version_increment() {
 
 # Function: Run E2E tests before deployment
 # Ensures code quality and prevents deploying broken code
+# Note: Requires build to be already completed
 run_e2e_tests() {
-  echo ""
-  echo "📦 Building project for E2E testing..."
-
-  if ! npm run build; then
-    echo ""
-    echo "❌ Error: Build failed."
-    echo "   Deployment cancelled."
-    echo ""
-    exit 1
-  fi
-
   echo ""
   echo "🎭 Running E2E tests with preview server..."
   echo "   This ensures production-like testing before deploying to staging."
@@ -235,14 +225,23 @@ echo "🔍 Git checks..."
 abort_if_dirty
 abort_if_unpushed
 
-# Environment-specific quality checks
+# Environment-specific quality checks (before build)
 if [[ "$env" == "staging" ]]; then
-  # Staging: Strict checks to ensure proper release workflow
+  # Staging: Check version increment before building
   require_version_increment
-  run_e2e_tests
 elif [[ "$env" == "development" ]]; then
-  # Development: Warning only to maintain awareness while allowing fast iteration
+  # Development: Version awareness check
   warn_if_version_unchanged
+fi
+
+echo "🔨 Installing dependencies and building for $env environment..."
+npm ci --no-audit --no-fund --loglevel=error --prefer-offline
+npm run build
+
+# Environment-specific quality checks (after build)
+if [[ "$env" == "staging" ]]; then
+  # Staging: Run E2E tests with the built artifacts
+  run_e2e_tests
 fi
 
 echo "📝 Generating deployment info file..."
@@ -254,10 +253,6 @@ echo ""
 echo "Deployment Info:"
 jq '.' deploy-info.json
 echo ""
-
-echo "🔨 Installing dependencies and building for $env environment..."
-npm ci --no-audit --no-fund --loglevel=error --prefer-offline
-npm run build
 
 echo "📋 Adding deploy-info.json to build output..."
 mkdir -p .output/public

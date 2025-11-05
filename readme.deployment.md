@@ -64,9 +64,12 @@ Das Deployment-System unterscheidet zwischen zwei Umgebungen mit unterschiedlich
 2. **Version-Prüfung**
    - ⚠️ Warnung wenn Version unverändert (kann fortgesetzt werden)
 
-3. **Build & Deployment**
+3. **Build**
    - `npm ci` - Dependency Installation
    - `npm run build` - Application Build
+
+4. **Deployment**
+   - Deploy-Info generieren und zum Build hinzufügen
    - rsync Upload zum Server
    - Service Restart
 
@@ -88,15 +91,14 @@ Das Deployment-System unterscheidet zwischen zwei Umgebungen mit unterschiedlich
    - ❌ Bei fehlender Version: Deployment wird abgebrochen
    - 💡 Fehlermeldung zeigt Release-Befehle (`npm run release:patch/minor/major`)
 
-3. **E2E-Tests (ZWINGEND)**
-   - 📦 Build des Projekts (`npm run build`)
+3. **Build & E2E-Tests (ZWINGEND)**
+   - 📦 Dependencies & Build: `npm ci` + `npm run build`
    - 🎭 E2E-Test-Suite mit Preview-Server (`npm run test:e2e:preview`)
    - ❌ Bei Build- oder Test-Fehlern: Deployment wird abgebrochen
-   - ✅ Garantiert production-like Testing vor Deployment
+   - ✅ Garantiert production-like Testing mit finalen Build-Artefakten
 
 4. **Deployment**
-   - `npm ci` - Dependency Installation
-   - `npm run build` - Application Build (erneut für Deployment)
+   - Deploy-Info generieren und zum Build hinzufügen
    - rsync Upload zum Server
    - Service Restart
 
@@ -132,9 +134,9 @@ npm run release:patch
 npm run deploy:staging
   ├─ Git-Checks
   ├─ Version-Check ✅ (garantiert: Release wurde erstellt)
-  ├─ Build (für E2E-Testing)
-  ├─ E2E-Tests mit Preview-Server ✅ (production-like Testing)
-  └─ Deploy (Build + rsync + Service Restart)
+  ├─ npm ci + npm run build (einmalig)
+  ├─ E2E-Tests mit Preview-Server ✅ (nutzt Build-Artefakte)
+  └─ Deploy (rsync + Service Restart)
 ```
 
 **Sicherheitsprinzip**: Staging-Deployments ohne vorherigen Release sind nicht möglich.
@@ -143,8 +145,9 @@ npm run deploy:staging
 - ✅ Alle Tests wurden ausgeführt (Linting, Type-Check, Unit-Tests, E2E-Tests via Release)
 - ✅ Version wurde inkrementiert und git-tagged
 - ✅ Code ist committed und zu GitHub gepusht
-- ✅ Zusätzliche E2E-Test-Verifikation mit Preview-Server direkt vor Deployment
-- ✅ Production-like Testing garantiert funktionierende Build-Artefakte
+- ✅ Build wird einmal erstellt und für E2E-Tests + Deployment verwendet
+- ✅ E2E-Tests validieren die exakten Build-Artefakte, die deployed werden
+- ✅ Production-like Testing mit Preview-Server vor Deployment
 - ✅ Keine nachträglichen Code-Änderungen nach Release möglich
 
 ## Version und Health Monitoring
