@@ -35,8 +35,7 @@
 <template>
 	<div
 		class="
-    grid h-full
-    grid-cols-[minmax(110px,_1fr)_minmax(0,_auto)_minmax(110px,_1fr)]
+    grid h-full grid-cols-[minmax(110px,1fr)_minmax(0,auto)_minmax(110px,1fr)]
     items-center px-4
   "
 	>
