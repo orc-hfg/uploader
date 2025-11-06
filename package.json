@@ -1,7 +1,7 @@
 {
 	"name": "@orc-hfg/uploader",
 	"type": "module",
-	"version": "0.3.3",
+	"version": "0.3.4",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/orc-hfg/uploader.git"
