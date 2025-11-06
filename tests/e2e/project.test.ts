@@ -88,223 +88,275 @@ test.describe('Project page', () => {
 	// No accessibility check needed – same projects page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display first section (basic metadata) in expanded state correctly', async ({ page }) => {
-		await page.goto('/uploader/de/projekt/collection-id-3');
-		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+		await test.step('Navigate to project and expand all data', async () => {
+			await page.goto('/uploader/de/projekt/collection-id-3');
+			await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+		});
 
 		// Select first section by position (content validation below ensures it's the correct section)
 		// eslint-disable-next-line playwright/no-raw-locators, playwright/no-nth-methods -- Intentionally testing section position as part of requirements
 		const basicMetadataSection = page.locator('dl').nth(SECTIONS.BASIC_METADATA);
 
-		// Autor/in - MUST be first metadata field (position is part of requirements)
-		await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Autor\/in$/u })).toBeVisible();
+		await test.step('Verify Author field', async () => {
+			// Autor/in - MUST be first metadata field (position is part of requirements)
+			await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Autor\/in$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const authorDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.AUTHOR);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const authorDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.AUTHOR);
 
-		await expect(getChip(page, 'author_1_first_name author_1_last_name', undefined, authorDefinitionElement)).toBeVisible();
-		await expect(getChip(page, 'author_2_first_name author_2_last_name', undefined, authorDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'author_1_first_name author_1_last_name', undefined, authorDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'author_2_first_name author_2_last_name', undefined, authorDefinitionElement)).toBeVisible();
+		});
 
-		// Title - MUST be second metadata field (position is part of requirements)
-		await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Titel$/u })).toBeVisible();
+		await test.step('Verify Title field', async () => {
+			// Title - MUST be second metadata field (position is part of requirements)
+			await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Titel$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const titleDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.TITLE);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const titleDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.TITLE);
 
-		await expect(titleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:title Content');
+			await expect(titleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:title Content');
+		});
 
-		// Subtitle - MUST be third metadata field (position is part of requirements)
-		await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Untertitel$/u })).toBeVisible();
+		await test.step('Verify Subtitle field', async () => {
+			// Subtitle - MUST be third metadata field (position is part of requirements)
+			await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Untertitel$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const subtitleDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.SUBTITLE);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const subtitleDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.SUBTITLE);
 
-		await expect(subtitleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:subtitle Content');
+			await expect(subtitleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:subtitle Content');
+		});
 
-		// Description - MUST be fourth metadata field (position is part of requirements)
-		await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Beschreibung$/u })).toBeVisible();
+		await test.step('Verify Description field', async () => {
+			// Description - MUST be fourth metadata field (position is part of requirements)
+			await expect(basicMetadataSection.getByRole('term').filter({ hasText: /^Beschreibung$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const descriptionDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.DESCRIPTION);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const descriptionDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.DESCRIPTION);
 
-		await expect(descriptionDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:description Content');
+			await expect(descriptionDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:description Content');
+		});
 
-		await expect(basicMetadataSection.getByRole('term')).toHaveCount(4);
-		await expect(basicMetadataSection.getByRole('definition')).toHaveCount(4);
+		await test.step('Verify basic metadata field counts', async () => {
+			await expect(basicMetadataSection.getByRole('term')).toHaveCount(4);
+			await expect(basicMetadataSection.getByRole('definition')).toHaveCount(4);
+		});
 	});
 
 	// No accessibility check needed – same projects page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display second section (alternative locale metadata) in expanded state correctly', async ({ page }) => {
-		await page.goto('/uploader/de/projekt/collection-id-3');
-		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+		await test.step('Navigate to project and expand all data', async () => {
+			await page.goto('/uploader/de/projekt/collection-id-3');
+			await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+		});
 
 		// Select second section by position (content validation below ensures it's the correct section)
 		// eslint-disable-next-line playwright/no-raw-locators, playwright/no-nth-methods -- Intentionally testing section position as part of requirements
 		const alternativeLocaleMetadataSection = page.locator('dl').nth(SECTIONS.ALTERNATIVE_LOCALE_METADATA);
 
-		// Title alternative locale - MUST be first field in second section (position is part of requirements)
-		await expect(alternativeLocaleMetadataSection.getByRole('term').filter({ hasText: /^Titel \(en\)$/u })).toBeVisible();
+		await test.step('Verify Title (en) field', async () => {
+			// Title alternative locale - MUST be first field in second section (position is part of requirements)
+			await expect(alternativeLocaleMetadataSection.getByRole('term').filter({ hasText: /^Titel \(en\)$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const titleAlternativeLocaleDefinitionElement = alternativeLocaleMetadataSection.getByRole('definition').nth(ALTERNATIVE_LOCALE_METADATA.TITLE);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const titleAlternativeLocaleDefinitionElement = alternativeLocaleMetadataSection.getByRole('definition').nth(ALTERNATIVE_LOCALE_METADATA.TITLE);
 
-		await expect(titleAlternativeLocaleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:title_en Content');
+			await expect(titleAlternativeLocaleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:title_en Content');
+		});
 
-		// Subtitle alternative locale - MUST be second field in second section (position is part of requirements)
-		await expect(alternativeLocaleMetadataSection.getByRole('term').filter({ hasText: /^Untertitel \(en\)$/u })).toBeVisible();
+		await test.step('Verify Subtitle (en) field', async () => {
+			// Subtitle alternative locale - MUST be second field in second section (position is part of requirements)
+			await expect(alternativeLocaleMetadataSection.getByRole('term').filter({ hasText: /^Untertitel \(en\)$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const subtitleAlternativeLocaleDefinitionElement = alternativeLocaleMetadataSection.getByRole('definition').nth(ALTERNATIVE_LOCALE_METADATA.SUBTITLE);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const subtitleAlternativeLocaleDefinitionElement = alternativeLocaleMetadataSection.getByRole('definition').nth(ALTERNATIVE_LOCALE_METADATA.SUBTITLE);
 
-		await expect(subtitleAlternativeLocaleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:subtitle_en Content');
+			await expect(subtitleAlternativeLocaleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:subtitle_en Content');
+		});
 
-		// Description alternative locale - MUST be third field in second section (position is part of requirements)
-		await expect(alternativeLocaleMetadataSection.getByRole('term').filter({ hasText: /^Beschreibung \(en\)$/u })).toBeVisible();
+		await test.step('Verify Description (en) field', async () => {
+			// Description alternative locale - MUST be third field in second section (position is part of requirements)
+			await expect(alternativeLocaleMetadataSection.getByRole('term').filter({ hasText: /^Beschreibung \(en\)$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const descriptionAlternativeLocaleDefinitionElement = alternativeLocaleMetadataSection.getByRole('definition').nth(ALTERNATIVE_LOCALE_METADATA.DESCRIPTION);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const descriptionAlternativeLocaleDefinitionElement = alternativeLocaleMetadataSection.getByRole('definition').nth(ALTERNATIVE_LOCALE_METADATA.DESCRIPTION);
 
-		await expect(descriptionAlternativeLocaleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:description_en Content');
+			await expect(descriptionAlternativeLocaleDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:description_en Content');
+		});
 
-		await expect(alternativeLocaleMetadataSection.getByRole('term')).toHaveCount(3);
-		await expect(alternativeLocaleMetadataSection.getByRole('definition')).toHaveCount(3);
+		await test.step('Verify alternative locale metadata field counts', async () => {
+			await expect(alternativeLocaleMetadataSection.getByRole('term')).toHaveCount(3);
+			await expect(alternativeLocaleMetadataSection.getByRole('definition')).toHaveCount(3);
+		});
 	});
 
 	// No accessibility check needed – same projects page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display third section (additional metadata) in expanded state correctly', async ({ page }) => {
-		await page.goto('/uploader/de/projekt/collection-id-3');
-		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+		await test.step('Navigate to project and expand all data', async () => {
+			await page.goto('/uploader/de/projekt/collection-id-3');
+			await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+		});
 
 		// Select third section by position (content validation below ensures it's the correct section)
 		// eslint-disable-next-line playwright/no-raw-locators, playwright/no-nth-methods -- Intentionally testing section position as part of requirements
 		const additionalMetadataSection = page.locator('dl').nth(SECTIONS.ADDITIONAL_METADATA);
 
-		// Portrayed Object Date - MUST be first field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Datierung$/u })).toBeVisible();
+		await test.step('Verify Portrayed Object Date field', async () => {
+			// Portrayed Object Date - MUST be first field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Datierung$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const portrayedObjectDateDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PORTRAYED_OBJECT_DATE);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const portrayedObjectDateDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PORTRAYED_OBJECT_DATE);
 
-		await expect(portrayedObjectDateDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:portrayed_object_date Content');
+			await expect(portrayedObjectDateDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId madek_core:portrayed_object_date Content');
+		});
 
-		// Project Category - MUST be second field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Kategorie$/u })).toBeVisible();
+		await test.step('Verify Project Category field', async () => {
+			// Project Category - MUST be second field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Kategorie$/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const projectCategoryDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PROJECT_CATEGORY);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const projectCategoryDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PROJECT_CATEGORY);
 
-		await expect(getChip(page, 'project_category_1', undefined, projectCategoryDefinitionElement)).toBeVisible();
-		await expect(getChip(page, 'project_category_2', undefined, projectCategoryDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'project_category_1', undefined, projectCategoryDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'project_category_2', undefined, projectCategoryDefinitionElement)).toBeVisible();
+		});
 
-		// Keywords - MUST be third field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Schlagworte/u })).toBeVisible();
+		await test.step('Verify Keywords field', async () => {
+			// Keywords - MUST be third field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Schlagworte/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const keywordsDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.KEYWORDS);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const keywordsDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.KEYWORDS);
 
-		await expect(getChip(page, 'keyword_1', undefined, keywordsDefinitionElement)).toBeVisible();
-		await expect(getChip(page, 'keyword_2', undefined, keywordsDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'keyword_1', undefined, keywordsDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'keyword_2', undefined, keywordsDefinitionElement)).toBeVisible();
+		});
 
-		// Semester - MUST be fourth field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Semester/u })).toBeVisible();
+		await test.step('Verify Semester field', async () => {
+			// Semester - MUST be fourth field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Semester/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const semesterDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.SEMESTER);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const semesterDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.SEMESTER);
 
-		await expect(getChip(page, 'semester_1', undefined, semesterDefinitionElement)).toBeVisible();
-		await expect(getChip(page, 'semester_2', undefined, semesterDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'semester_1', undefined, semesterDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'semester_2', undefined, semesterDefinitionElement)).toBeVisible();
+		});
 
-		// Program of study - MUST be fifth field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Studiengang/u })).toBeVisible();
+		await test.step('Verify Program of Study field', async () => {
+			// Program of study - MUST be fifth field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Studiengang/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const programOfStudyDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PROGRAM_OF_STUDY);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const programOfStudyDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PROGRAM_OF_STUDY);
 
-		await expect(getChip(page, 'program_of_study_1', undefined, programOfStudyDefinitionElement)).toBeVisible();
-		await expect(getChip(page, 'program_of_study_2', undefined, programOfStudyDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'program_of_study_1', undefined, programOfStudyDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'program_of_study_2', undefined, programOfStudyDefinitionElement)).toBeVisible();
+		});
 
-		// Other creative participants - MUST be sixth field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Mitwirkende \/ weitere Personen/u })).toBeVisible();
+		await test.step('Verify Other Creative Participants field', async () => {
+			// Other creative participants - MUST be sixth field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Mitwirkende \/ weitere Personen/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const otherCreativeParticipantsDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.OTHER_CREATIVE_PARTICIPANTS);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const otherCreativeParticipantsDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.OTHER_CREATIVE_PARTICIPANTS);
 
-		await expect(getChip(page, 'person_id_1_first_name person_id_1_last_name', 'role_1_DE', otherCreativeParticipantsDefinitionElement)).toBeVisible();
-		await expect(getChip(page, 'person_id_2_first_name person_id_2_last_name', 'role_2_DE', otherCreativeParticipantsDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'person_id_1_first_name person_id_1_last_name', 'role_1_DE', otherCreativeParticipantsDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'person_id_2_first_name person_id_2_last_name', 'role_2_DE', otherCreativeParticipantsDefinitionElement)).toBeVisible();
+		});
 
-		// Material - MUST be seventh field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Material/u })).toBeVisible();
+		await test.step('Verify Material field', async () => {
+			// Material - MUST be seventh field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Material/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const materialDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.MATERIAL);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const materialDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.MATERIAL);
 
-		await expect(getChip(page, 'material_1', undefined, materialDefinitionElement)).toBeVisible();
-		await expect(getChip(page, 'material_2', undefined, materialDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'material_1', undefined, materialDefinitionElement)).toBeVisible();
+			await expect(getChip(page, 'material_2', undefined, materialDefinitionElement)).toBeVisible();
+		});
 
-		// Dimension - MUST be eighth field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Abmessungen/u })).toBeVisible();
+		await test.step('Verify Dimension field', async () => {
+			// Dimension - MUST be eighth field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Abmessungen/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const dimensionDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.DIMENSION);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const dimensionDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.DIMENSION);
 
-		await expect(dimensionDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:dimension Content');
+			await expect(dimensionDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:dimension Content');
+		});
 
-		// Duration - MUST be ninth field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Dauer/u })).toBeVisible();
+		await test.step('Verify Duration field', async () => {
+			// Duration - MUST be ninth field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Dauer/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const durationDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.DURATION);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const durationDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.DURATION);
 
-		await expect(durationDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:duration Content');
+			await expect(durationDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:duration Content');
+		});
 
-		// Format - MUST be tenth field in third section (position is part of requirements)
-		await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Technik\/Verfahren\/Formate/u })).toBeVisible();
+		await test.step('Verify Format field', async () => {
+			// Format - MUST be tenth field in third section (position is part of requirements)
+			await expect(additionalMetadataSection.getByRole('term').filter({ hasText: /^Technik\/Verfahren\/Formate/u })).toBeVisible();
 
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const formatDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.FORMAT);
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const formatDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.FORMAT);
 
-		await expect(formatDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:format Content');
+			await expect(formatDefinitionElement).toContainText('Test collectionId collection-id-3 / metaKeyId creative_work:format Content');
+		});
 
-		await expect(additionalMetadataSection.getByRole('term')).toHaveCount(10);
-		await expect(additionalMetadataSection.getByRole('definition')).toHaveCount(10);
+		await test.step('Verify additional metadata field counts', async () => {
+			await expect(additionalMetadataSection.getByRole('term')).toHaveCount(10);
+			await expect(additionalMetadataSection.getByRole('definition')).toHaveCount(10);
+		});
 	});
 
 	// No accessibility check needed – testing fallback behavior for missing data
 	// eslint-disable-next-line no-restricted-syntax
 	test('should display fallbacks correctly for missing data', async ({ page }) => {
-		await page.goto('/uploader/de/projekt/collection-id-1');
-		const projectTitle = 'Test collectionId collection-id-1 / metaKeyId madek_core:title Content';
+		await test.step('Navigate to project and expand all data', async () => {
+			await page.goto('/uploader/de/projekt/collection-id-1');
+			const projectTitle = 'Test collectionId collection-id-1 / metaKeyId madek_core:title Content';
 
-		await expectPageLoadedWithHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
+			await expectPageLoadedWithHeadingAndTitle(page, projectTitle, `${projectTitle} – Uploader`);
 
-		await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+			await page.getByRole('button', { name: 'Alle Daten anzeigen' }).click();
+		});
 
-		// eslint-disable-next-line playwright/no-raw-locators, playwright/no-nth-methods -- Intentionally testing section position as part of requirements
-		const basicMetadataSection = page.locator('dl').nth(SECTIONS.BASIC_METADATA);
+		await test.step('Verify empty text field shows en-dash placeholder (LabeledInputText)', async () => {
+			// eslint-disable-next-line playwright/no-raw-locators, playwright/no-nth-methods -- Intentionally testing section position as part of requirements
+			const basicMetadataSection = page.locator('dl').nth(SECTIONS.BASIC_METADATA);
 
-		/*
-		 * Test 1: Empty subtitle (LabeledInputText component)
-		 * Tests that simple text fields display the en-dash placeholder when empty
-		 * This validates the Value.vue fallback behavior for LabeledInputText
-		 */
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const subtitleDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.SUBTITLE);
+			/*
+			 * Test 1: Empty subtitle (LabeledInputText component)
+			 * Tests that simple text fields display the en-dash placeholder when empty
+			 * This validates the Value.vue fallback behavior for LabeledInputText
+			 */
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const subtitleDefinitionElement = basicMetadataSection.getByRole('definition').nth(BASIC_METADATA.SUBTITLE);
 
-		await expect(subtitleDefinitionElement).toHaveText('–');
+			await expect(subtitleDefinitionElement).toHaveText('–');
+		});
 
-		// eslint-disable-next-line playwright/no-raw-locators, playwright/no-nth-methods -- Intentionally testing section position as part of requirements
-		const additionalMetadataSection = page.locator('dl').nth(SECTIONS.ADDITIONAL_METADATA);
+		await test.step('Verify empty chip list shows en-dash placeholder (LabeledChipList)', async () => {
+			// eslint-disable-next-line playwright/no-raw-locators, playwright/no-nth-methods -- Intentionally testing section position as part of requirements
+			const additionalMetadataSection = page.locator('dl').nth(SECTIONS.ADDITIONAL_METADATA);
 
-		/*
-		 * Test 2: Empty category (LabeledChipList component)
-		 * Tests that chip list fields display the en-dash placeholder when no chips are present
-		 * This validates the Value.vue fallback behavior for LabeledChipList
-		 */
-		// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
-		const categoryDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PROJECT_CATEGORY);
+			/*
+			 * Test 2: Empty category (LabeledChipList component)
+			 * Tests that chip list fields display the en-dash placeholder when no chips are present
+			 * This validates the Value.vue fallback behavior for LabeledChipList
+			 */
+			// eslint-disable-next-line playwright/no-nth-methods -- Position testing required
+			const categoryDefinitionElement = additionalMetadataSection.getByRole('definition').nth(ADDITIONAL_METADATA.PROJECT_CATEGORY);
 
-		await expect(categoryDefinitionElement).toHaveText('–');
+			await expect(categoryDefinitionElement).toHaveText('–');
+		});
 	});
 
 	test('should display no entries message correctly', async ({ page, makeAxeBuilder }) => {

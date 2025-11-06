@@ -9,6 +9,12 @@ test.describe('Error page', () => {
 	test('should display error page correctly', async ({ page, makeAxeBuilder }) => {
 		await expectPageLoadedWithHeadingAndTitle(page, 'Fehler', 'Fehler – Uploader');
 
+		// Close Nuxt Error Overlay (development-only tool)
+		const toggleButton = page.getByRole('button', { name: 'Toggle detailed error view' });
+		if (await toggleButton.isVisible()) {
+			await toggleButton.click();
+		}
+
 		// Verify error messages
 		await expect(page.getByText('Es ist ein Fehler aufgetreten.')).toBeVisible();
 		await expect(page.getByText('Bitte versuchen Sie es erneut oder kehren Sie zur Projektübersicht zurück.')).toBeVisible();
@@ -16,8 +22,10 @@ test.describe('Error page', () => {
 		// Verify "back to projects" button is visible
 		await expect(page.getByRole('button', { name: 'Zur Projektübersicht' })).toBeVisible();
 
-		// Test accessibility of error page
-		const results = await makeAxeBuilder().analyze();
+		// Test accessibility of error page (exclude dev overlay from scan)
+		const results = await makeAxeBuilder()
+			.exclude('nuxt-error-overlay')
+			.analyze();
 
 		expect(results.violations).toStrictEqual([]);
 	});
@@ -25,6 +33,12 @@ test.describe('Error page', () => {
 	// No accessibility check needed – same error page as first test
 	// eslint-disable-next-line no-restricted-syntax
 	test('should navigate back to projects page', async ({ page }) => {
+		// Close Nuxt Error Overlay (development-only tool)
+		const toggleButton = page.getByRole('button', { name: 'Toggle detailed error view' });
+		if (await toggleButton.isVisible()) {
+			await toggleButton.click();
+		}
+
 		// Click "back to projects" button
 		const backButton = page.getByRole('button', { name: 'Zur Projektübersicht' });
 
@@ -49,6 +63,12 @@ test.describe('Error page (English locale)', () => {
 		await page.goto('/uploader/en/non-existent-route');
 
 		await expectPageLoadedWithHeadingAndTitle(page, 'Error', 'Error – Uploader');
+
+		// Close Nuxt Error Overlay (development-only tool)
+		const toggleButton = page.getByRole('button', { name: 'Toggle detailed error view' });
+		if (await toggleButton.isVisible()) {
+			await toggleButton.click();
+		}
 
 		// Verify English error messages
 		await expect(page.getByText('An error occurred.')).toBeVisible();
