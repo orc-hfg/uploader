@@ -88,6 +88,10 @@ Installiert Dependencies, erstellt einen Production-Build und startet den Previe
 
 **Hinweis:** Die `.env.staging`-Datei muss manuell erstellt werden. Siehe [Projekt-Setup](./readme.setup.md) für Details.
 
+### Test-Zugangsdaten
+
+Für die lokale Entwicklung und E2E-Tests stehen Mock-Credentials zur Verfügung. Die vollständigen Informationen findest du in der [Authentifizierungs-Dokumentation](./readme.authentication.md#test-zugangsdaten-für-authentication-mock).
+
 ## Wichtige Entwicklungsprinzipien
 
 - **Early Returns** bevorzugen - für bessere Code-Verständlichkeit und weniger verschachtelte Strukturen

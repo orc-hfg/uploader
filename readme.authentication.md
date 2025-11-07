@@ -27,9 +27,14 @@
 
 ## Test-Zugangsdaten für Authentication Mock
 
-### Wo finde ich die Zugangsdaten?
+### Credentials
 
-Alle Test-Credentials sind zentral definiert in: **`shared/constants/test.ts`**
+**Benutzername:** `test`
+**Passwort:** `123`
+
+### Wo sind sie definiert?
+
+Die Test-Credentials sind zentral definiert in: **`shared/constants/test.ts`**
 
 **Verwendung**:
 - Lokale Entwicklung: Manuelles Sign-in über das Sign-in-Formular
