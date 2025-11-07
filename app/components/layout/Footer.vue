@@ -6,14 +6,16 @@
 	const rightKey = computed(() => footerUIStore.rightActionProps?.label ?? 'right-label');
 
 	function handleLeftActionClick(): void {
-		if (footerUIStore.leftActionProps?.click) {
-			footerUIStore.leftActionProps.click();
+		const props = footerUIStore.leftActionProps;
+		if (props && props.type === 'button') {
+			props.click();
 		}
 	}
 
 	function handleRightActionClick(): void {
-		if (footerUIStore.rightActionProps?.click) {
-			footerUIStore.rightActionProps.click();
+		const props = footerUIStore.rightActionProps;
+		if (props && props.type === 'button') {
+			props.click();
 		}
 	}
 </script>

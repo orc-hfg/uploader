@@ -1,21 +1,18 @@
-interface ActionProps {
-	label?: string;
-	click?: () => void;
-	[key: string]: unknown;
-}
+import type Button from 'primevue/button';
+import type { FooterButtonProps } from '@/composables/useFooterActions';
 
 export const useFooterUIStore = defineStore('footer-ui', () => {
-	const leftActionComponent = shallowRef<Component>();
-	const leftActionProps = ref<ActionProps>();
+	const leftActionComponent = shallowRef<typeof Button>();
+	const leftActionProps = ref<FooterButtonProps>();
 
-	const rightActionComponent = shallowRef<Component>();
-	const rightActionProps = ref<ActionProps>();
+	const rightActionComponent = shallowRef<typeof Button>();
+	const rightActionProps = ref<FooterButtonProps>();
 
 	function reset(): void {
 		leftActionComponent.value = undefined;
-		leftActionProps.value = {};
+		leftActionProps.value = undefined;
 		rightActionComponent.value = undefined;
-		rightActionProps.value = {};
+		rightActionProps.value = undefined;
 	}
 
 	return {

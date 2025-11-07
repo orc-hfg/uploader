@@ -104,6 +104,33 @@ Erstellt einen Production-Build mit Staging-Konfiguration. Wird automatisch vom 
 - **Kein manueller Import von `useI18n()`** - Direkt verwenden, ohne Import
 - **In Vue-Templates die globale `$t`-Funktion verwenden** statt der aus `useI18n()` extrahierten `t`-Funktion
 
+## HTML-Validierung während der Entwicklung
+
+Das Projekt verwendet `@nuxtjs/html-validator`, um während der Entwicklung automatisch HTML-Fehler zu erkennen und zu melden. Das Plugin validiert den generierten HTML-Code gegen die HTML-Standards und hilft dabei, Accessibility- und Markup-Probleme frühzeitig zu identifizieren.
+
+### Funktionsweise
+
+- **Automatische Validierung**: Jede Seite wird beim Laden im Development-Server validiert
+- **CLI-Ausgabe**: Validierungsfehler werden direkt im Terminal angezeigt
+- **Nur Development**: Das Plugin ist nur im Development-Modus aktiv und hat keinen Einfluss auf Production-Builds
+
+### Spezielle Konfiguration für PrimeVue
+
+PrimeVue-Komponenten geben auf dem Server leider uppercase Element-Namen aus (z.B. `<BUTTON />`), was gegen den HTML-Standard verstößt. Um falsche Positivmeldungen zu vermeiden, ist die `element-case`-Regel so konfiguriert, dass sowohl lowercase als auch uppercase Element-Namen akzeptiert werden:
+
+```typescript
+rules: {
+	'element-case': [
+		'error',
+		{
+			style: ['lowercase', 'uppercase'],
+		},
+	],
+}
+```
+
+Diese Konfiguration wird entfernt, sobald PrimeVue das Problem behebt. Siehe `nuxt.config.ts` (Zeilen 259-277) für die vollständige Konfiguration.
+
 ## Logging Guidelines
 
 #### App Logger (Client-Side)

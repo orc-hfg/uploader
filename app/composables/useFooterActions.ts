@@ -1,13 +1,26 @@
+import type Button from 'primevue/button';
+
+interface SubmitButtonProps {
+	label: string;
+	type: 'submit';
+	form: string;
+	icon?: string;
+	class?: string;
+}
+
+interface ActionButtonProps {
+	label: string;
+	type: 'button';
+	click: () => void;
+	icon?: string;
+	class?: string;
+}
+
+export type FooterButtonProps = SubmitButtonProps | ActionButtonProps;
+
 interface FooterActionConfig {
-	component: Component;
-	props?: {
-		label?: string;
-		icon?: string;
-		class?: string;
-		type?: string;
-		form?: string;
-		click?: () => void;
-	};
+	component: typeof Button;
+	props: FooterButtonProps;
 }
 
 interface FooterConfig {

@@ -56,6 +56,14 @@
 		}
 	}
 
+	/*
+	 * TODO: Implement new project creation
+	 */
+	function handleNewProject(): void {
+		// TODO: Navigate to new project
+		console.info('New project button clicked - implementation pending');
+	}
+
 	useFooterActions({
 		/*
 		 * TODO: Sign-out button is temporary for testing purposes.
@@ -75,6 +83,7 @@
 				label: t('footer.actions.new_project'),
 				type: 'button',
 				icon: 'pi pi-plus',
+				click: handleNewProject,
 			},
 		},
 	});

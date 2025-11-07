@@ -11,7 +11,14 @@
     - **Stand 04.11.2025**: Update auf `vitest@4.0.7` nicht möglich wegen Peer-Dependency-Konflikt
     - `@nuxt/test-utils@3.20.1` benötigt `vitest@^3.2.0`
     - Aktuell blockiert bei `vitest@3.2.4`
-    - Warten auf Update von `@nuxt/test-utils` mit Vitest 4-Unterstützung-
+    - Warten auf Update von `@nuxt/test-utils` mit Vitest 4-Unterstützung
+- Nuxt Build-Fehler mit JSON-Dateien:
+  - **Stand 07.11.2025**: Update auf `nuxt@4.2.1` nicht möglich wegen JSON-Parse-Fehler im Build
+  - Fehler: `[vite:json] Failed to parse JSON file` bei i18n-Locales während des Builds
+  - Nuxt 4.2.0 funktioniert einwandfrei
+  - Nuxt 4.2.1 verursacht den Fehler
+  - Aktuell blockiert bei `nuxt@4.2.0`
+  - Bei nächstem Nuxt-Update (4.2.2 oder höher) prüfen, ob das Problem behoben wurde
 - Nuxt i18n Route-Definition:
   - Bei Upgrade `@nuxtjs/i18n` auf Version > 10.2.0 prüfen, ob die Kompatibilitätsprobleme mit `definePageMeta({ i18n: { paths: {...} } })` behoben wurden
   - Wenn ja, von der klassischen `defineI18nRoute`-Methode zur neuen Methode wechseln
