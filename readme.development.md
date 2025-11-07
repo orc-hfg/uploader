@@ -73,18 +73,18 @@ npm run dev:staging
 ```
 
 **Was passiert:**
-- Verwendet die `.env.staging`-Datei (enthält nur `NUXT_MADEK_API_TOKEN`)
+- Verwendet die `.env.staging`-Datei (enthält `NUXT_MADEK_API_TOKEN` und `NUXT_PUBLIC_SERVER_URL`)
 - Build-Zeit-Variablen (`GITHUB_PAT`, `MADEK_SSH_USER`) werden nicht benötigt
 - Sentry ist nur im Development Mode aktiv, daher wird `SENTRY_AUTH_TOKEN` nicht benötigt
 - Verbindet sich mit der Staging-API unter `https://staging.madek.hfg-karlsruhe.de/`
-- Nuxt startet mit `--envName staging` Flag
+- Nuxt startet mit `--dotenv .env.staging` Flag
 
-**Staging Build:**
+**Staging Preview (Build + Preview Server):**
 ```bash
-npm run build:staging
+npm run build:preview:staging
 ```
 
-Erstellt einen Production-Build mit Staging-Konfiguration. Wird automatisch vom Deployment-Script verwendet.
+Installiert Dependencies, erstellt einen Production-Build und startet den Preview-Server mit Staging-Konfiguration aus `.env.staging`.
 
 **Hinweis:** Die `.env.staging`-Datei muss manuell erstellt werden. Siehe [Projekt-Setup](./readme.setup.md) für Details.
 

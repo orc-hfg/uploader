@@ -11,8 +11,8 @@
 	},
 	"scripts": {
 		"build": "nuxt build",
-		"build:staging": "NUXT_PUBLIC_SERVER_URL=https://staging.madek.hfg-karlsruhe.de/ nuxt build",
 		"build:preview": "npm install && npm run build && npm run preview",
+		"build:preview:staging": "npm install && npm run build && nuxt preview:staging",
 		"build:preview:sentry": "npm install && npm run build && npm run preview:sentry",
 		"dev": "nuxt dev",
 		"dev:api-mock": "NUXT_PUBLIC_ENABLE_API_MOCK=true nuxt dev",
@@ -28,6 +28,7 @@
 		"health:development": "curl -s https://dev.madek.hfg-karlsruhe.de/uploader/health | jq",
 		"health:staging": "curl -s https://staging.madek.hfg-karlsruhe.de/uploader/health | jq",
 		"preview": "nuxt preview --dotenv .env.preview",
+		"preview:staging": "nuxt preview --dotenv .env.staging",
 		"preview:sentry": "dotenv -e .env.preview.sentry -- node --import ./.output/server/sentry.server.config.mjs .output/server/index.mjs",
 		"postinstall": "nuxt prepare",
 		"setup-npmrc": "node ./scripts/setup-npmrc.mjs",

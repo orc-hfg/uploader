@@ -18,7 +18,7 @@ Das Projekt benötigt verschiedene Environment-Variablen für den korrekten Betr
 #### Staging-spezifische Konfiguration: `.env.staging`
 
 - Eine neue `.env.staging`-Datei im Projekt-Root erstellen
-- Diese Datei enthält **nur** den `NUXT_MADEK_API_TOKEN` für das Staging-Environment
+- Diese Datei enthält den `NUXT_MADEK_API_TOKEN` und `NUXT_PUBLIC_SERVER_URL` für das Staging-Environment
 - Build-Zeit-Variablen (`GITHUB_PAT`, `MADEK_SSH_USER`) werden nicht benötigt
 - Sentry ist nur im Development Mode aktiv, daher wird `SENTRY_AUTH_TOKEN` für Staging nicht benötigt
 
@@ -78,6 +78,21 @@ Damit die GitHub Actions Workflows (CI/CD Pipeline) funktionieren, muss der GitH
 
 **Hinweis:** Für das Staging-Environment wird ein separater Token benötigt, der in der `.env.staging`-Datei gespeichert wird.
 
+#### NUXT_PUBLIC_SERVER_URL (erforderlich für Staging Preview)
+
+**Zweck:** Server-URL für Authentifizierungs-Endpunkte im Staging-Environment
+
+**Erforderlich für:** Staging Preview-Server (`npm run build:preview:staging`)
+
+**Konfiguration:**
+```
+NUXT_PUBLIC_SERVER_URL=https://staging.madek.hfg-karlsruhe.de/
+```
+
+**Wichtig:** Nur der Server-Teil der URL, **ohne** `/uploader/` am Ende. Die Authentifizierungs-Endpunkte laufen auf dem Staging-Server auf Root-Ebene, nicht unter dem App-Pfad.
+
+**Hinweis:** Diese Variable wird nur für den Staging Preview-Server benötigt. Im normalen Development-Server (`npm run dev:staging`) wird sie nicht verwendet, da dort die Konfiguration aus `nuxt.config.ts` greift.
+
 #### MADEK_SSH_USER (optional)
 
 **Zweck:** SSH-Benutzername für Deployment auf den Madek-Server
@@ -114,7 +129,7 @@ Nachdem die `.env`-Datei korrekt konfiguriert wurde:
 2. `npm install` ausführen (installiert alle Dependencies)
 3. `npm run dev` ausführen (startet den Development-Server)
 
-**Für Staging-Deployment:** Zusätzlich eine `.env.staging`-Datei mit dem Staging-spezifischen `NUXT_MADEK_API_TOKEN` erstellen.
+**Für Staging-Deployment:** Zusätzlich eine `.env.staging`-Datei mit dem Staging-spezifischen `NUXT_MADEK_API_TOKEN` und `NUXT_PUBLIC_SERVER_URL` erstellen.
 
 ### Beispiel einer vollständigen `.env`-Datei
 
@@ -137,6 +152,9 @@ SENTRY_AUTH_TOKEN=your_sentry_token_here
 ```env
 # Madek API Token für Staging (erforderlich)
 NUXT_MADEK_API_TOKEN=your_staging_madek_token_here
+
+# Server URL für Staging Preview (erforderlich für Preview-Server)
+NUXT_PUBLIC_SERVER_URL=https://staging.madek.hfg-karlsruhe.de/
 ```
 
-**Hinweis:** Die `.env.staging`-Datei enthält nur den Staging-spezifischen Madek API Token. Build-Zeit-Variablen (`GITHUB_PAT`, `MADEK_SSH_USER`) und Development-spezifische Variablen (`SENTRY_AUTH_TOKEN`) werden nicht benötigt.
+**Hinweis:** Die `.env.staging`-Datei enthält den Staging-spezifischen Madek API Token und die Server URL für den Preview-Server. Build-Zeit-Variablen (`GITHUB_PAT`, `MADEK_SSH_USER`) und Development-spezifische Variablen (`SENTRY_AUTH_TOKEN`) werden nicht benötigt.
