@@ -92,10 +92,11 @@ Das Deployment-System unterscheidet zwischen zwei Umgebungen mit unterschiedlich
    - 💡 Fehlermeldung zeigt Release-Befehle (`npm run release:patch/minor/major`)
 
 3. **Build & E2E-Tests (ZWINGEND)**
-   - 📦 Dependencies & Build: `npm ci` + `npm run build:staging`
+   - 📦 Dependencies & Build: `npm ci` + `npm run build`
    - 🎭 E2E-Test-Suite mit Preview-Server (`npm run test:e2e:preview`)
    - ❌ Bei Build- oder Test-Fehlern: Deployment wird abgebrochen
    - ✅ Garantiert production-like Testing mit finalen Build-Artefakten
+   - ℹ️ Environment-Variablen werden auf dem Server konfiguriert
 
 4. **Deployment**
    - Deploy-Info generieren und zum Build hinzufügen
@@ -134,7 +135,7 @@ npm run release:patch
 npm run deploy:staging
   ├─ Git-Checks
   ├─ Version-Check ✅ (garantiert: Release wurde erstellt)
-  ├─ npm ci + npm run build:staging (einmalig, mit Staging-Konfiguration)
+  ├─ npm ci + npm run build (Environment-Variablen vom Server)
   ├─ E2E-Tests mit Preview-Server ✅ (nutzt Build-Artefakte)
   └─ Deploy (rsync + Service Restart)
 ```

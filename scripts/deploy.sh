@@ -237,11 +237,8 @@ fi
 echo "🔨 Installing dependencies and building for $env environment..."
 npm ci --no-audit --no-fund --loglevel=error --prefer-offline
 
-if [[ "$env" == "staging" ]]; then
-  npm run build:staging
-else
-  npm run build
-fi
+# Build for all environments (environment variables are set on the server)
+npm run build
 
 # Environment-specific quality checks (after build)
 if [[ "$env" == "staging" ]]; then
