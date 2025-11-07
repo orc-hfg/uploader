@@ -7,6 +7,7 @@
 
 	const { t } = useI18n();
 	const route = useRoute();
+	const config = useRuntimeConfig();
 
 	const metaTitle = computed(() => {
 		const appTitle = t('app.title');
@@ -22,6 +23,42 @@
 		}
 
 		return `${pageTitle} – ${appTitle}`;
+	});
+
+	useHead({
+		title: metaTitle,
+		meta: [
+			{
+				name: 'description',
+				content: t('meta.description'),
+			},
+		],
+		link: [
+			{
+				rel: 'icon',
+				type: 'image/png',
+				href: `${config.app.baseURL}favicon-96x96.png`,
+				sizes: '96x96',
+			},
+			{
+				rel: 'icon',
+				type: 'image/svg+xml',
+				href: `${config.app.baseURL}favicon.svg`,
+			},
+			{
+				rel: 'shortcut icon',
+				href: `${config.app.baseURL}favicon.ico`,
+			},
+			{
+				rel: 'apple-touch-icon',
+				sizes: '180x180',
+				href: `${config.app.baseURL}apple-touch-icon.png`,
+			},
+			{
+				rel: 'manifest',
+				href: `${config.app.baseURL}site.webmanifest`,
+			},
+		],
 	});
 
 	const logoReference = useTemplateRef<MaybeElement>('logoReference');
@@ -102,17 +139,6 @@
 <template>
 	<div>
 		<Html>
-			<Head>
-				<Title>
-					{{ metaTitle }}
-				</Title>
-				<Meta name="description" :content="t('meta.description')" />
-				<Link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-				<Link rel="icon" type="image/svg+xml" href="favicon.svg" />
-				<Link rel="shortcut icon" href="favicon.ico" />
-				<Link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-				<Link rel="manifest" href="site.webmanifest" />
-			</Head>
 			<Body>
 				<div>
 					<div
