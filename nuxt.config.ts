@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 		// Enable Vite’s Environment API so Nuxt runs a single Vite server for client+SSR; avoids duplicate HMR WS (e.g. :24678) and stabilizes multi-app dev
 		viteEnvironmentApi: true,
 	},
-	compatibilityDate: '2025-11-04',
+	compatibilityDate: '2025-11-07',
 	devtools: { enabled: true },
 	typescript: {
 		typeCheck: true,
