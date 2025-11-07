@@ -54,6 +54,40 @@ Wenn wieder die offizielle (z.B. auf npm oder Git referenzierte) Version verwend
 
 - `npm install` im Hauptprojekt ausführen, dabei wird der Link automatisch aufgelöst und die Version aus der package.json verwendet
 
+## Entwicklung gegen verschiedene Umgebungen
+
+### Lokale Entwicklung (Standard)
+
+**Standard Development Server:**
+```bash
+npm run dev
+```
+
+Verwendet die `.env`-Datei und verbindet sich mit der Development-API.
+
+### Entwicklung gegen Staging-API
+
+**Staging Development Server:**
+```bash
+npm run dev:staging
+```
+
+**Was passiert:**
+- Verwendet die `.env.staging`-Datei (enthält nur `NUXT_MADEK_API_TOKEN`)
+- Build-Zeit-Variablen (`GITHUB_PAT`, `MADEK_SSH_USER`) werden nicht benötigt
+- Sentry ist nur im Development Mode aktiv, daher wird `SENTRY_AUTH_TOKEN` nicht benötigt
+- Verbindet sich mit der Staging-API unter `https://staging.madek.hfg-karlsruhe.de/`
+- Nuxt startet mit `--envName staging` Flag
+
+**Staging Build:**
+```bash
+npm run build:staging
+```
+
+Erstellt einen Production-Build mit Staging-Konfiguration. Wird automatisch vom Deployment-Script verwendet.
+
+**Hinweis:** Die `.env.staging`-Datei muss manuell erstellt werden. Siehe [Projekt-Setup](./readme.setup.md) für Details.
+
 ## Wichtige Entwicklungsprinzipien
 
 - **Early Returns** bevorzugen - für bessere Code-Verständlichkeit und weniger verschachtelte Strukturen

@@ -4,13 +4,25 @@
 
 Das Projekt benötigt verschiedene Environment-Variablen für den korrekten Betrieb. Diese werden in einer `.env`-Datei im Projekt-Root konfiguriert.
 
-### 1. `.env`-Datei erstellen
+### 1. `.env`-Dateien erstellen
+
+#### Hauptkonfiguration: `.env`
 
 - Die Datei `.env.example` als Vorlage verwenden
 - Eine neue `.env`-Datei im Projekt-Root erstellen
 - Die benötigten Werte entsprechend der folgenden Dokumentation eintragen
+- Enthält alle Environment-Variablen: `GITHUB_PAT`, `NUXT_MADEK_API_TOKEN`, `MADEK_SSH_USER`, `SENTRY_AUTH_TOKEN`
 
 **Hinweis:** Die Datei `.env` ist in `.gitignore` aufgeführt und wird nicht im Repository gespeichert, um sensible Daten privat zu halten.
+
+#### Staging-spezifische Konfiguration: `.env.staging`
+
+- Eine neue `.env.staging`-Datei im Projekt-Root erstellen
+- Diese Datei enthält **nur** den `NUXT_MADEK_API_TOKEN` für das Staging-Environment
+- Build-Zeit-Variablen (`GITHUB_PAT`, `MADEK_SSH_USER`) werden nicht benötigt
+- Sentry ist nur im Development Mode aktiv, daher wird `SENTRY_AUTH_TOKEN` für Staging nicht benötigt
+
+**Hinweis:** Die `.env.staging`-Datei ist ebenfalls in `.gitignore` aufgeführt.
 
 ### 2. Benötigte Environment-Variablen
 
@@ -44,20 +56,27 @@ Damit die GitHub Actions Workflows (CI/CD Pipeline) funktionieren, muss der GitH
 
 **Hinweis:** Ohne dieses Secret schlagen die GitHub Actions Workflows fehl, da sie keinen Zugriff auf die @orc-hfg GitHub Packages haben.
 
-#### NUXT_MADEK_API_TOKEN (erforderlich für Development)
+#### NUXT_MADEK_API_TOKEN (erforderlich für Development und Staging)
 
-**Zweck:** Token für den Zugriff auf die Madek API im Development-Modus
+**Zweck:** Token für den Zugriff auf die Madek API
 
 **So erhältst du den Token:**
-1. Im Madek-System anmelden: https://dev.madek.hfg-karlsruhe.de/my
+1. Im Madek-System anmelden:
+   - **Development:** https://dev.madek.hfg-karlsruhe.de/my
+   - **Staging:** https://staging.madek.hfg-karlsruhe.de/my
 2. In linker Spalte den Menüpunkt Tokens öffnen
 3. Einen neuen Token erstellen
-4. Den Token kopieren und in die `.env`-Datei eintragen:
-   ```
-   NUXT_MADEK_API_TOKEN=your_madek_token_here
-   ```
+4. Den Token in die entsprechende Datei eintragen:
+   - **Für Development:** In die `.env`-Datei:
+     ```
+     NUXT_MADEK_API_TOKEN=your_madek_token_here
+     ```
+   - **Für Staging:** In die `.env.staging`-Datei:
+     ```
+     NUXT_MADEK_API_TOKEN=your_staging_madek_token_here
+     ```
 
-**Hinweis:** Dieser Token wird für die lokale Entwicklung benötigt, um auf die Madek API zuzugreifen.
+**Hinweis:** Für das Staging-Environment wird ein separater Token benötigt, der in der `.env.staging`-Datei gespeichert wird.
 
 #### MADEK_SSH_USER (optional)
 
@@ -95,6 +114,8 @@ Nachdem die `.env`-Datei korrekt konfiguriert wurde:
 2. `npm install` ausführen (installiert alle Dependencies)
 3. `npm run dev` ausführen (startet den Development-Server)
 
+**Für Staging-Deployment:** Zusätzlich eine `.env.staging`-Datei mit dem Staging-spezifischen `NUXT_MADEK_API_TOKEN` erstellen.
+
 ### Beispiel einer vollständigen `.env`-Datei
 
 ```env
@@ -110,3 +131,12 @@ MADEK_SSH_USER=your_ssh_username
 # Sentry Auth Token für Production Builds (optional)
 SENTRY_AUTH_TOKEN=your_sentry_token_here
 ```
+
+### Beispiel einer `.env.staging`-Datei
+
+```env
+# Madek API Token für Staging (erforderlich)
+NUXT_MADEK_API_TOKEN=your_staging_madek_token_here
+```
+
+**Hinweis:** Die `.env.staging`-Datei enthält nur den Staging-spezifischen Madek API Token. Build-Zeit-Variablen (`GITHUB_PAT`, `MADEK_SSH_USER`) und Development-spezifische Variablen (`SENTRY_AUTH_TOKEN`) werden nicht benötigt.

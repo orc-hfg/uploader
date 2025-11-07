@@ -92,7 +92,7 @@ Das Deployment-System unterscheidet zwischen zwei Umgebungen mit unterschiedlich
    - 💡 Fehlermeldung zeigt Release-Befehle (`npm run release:patch/minor/major`)
 
 3. **Build & E2E-Tests (ZWINGEND)**
-   - 📦 Dependencies & Build: `npm ci` + `npm run build`
+   - 📦 Dependencies & Build: `npm ci` + `npm run build:staging`
    - 🎭 E2E-Test-Suite mit Preview-Server (`npm run test:e2e:preview`)
    - ❌ Bei Build- oder Test-Fehlern: Deployment wird abgebrochen
    - ✅ Garantiert production-like Testing mit finalen Build-Artefakten
@@ -134,7 +134,7 @@ npm run release:patch
 npm run deploy:staging
   ├─ Git-Checks
   ├─ Version-Check ✅ (garantiert: Release wurde erstellt)
-  ├─ npm ci + npm run build (einmalig)
+  ├─ npm ci + npm run build:staging (einmalig, mit Staging-Konfiguration)
   ├─ E2E-Tests mit Preview-Server ✅ (nutzt Build-Artefakte)
   └─ Deploy (rsync + Service Restart)
 ```
@@ -246,7 +246,7 @@ Das System verwendet zwei komplementäre Dateien für unterschiedliche Zugriffsm
 #### 1. Öffentlich: `deploy-info.json` (HTTP)
 - **Zugriff**: Via `/health` Endpoint (kein SSH erforderlich)
 - **Inhalt**: Aktuelles Deployment
-- **Verwendung**: 
+- **Verwendung**:
   - Schnelle Version-Checks (`npm run version:development`)
   - Monitoring-Systeme
   - Post-Deployment-Verifikation
@@ -256,7 +256,7 @@ Das System verwendet zwei komplementäre Dateien für unterschiedliche Zugriffsm
 #### 2. Intern: `deploy-history.jsonl` (SSH)
 - **Zugriff**: Via SSH (erfordert Authentifizierung)
 - **Inhalt**: Vollständige Deployment-Historie (JSONL-Format)
-- **Verwendung**: 
+- **Verwendung**:
   - Deployment-History (`npm run deploy:history`)
   - Audit-Trail
   - Rollback-Entscheidungen
