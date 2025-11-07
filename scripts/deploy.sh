@@ -286,6 +286,7 @@ echo "✅ Deploy to $env complete."
 echo "📦 Version: $VERSION"
 echo "📌 Commit: $COMMIT"
 echo "🌿 Branch: $BRANCH"
+echo "🌐 URL: https://$HOST/uploader/"
 echo ""
 echo "💡 View deployment history: npm run deploy:history $env"
 
