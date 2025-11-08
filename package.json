@@ -66,7 +66,7 @@
 		"@nuxtjs/google-fonts": "3.2.0",
 		"@nuxtjs/html-validator": "2.1.0",
 		"@nuxtjs/i18n": "10.2.0",
-		"@orc-hfg/madek-api-nuxt-layer": "1.12.10",
+		"@orc-hfg/madek-api-nuxt-layer": "1.12.11",
 		"@primeuix/themes": "1.2.5",
 		"@sentry/nuxt": "10.23.0",
 		"@vueuse/nuxt": "14.0.0",
