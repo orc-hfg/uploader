@@ -114,9 +114,9 @@ if [[ "$limit" == "all" ]]; then
     fi
   done
 else
-  # Show last N entries only
-  # tail -n $limit: Get last N lines from file
-  ssh -o LogLevel=ERROR "$MADEK_SSH_USER@$HOST" "tail -n $limit $LOG_FILE" 2>/dev/null | while IFS= read -r line; do
+  # Show first N entries (most recent deployments)
+  # head -n $limit: Get first N lines from file (newest deployments are at the top)
+  ssh -o LogLevel=ERROR "$MADEK_SSH_USER@$HOST" "head -n $limit $LOG_FILE" 2>/dev/null | while IFS= read -r line; do
     # Same validation as above
     [[ -z "$line" || "${line:0:1}" != "{" ]] && continue
 
