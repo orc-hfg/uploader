@@ -6,6 +6,8 @@ interface SubmitButtonProps {
 	form: string;
 	icon?: string;
 	class?: string;
+	rounded?: boolean;
+	severity?: 'secondary' | 'success' | 'info' | 'warn' | 'help' | 'danger' | 'contrast';
 }
 
 interface ActionButtonProps {
@@ -14,6 +16,8 @@ interface ActionButtonProps {
 	click: () => void;
 	icon?: string;
 	class?: string;
+	rounded?: boolean;
+	severity?: 'secondary' | 'success' | 'info' | 'warn' | 'help' | 'danger' | 'contrast';
 }
 
 export type FooterButtonProps = SubmitButtonProps | ActionButtonProps;

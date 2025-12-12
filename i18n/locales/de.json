@@ -24,6 +24,8 @@
 	},
 	"footer": {
 		"actions": {
+			"add_media": "Medien",
+			"edit_project_data": "Projektdaten",
 			"new_project": "Neues Projekt",
 			"sign_in": "Anmelden"
 		}

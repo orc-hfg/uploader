@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import type { ChipItem } from '@/components/elements/LabeledChipList.vue';
 	import { StatusCodes } from 'http-status-codes';
+	import Button from 'primevue/button';
 	import ExpandableContent from '@/components/content/ExpandableContent.vue';
 	import MediaEntries from '@/components/content/MediaEntries.vue';
 	import DescriptionList from '@/components/elements/DescriptionList.vue';
@@ -23,7 +24,7 @@
 
 	const appLogger = createAppLogger('Page: Project');
 
-	const { locale } = useI18n();
+	const { t, locale } = useI18n();
 
 	const setStore = useSetStore();
 
@@ -94,7 +95,31 @@
 		}
 	}
 
-	useFooterActions();
+	/*
+	 * TODO: Implement "edit project data" and "add media" buttons functionality on `click` handler.
+	 */
+	useFooterActions({
+		left: { component: Button, props: {
+			label: t('footer.actions.edit_project_data'),
+			type: 'button',
+			class: 'ml-auto',
+			rounded: true,
+			severity: 'contrast',
+			icon: 'pi pi-pencil',
+			click: () => {
+				appLogger.info('Edit project data button clicked');
+			},
+		} },
+		right: { component: Button, props: {
+			label: t('footer.actions.add_media'),
+			type: 'button',
+			class: 'ml-auto',
+			icon: 'pi pi-plus',
+			click: () => {
+				appLogger.info('Add media button clicked');
+			},
+		} },
+	});
 </script>
 
 <template>
